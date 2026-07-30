@@ -157,11 +157,33 @@ def styled_caption(text):
 
 
 def page_footer():
-    """Standard footer used on app.py — name, role, and GitHub link."""
+    """Standard footer used on app.py — name, role, and GitHub link, in a styled card."""
     st.markdown(f"""
-    <hr style='border-top: 2px solid {TEAL}; margin: 2rem 0 1rem 0;'>
-    <p style='text-align:center; color:{TEXT_LIGHT}; font-size:0.9rem;'>
-    Developed by <strong style='color:{MAGENTA};'>Sakshi D. Maske</strong> — Independent Geospatial Researcher<br>
-    <a href='https://github.com/sakshimaske303-commits' style='color:{TEAL};' target='_blank'>GitHub: sakshimaske303-commits</a>
-    </p>
+    <div style='
+        background-color:{NAVY_MED};
+        border: 2px solid {TEAL};
+        border-radius: 14px;
+        padding: 28px 32px;
+        margin-top: 2.5rem;
+        text-align: center;
+    '>
+        <p style='font-size:2rem; font-weight:800; color:{MAGENTA}; margin-bottom:4px;'>
+            Sakshi D. Maske
+        </p>
+        <p style='font-size:1.05rem; color:{TEXT_LIGHT}; margin-top:0; margin-bottom:18px;'>
+            Independent Geospatial Researcher
+        </p>
+        <a href='https://github.com/sakshimaske303-commits/GREEN_ALIBI' target='_blank' style='
+            display:inline-block;
+            background-color:{TEAL};
+            color:{BLACK};
+            font-weight:700;
+            padding:12px 26px;
+            border-radius:8px;
+            text-decoration:none;
+            font-size:1rem;
+        '>
+            🔗 View Full Project on GitHub
+        </a>
+    </div>
     """, unsafe_allow_html=True)

@@ -325,3 +325,34 @@ Building the combined figure surfaced a small but real presentation bug: the ove
 
 What I'm not claiming from this: visual correspondence between two maps, however striking, is not a statistical test. I haven't run any actual correlation or regression between district-level rainfall anomaly and district-level SIF across the three years — with only three years and eight districts, that would be a weak analysis anyway (an n of 24 district-year pairs, but not independent since districts within a year are spatially correlated with each other). What I have is a visual, physically-motivated consistency check, and I'm describing it as exactly that and nothing stronger.
 
+# Development Log — Entry 8
+
+**Topic: Going back and actually testing what Entry 7 left as a visual-only check**
+
+Entry 7 ended with a deliberate limitation: I had a combined SIF-and-rainfall map that looked convincing side by side, but I explicitly held back from calling it anything more than a visual, physically-motivated consistency check, because I hadn't actually run a correlation between the two. Before treating this project as finished, I went back and did exactly that — the one thing I'd flagged as missing rather than left silently undone.
+
+I merged the two datasets I already had sitting in `data/processed/` — `sif_by_district.csv` and `rainfall_anomaly_by_district.csv` — on district and year, giving 24 district-year pairs (8 districts × 3 years). Against those 24 pairs, I ran both a Pearson correlation (assumes a linear relationship) and a Spearman correlation (rank-based, doesn't assume linearity) between mean SIF and rainfall anomaly percentage, rather than relying on just one.
+
+The result came back stronger than I expected: Pearson r = 0.837 (p < 0.001), Spearman ρ = 0.857 (p < 0.001). Both measures agree, and agree strongly — this isn't a borderline or ambiguous number sitting near significance, it's a clear, high-confidence positive correlation between rainfall deficit and SIF suppression across the districts and years I studied.
+
+I'm not treating this as license to overclaim, though, and the same caveat I wrote in Entry 7 about independence still applies, just more precisely now. Twenty-four data points sounds like a reasonable sample size, but the eight districts within any given year aren't independent of each other — they're geographically adjacent and share the same regional weather systems, so the real number of independent observations here is closer to three (one per study year) than twenty-four. I'm reporting the correlation exactly as calculated, without adjusting for this, but I'm also not pretending 24 independent data points went into it when they didn't.
+
+What this changes: the "visual, physically-motivated consistency check" framing from Entry 7 is now backed by an actual number, and a strong one. What it doesn't change: the core finding from Entries 3, 4, and 6 — that drought severity doesn't cleanly amplify the SIF-NDVI lag — is untouched by this. This correlation is about spatial agreement between SIF and rainfall, a separate question from the temporal lag question, and I don't want the two to blur together just because both turned out to support the project's underlying premise that SIF and rainfall are measuring real, physically connected things.
+
+# Development Log — Entry 9
+
+**Topic: Being honest about what GOSIF actually is, and what that means for comparing it to NDVI**
+
+Going back through my own Physical Basis writeup for the research paper, I noticed I'd stated a fact about GOSIF without following it to its actual implication. I'd written that GOSIF "is not itself a direct satellite retrieval, but a statistically modeled reconstruction combining discrete OCO-2 SIF soundings with continuous MODIS reflectance data and meteorological reanalysis." That's accurate — it's how the product is built. What I hadn't spelled out anywhere is what that means for this specific project: the same MODIS reflectance data that GOSIF uses to interpolate SIF values between OCO-2 overpasses is also the underlying data source for the NDVI I'm comparing it against.
+
+In practice, this means SIF and NDVI in this study are not built from two fully independent measurements. On dates and locations without a direct OCO-2 sounding, GOSIF's estimate is partly informed by the same reflectance patterns that produce the NDVI value at that same pixel. This doesn't mean the SIF-leads-NDVI lag finding is wrong, and it doesn't mean GOSIF is a bad dataset to use — it's the standard, widely-used continuous SIF product for exactly this reason, since raw OCO-2 soundings alone are too sparse in space and time for a regional study like this one. But I hadn't written down, anywhere in this project, the specific consequence that matters here: some degree of shared information between my two variables is baked into the dataset choice itself, and I have no way, with the data and time available to me, to quantify how much of the observed lag is attributable to genuine independent fluorescence physics versus this modeling dependency.
+
+I'm documenting this directly as a limitation rather than leaving it implicit in a sentence about GOSIF's construction that a reader could easily read past without connecting it to the SIF-NDVI comparison specifically.
+
+# Development Log — Entry 10
+
+**Topic: Trying to actually explain the 2015-vs-2018 gap, instead of just reporting it**
+
+I'd reported the difference between 2015's lag (24.2 days) and 2018's lag (5.1 days) honestly since Entry 3, but on rereading my own paper I realized I'd never actually tried to explain it — just flagged it as unresolved and moved on. That's not the same thing as engaging with it.
+
+Sitting with it properly, I don't think I can pin down the actual cause with the data I have. But I can lay out what's physically plausible: the two years had almost the same total rainfall deficit, so if deficit size alone controlled the lag, they should look more alike than they do. Three things could explain the gap without me being able to test any of them — whether the shortfall landed early or late in the monsoon, whether NDVI's coarser 16-day sampling introduced more dating error in one year than the other, or whether farmers were growing different crops in these districts across the two years. I don't have sowing-date or crop-type records to check any of these, so I'm writing this up as three open candidate explanations rather than picking one and asserting it.

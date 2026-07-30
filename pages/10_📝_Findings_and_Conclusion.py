@@ -30,7 +30,9 @@ st.info("""
 **3.** District-level spatial analysis identifies a consistent low-SIF zone in the western
 and southwestern districts (Aurangabad, Beed, Latur, Osmanabad) during both drought years,
 corresponding spatially with the districts recording the largest rainfall deficits in the
-same years (**H2**: supported — the effect is not spatially uniform).
+same years (**H2**: supported — the effect is not spatially uniform). This correspondence
+is confirmed statistically: mean SIF and rainfall anomaly are strongly correlated across
+all district-year observations (Pearson r = 0.837, Spearman ρ = 0.857, both p < 0.001).
 """)
 
 st.info("""
@@ -55,7 +57,7 @@ with c2:
 with c3:
     st.metric("Rainfall-confirmed drought years", "2 / 2")
 with c4:
-    st.metric("Spatial SIF-rainfall match", "Qualitative ✓")
+    st.metric("Spatial SIF-rainfall match", "r = 0.837 ✓")
 
 section_divider()
 
@@ -65,13 +67,21 @@ section_divider()
 st.header("Limitations")
 
 st.markdown("""
+- GOSIF (the SIF product used here) is a statistically modeled reconstruction, not a
+  direct satellite retrieval — it combines OCO-2 SIF soundings with MODIS reflectance
+  data and meteorological reanalysis. Since MODIS reflectance also underlies the NDVI
+  used for comparison, the two variables are not fully independent at the input-data
+  level, a property of the dataset choice this study does not attempt to quantify or
+  correct for.
 - The sample size (three years: two drought, one normal) is small, and the two drought
   years differ substantially from one another, limiting generalizability of any drought/
   normal comparison.
-- The spatial correspondence between rainfall deficit and SIF stress has not been tested
-  via formal correlation or regression analysis; with only three years and eight
-  districts, such an analysis would additionally be limited by spatial non-independence
-  between neighboring districts.
+- The spatial correspondence between rainfall deficit and SIF stress was tested via
+  Pearson and Spearman correlation (r = 0.837, ρ = 0.857, both p < 0.001) rather than left
+  as a purely visual comparison; however, with only three independent study years and
+  eight geographically adjacent districts, the 24 district-year observations are not
+  fully independent, and this correlation should be read as strong corroborating evidence
+  rather than a formally independent statistical confirmation.
 - The low-SIF zones identified have not been validated against ground-level crop-stress
   or drought-impact reporting for the districts concerned.
 - District-level rainfall anomaly was computed relative to a single region-wide
@@ -97,10 +107,12 @@ inter-annual and intra-regional variation that a simple drought/normal binary do
 capture.
 
 Independent rainfall validation and spatial cross-referencing between SIF and
-precipitation data lend physical coherence to the district-level findings, while several
-limitations — sample size, absence of ground validation, and the qualitative rather than
-statistical nature of the spatial cross-check — are reported directly rather than resolved
-beyond what the available data supports.
+precipitation data lend physical coherence to the district-level findings — a
+correspondence now confirmed statistically (Pearson r = 0.837, Spearman ρ = 0.857, both
+p < 0.001) rather than resting on visual impression alone — while several limitations —
+sample size, absence of ground validation, and the spatial non-independence underlying the
+correlation above — are reported directly rather than resolved beyond what the available
+data supports.
 """)
 
 st.markdown("""

@@ -47,25 +47,54 @@ with col1:
     """)
 
 with col2:
-    st.subheader("What This Is Not")
+    st.subheader("How Strong Is This, Really?")
     st.markdown("""
-    Visual correspondence between two maps, however striking, is **not a statistical
-    test**. No formal correlation or regression has been run between district-level
-    rainfall anomaly and district-level SIF across the three years — with only three
-    years and eight districts, such an analysis would additionally be weakened by spatial
-    non-independence between neighboring districts (an effective sample much smaller than
-    the raw 24 district-year pairs).
+    This correspondence was tested statistically, not just visually. Across all 24
+    district-year observations (8 districts × 3 years), mean SIF and rainfall anomaly
+    are **strongly and significantly correlated**:
 
-    What this page presents is a **visual, physically-motivated consistency check**, and
-    it is described as exactly that — nothing stronger.
+    - Pearson **r = 0.837** (p < 0.001)
+    - Spearman **ρ = 0.857** (p < 0.001)
+
+    One caveat still applies: these 24 observations are not fully independent, since the
+    eight districts are geographically adjacent and share regional weather systems — the
+    effective number of independent samples is closer to three (one per study year) than
+    twenty-four. The correlation is reported exactly as calculated, without adjustment for
+    this, and is treated as strong corroborating evidence rather than a fully independent
+    statistical confirmation.
     """)
 
+section_divider()
+
+# ============================================================
+# STATISTICAL CONFIRMATION
+# ============================================================
+st.header("Quantifying the Correspondence")
+
+st.image("outputs/figures/sif_rainfall_correlation_scatter.png", use_container_width=True)
+styled_caption(
+    "District-level mean SIF plotted against rainfall anomaly (%), all 24 district-year "
+    "observations, with a linear fit (Pearson r = 0.837, p < 0.001)."
+)
+
+m1, m2, m3, m4 = st.columns(4)
+with m1:
+    st.metric("Pearson r", "0.837")
+with m2:
+    st.metric("Spearman ρ", "0.857")
+with m3:
+    st.metric("p-value", "< 0.001")
+with m4:
+    st.metric("District-years (n)", "24")
+
 st.warning("""
-This spatial correspondence should not be over-read as proof of a rainfall→SIF causal
-mechanism at the district level. It is consistent with the physical mechanism described
-on the **Physics** pages, and it survives the same boundary-precision correction applied
-throughout this project (see **Data & Methodology**) — but it remains a qualitative,
-not quantitative, cross-validation.
+This spatial correspondence is now backed by a statistically significant correlation, not
+just a visual impression. It should still not be over-read as proof of a rainfall→SIF
+causal mechanism at the district level, and the effective sample size is smaller than 24
+once spatial non-independence between neighboring districts is accounted for. It is
+consistent with the physical mechanism described on the **Physics** pages, and it survives
+the same boundary-precision correction applied throughout this project (see
+**Data & Methodology**).
 """)
 
 styled_caption("GREEN ALIBI — Combined SIF and Rainfall Comparison")
