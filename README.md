@@ -14,6 +14,15 @@
 | 📗 [`Research_Paper.md`](./Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
 | 📙 [`Development_Log.md`](./Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
 
+## 🗺️ Interactive Maps
+
+Interactive district-level maps are hosted via GitHub Pages:
+
+- [SIF by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_sif_by_district.html)
+- [Rainfall Anomaly by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_rainfall_by_district.html)
+
+*(Both maps are also embedded directly in the live dashboard's Spatial SIF Analysis and Rainfall Validation pages.)*
+
 GREEN ALIBI is a geospatial framework testing whether Solar-Induced Fluorescence (SIF) — a satellite-derived proxy for photosynthetic activity — registers vegetation stress measurably earlier than the Normalized Difference Vegetation Index (NDVI), the reflectance-based indicator that currently underpins India's drought declaration and PMFBY crop-insurance payout process. Where NDVI only changes once a plant's internal structure has already begun to visibly degrade, SIF is grounded in the plant's photosynthetic energy-partitioning process itself, making it a physically earlier signal in principle. This project tests that premise directly, using GOSIF v2 fluorescence data and cloud-screened MODIS NDVI over Marathwada's eight districts across two drought years (2015, 2018) and one normal monsoon year (2020), cross-validated independently against CHIRPS rainfall data.
 
 Built on a **"no compromises"** standard — every result is reported exactly as it came out, including a hypothesis (H3: drought severity amplifies the SIF–NDVI lag) that this study's own data does not support.
