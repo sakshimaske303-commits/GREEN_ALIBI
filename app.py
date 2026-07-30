@@ -111,34 +111,9 @@ Use the sidebar to move through the study in the order it was actually built:
 - 📝 **Findings & Conclusion** — what this project did and did not find
 """)
 
-def page_footer():
-    """Standard footer used on app.py — name, role, and GitHub link, in a styled card."""
-    st.markdown(f"""
-    <div style='
-        background-color:{NAVY_MED};
-        border: 2px solid {TEAL};
-        border-radius: 14px;
-        padding: 28px 32px;
-        margin-top: 2.5rem;
-        text-align: center;
-    '>
-        <p style='font-size:1.5rem; font-weight:800; color:{MAGENTA}; margin-bottom:4px;'>
-            Sakshi D. Maske
-        </p>
-        <p style='font-size:1.05rem; color:{TEXT_LIGHT}; margin-top:0; margin-bottom:18px;'>
-            Independent Geospatial Researcher
-        </p>
-        <a href='https://github.com/sakshimaske303-commits' target='_blank' style='
-            display:inline-block;
-            background-color:{TEAL};
-            color:{BLACK};
-            font-weight:700;
-            padding:12px 26px;
-            border-radius:8px;
-            text-decoration:none;
-            font-size:1rem;
-        '>
-            🔗 View Full Project on GitHub
-        </a>
-    </div>
-    """, unsafe_allow_html=True)
+section_divider()
+
+# ============================================================
+# FOOTER
+# ============================================================
+page_footer()
