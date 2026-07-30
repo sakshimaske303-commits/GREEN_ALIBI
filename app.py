@@ -114,6 +114,50 @@ Use the sidebar to move through the study in the order it was actually built:
 section_divider()
 
 # ============================================================
+# FULL PROJECT DOCUMENTATION
+# ============================================================
+st.header("📄 Full Project Documentation")
+
+st.markdown("""
+The dashboard above presents this project's findings interactively. The full written
+documents — including everything not shown here — are available below as PDFs.
+""")
+
+doc_col1, doc_col2, doc_col3 = st.columns(3)
+
+with doc_col1:
+    with open("Research_Paper.pdf", "rb") as f:
+        st.download_button(
+            label="📗 Research Paper",
+            data=f,
+            file_name="Research_Paper.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+
+with doc_col2:
+    with open("Project_Journal.pdf", "rb") as f:
+        st.download_button(
+            label="📘 Project Journal",
+            data=f,
+            file_name="Project_Journal.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+
+with doc_col3:
+    with open("Development_Log.pdf", "rb") as f:
+        st.download_button(
+            label="📙 Development Log",
+            data=f,
+            file_name="Development_Log.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+
+section_divider()
+
+# ============================================================
 # FOOTER
 # ============================================================
 page_footer()
