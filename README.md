@@ -4,7 +4,7 @@
 
 ## 🔗 Live Dashboard
 
-**[View the interactive dashboard →](PASTE_YOUR_STREAMLIT_LINK_HERE)**
+**[View the interactive dashboard →](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app/)**
 
 ## 📄 Project Documentation
 
