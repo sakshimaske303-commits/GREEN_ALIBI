@@ -20,12 +20,13 @@ def apply_custom_style():
 
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
-    /* ---- Remove Streamlit's default header/toolbar strip entirely ---- */
+    /* ---- Keep header visible (needed for the sidebar
+    open/close button) but hide only the Deploy button ---- */
     [data-testid="stHeader"] {{
-        background-color: transparent !important;
-        height: 0rem !important;
+        background-color: {NAVY_DARK} !important;
+        height: 3rem !important;
     }}
-    [data-testid="stToolbar"] {{
+    [data-testid="stAppDeployButton"] {{
         display: none !important;
     }}
     [data-testid="stDecoration"] {{
@@ -35,7 +36,44 @@ def apply_custom_style():
         visibility: hidden !important;
     }}
     .block-container {{
-        padding-top: 1.5rem !important;
+        padding-top: 1rem !important;
+    }}
+
+    /* ---- Sidebar collapse/expand button — safety net
+    covering every naming variant Streamlit has used
+    across versions, since it's invisible-by-default on
+    a dark theme and hard to see on mobile otherwise ---- */
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="baseButton-header"],
+    [data-testid="stHeader"] button,
+    [data-testid*="ollapse" i],
+    button[kind="header"] {{
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 999999 !important;
+    }}
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedControl"] {{
+        position: fixed !important;
+        top: 12px !important;
+        left: 12px !important;
+        background: {NAVY_MED} !important;
+        border: 1.5px solid {TEAL} !important;
+        border-radius: 8px !important;
+        padding: 4px !important;
+    }}
+    [data-testid="collapsedControl"] svg,
+    [data-testid="stSidebarCollapsedControl"] svg,
+    [data-testid="stSidebarCollapseButton"] svg,
+    [data-testid="baseButton-header"] svg,
+    [data-testid="stHeader"] button svg,
+    button[kind="header"] svg {{
+        fill: {TEAL} !important;
+        stroke: {TEAL} !important;
+        opacity: 1 !important;
     }}
 
     /* ---- Base app ---- */
