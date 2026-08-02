@@ -19,6 +19,14 @@ Testing Whether Fluorescence Catches Drought Stress Before the Eye Can See It
 </h3>
 """, unsafe_allow_html=True)
 
+st.markdown(
+    "<div style='text-align: center; margin-top: 10px;'>"
+    "<a href='https://doi.org/10.5281/zenodo.21762501' target='_blank'>"
+    "<img src='https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg' alt='DOI'>"
+    "</a></div>",
+    unsafe_allow_html=True,
+)
+
 st.markdown("""
 <p style='text-align:center; font-size:1.1rem;'>
 <strong>NDVI shows a plant's alibi — it can still look green.<br>

@@ -2,6 +2,8 @@
 
 **Testing whether Solar-Induced Fluorescence catches agricultural drought stress in Marathwada, Maharashtra before NDVI can — and whether drought severity actually makes that head-start bigger.**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg)](https://doi.org/10.5281/zenodo.21762501)
+
 ## 🔗 Live Dashboard
 
 **[View the interactive dashboard →](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app/)**
