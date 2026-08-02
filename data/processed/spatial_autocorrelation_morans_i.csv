@@ -1,0 +1,7 @@
+year,variable,morans_i,expected_i_under_null,p_value_permutation,z_score,interpretation
+2015,mean_sif,0.3138,-0.1429,0.0213,2.209,significant positive clustering
+2015,rainfall_anomaly_pct,0.4584,-0.1429,0.003,2.831,significant positive clustering
+2018,mean_sif,0.2554,-0.1429,0.0377,1.963,significant positive clustering
+2018,rainfall_anomaly_pct,0.5508,-0.1429,0.0008,3.099,significant positive clustering
+2020,mean_sif,0.2894,-0.1429,0.0393,2.032,significant positive clustering
+2020,rainfall_anomaly_pct,0.3176,-0.1429,0.0184,2.241,significant positive clustering

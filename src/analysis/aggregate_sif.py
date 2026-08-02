@@ -9,14 +9,26 @@ from datetime import datetime, timedelta
 CLIPPED_DIR = "data/processed/clipped"
 OUT_CSV = "data/processed/marathwada_sif_timeseries.csv"
 
-tif_files = sorted(glob.glob(os.path.join(CLIPPED_DIR, "GOSIF_*.tif")))
+# IMPORTANT: this must match ONLY clip_gosif.py's actual output naming
+# ("GOSIF_<year><doy>_clipped.tif", produced by rasterio.mask.mask against
+# the precise Marathwada polygon). A prior version of this glob/regex used
+# "GOSIF_*.tif" + r"GOSIF_(\d{4})(\d{3})\.tif", which silently matched only
+# the STALE pre-boundary-fix files left over in this same folder from
+# before clip_gosif.py was rewritten to use the polygon mask (rasterio's
+# window-based rectangular crop never added the "_clipped" suffix). Since
+# the old regex required ".tif" immediately after the date digits, every
+# "_clipped.tif" file was skipped as "unrecognized" and the aggregation
+# silently ran on the leaky-rectangle data instead — see Development_Log.md
+# Entry 11. If you still have the old un-suffixed files sitting in this
+# directory, delete them; this glob now ignores them either way.
+tif_files = sorted(glob.glob(os.path.join(CLIPPED_DIR, "GOSIF_*_clipped.tif")))
 print(f"Found {len(tif_files)} clipped files to aggregate.")
 
 records = []
 
 for filepath in tif_files:
     filename = os.path.basename(filepath)
-    match = re.search(r"GOSIF_(\d{4})(\d{3})\.tif", filename)
+    match = re.search(r"GOSIF_(\d{4})(\d{3})_clipped\.tif", filename)
     if not match:
         print(f"Skipping unrecognized filename: {filename}")
         continue

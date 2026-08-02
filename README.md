@@ -33,18 +33,21 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 
 - Defines the Marathwada study region using precise FAO GAUL 2015 district-level boundaries (not a rectangular bounding box), independently verified via a boundary-overlay diagnostic
 - Clips GOSIF v2 SIF rasters to the exact district polygon using `rasterio.mask`, and extracts cloud-screened, cropland-masked MODIS NDVI over the same boundary via Google Earth Engine
-- Calculates a quantitative SIF-to-NDVI decline lag (days) at five seasonal decline thresholds, per year, using linear-interpolation crossing-date estimation
+- Calculates a quantitative SIF-to-NDVI decline lag (days) at five seasonal decline thresholds, per year, using linear-interpolation crossing-date estimation, cross-checked against an independent time-lagged cross-correlation method — with bootstrap confidence intervals quantifying how precise those lag estimates actually are
 - Independently validates the drought/normal year classification using CHIRPS rainfall data against a 20-year (2001–2020) climatological baseline, region-wide and by district
-- Cross-references spatial SIF stress patterns against spatial rainfall deficit patterns at the district level, as a physically-motivated (not statistical) consistency check
+- Cross-references spatial SIF stress patterns against spatial rainfall deficit patterns at the district level, confirmed via Pearson/Spearman correlation and a Moran's I spatial-autocorrelation diagnostic (not just a visual check)
+- Compares SIF- and NDVI-based stress-onset timing against the one well-documented official government drought-declaration date available (2018), to ground the study's policy motivation in an actual institutional timeline rather than rainfall deficit alone
 - Presents all findings through a 10-page Streamlit dashboard, including two dedicated pages explaining the underlying photosynthesis and reflectance physics
 
 ## 🔬 Key Findings
 
-**SIF consistently declines before NDVI, in all three years studied.** Across 2015, 2018, and 2020 alike, SIF's post-peak seasonal decline preceded NDVI's, supporting SIF's physical basis as a more temporally responsive stress indicator.
+**SIF consistently declines before NDVI, in all three years studied.** Across 2015, 2018, and 2020 alike, SIF's post-peak seasonal decline preceded NDVI's, supporting SIF's physical basis as a more temporally responsive stress indicator — confirmed by two independent lag-estimation methods (threshold-crossing and cross-correlation), and shown via bootstrap resampling to be robust in direction (SIF's lag was non-negative in 100% of resampled replicates, every year) even where exact magnitudes carry wide uncertainty.
 
-**Drought severity does not amplify the lag — the opposite pattern showed up.** Mean lag was smaller in the two drought years (14.6 days) than in the normal year (25.5 days), and the two drought years differed substantially from each other (24.2 vs 5.1 days). H3 is explicitly reported as not supported by this data.
+**Drought severity does not amplify the lag — the opposite pattern showed up.** Mean lag was smaller in the two drought years (15.6 days) than in the normal year (28.7 days), and the two drought years differed substantially from each other (24.3 vs 6.9 days). H3 is explicitly reported as not supported by this data. The exact inter-annual ranking is method-sensitive (see Research Paper §4.6) and, per the bootstrap check (§4.7), not statistically distinguishable between years at this sample size — the cross-correlation check agrees SIF leads NDVI in all years, but ranks the years differently by lag magnitude.
 
-**Rainfall independently confirms the drought years, and the deficit isn't spatially uniform.** Regional rainfall departed −21.5% (2015), −18.3% (2018), and +29.1% (2020) from a 20-year normal. At the district level, 2018's deficit was concentrated in the west (Aurangabad −37.2%, Bid −38.1%) while eastern districts recorded surpluses (Nanded +14.6%) — a west-to-east gradient reproduced independently in the SIF signal itself.
+**Rainfall independently confirms the drought years, and the deficit isn't spatially uniform.** Regional rainfall departed −21.5% (2015), −18.3% (2018), and +29.1% (2020) from a 20-year normal. At the district level, 2018's deficit was concentrated in the west (Aurangabad −37.2%, Bid −38.1%) while eastern districts recorded surpluses (Nanded +14.6%) — a west-to-east gradient reproduced independently in the SIF signal itself. A Moran's I diagnostic (§4.8) confirms this spatial pattern is statistically real rather than incidental, in all three years.
+
+**The satellite-vs-NDVI edge is real but small next to the satellite-vs-official-process gap.** Comparing 2018's SIF and NDVI decline onset against the Maharashtra government's official drought declaration (31 October 2018) shows both satellite indicators leading the official declaration by roughly seven weeks, while SIF's own edge over NDVI is only three to four days (§4.9) — reframing this study's policy case toward satellite monitoring generally, refined by SIF specifically.
 
 Full methodology, physical basis, and limitations are documented in `Research_Paper.md`.
 
@@ -67,11 +70,13 @@ GREEN_ALIBI/
 ├── utils/
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
 ├── src/
-│   ├── analysis/                       # Clipping, zonal stats, lag calc, rainfall analysis
+│   ├── acquisition/                    # GEE data-acquisition script (Python translation, unexecuted — see Limitations)
+│   ├── analysis/                       # Clipping, zonal stats, lag calc, rainfall, bootstrap CI, Moran's I, RQ3
 │   └── visualization/                  # Static maps + Folium interactive maps
 ├── data/
 │   ├── raw/                             # GOSIF, NDVI, rainfall, boundary data (gitignored)
-│   └── processed/                       # District-level SIF, rainfall, and lag summary CSVs
+│   ├── external/                        # Public-record reference data (official drought-declaration dates)
+│   └── processed/                       # District-level SIF, rainfall, lag, and bootstrap/spatial-diagnostic CSVs
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
 │   └── interactive_maps/maps/            # Folium HTML maps (SIF + rainfall by district)
@@ -108,6 +113,10 @@ streamlit run app.py
 **Sakshi D. Maske**
 
 Independent Geospatial Researcher
+
+## 📜 License
+
+This project is licensed under [CC BY 4.0](LICENSE). See `CITATION.cff` for citation metadata.
 
 ---
 

@@ -28,18 +28,18 @@ st.header("Mean Lag by Year")
 
 m1, m2, m3 = st.columns(3)
 with m1:
-    st.metric("2015 (drought)", "24.2 days")
+    st.metric("2015 (drought)", "24.3 days")
 with m2:
-    st.metric("2018 (drought)", "5.1 days")
+    st.metric("2018 (drought)", "6.9 days")
 with m3:
-    st.metric("2020 (normal)", "25.5 days")
+    st.metric("2020 (normal)", "28.7 days")
 
 st.markdown("**Grouped by drought classification:**")
 g1, g2 = st.columns(2)
 with g1:
-    st.metric("Drought years (mean)", "14.6 days")
+    st.metric("Drought years (mean)", "15.6 days")
 with g2:
-    st.metric("Normal year", "25.5 days")
+    st.metric("Normal year", "28.7 days")
 
 section_divider()
 
@@ -52,15 +52,15 @@ lag_data = pd.DataFrame({
     "Year": [2015]*5 + [2018]*5 + [2020]*5,
     "Drought Year": [True]*5 + [True]*5 + [False]*5,
     "Threshold": [0.9, 0.8, 0.7, 0.6, 0.5] * 3,
-    "SIF Crossing (DOY)": [262.9, 270.2, 276.4, 282.6, 290.8,
-                            251.9, 258.2, 264.7, 270.9, 276.4,
-                            251.5, 259.5, 264.1, 277.5, 292.2],
+    "SIF Crossing (DOY)": [263.6, 270.6, 276.3, 281.7, 289.6,
+                            251.4, 257.4, 262.6, 268.0, 273.4,
+                            249.4, 258.3, 262.2, 269.3, 289.5],
     "NDVI Crossing (DOY)": [282.5, 286.4, 298.9, 304.7, 331.1,
                              254.6, 266.6, 269.4, 272.2, 284.7,
                              255.4, 269.1, 298.7, 316.0, 333.0],
-    "Lag (days)": [19.7, 16.2, 22.5, 22.1, 40.3,
-                   2.7, 8.5, 4.8, 1.4, 8.3,
-                   3.9, 9.6, 34.6, 38.6, 40.8]
+    "Lag (days)": [18.9, 15.8, 22.6, 23.0, 41.4,
+                   3.2, 9.2, 6.8, 4.3, 11.2,
+                   6.0, 10.8, 36.4, 46.7, 43.5]
 })
 
 st.dataframe(lag_data, use_container_width=True, hide_index=True)
@@ -75,9 +75,9 @@ st.header("What This Means for H3")
 st.warning("""
 **H3 (drought amplifies the SIF–NDVI lag) is not supported by this data.**
 
-The two drought years produced a *smaller* average lag (14.6 days) than the normal year
-(25.5 days) — the opposite of the predicted direction. The two drought years also differ
-substantially from each other (24.2 vs. 5.1 days) — a gap larger than either year's
+The two drought years produced a *smaller* average lag (15.6 days) than the normal year
+(28.7 days) — the opposite of the predicted direction. The two drought years also differ
+substantially from each other (24.3 vs. 6.9 days) — a gap larger than either year's
 difference from the normal year. This indicates that "drought year" is too coarse a
 category to predict SIF–NDVI lag behavior on its own, at least at this sample size (n = 3).
 """)
@@ -88,6 +88,100 @@ years, supporting **H1** in its general form (see **Seasonal Trajectories**). Wh
 hold up is the more specific claim that drought severity scales the size of that lead —
 a genuine, honestly-reported non-result rather than a confirmed contrary finding, given the
 small sample.
+""")
+
+section_divider()
+
+# ============================================================
+# CROSS-CORRELATION ROBUSTNESS CHECK
+# ============================================================
+st.header("Robustness Check: An Independent Lag Method")
+
+st.markdown("""
+The threshold-crossing method above is sensitive mainly to *when decline starts*,
+especially at high thresholds. As a check on whether that specific choice of method is
+driving the lag numbers above, a second, independently computed lag estimate was built
+using **time-lagged cross-correlation** — finding the single time-shift that best aligns
+the overall shape of the SIF and NDVI curves, rather than any particular threshold
+crossing.
+""")
+
+st.image("outputs/figures/cross_correlation_lag.png", use_container_width=True)
+styled_caption(
+    "Cross-correlation between SIF(t) and NDVI(t + lag), by year. Lags tested are capped "
+    "at N/4 of the decline window (a standard guideline) to avoid boundary-pinned, unreliable "
+    "peak estimates. All three peaks shown are interior maxima, well clear of that boundary."
+)
+
+cc1, cc2, cc3 = st.columns(3)
+with cc1:
+    st.metric("2015 (drought)", "13 days", "r = 0.992")
+with cc2:
+    st.metric("2018 (drought)", "4 days", "r = 0.995")
+with cc3:
+    st.metric("2020 (normal)", "7 days", "r = 0.987")
+
+st.success("""
+**What this confirms:** every year's correlation-maximizing lag is positive — an entirely
+independent method agrees that SIF leads NDVI in all three years. **H1 now rests on two
+methods, not one.**
+""")
+
+st.warning("""
+**What this does *not* confirm:** the same year-to-year *ranking*. The threshold-crossing
+method ranked 2020 (normal) highest and 2018 lowest; cross-correlation instead ranks 2015
+highest and 2018 lowest — both methods agree 2018 has the smallest lag, but disagree on
+whether 2015 or 2020 has the largest. This isn't a contradiction so much as the two methods
+answering slightly different questions (onset timing vs. whole-curve shape alignment), but
+it means the *exact* day-count lag values, and which single year "wins," should be read as
+method-dependent estimates — not precise, method-independent facts. The qualitative
+SIF-leads-NDVI finding is the robust result here; the specific ranking is not.
+""")
+
+section_divider()
+
+# ============================================================
+# UNCERTAINTY QUANTIFICATION — BOOTSTRAP CONFIDENCE INTERVALS
+# ============================================================
+st.header("How Precise Are These Numbers? A Bootstrap Check")
+
+st.markdown("""
+Every lag value above is a single point estimate computed from a small number of discrete
+satellite observations — only 17 post-peak 8-day dates per year. A point estimate with no
+uncertainty range invites a fair question: how much would this number move if the satellite
+had happened to catch slightly different overpass dates that season? A case-resampling
+bootstrap (2,000 replicates per year, resampling which of the 17 observations feed the fit)
+answers this directly for the cross-correlation lag estimates above.
+""")
+
+st.image("outputs/figures/cross_correlation_lag_bootstrap_ci.png", use_container_width=True)
+styled_caption(
+    "Cross-correlation lag point estimates with 95% bootstrap confidence intervals "
+    "(case-resampling bootstrap, N = 2,000 replicates per year)."
+)
+
+bc1, bc2, bc3 = st.columns(3)
+with bc1:
+    st.metric("2015 (drought)", "13 days", "95% CI [5, 20]")
+with bc2:
+    st.metric("2018 (drought)", "4 days", "95% CI [0, 9]")
+with bc3:
+    st.metric("2020 (normal)", "7 days", "95% CI [0, 32]")
+
+st.success("""
+**Direction: robust.** Across every year, the bootstrap-estimated lag was non-negative in
+**100%** of replicates, and strictly positive in 99.9% (2015), 84.5% (2018), and 88.6%
+(2020) of replicates. SIF leading NDVI is not a fragile result of one lucky sample.
+""")
+
+st.warning("""
+**Magnitude: not precise enough to rank years.** The confidence intervals above are wide
+relative to the point estimates, and **every pairwise comparison between years' intervals
+overlaps**. That means the specific year-to-year ranking discussed above — and the exact
+day-count values themselves — are not statistically distinguishable from noise at this
+sample size. This is a quantified, stronger version of the caution already given for the
+method-sensitivity finding above: treat the *direction* (SIF leads NDVI) as this study's
+robust result, and the *exact numbers* as approximate.
 """)
 
 styled_caption("GREEN ALIBI — Quantitative Lag Analysis")

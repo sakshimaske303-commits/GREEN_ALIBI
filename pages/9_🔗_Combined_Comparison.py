@@ -97,4 +97,37 @@ the same boundary-precision correction applied throughout this project (see
 **Data & Methodology**).
 """)
 
+section_divider()
+
+# ============================================================
+# SPATIAL AUTOCORRELATION — QUANTIFYING "NOT FULLY INDEPENDENT"
+# ============================================================
+st.header("How Non-Independent, Exactly? A Moran's I Check")
+
+st.markdown("""
+The caveat above — that the 24 district-year observations aren't fully independent — has
+been stated throughout this project, but as an assertion rather than a measurement. **Moran's
+I**, a standard spatial-autocorrelation statistic, was computed for both mean SIF and
+rainfall anomaly, separately for each study year, using a Queen-contiguity spatial weights
+matrix built from the real district polygons (mean 3.25 neighboring districts per district)
+and a 9,999-permutation significance test.
+""")
+
+st.image("outputs/figures/spatial_autocorrelation_morans_i.png", use_container_width=True)
+styled_caption(
+    "Moran's I for district-level mean SIF and rainfall anomaly, by year "
+    "(* = p < 0.05, 9,999 permutations)."
+)
+
+st.info("""
+**All six year × variable combinations are significant (p < 0.05)**, with Moran's I ranging
+from 0.26 to 0.55 — well above the −0.14 expected under complete spatial randomness for this
+configuration. Neighboring districts really do have more similar SIF and rainfall values
+than chance predicts. This confirms, with a number, that the effective sample size behind
+the r = 0.837 correlation above is closer to **n = 3** (one per study year) than **n = 24**
+— it does not undo the correlation as evidence, since the underlying spatial pattern is real
+and physically coherent, but it means the correlation's p-value should not be read as if
+drawn from 24 independent observations.
+""")
+
 styled_caption("GREEN ALIBI — Combined SIF and Rainfall Comparison")

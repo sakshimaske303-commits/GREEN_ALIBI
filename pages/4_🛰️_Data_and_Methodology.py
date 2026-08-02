@@ -52,7 +52,8 @@ tab1, tab2, tab3 = st.tabs(["SIF Processing", "NDVI Processing", "Temporal Align
 
 with tab1:
     st.markdown("""
-    - Sixty 8-day GOSIF GeoTIFFs acquired (twenty per study year).
+    - Eighty-one 8-day GOSIF GeoTIFFs acquired (twenty-seven per study year, June–December,
+      after the observation window was extended from an initial June–November cut).
     - Raw digital values scaled by GOSIF's factor of **0.0001** to obtain physical SIF units.
     - Fill-value codes masked prior to any averaging: **32766** (water), **32767**
       (non-vegetated / missing).
@@ -124,10 +125,14 @@ with col1:
     )
 with col2:
     st.success("""
-    **Why this matters:** the corrected boundary was re-tested against the full analysis
-    chain, and the core findings held under both the rough rectangle and the precise
-    polygon — a robustness check confirming the results were not an artifact of imprecise
-    clipping.
+    **Why this matters:** an external audit of this project later found that the
+    region-wide time series had actually kept building itself from the pre-fix rectangular
+    clip, due to a filename-matching bug in the aggregation script — not the corrected
+    polygon output the log at the time believed it was using (see **Development_Log.md**,
+    Entry 11). Once that bug was fixed and the series regenerated from the correct boundary,
+    the core lag findings held up: the numbers shifted modestly but the qualitative
+    conclusion — SIF leads NDVI in every year, and drought years still show a *smaller*
+    lag than the normal year — did not change.
     """)
 
 section_divider()
