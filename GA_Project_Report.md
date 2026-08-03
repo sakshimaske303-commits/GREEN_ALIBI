@@ -1,4 +1,4 @@
-# GREEN ALIBI — Project Journal
+# GREEN ALIBI — Project Report
 
 ## 1. Project Overview
 

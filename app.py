@@ -160,31 +160,31 @@ documents — including everything not shown here — are available below as PDF
 doc_col1, doc_col2, doc_col3 = st.columns(3)
 
 with doc_col1:
-    with open("Research_Paper.pdf", "rb") as f:
+    with open("GA_Research_Paper.pdf", "rb") as f:
         st.download_button(
             label="📗 Research Paper",
             data=f,
-            file_name="Research_Paper.pdf",
+            file_name="GA_Research_Paper.pdf",
             mime="application/pdf",
             use_container_width=True
         )
 
 with doc_col2:
-    with open("Project_Journal.pdf", "rb") as f:
+    with open("GA_Project_Report.pdf", "rb") as f:
         st.download_button(
-            label="📘 Project Journal",
+            label="📘 Project Report",
             data=f,
-            file_name="Project_Journal.pdf",
+            file_name="GA_Project_Report.pdf",
             mime="application/pdf",
             use_container_width=True
         )
 
 with doc_col3:
-    with open("Development_Log.pdf", "rb") as f:
+    with open("GA_Development_Log.pdf", "rb") as f:
         st.download_button(
             label="📙 Development Log",
             data=f,
-            file_name="Development_Log.pdf",
+            file_name="GA_Development_Log.pdf",
             mime="application/pdf",
             use_container_width=True
         )
