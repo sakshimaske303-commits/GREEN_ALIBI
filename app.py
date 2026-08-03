@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.style import apply_custom_style, section_divider, styled_caption, page_footer
+from utils.style import apply_custom_style, section_divider, styled_caption, page_footer, NAVY_DARK, NAVY_MED, MAGENTA, TEAL, TEXT_LIGHT
 
 st.set_page_config(
     page_title="GREEN ALIBI — Marathwada Drought Study",
@@ -20,10 +20,36 @@ Testing Whether Fluorescence Catches Drought Stress Before the Eye Can See It
 """, unsafe_allow_html=True)
 
 st.markdown(
-    "<div style='text-align: center; margin-top: 10px;'>"
-    "<a href='https://doi.org/10.5281/zenodo.21762501' target='_blank'>"
-    "<img src='https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg' alt='DOI'>"
-    "</a></div>",
+    f"""
+    <style>
+        .doi-badge-link {{ text-decoration:none; }}
+        .doi-badge-card {{ transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease; cursor: pointer; }}
+        .doi-badge-link:hover .doi-badge-card {{ transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 32px rgba(233, 30, 140, 0.6); filter: brightness(1.08); }}
+    </style>
+    <div style="display:flex; justify-content:center; margin: 10px 0 18px 0;">
+        <a href="https://doi.org/10.5281/zenodo.21762501" target="_blank" class="doi-badge-link" style="text-decoration:none;">
+            <div class="doi-badge-card" style="
+                display:flex; align-items:center; gap:18px;
+                background: linear-gradient(145deg, {NAVY_MED}, {NAVY_DARK});
+                border: 2px solid {MAGENTA};
+                border-radius: 14px;
+                padding: 16px 32px;
+                box-shadow: 0 4px 20px rgba(233, 30, 140, 0.35);
+            ">
+                <span style="font-size:2.1rem; line-height:1;">📦</span>
+                <div style="text-align:left;">
+                    <div style="color:{TEAL}; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:0.4px; display:flex; align-items:center; gap:8px;">
+                        <span>ARCHIVED &amp; CITABLE ON ZENODO</span>
+                        <span style="opacity:0.8; font-size:0.95rem;">↗</span>
+                    </div>
+                    <div style="color:{TEXT_LIGHT}; font-family:'Poppins',sans-serif; font-weight:900; font-size:1.35rem; margin-top:2px;">
+                        DOI: 10.5281/zenodo.21762501
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
