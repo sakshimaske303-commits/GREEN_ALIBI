@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils.style import apply_custom_style, section_divider, styled_caption
+from utils.style import apply_custom_style, section_divider, styled_caption, MAGENTA
 
 st.set_page_config(page_title="Data & Methodology — GREEN ALIBI", page_icon="🛰️", layout="wide")
 apply_custom_style()
@@ -14,6 +14,52 @@ the analysis.
 """)
 
 section_divider()
+
+# ============================================================
+# PROOF-OF-WORK POPOVERS — tiny, pulsing "📸" buttons next to the
+# exact methodology step they back up. Click to reveal the screenshot
+# inline; nothing pushes the page layout around. Drop the PNGs into
+# outputs/proof_screenshots/ (see filenames below) and these activate
+# automatically — until then each falls back to a quiet "not added yet"
+# note instead of breaking the page.
+# ============================================================
+st.markdown(f"""
+<style>
+    div[data-testid="stPopover"] button {{
+        animation: proof-blink 1.8s ease-in-out infinite;
+        border: 3px solid {MAGENTA} !important;
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 50% !important;
+        padding: 0 !important;
+        min-height: unset !important;
+        min-width: unset !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+    div[data-testid="stPopover"] button p {{
+        margin: 0 !important;
+        font-size: 0.95rem !important;
+        line-height: 1 !important;
+    }}
+    @keyframes proof-blink {{
+        0%, 100% {{ box-shadow: 0 0 0px rgba(233, 30, 140, 0); }}
+        50% {{ box-shadow: 0 0 12px rgba(233, 30, 140, 0.85); }}
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+import os as _os
+PROOF_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "outputs", "proof_screenshots")
+
+def proof_popover(filename, caption):
+    path = _os.path.join(PROOF_DIR, filename)
+    with st.popover("📸"):
+        if _os.path.exists(path):
+            st.image(path, caption=caption, use_container_width=True)
+        else:
+            st.caption(f"Screenshot not added yet — save it as `outputs/proof_screenshots/{filename}`.")
 
 # ============================================================
 # DATA SOURCES TABLE
@@ -39,7 +85,11 @@ data_sources = pd.DataFrame({
 
 st.dataframe(data_sources, use_container_width=True, hide_index=True)
 
-st.markdown("**Study period:** June 1 – December 31, for 2015, 2018, and 2020.")
+col_sp1, col_sp2 = st.columns([0.94, 0.06])
+with col_sp1:
+    st.markdown("**Study period:** June 1 – December 31, for 2015, 2018, and 2020.")
+with col_sp2:
+    proof_popover("01_sif_ndvi_data_excel.png", "The merged SIF–NDVI dataset (marathwada_sif_ndvi_merged.csv) opened in Excel — the core file behind the lag analysis.")
 
 section_divider()
 
@@ -62,6 +112,9 @@ with tab1:
     - A regional mean SIF value computed per date, alongside a valid-pixel-fraction
       quality metric.
     """)
+    col_t1a, col_t1b = st.columns([0.94, 0.06])
+    with col_t1b:
+        proof_popover("02_clip_gosif_vscode.png", "clip_gosif.py open in VS Code — the rasterio.mask script that clips each GOSIF raster to the exact Marathwada boundary polygon.")
 
 with tab2:
     st.markdown("""
@@ -123,6 +176,9 @@ with col1:
         "Verification: clipped SIF data (color) overlaid with the true Marathwada "
         "boundary (blue outline) — data is confined exactly within the real district shapes."
     )
+    col_b1, col_b2 = st.columns([0.94, 0.06])
+    with col_b2:
+        proof_popover("04_qgis_boundary_check.png", "QGIS — visual QA of the clipped GOSIF raster against the Marathwada boundary polygon, to independently sanity-check the rasterio.mask clipping (optional — only if you redo this check in QGIS).")
 with col2:
     st.success("""
     **Why this matters:** an external audit of this project later found that the
@@ -140,7 +196,12 @@ section_divider()
 # ============================================================
 # LAG CALCULATION METHOD
 # ============================================================
-st.header("Quantitative Lag Calculation")
+col_lag1, col_lag2 = st.columns([0.94, 0.06])
+with col_lag1:
+    st.header("Quantitative Lag Calculation")
+with col_lag2:
+    st.markdown("<div style='margin-top: 2.2rem;'></div>", unsafe_allow_html=True)
+    proof_popover("03_cross_correlation_vscode.png", "cross_correlation_lag.py open in VS Code — the independent cross-correlation robustness check on the SIF-to-NDVI lag.")
 
 st.markdown("""
 For each year, the day-of-year at which SIF and NDVI (each normalized 0–1 within-year)

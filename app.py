@@ -160,34 +160,43 @@ documents — including everything not shown here — are available below as PDF
 doc_col1, doc_col2, doc_col3 = st.columns(3)
 
 with doc_col1:
-    with open("GA_Research_Paper.pdf", "rb") as f:
-        st.download_button(
-            label="📗 Research Paper",
-            data=f,
-            file_name="GA_Research_Paper.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+    try:
+        with open("GA_Research_Paper.pdf", "rb") as f:
+            st.download_button(
+                label="📗 Research Paper",
+                data=f,
+                file_name="GA_Research_Paper.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    except FileNotFoundError:
+        st.warning("GA_Research_Paper.pdf not found.")
 
 with doc_col2:
-    with open("GA_Project_Report.pdf", "rb") as f:
-        st.download_button(
-            label="📘 Project Report",
-            data=f,
-            file_name="GA_Project_Report.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+    try:
+        with open("GA_Project_Report.pdf", "rb") as f:
+            st.download_button(
+                label="📘 Project Report",
+                data=f,
+                file_name="GA_Project_Report.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    except FileNotFoundError:
+        st.warning("GA_Project_Report.pdf not found.")
 
 with doc_col3:
-    with open("GA_Development_Log.pdf", "rb") as f:
-        st.download_button(
-            label="📙 Development Log",
-            data=f,
-            file_name="GA_Development_Log.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+    try:
+        with open("GA_Development_Log.pdf", "rb") as f:
+            st.download_button(
+                label="📙 Development Log",
+                data=f,
+                file_name="GA_Development_Log.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    except FileNotFoundError:
+        st.warning("GA_Development_Log.pdf not found.")
 
 section_divider()
 
