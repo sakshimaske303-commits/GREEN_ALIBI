@@ -83,17 +83,29 @@ def apply_custom_style():
         font-family: 'Poppins', sans-serif;
     }}
 
-    /* ---- Sidebar ---- */
+    /* ---- Sidebar — same dark-gradient nav-pill language used
+    across the whole portfolio (matched to Double Jeopardy) ---- */
     section[data-testid="stSidebar"] {{
-        background-color: {NAVY_MED};
-        border-right: 2px solid {TEAL};
+        background: linear-gradient(180deg, {NAVY_MED} 0%, {NAVY_DARK} 100%);
+        border-right: 1px solid rgba(0, 217, 192, 0.2);
     }}
     section[data-testid="stSidebar"] * {{
         color: {TEXT_LIGHT} !important;
     }}
+    section[data-testid="stSidebar"] a {{
+        border-radius: 8px !important;
+        padding: 8px 14px !important;
+        transition: all 0.2s ease;
+    }}
+    section[data-testid="stSidebar"] a:hover {{
+        background: rgba(0, 217, 192, 0.12) !important;
+        border-left: 3px solid {TEAL};
+    }}
+    section[data-testid="stSidebar"] a[aria-current="page"],
     section[data-testid="stSidebar"] [aria-selected="true"] {{
-        background-color: rgba(233, 30, 140, 0.25) !important;
-        border-left: 4px solid {MAGENTA};
+        background: rgba(233, 30, 140, 0.18) !important;
+        border-left: 3px solid {MAGENTA};
+        font-weight: 700 !important;
     }}
 
     /* ---- Headers ---- */
