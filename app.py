@@ -77,6 +77,28 @@ with col4:
 
 section_divider()
 
+st.markdown(
+    f"""
+    <div style="padding: 20px 26px; margin: 4px 0 20px 0; background: rgba(233, 30, 140, 0.06);
+                border: 1px solid rgba(233, 30, 140, 0.3); border-left: 4px solid {MAGENTA};
+                border-radius: 10px;">
+        <p style="color:{MAGENTA}; text-transform:uppercase; letter-spacing:1.5px;
+                  font-weight:700; font-size:0.85rem; margin-bottom:8px;">⚡ Why This Matters</p>
+        <p style="color:{TEXT_LIGHT}; font-size:1rem; line-height:1.6; margin:0;">
+            India's official drought-declaration process and the PMFBY crop-insurance payout mechanism
+            lean on NDVI — a signal that only moves once a plant's structure has already visibly
+            degraded. That means the farmers relying on that signal find out they're in trouble only
+            after damage is done. If SIF genuinely provides an earlier warning, that isn't an academic
+            curiosity — it's the difference between a relief payout that arrives in time and one that
+            arrives after the season is already lost. This project tests that premise directly, on real
+            satellite data over a real drought-prone Maharashtra region, and reports exactly what it
+            found — including the parts, like H3, that didn't hold up.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 # ============================================================
 # PROJECT OVERVIEW
 # ============================================================
@@ -157,7 +179,20 @@ The dashboard above presents this project's findings interactively. The full wri
 documents — including everything not shown here — are available below as PDFs.
 """)
 
-doc_col1, doc_col2, doc_col3 = st.columns(3)
+doc_col0, doc_col1, doc_col2, doc_col3 = st.columns(4)
+
+with doc_col0:
+    try:
+        with open("GA_Executive_Summary.pdf", "rb") as f:
+            st.download_button(
+                label="⚡ Executive Summary",
+                data=f,
+                file_name="GA_Executive_Summary.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    except FileNotFoundError:
+        st.warning("GA_Executive_Summary.pdf not found.")
 
 with doc_col1:
     try:

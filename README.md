@@ -12,9 +12,10 @@
 
 | Document | What's Inside |
 |---|---|
-| 📘 [`Project_Journal.md`](./Project_Journal.md) | Polished project summary — methodology, findings, conclusions (start here) |
-| 📗 [`Research_Paper.md`](./Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
-| 📙 [`Development_Log.md`](./Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
+| ⚡ [`GA_Executive_Summary.pdf`](./GA_Executive_Summary.pdf) | One-page snapshot — question, method, headline finding, robustness checklist, and links (fastest overview) |
+| 📘 [`GA_Project_Report.md`](./GA_Project_Report.md) | Polished project summary — methodology, findings, conclusions (start here) |
+| 📗 [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
+| 📙 [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
 
 ## 🗺️ Interactive Maps
 
@@ -51,7 +52,7 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 
 **The satellite-vs-NDVI edge is real but small next to the satellite-vs-official-process gap.** Comparing 2018's SIF and NDVI decline onset against the Maharashtra government's official drought declaration (31 October 2018) shows both satellite indicators leading the official declaration by roughly seven weeks, while SIF's own edge over NDVI is only three to four days (§4.9) — reframing this study's policy case toward satellite monitoring generally, refined by SIF specifically.
 
-Full methodology, physical basis, and limitations are documented in `Research_Paper.md`.
+Full methodology, physical basis, and limitations are documented in `GA_Research_Paper.md`.
 
 ## 🗂️ Repository Structure
 
@@ -82,8 +83,8 @@ GREEN_ALIBI/
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
 │   └── interactive_maps/maps/            # Folium HTML maps (SIF + rainfall by district)
-├── Research_Paper.md                    # Formal academic research paper
-├── Development_Log.md                   # Full technical development log
+├── GA_Research_Paper.md                 # Formal academic research paper
+├── GA_Development_Log.md                # Full technical development log
 └── requirements.txt
 ```
 
@@ -122,4 +123,4 @@ This project is licensed under [CC BY 4.0](LICENSE). See `CITATION.cff` for cita
 
 ---
 
-*This project's full development process — including every boundary correction, debugging session, and methodology iteration — is documented in `Development_Log.md` for full transparency and reproducibility.*
+*This project's full development process — including every boundary correction, debugging session, and methodology iteration — is documented in `GA_Development_Log.md` for full transparency and reproducibility.*

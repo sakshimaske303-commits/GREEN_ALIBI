@@ -16,6 +16,33 @@ difference between the two crossing dates.
 
 section_divider()
 
+_checks = [
+    ("#00D9C0", "✓", "Two Independent Lag-Estimation Methods"),
+    ("#00D9C0", "✓", "Bootstrap Confidence Intervals (2,000 replicates/year)"),
+    ("#00D9C0", "✓", "Independent Rainfall Validation (CHIRPS)"),
+    ("#00D9C0", "✓", "Moran's I Spatial-Autocorrelation Check"),
+    ("#00D9C0", "✓", "Cross-Referenced Against Official Drought Declaration"),
+    ("#FBBF24", "!", "H3 (Drought Amplifies Lag) — Honestly Not Supported"),
+    ("#FBBF24", "!", "Exact Year Ranking — Flagged as Method-Sensitive"),
+]
+_badges = "".join(
+    f"""<span style="display:inline-flex; align-items:center; gap:6px; background:rgba(0,217,192,0.08);
+        border:1px solid rgba(0,217,192,0.3); border-radius:20px; padding:6px 14px; margin:4px;
+        font-size:0.82rem; color:#F2F2F5; font-weight:600;">
+        <span style="color:{color}; font-weight:900;">{mark}</span>{label}</span>"""
+    for color, mark, label in _checks
+)
+st.markdown(
+    f"""
+    <p style="color:#E91E8C; text-transform:uppercase; letter-spacing:1.5px;
+              font-weight:700; font-size:0.85rem; margin-bottom:6px;">🔍 Robustness At a Glance</p>
+    <div style="display:flex; flex-wrap:wrap; margin-bottom: 6px;">{_badges}</div>
+    """,
+    unsafe_allow_html=True,
+)
+
+section_divider()
+
 st.image("outputs/figures/sif_ndvi_lag_by_threshold.png", use_container_width=True)
 styled_caption("SIF-to-NDVI decline lag (days), by decline threshold and year.")
 
