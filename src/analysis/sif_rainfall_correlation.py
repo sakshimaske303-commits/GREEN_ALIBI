@@ -10,7 +10,10 @@ rain = pd.read_csv(RAIN_CSV)
 
 merged = pd.merge(sif, rain, on=["district", "year"], how="inner")
 
-print(f"Merged {len(merged)} district-year observations (expected: 8 districts x 3 years = 24)\n")
+_n_years = merged["year"].nunique()
+_n_districts = merged["district"].nunique()
+print(f"Merged {len(merged)} district-year observations "
+      f"(expected: {_n_districts} districts x {_n_years} years = {_n_districts * _n_years})\n")
 print(merged[["district", "year", "mean_sif", "anomaly_pct", "anomaly_zscore"]]
       .sort_values(["year", "district"])
       .to_string(index=False))

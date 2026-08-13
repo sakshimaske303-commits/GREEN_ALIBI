@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
-CLIPPED_FILE = "data/processed/clipped/GOSIF_2020273_clipped.tif"  # apni actual filename se match kar
+CLIPPED_FILE = "data/processed/clipped/GOSIF_2020273_clipped.tif"
 
 boundary = gpd.read_file(BOUNDARY_PATH)
 if boundary.crs is None:

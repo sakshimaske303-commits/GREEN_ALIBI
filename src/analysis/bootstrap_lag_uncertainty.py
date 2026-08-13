@@ -2,45 +2,27 @@ import pandas as pd
 import numpy as np
 import os
 
-# ============================================================
-# Bootstrap uncertainty quantification for the cross-correlation
-# lag estimates in cross_correlation_lag.py.
+# Bootstrap CI on the cross-correlation lag from cross_correlation_lag.py --
+# a point estimate alone (e.g. "13 days" for 2015) doesn't say how much
+# that could shift with a slightly different set of overpass dates.
 #
-# Motivation: cross_correlation_lag_by_year.csv reports a single
-# point estimate per year (e.g. "13 days" for 2015) with no
-# uncertainty interval. External review of this project (four
-# independent AI readings of the paper) flagged this directly.
-# This script answers it with a case-resampling ("pairs")
-# bootstrap over the underlying satellite observation dates.
+# Case resampling: each year only has ~17 sparse 8-day SIF/NDVI-matched
+# observations post-peak, so the real uncertainty is "which overpass dates
+# we happened to get," not smooth noise. Each replicate resamples those
+# observations with replacement, re-interpolates to daily, and recomputes
+# the max-correlation lag. 2000 reps/year, 2.5th/97.5th percentiles = 95% CI.
 #
-# Method, and why this design and not a simpler one: each year's
-# post-peak decline window is only 17 discrete 8-day SIF overpass
-# dates (matched to 16-day NDVI composites). The real source of
-# sampling uncertainty here is "which specific overpass dates we
-# happened to get, given cloud gaps and the 8/16-day revisit
-# cycle" — not smooth within-day noise. So each bootstrap replicate
-# resamples those 17 (doy, SIF, NDVI) observations with
-# replacement, averages any duplicate DOYs pulled more than once,
-# re-sorts by DOY, re-interpolates onto a daily grid exactly as
-# the original script does, and recomputes the cross-correlation-
-# maximizing lag. Repeated 2000 times per year; the 2.5th/97.5th
-# percentiles of the resulting lag distribution give a 95% CI.
-#
-# (An earlier version of this script used a moving-block bootstrap
-# directly on the interpolated daily series. That collapsed every
-# year's CI to a single point at lag=0, because shuffling blocks
-# of a strongly non-stationary decline curve destroys the trend
-# that produces the lag signal in the first place — it was
-# measuring "what happens when you erase the trend," not real
-# sampling uncertainty. Case-resampling the original sparse
-# observations avoids that failure mode by preserving the shape
-# of the decline curve in every replicate.)
-# ============================================================
+# (First tried a moving-block bootstrap on the interpolated daily series --
+# collapsed every CI to a single point at lag=0, since block-shuffling a
+# trending decline curve destroys the trend that produces the lag in the
+# first place. Case resampling the original sparse points avoids that.)
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_bootstrap_ci.csv"
 
-DROUGHT_YEARS = {2015, 2018}
+# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
+_rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
+DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 N_BOOT = 2000
 RNG_SEED = 42
 

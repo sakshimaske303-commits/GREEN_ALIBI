@@ -5,7 +5,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-YEARS = [2015, 2018, 2020]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
@@ -22,7 +22,7 @@ elif boundary.crs.to_epsg() != 4326:
 
 sif_arrays, sif_bounds = {}, {}
 for year in YEARS:
-    path = f"{CLIPPED_DIR}/GOSIF_{year}{DOY:03d}_clipped.tif"  # apni filename se match kar
+    path = f"{CLIPPED_DIR}/GOSIF_{year}{DOY:03d}_clipped.tif"
     with rasterio.open(path) as src:
         sif_arrays[year] = src.read(1)
         sif_bounds[year] = src.bounds
@@ -46,7 +46,7 @@ rain_all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
 rain_norm = mcolors.Normalize(vmin=rain_all_values.min(), vmax=rain_all_values.max())
 
 # --- Combined 2-row figure: SIF on top, rainfall below ---
-fig, axes = plt.subplots(2, 3, figsize=(18, 11))
+fig, axes = plt.subplots(2, len(YEARS), figsize=(4.2 * len(YEARS), 11))
 
 for col_idx, year in enumerate(YEARS):
     ax_sif = axes[0, col_idx]
@@ -77,6 +77,6 @@ rain_sm._A = []
 rain_cbar_ax = fig.add_axes([0.90, 0.10, 0.02, 0.35])
 fig.colorbar(rain_sm, cax=rain_cbar_ax, label="Rainfall anomaly (%)")
 
-fig.suptitle("SIF stress vs rainfall deficit — Marathwada, 2015 / 2018 / 2020", fontsize=15, y=0.97)
+fig.suptitle("SIF stress vs rainfall deficit — Marathwada, 8 years (2015-2023)", fontsize=15, y=0.97)
 fig.savefig(OUTPUT_PLOT, dpi=300, bbox_inches="tight")
 plt.show()

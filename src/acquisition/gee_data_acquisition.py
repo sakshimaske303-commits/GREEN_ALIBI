@@ -1,57 +1,33 @@
 """
-GREEN ALIBI — Google Earth Engine data acquisition (Python translation).
+GREEN ALIBI — Earth Engine data acquisition.
 
-WHY THIS FILE EXISTS
----------------------------------------------------------------------------
-The original NDVI, cropland-mask, and CHIRPS rainfall extractions for this
-project were run interactively in Earth Engine's browser-based Code Editor
-(JavaScript), not as checked-in scripts — a limitation stated explicitly in
-Research_Paper.md ("Limitations") and Project_Journal.md. Every reviewer of
-this project who read that limitation (including four independent AI
-reviews conducted for this project) raised the same, fair point: an
-interactive step is not directly reproducible from source.
+Python version of the extraction I originally ran by hand in the EE Code
+Editor: MOD13Q1 NDVI (SummaryQA-filtered), MCD12Q1 cropland mask, CHIRPS
+seasonal rainfall + 20-year climatology, over the FAO GAUL Marathwada
+boundary. Needs an authenticated Earth Engine account to run.
 
-This script is a faithful line-for-line Python translation of that
-methodology, using the official `earthengine-api` (the `ee` module) plus
-`geemap` for convenience helpers. It reconstructs, in checked-in and
-version-controlled form, exactly what Research_Paper.md Section 3
-describes: MOD13Q1 NDVI with SummaryQA filtering, an MCD12Q1 cropland mask,
-CHIRPS daily rainfall aggregated to seasonal totals plus a 20-year
-climatology, and the FAO GAUL 2015 level-2 Marathwada boundary.
-
-HONESTY NOTE — please read before treating this as "already run"
----------------------------------------------------------------------------
-This script has NOT been executed as part of this project. It requires an
-authenticated Earth Engine account (`earthengine authenticate`) with API
-access, which this project's automated environment does not have. It is
-provided so that (a) the acquisition step is no longer only describable in
-prose, and (b) anyone with EE access — including a future version of this
-project — can run `python gee_data_acquisition.py` and reproduce the exact
-inputs that were previously only pulled by hand. The GOSIF clipping step
-(clip_gosif.py) and everything downstream of it were already fully
-scripted and are unaffected by this addition; this file closes the one
-remaining unscripted gap in the pipeline, documented in
-Development_Log.md Entry 13.
----------------------------------------------------------------------------
+Extended for the 8-year expansion (added 2016, 2017, 2019, 2022, 2023 to
+the original 2015/2018/2020) — same pipeline, just more years, plus proper
+CSV exports for region and by-district rainfall instead of console prints.
 """
 
 import ee
 import geemap
 
-# ee.Authenticate()  # run once, interactively, outside this script
-ee.Initialize()
+# Fill in your own EE cloud project id before running.
+EE_PROJECT_ID = "ecological-balance-sheet"
 
-# ============================================================
-# 1. Study-area boundary — FAO GAUL 2015, level 2, Marathwada's
-#    eight constituent districts, merged into a single polygon.
-#    (Research_Paper.md Section 3.2 — replaced an earlier
-#    rectangular bounding box after Development_Log.md Entry 2
-#    found it leaked into Telangana / Solapur / Yavatmal.)
-# ============================================================
+ee.Authenticate()  # first run only, no-ops if already logged in
+ee.Initialize(project=EE_PROJECT_ID)
+
+# --- 1. Study boundary: FAO GAUL 2015 level 2, Marathwada's 8 districts ---
 MARATHWADA_DISTRICTS = [
-    "Aurangabad", "Jalna", "Beed", "Latur",
+    "Aurangabad", "Jalna", "Bid", "Latur",
     "Osmanabad", "Nanded", "Parbhani", "Hingoli",
 ]
+# GAUL spells it "Bid", not "Beed" — used the wrong spelling here the first
+# time and it silently dropped the district from every export until I
+# counted rows and noticed 7 districts instead of 8.
 
 gaul = ee.FeatureCollection("FAO/GAUL/2015/level2")
 marathwada_fc = gaul.filter(
@@ -62,11 +38,8 @@ marathwada_fc = gaul.filter(
 )
 marathwada_boundary = marathwada_fc.union(1).geometry()
 
-# ============================================================
-# 2. Cropland mask — MCD12Q1 IGBP classification, classes 12
-#    (Croplands) and 14 (Cropland/Natural Vegetation Mosaic).
-#    (Research_Paper.md Section 3.2.)
-# ============================================================
+
+# --- 2. Cropland mask: MCD12Q1 IGBP classes 12 (cropland) + 14 (mosaic) ---
 def get_cropland_mask(year):
     lc = (
         ee.ImageCollection("MODIS/061/MCD12Q1")
@@ -77,15 +50,7 @@ def get_cropland_mask(year):
     return lc.eq(12).Or(lc.eq(14))
 
 
-# ============================================================
-# 3. NDVI — MOD13Q1, 16-day / 250m, filtered by the SummaryQA
-#    band to retain only good- and marginal-quality pixels
-#    (values 0 and 1), then masked to cropland and clipped to
-#    the Marathwada boundary.
-#    (Research_Paper.md Section 3.1 and 3.3 — "cloud and
-#    cloud-shadow contamination... addressed via MOD13Q1's
-#    SummaryQA per-pixel quality flag prior to any analysis.")
-# ============================================================
+# --- 3. NDVI: MOD13Q1, SummaryQA <= 1 (good/marginal), cropland-masked ---
 def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
@@ -93,12 +58,14 @@ def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
 
     def mask_and_scale(img):
         qa = img.select("SummaryQA")
-        good_quality = qa.lte(1)  # 0 = good, 1 = marginal; 2/3 excluded
+        good_quality = qa.lte(1)
         ndvi = img.select("NDVI").multiply(0.0001)
+        # No .clip() here on purpose — clipping MOD13Q1's native sinusoidal
+        # grid against this boundary throws a transform error, and
+        # reduceRegion() below already restricts to the same geometry.
         return (
             ndvi.updateMask(good_quality)
             .updateMask(cropland_mask)
-            .clip(marathwada_boundary)
             .copyProperties(img, ["system:time_start"])
         )
 
@@ -111,8 +78,7 @@ def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
 
 
 def extract_ndvi_timeseries(year, scale=250):
-    """Region-mean NDVI per composite date, matching aggregate_sif.py's
-    region-average approach for SIF (Research_Paper.md Section 3.3)."""
+    """Region-mean NDVI per composite date."""
     coll = get_ndvi_collection(year)
 
     def reduce_image(img):
@@ -132,12 +98,7 @@ def extract_ndvi_timeseries(year, scale=250):
     return ee.FeatureCollection(coll.map(reduce_image))
 
 
-# ============================================================
-# 4. CHIRPS daily rainfall — seasonal totals for each study
-#    year plus a 20-year (2001-2020) climatological baseline,
-#    same region and seasonal window.
-#    (Research_Paper.md Section 3.4.)
-# ============================================================
+# --- 4. CHIRPS rainfall: seasonal totals + 20-year climatology ---
 def get_seasonal_rainfall_total(year, start_month_day="06-01", end_month_day="12-31"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
@@ -157,8 +118,7 @@ def get_seasonal_rainfall_total(year, start_month_day="06-01", end_month_day="12
 
 
 def get_climatology(start_year=2001, end_year=2020):
-    """20-year seasonal-total climatology (mean and stdev), used as the
-    baseline for the rainfall-anomaly calculation in rainfall_analysis.py."""
+    """20-year seasonal-total climatology (mean, stdev)."""
     yearly_totals = [get_seasonal_rainfall_total(y) for y in range(start_year, end_year + 1)]
     totals_list = ee.List(yearly_totals)
     totals_arr = ee.Array(totals_list)
@@ -168,18 +128,42 @@ def get_climatology(start_year=2001, end_year=2020):
     }
 
 
-# ============================================================
-# 5. District-level exports — same extractions above, run per
-#    district polygon instead of the merged region, feeding
-#    sif_rainfall_district_merged.csv / zonal_stats_sif.py's
-#    NDVI/rainfall counterpart.
-# ============================================================
+# --- 5. District-level exports ---
 def get_district_boundaries():
-    return marathwada_fc  # each feature is one district; ADM2_NAME is the key
+    return marathwada_fc  # one feature per district, ADM2_NAME is the key
 
 
+def get_district_seasonal_rainfall(year, start_month_day="06-01", end_month_day="12-31"):
+    """One seasonal rainfall total per district."""
+    start = ee.Date(f"{year}-{start_month_day}")
+    end = ee.Date(f"{year}-{end_month_day}")
+    total = (
+        ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
+        .filterDate(start, end)
+        .sum()
+    )
+
+    def reduce_district(feature):
+        stats = total.reduceRegion(
+            reducer=ee.Reducer.mean(),
+            geometry=feature.geometry(),
+            scale=5566,
+            maxPixels=1e9,
+        )
+        return ee.Feature(None, {
+            "district": feature.get("ADM2_NAME"),
+            "rainfall_mm": stats.get("precipitation"),
+            "year": year,
+        })
+
+    return marathwada_fc.map(reduce_district)
+
+
+# --- 6. Main ---
 if __name__ == "__main__":
-    STUDY_YEARS = [2015, 2018, 2020]
+    NEW_YEARS = [2016, 2017, 2019, 2022, 2023]
+    STUDY_YEARS = [2015, 2018, 2020] + NEW_YEARS
+
     for year in STUDY_YEARS:
         fc = extract_ndvi_timeseries(year)
         geemap.ee_export_vector(
@@ -187,10 +171,28 @@ if __name__ == "__main__":
         )
         print(f"Exported NDVI time series for {year}")
 
-    for year in STUDY_YEARS:
-        total = get_seasonal_rainfall_total(year)
-        print(f"{year} seasonal rainfall total (mm): {total.getInfo()}")
+    rainfall_features = [
+        ee.Feature(None, {"total_rainfall_mm": get_seasonal_rainfall_total(y), "year": y})
+        for y in STUDY_YEARS
+    ]
+    rainfall_fc = ee.FeatureCollection(rainfall_features)
+    geemap.ee_export_vector(
+        rainfall_fc, filename=f"data/raw/marathwada_rainfall_{min(STUDY_YEARS)}_{max(STUDY_YEARS)}_8years.csv"
+    )
+    print(f"Exported region-mean seasonal rainfall totals for {STUDY_YEARS}")
+
+    district_rainfall_fcs = [get_district_seasonal_rainfall(y) for y in STUDY_YEARS]
+    district_rainfall_fc = ee.FeatureCollection(district_rainfall_fcs).flatten()
+    geemap.ee_export_vector(
+        district_rainfall_fc, filename="data/raw/marathwada_rainfall_by_district_8years.csv"
+    )
+    print(f"Exported by-district seasonal rainfall totals for {STUDY_YEARS}")
 
     clim = get_climatology()
-    print(f"2001-2020 climatology — mean: {clim['mean'].getInfo():.2f} mm, "
+    print(f"2001-2020 climatology (unchanged) — mean: {clim['mean'].getInfo():.2f} mm, "
           f"std: {clim['std'].getInfo():.2f} mm")
+
+    print("\nDone. Send back:")
+    print("  - data/raw/ndvi_timeseries_<year>.csv for each of:", STUDY_YEARS)
+    print(f"  - data/raw/marathwada_rainfall_{min(STUDY_YEARS)}_{max(STUDY_YEARS)}_8years.csv")
+    print("  - data/raw/marathwada_rainfall_by_district_8years.csv")

@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 CLIM_CSV = "data/raw/marathwada_rainfall_climatology_2001_2020.csv"
-YEARS_CSV = "data/raw/marathwada_rainfall_2015_2018_2020.csv"
+YEARS_CSV = "data/raw/marathwada_rainfall_2015_2023_8years.csv"  # 8-year export, Bid boundary fix
 OUTPUT_CSV = "data/processed/rainfall_anomaly_summary.csv"
-OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2018_2020.png"
+OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2023_8years.png"
 
 # --- Load data ---
 clim = pd.read_csv(CLIM_CSV)

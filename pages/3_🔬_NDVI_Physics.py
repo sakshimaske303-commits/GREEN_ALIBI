@@ -97,7 +97,7 @@ comparison_df = pd.DataFrame({
         "Minutes to hours",
         "Fraunhofer line-filling in reflected sunlight",
         "Faint signal, geometric/canopy escape effects",
-        "Declines before NDVI in all 3 study years"
+        "Declines before (or no later than) NDVI in all 8 study years; 2018 is a near-simultaneous exception"
     ],
     "NDVI": [
         "Differential reflectance from chlorophyll absorption and leaf structural scattering",

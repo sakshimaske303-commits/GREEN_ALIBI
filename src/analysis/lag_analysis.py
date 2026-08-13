@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import os
 
@@ -7,7 +8,9 @@ MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-DROUGHT_YEARS = {2015, 2018}
+# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
+_rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
+DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 THRESHOLDS = [0.9, 0.8, 0.7, 0.6, 0.5]
 
 df = pd.read_csv(MERGED_CSV)
@@ -68,8 +71,10 @@ print("\nMean lag: drought years vs normal year:")
 print(lag_df.groupby("is_drought_year")["lag_days"].mean().round(1))
 
 # Plot: lag (days) by threshold, one line per year
-fig, ax = plt.subplots(figsize=(8, 5))
-colors = {2015: "#B23A48", 2018: "#D9822B", 2020: "#2FA88C"}
+fig, ax = plt.subplots(figsize=(9, 6))
+_years_for_palette = sorted(lag_df["year"].unique())
+_palette = matplotlib.colormaps["tab10"].resampled(max(len(_years_for_palette), 3))
+colors = {y: _palette(i) for i, y in enumerate(_years_for_palette)}
 for year in sorted(lag_df["year"].unique()):
     sub = lag_df[lag_df["year"] == year]
     label = f"{year}" + (" (drought)" if year in DROUGHT_YEARS else " (normal)")

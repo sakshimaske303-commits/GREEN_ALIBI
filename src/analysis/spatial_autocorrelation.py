@@ -5,26 +5,11 @@ import numpy as np
 from libpysal.weights import Queen
 from esda.moran import Moran
 
-# ============================================================
-# Spatial autocorrelation diagnostic (Moran's I).
-#
-# Motivation: Research_Paper.md already states, as a limitation,
-# that the 24 district-year SIF/rainfall observations used in the
-# Pearson/Spearman correlation (r=0.837) are "not fully independent"
-# because the 8 districts are geographically adjacent within each
-# year. External review of this project (four independent AI
-# readings) flagged this same point and asked for it to be
-# quantified rather than just asserted. This script does that:
-# for each study year, it computes Moran's I (with a Queen-
-# contiguity spatial weights matrix built from the actual district
-# polygons) for both mean SIF and rainfall anomaly, to test whether
-# neighboring districts really do have more similar values than
-# chance would predict.
-#
-# This does not change the headline correlation result — it exists
-# to state precisely, rather than just qualitatively, how much
-# spatial structure is in the district-level data underlying it.
-# ============================================================
+# Moran's I per year for mean SIF and rainfall anomaly, using a
+# Queen-contiguity weights matrix from the real district polygons --
+# quantifies how much neighboring districts share similar values,
+# instead of just asserting the district-year observations aren't
+# fully independent.
 
 DISTRICTS_GEOJSON = "data/raw/marathwada_districts_separate.geojson"
 MERGED_CSV = "data/processed/sif_rainfall_district_merged.csv"
@@ -86,8 +71,10 @@ res_df.to_csv(OUT_CSV, index=False)
 print(res_df.to_string(index=False))
 
 n_sig = (res_df["p_value_permutation"] < 0.05).sum()
+_n_years = df["year"].nunique()
+_n_rows = len(df)
 print(f"\n{n_sig} of {len(res_df)} year x variable combinations show significant (p<0.05) positive spatial "
       f"clustering. This confirms, quantitatively, that district-year observations within a year are not "
       f"spatially independent — consistent with the paper's existing caveat that the effective sample size "
-      f"behind the district-level correlation is closer to the number of years (n=3) than the number of "
-      f"district-year rows (n=24).")
+      f"behind the district-level correlation is closer to the number of years (n={_n_years}) than the number of "
+      f"district-year rows (n={_n_rows}).")

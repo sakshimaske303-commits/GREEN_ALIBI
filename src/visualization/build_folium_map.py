@@ -3,7 +3,7 @@ import geopandas as gpd
 import folium
 import branca.colormap as cm
 
-YEARS = [2015, 2018, 2020]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 SIF_CSV = "data/processed/sif_by_district.csv"
 OUTPUT_HTML = "outputs/interactive_maps/maps/marathwada_sif_by_district.html"
@@ -35,7 +35,7 @@ colormap = cm.LinearColormap(
 )
 
 # --- Build the map ---
-center = [merged.geometry.unary_union.centroid.y, merged.geometry.unary_union.centroid.x]
+center = [merged.geometry.union_all().centroid.y, merged.geometry.union_all().centroid.x]
 m = folium.Map(location=center, zoom_start=8, tiles="CartoDB positron")
 
 def make_style_function(col):
@@ -65,7 +65,7 @@ for year in YEARS:
             aliases=["District:", f"Mean SIF ({year}):"],
             localize=False
         ),
-        show=(year == YEARS[-1])  # only 2020 visible by default; others toggle-able
+        show=(year == YEARS[-1])  # only the most recent year visible by default; others toggle-able
     )
     layer.add_to(m)
 

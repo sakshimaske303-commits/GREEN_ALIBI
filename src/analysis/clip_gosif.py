@@ -28,7 +28,7 @@ elif boundary.crs.to_epsg() != 4326:
 geometry = [boundary.geometry.unary_union]  # merge into one polygon for masking
 
 # --- Process each raw GOSIF file ---
-raw_files = sorted(glob.glob(os.path.join(RAW_DIR, "GOSIF_*.tif")))  # check this pattern matches your actual filenames
+raw_files = sorted(glob.glob(os.path.join(RAW_DIR, "GOSIF_*.tif")))
 print(f"Found {len(raw_files)} raw GOSIF files to clip.")
 
 for filepath in raw_files:

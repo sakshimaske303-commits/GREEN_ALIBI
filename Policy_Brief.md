@@ -12,31 +12,31 @@ India's drought declaration and PMFBY crop-insurance payout process relies mainl
 
 ## What This Study Tested
 
-Solar-Induced Fluorescence (SIF) is a satellite-derived signal grounded in the plant's internal photosynthetic process, not its outward appearance. Because photosynthetic efficiency changes before canopy greenness does, SIF should register drought stress earlier than NDVI. This study tested that premise directly and quantitatively — using GOSIF v2 and cloud-screened MODIS NDVI over Marathwada's eight districts, across two drought years (2015, 2018) and one normal monsoon year (2020), independently cross-validated against CHIRPS rainfall data.
+Solar-Induced Fluorescence (SIF) is a satellite-derived signal grounded in the plant's internal photosynthetic process, not its outward appearance. Because photosynthetic efficiency changes before canopy greenness does, SIF should register drought stress earlier than NDVI. This study tested that premise directly and quantitatively — using GOSIF v2 and cloud-screened MODIS NDVI over Marathwada's eight districts, across eight growing seasons (2015–2023, excluding 2021), independently cross-validated against CHIRPS rainfall data. Two of these eight years (2015, 2018) meet this study's own rainfall-anomaly drought threshold; the other six are normal-to-wet monsoon years.
 
 ## What Was Found
 
-**SIF leads NDVI, consistently.** Across all three years studied, SIF's seasonal decline began before NDVI's — confirmed by two independent statistical methods, and shown by bootstrap resampling to hold in every resampled scenario tested (100% of 2,000 replicates per year found a non-negative SIF lead).
+**SIF leads NDVI in most, but not all, years.** In seven of the eight years studied, SIF's seasonal decline began before NDVI's — confirmed by two independent statistical methods, and shown by bootstrap resampling to never reverse direction in any year. **2018 is a genuine exception**: SIF and NDVI decline essentially together that year, with NDVI in fact crossing the key stress threshold slightly *before* SIF. This is reported directly rather than averaged away.
 
-**The exact size of that lead is a few days, not weeks.** In 2018, SIF crossed a key stress threshold three to four days before NDVI did.
+**The exact size of the lead varies by year, and is often a few days, not weeks.** Mean threshold-crossing lags range from about 4 to 24 days depending on the year, with 2018 near zero. The two independent lag-estimation methods agree on direction but not always on the exact size or year-to-year ranking.
 
-**The bigger opportunity is elsewhere.** Comparing 2018's satellite signals against the actual date Maharashtra's government officially declared drought (31 October 2018) shows both SIF *and* NDVI crossed their stress thresholds roughly **seven weeks** earlier than the official declaration. The three-to-four-day SIF-versus-NDVI edge is real, but it is small next to this much larger, seven-week gap between any satellite signal and the current institutional process.
+**The bigger opportunity is elsewhere.** Comparing 2018's satellite signals against the actual date Maharashtra's government officially declared drought (31 October 2018) shows both SIF *and* NDVI crossed their stress thresholds roughly **seven to eight weeks** earlier than the official declaration — even though 2018 is the one year where SIF's edge over NDVI itself disappears. The satellite-versus-declaration gap is real and large regardless of which index is used; SIF's edge over NDVI is a smaller, year-dependent refinement on top of that.
 
-**Drought severity does not simply make the lag bigger.** A natural hypothesis — that more severe drought produces a larger SIF-NDVI gap — was tested directly and was **not supported**: the two drought years behaved quite differently from each other, and the normal year showed the largest average lag of the three. This negative result is reported directly, not adjusted or hidden.
+**Drought severity does not simply make the lag bigger.** A natural hypothesis — that more severe drought produces a larger SIF-NDVI gap — was tested directly and was **not supported**, at more than double the original sample size: the two drought years averaged a smaller lag (7.6 days) than the six normal years (15.0 days). This negative result is reported directly, not adjusted or hidden.
 
-**The stress pattern lines up with rainfall independently.** District-level SIF stress and rainfall deficit are strongly and significantly correlated (Pearson r = 0.837, p < 0.001), and this correspondence is confirmed to be spatially real via a Moran's I diagnostic, not a byproduct of neighboring districts simply sharing weather.
+**The stress pattern lines up with rainfall independently, though more moderately than an earlier, smaller sample suggested.** District-level SIF stress and rainfall deficit are significantly correlated (Pearson r = 0.567, p < 0.001, across 64 district-year observations), and this correspondence is checked for spatial artifacts via a Moran's I diagnostic: rainfall's spatial clustering is a consistent, year-independent feature (significant in all 8 years), while SIF's spatial clustering is present in only half the years (4 of 8) — a genuine, honestly-reported nuance rather than a uniform result.
 
 ## The Policy Implication
 
 PMFBY assessment already incorporates satellite imagery for loss estimation — the operational infrastructure for a satellite-triggered early-warning system already exists in principle. This study's evidence points toward a two-part opportunity, in order of scale:
 
-1. **Larger opportunity:** shortening the roughly seven-week gap between when satellite data (of any kind, SIF or NDVI) already shows stress onset and when the official declaration process catches up.
-2. **Smaller, additional refinement:** SIF's few-day physiological lead over NDVI, layered on top of that larger improvement.
+1. **Larger opportunity:** shortening the roughly seven-to-eight-week gap between when satellite data (of any kind, SIF or NDVI) already shows stress onset and when the official declaration process catches up.
+2. **Smaller, additional refinement:** SIF's physiological lead over NDVI, layered on top of that larger improvement — present in most years studied, but not a guarantee in every single season.
 
 ## What This Study Does Not Yet Establish
 
-This is a three-year proof-of-concept, not an operational system. It has not been validated against ground-level crop yield or crop-loss data; it covers one region; and GOSIF (the SIF product used) is itself partly modeled from MODIS data, so it is not fully independent of the NDVI it is compared against. These limitations, along with several others, are reported in full in `Research_Paper.md`.
+This is an eight-year proof-of-concept, not an operational system. It has not been validated against ground-level crop yield or crop-loss data; it covers one region; the eight years remain unbalanced toward normal conditions (2 drought years versus 6 normal); 2018's exception to the central finding is not yet explained by any available covariate; and GOSIF (the SIF product used) is itself partly modeled from MODIS data, so it is not fully independent of the NDVI it is compared against. These limitations, along with several others, are reported in full in `GA_Research_Paper.md`.
 
 ---
 
-*Full methodology, statistical detail, and complete limitations: `Research_Paper.md`. Full development history, including every correction made along the way: `Development_Log.md`.*
+*Full methodology, statistical detail, and complete limitations: `GA_Research_Paper.md`. Full development history, including every correction made along the way: `GA_Development_Log.md`.*

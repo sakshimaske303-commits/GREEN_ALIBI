@@ -87,7 +87,13 @@ st.dataframe(data_sources, use_container_width=True, hide_index=True)
 
 col_sp1, col_sp2 = st.columns([0.94, 0.06])
 with col_sp1:
-    st.markdown("**Study period:** June 1 – December 31, for 2015, 2018, and 2020.")
+    st.markdown("""
+    **Study period:** June 1 – late December (day-of-year 153–361), for eight years —
+    2015, 2016, 2017, 2018, 2019, 2020, 2022, and 2023. The study originally covered three
+    years (2015, 2018, 2020); five more were added in a later expansion pass to address
+    this study's own recurring small-sample limitation, using the identical acquisition
+    and processing pipeline throughout.
+    """)
 with col_sp2:
     proof_popover("01_sif_ndvi_data_excel.png", "The merged SIF–NDVI dataset (marathwada_sif_ndvi_merged.csv) opened in Excel — the core file behind the lag analysis.")
 
@@ -102,8 +108,11 @@ tab1, tab2, tab3 = st.tabs(["SIF Processing", "NDVI Processing", "Temporal Align
 
 with tab1:
     st.markdown("""
-    - Eighty-one 8-day GOSIF GeoTIFFs acquired (twenty-seven per study year, June–December,
-      after the observation window was extended from an initial June–November cut).
+    - 216 8-day GOSIF GeoTIFFs acquired across all eight study years (twenty-seven per
+      year, June–December, after the observation window was extended from an initial
+      June–November cut). The original 81 files (three years) were pulled first; a
+      further 135 files, for the five newly added years, were downloaded in a later
+      expansion pass using the identical seasonal window and file-naming convention.
     - Raw digital values scaled by GOSIF's factor of **0.0001** to obtain physical SIF units.
     - Fill-value codes masked prior to any averaging: **32766** (water), **32767**
       (non-vegetated / missing).
@@ -164,6 +173,15 @@ district entirely, with no error raised. This was caught by visual inspection ra
 by the script itself, and an explicit district-count check was added to the pipeline
 afterward to catch similar naming mismatches automatically in the future.
 
+The exact same naming gap reappeared, independently, when the acquisition step was later
+rewritten as a standalone Python script for the eight-year sample-size expansion — the new
+script's own district list also used "Beed" rather than "Bid," silently dropping the
+district from all eight years' region- and district-level exports on the first run. This
+was caught by counting rows in the by-district output rather than trusting a clean run, and
+the full extraction was re-run and re-verified before any figure in this dashboard was
+computed. It's recorded here rather than smoothed over, since it's a useful reminder that
+"we already fixed this once" doesn't mean a rewritten script inherits the fix automatically.
+
 Both the SIF clipping pipeline (rebuilt using `rasterio.mask` against the true polygon
 rather than a rectangular window) and the NDVI extraction pipeline were re-run against this
 corrected boundary, and the masking behavior was independently verified before proceeding.
@@ -181,14 +199,17 @@ with col1:
         proof_popover("04_qgis_boundary_check.png", "QGIS — visual QA of the clipped GOSIF raster against the Marathwada boundary polygon, to independently sanity-check the rasterio.mask clipping (optional — only if you redo this check in QGIS).")
 with col2:
     st.success("""
-    **Why this matters:** an external audit of this project later found that the
+    **Why this matters:** going back through this project later, I found that the
     region-wide time series had actually kept building itself from the pre-fix rectangular
     clip, due to a filename-matching bug in the aggregation script — not the corrected
-    polygon output the log at the time believed it was using (see **Development_Log.md**,
+    polygon output the log at the time believed it was using (see **GA_Development_Log.md**,
     Entry 11). Once that bug was fixed and the series regenerated from the correct boundary,
     the core lag findings held up: the numbers shifted modestly but the qualitative
-    conclusion — SIF leads NDVI in every year, and drought years still show a *smaller*
-    lag than the normal year — did not change.
+    conclusion — SIF leads NDVI in most years, and drought years still show a *smaller*
+    lag than normal years — did not change. The same held true after the eight-year
+    expansion and its own "Bid" district fix: the numbers shifted again, and 2018 emerged
+    as a genuine exception rather than a leading example, but the group-level finding
+    (drought years smaller lag than normal years) replicated a second time.
     """)
 
 section_divider()

@@ -1,4 +1,9 @@
 year,is_drought_year,decline_window_days,max_lag_tested,cross_corr_lag_days,max_correlation,corr_at_zero_lag,peak_at_search_boundary
-2015,True,129,32,13,0.9924,0.9722,False
-2018,True,129,32,4,0.9946,0.9917,False
-2020,False,129,32,7,0.9871,0.9805,False
+2015,True,129,32,4,0.9933,0.9912,False
+2016,False,137,34,2,0.9961,0.9953,False
+2017,False,121,30,27,0.9878,0.9831,False
+2018,True,129,32,0,0.9917,0.9917,False
+2019,False,105,26,18,0.9696,0.9515,False
+2020,False,129,32,0,0.9879,0.9879,False
+2022,False,121,30,0,0.9821,0.9821,False
+2023,False,105,26,0,0.9067,0.9067,False

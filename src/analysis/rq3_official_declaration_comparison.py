@@ -2,27 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-# ============================================================
-# RQ3 — how does the satellite-detected stress signal compare
-# to the timing of the *official* government drought declaration?
-#
-# This question was posed explicitly in Project_Journal.md and
-# Development_Log.md's original research-questions list, but the
-# final Research_Paper.md never actually answered it — a gap
-# flagged directly during external review of this project. This
-# script closes that gap for the one year with a clean, publicly
-# documented official declaration date: 2018 (Maharashtra
-# government, 31 October 2018, all eight Marathwada study
-# districts included among 151 talukas / 26 districts — see
-# Research_Paper.md references for the two news sources).
-#
-# A single verifiable declaration date for 2015 could not be
-# located via search in the time available (2015-16 Marathwada
-# drought reporting mostly covers the extended, better-known 2016
-# water-crisis phase, not a single dated 2015 kharif declaration),
-# so this comparison is reported for 2018 only — noted explicitly
-# rather than extrapolated to 2015.
-# ============================================================
+# RQ3: satellite stress signal vs the official government drought
+# declaration timeline. Only 2018 has a clean, publicly documented
+# declaration date (Maharashtra govt, 31 Oct 2018, all 8 Marathwada
+# districts included among 151 talukas / 26 districts). Couldn't find
+# a comparably clean single date for 2015, so this stays a 2018-only
+# comparison.
 
 DECLARATION_DOY_2018 = 304  # 31 October 2018
 LAG_TABLE = "data/processed/sif_ndvi_lag_by_threshold.csv"
@@ -58,15 +43,23 @@ print(f"Satellite-vs-official-declaration gap: SIF {DECLARATION_DOY_2018 - sif_d
 
 # --- Timeline figure ---
 fig, ax = plt.subplots(figsize=(9, 3.2))
+sif_date_str = doy_to_date(2018, sif_doy).strftime("%-d %b %Y")
+ndvi_date_str = doy_to_date(2018, ndvi_doy).strftime("%-d %b %Y")
 events = [
-    (sif_doy, "SIF: 90% decline\n(8 Sep 2018)", "#2FA88C"),
-    (ndvi_doy, "NDVI: 90% decline\n(12 Sep 2018)", "#D9822B"),
+    (sif_doy, f"SIF: 90% decline\n({sif_date_str})", "#2FA88C"),
+    (ndvi_doy, f"NDVI: 90% decline\n({ndvi_date_str})", "#D9822B"),
     (DECLARATION_DOY_2018, "Official drought\ndeclaration\n(31 Oct 2018)", "#B23A48"),
 ]
 ax.hlines(0, min(e[0] for e in events) - 5, max(e[0] for e in events) + 5, color="gray", linewidth=1.5, zorder=1)
-for doy, label, color in events:
+# SIF and NDVI can land only a few days apart on the x-axis, so stagger
+# label heights whenever two points are close enough to collide.
+y_offsets = [28] * len(events)
+for i in range(1, len(events)):
+    if events[i][0] - events[i - 1][0] < 15:
+        y_offsets[i] = y_offsets[i - 1] + 40
+for (doy, label, color), y_off in zip(events, y_offsets):
     ax.scatter([doy], [0], s=140, color=color, zorder=3, edgecolor="black")
-    ax.annotate(label, (doy, 0), xytext=(0, 28), textcoords="offset points",
+    ax.annotate(label, (doy, 0), xytext=(0, y_off), textcoords="offset points",
                 ha="center", fontsize=9, color=color, fontweight="bold")
 
 ax.annotate("", xy=(DECLARATION_DOY_2018, -0.35), xytext=(sif_doy, -0.35),
@@ -74,7 +67,7 @@ ax.annotate("", xy=(DECLARATION_DOY_2018, -0.35), xytext=(sif_doy, -0.35),
 ax.text((sif_doy + DECLARATION_DOY_2018) / 2, -0.55, f"{DECLARATION_DOY_2018 - sif_doy:.0f} days",
         ha="center", fontsize=9, color="#555555")
 
-ax.set_ylim(-0.9, 0.6)
+ax.set_ylim(-0.9, max(0.6, 0.15 * max(y_offsets)))
 ax.set_yticks([])
 ax.set_xlabel("Day of year, 2018")
 ax.set_title("2018: Satellite Stress Signal vs. Official Drought Declaration Timeline (RQ3)", fontsize=11)

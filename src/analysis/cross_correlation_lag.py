@@ -1,29 +1,24 @@
+import math
 import pandas as pd
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import os
 
-# ============================================================
-# Cross-correlation-based lag — an independent robustness check
-# on the threshold-crossing lag method used in lag_analysis.py.
-#
-# The threshold-crossing method (lag_analysis.py) asks "when does
-# each series cross X% of its own peak?" — a method sensitive
-# mainly to the *onset* of decline, especially at high thresholds.
-# Cross-correlation instead asks "what single time-shift best
-# aligns the two curves' overall shape?" — a method that weighs
-# the *entire* post-peak decline, including the long tail. These
-# are genuinely different questions, and agreeing or disagreeing
-# between them is informative either way — this script exists to
-# find out, not to reproduce a predetermined answer.
-# ============================================================
+# Cross-correlation lag: a second, independent check on the threshold-
+# crossing method in lag_analysis.py. That method asks "when does each
+# series cross X% of peak" (onset-sensitive); this asks "what single
+# shift best aligns the whole curve" (weighs the full decline, not just
+# onset). Different questions -- worth seeing if they actually agree.
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_by_year.csv"
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-DROUGHT_YEARS = {2015, 2018}
+# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
+_rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
+DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 
 df = pd.read_csv(MERGED_CSV)
 df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
@@ -85,9 +80,13 @@ res_df.to_csv(OUT_CSV, index=False)
 print(res_df.to_string(index=False))
 
 # --- Plot: correlation-vs-lag curve per year, peak marked ---
-colors = {2015: "#B23A48", 2018: "#D9822B", 2020: "#2FA88C"}
 years_sorted = sorted(curves.keys())
-fig, axes = plt.subplots(1, len(years_sorted), figsize=(15, 5), sharey=True)
+_palette = matplotlib.colormaps["tab10"].resampled(max(len(years_sorted), 3))
+colors = {y: _palette(i) for i, y in enumerate(years_sorted)}
+ncols = 4
+nrows = math.ceil(len(years_sorted) / ncols)
+fig, axes = plt.subplots(nrows, ncols, figsize=(4 * ncols, 4.5 * nrows), sharey=True)
+axes = axes.flatten()
 for ax, year in zip(axes, years_sorted):
     lags, corrs = curves[year]
     ax.plot(lags, corrs, color=colors.get(year), linewidth=2)
@@ -100,8 +99,10 @@ for ax, year in zip(axes, years_sorted):
     ax.set_xlabel("Lag applied to NDVI (days)")
     ax.grid(alpha=0.3)
     ax.legend(fontsize=9, loc="lower center")
+for ax in axes[len(years_sorted):]:
+    ax.set_visible(False)
 axes[0].set_ylabel("Cross-correlation, SIF(t) vs NDVI(t + lag)")
-fig.suptitle("Cross-Correlation-Based Lag — Independent Check on the Threshold-Crossing Method", fontsize=13)
+fig.suptitle("Cross-Correlation-Based Lag — Independent Check on the Threshold-Crossing Method, 8 years", fontsize=13)
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, "cross_correlation_lag.png"), dpi=150)
 print(f"\nPlot saved to {OUT_DIR}/cross_correlation_lag.png")

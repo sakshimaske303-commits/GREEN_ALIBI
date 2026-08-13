@@ -18,20 +18,24 @@ abstract: >-
   stress measurably earlier than NDVI, the reflectance-based indicator
   currently underpinning India's drought declaration and PMFBY crop-insurance
   payout process. Using GOSIF v2 fluorescence data and cloud-screened MODIS
-  NDVI over Marathwada, Maharashtra, across two drought years (2015, 2018)
-  and one normal monsoon year (2020), a quantitative SIF-to-NDVI decline lag
+  NDVI over Marathwada, Maharashtra, across eight growing seasons (2015-2023,
+  excluding 2021; two years, 2015 and 2018, meeting this study's own
+  rainfall-anomaly drought threshold), a quantitative SIF-to-NDVI decline lag
   was calculated and independently corroborated by a second, methodologically
   distinct cross-correlation lag estimate and a case-resampling bootstrap
-  uncertainty analysis. SIF's decline preceded NDVI's decline consistently
-  across all three years studied, but the hypothesis that drought severity
-  amplifies this lag was not supported. Independent CHIRPS rainfall
-  validation confirmed the drought/normal classification, and district-level
-  spatial analysis found mean SIF and rainfall anomaly strongly and
-  significantly correlated (Pearson r = 0.837, p < 0.001), a relationship
-  further characterized via a Moran's I spatial-autocorrelation diagnostic.
-  A supplementary comparison against the one well-documented official
-  government drought-declaration date available (2018) found both satellite
-  indicators leading the official declaration by roughly seven weeks.
+  uncertainty analysis. SIF's decline preceded NDVI's decline in seven of the
+  eight years studied, with 2018 a genuine exception, but the hypothesis that
+  drought severity amplifies this lag was not supported. Independent CHIRPS
+  rainfall validation confirmed the drought/normal classification, and
+  district-level spatial analysis found mean SIF and rainfall anomaly
+  significantly correlated (Pearson r = 0.567, p < 0.001, n = 64
+  district-years), a relationship further characterized via a Moran's I
+  spatial-autocorrelation diagnostic showing rainfall consistently spatially
+  clustered (8 of 8 years) and SIF clustered in about half of the years
+  studied (4 of 8). A supplementary comparison against the one well-documented
+  official government drought-declaration date available (2018) found both
+  satellite indicators leading the official declaration by roughly seven to
+  eight weeks.
 keywords:
   - solar-induced fluorescence
   - remote sensing

@@ -1,6 +1,6 @@
 import pandas as pd
 
-RAW_CSV = "data/raw/marathwada_rainfall_by_district.csv"
+RAW_CSV = "data/raw/marathwada_rainfall_by_district_8years.csv"  # corrected 8-district export
 CLIM_CSV = "data/raw/marathwada_rainfall_climatology_2001_2020.csv"
 OUTPUT_CSV = "data/processed/rainfall_anomaly_by_district.csv"
 

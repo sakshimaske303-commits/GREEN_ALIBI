@@ -1,9 +1,10 @@
+import math
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-YEARS = [2015, 2018, 2020]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 SIF_CSV = "data/processed/sif_by_district.csv"
 OUTPUT_PLOT = "outputs/figures/sif_by_district_static.png"
@@ -26,7 +27,10 @@ vmin, vmax = all_values.min(), all_values.max()
 cmap = plt.cm.RdYlGn
 norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
 
-fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+ncols = 4  # wrap into a grid instead of one long row
+nrows = math.ceil(len(YEARS) / ncols)
+fig, axes = plt.subplots(nrows, ncols, figsize=(4.5 * ncols, 5 * nrows))
+axes = axes.flatten()
 
 for ax, year in zip(axes, YEARS):
     col = f"sif_{year}"
@@ -37,8 +41,10 @@ for ax, year in zip(axes, YEARS):
     ax.set_title(f"{year} — Mean SIF", fontsize=13, pad=12)
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
+for ax in axes[len(YEARS):]:
+    ax.set_visible(False)
 
-fig.subplots_adjust(wspace=0.3, top=0.85, bottom=0.15, left=0.05, right=0.9)
+fig.subplots_adjust(wspace=0.3, hspace=0.35, top=0.90, bottom=0.08, left=0.05, right=0.9)
 
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
 sm._A = []

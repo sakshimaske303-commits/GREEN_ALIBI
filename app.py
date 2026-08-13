@@ -69,9 +69,9 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Districts Studied", "8", "Marathwada")
 with col2:
-    st.metric("Study Years", "3", "2015 · 2018 · 2020")
+    st.metric("Study Years", "8", "2015–2023 (excl. 2021)")
 with col3:
-    st.metric("Drought Years", "2", "2015, 2018")
+    st.metric("Drought Years", "2", "2015, 2018 (of 8)")
 with col4:
     st.metric("Datasets Used", "4", "SIF · NDVI · Rainfall · Land Cover")
 

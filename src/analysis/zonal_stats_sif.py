@@ -4,7 +4,7 @@ import geopandas as gpd
 import rasterio
 from rasterio.mask import mask
 
-YEARS = [2015, 2018, 2020]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
@@ -22,7 +22,7 @@ print(f"Loaded {len(districts)} districts: {districts['ADM2_NAME'].tolist()}")
 results = []
 
 for year in YEARS:
-    raster_path = f"{CLIPPED_DIR}/GOSIF_{year}{DOY:03d}_clipped.tif"  # apni actual filename se match kar
+    raster_path = f"{CLIPPED_DIR}/GOSIF_{year}{DOY:03d}_clipped.tif"
 
     with rasterio.open(raster_path) as src:
         for _, row in districts.iterrows():
