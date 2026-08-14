@@ -17,14 +17,20 @@
 | 📗 [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
 | 📙 [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
 
-## 🗺️ Interactive Maps
+## 🗺️ Interactive Maps & Plots
 
-Interactive district-level maps are hosted via GitHub Pages:
+Interactive district-level maps and headline charts are hosted via GitHub Pages:
 
+**Maps**
 - [SIF by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_sif_by_district.html)
 - [Rainfall Anomaly by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_rainfall_by_district.html)
 
-*(Both maps are also embedded individually in the live dashboard's Spatial SIF Analysis and Rainfall Validation pages, and together in one place on the dedicated Interactive Maps page.)*
+**Plots**
+- [Seasonal SIF vs. NDVI Trajectories](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/plots/seasonal_trajectories.html)
+- [SIF-to-NDVI Lag by Threshold](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/plots/lag_by_threshold.html)
+- [Bootstrap Confidence Intervals on Lag](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/plots/bootstrap_lag_ci.html)
+
+*(All five are also embedded together on the dedicated Interactive Maps & Plots page in the live dashboard; the two maps are additionally embedded individually on the Spatial SIF Analysis and Rainfall Validation pages.)*
 
 GREEN ALIBI is a geospatial framework testing whether Solar-Induced Fluorescence (SIF) — a satellite-derived proxy for photosynthetic activity — registers vegetation stress measurably earlier than the Normalized Difference Vegetation Index (NDVI), the reflectance-based indicator that currently underpins India's drought declaration and PMFBY crop-insurance payout process. Where NDVI only changes once a plant's internal structure has already begun to visibly degrade, SIF is grounded in the plant's photosynthetic energy-partitioning process itself, making it a physically earlier signal in principle. This project tests that premise directly, using GOSIF v2 fluorescence data and cloud-screened MODIS NDVI over Marathwada's eight districts across eight growing seasons (2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023) — of which only 2015 and 2018 turn out to meet this study's own rainfall-anomaly drought threshold — cross-validated independently against CHIRPS rainfall data. The study originally covered three years (2015, 2018, 2020); five more were added in a later expansion pass specifically to address the small-sample limitation flagged in every earlier version of this project's own documentation.
 
@@ -87,7 +93,9 @@ GREEN_ALIBI/
 │   └── processed/                       # District-level SIF, rainfall, lag, and bootstrap/spatial-diagnostic CSVs
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
-│   └── interactive_maps/maps/            # Folium HTML maps (SIF + rainfall by district)
+│   └── interactive_maps/
+│       ├── maps/                          # Folium HTML maps (SIF + rainfall by district)
+│       └── plots/                         # Plotly HTML charts (seasonal trajectories, lag analysis)
 ├── GA_Research_Paper.md                 # Formal academic research paper
 ├── GA_Development_Log.md                # Full technical development log
 └── requirements.txt
