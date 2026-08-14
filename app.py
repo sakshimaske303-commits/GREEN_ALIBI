@@ -164,6 +164,7 @@ Use the sidebar to move through the study in the order it was actually built:
 - 🗺️ **Spatial SIF Analysis** — where stress concentrated, static and interactive
 - 🌧️ **Rainfall Validation** — independently confirming the drought years
 - 🔗 **Combined Comparison** — SIF and rainfall side by side
+- 🗺️ **Interactive Maps** — both district-level maps in one place, hoverable and zoomable
 - 📝 **Findings & Conclusion** — what this project did and did not find
 """)
 

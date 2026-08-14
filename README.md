@@ -24,7 +24,7 @@ Interactive district-level maps are hosted via GitHub Pages:
 - [SIF by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_sif_by_district.html)
 - [Rainfall Anomaly by District](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/maps/marathwada_rainfall_by_district.html)
 
-*(Both maps are also embedded directly in the live dashboard's Spatial SIF Analysis and Rainfall Validation pages.)*
+*(Both maps are also embedded individually in the live dashboard's Spatial SIF Analysis and Rainfall Validation pages, and together in one place on the dedicated Interactive Maps page.)*
 
 GREEN ALIBI is a geospatial framework testing whether Solar-Induced Fluorescence (SIF) — a satellite-derived proxy for photosynthetic activity — registers vegetation stress measurably earlier than the Normalized Difference Vegetation Index (NDVI), the reflectance-based indicator that currently underpins India's drought declaration and PMFBY crop-insurance payout process. Where NDVI only changes once a plant's internal structure has already begun to visibly degrade, SIF is grounded in the plant's photosynthetic energy-partitioning process itself, making it a physically earlier signal in principle. This project tests that premise directly, using GOSIF v2 fluorescence data and cloud-screened MODIS NDVI over Marathwada's eight districts across eight growing seasons (2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023) — of which only 2015 and 2018 turn out to meet this study's own rainfall-anomaly drought threshold — cross-validated independently against CHIRPS rainfall data. The study originally covered three years (2015, 2018, 2020); five more were added in a later expansion pass specifically to address the small-sample limitation flagged in every earlier version of this project's own documentation.
 
@@ -40,7 +40,7 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 - Independently validates the drought/normal year classification using CHIRPS rainfall data against a 20-year (2001–2020) climatological baseline, region-wide and by district
 - Cross-references spatial SIF stress patterns against spatial rainfall deficit patterns at the district level, confirmed via Pearson/Spearman correlation and a Moran's I spatial-autocorrelation diagnostic (not just a visual check)
 - Compares SIF- and NDVI-based stress-onset timing against the one well-documented official government drought-declaration date available (2018), to ground the study's policy motivation in an actual institutional timeline rather than rainfall deficit alone
-- Presents all findings through a 10-page Streamlit dashboard, including two dedicated pages explaining the underlying photosynthesis and reflectance physics
+- Presents all findings through an 11-page Streamlit dashboard, including two dedicated pages explaining the underlying photosynthesis and reflectance physics and one dedicated page consolidating both interactive maps
 
 ## 🔬 Key Findings
 
@@ -63,7 +63,7 @@ Full methodology, physical basis, and limitations are documented in `GA_Research
 ```text
 GREEN_ALIBI/
 ├── app.py                              # Streamlit dashboard home page
-├── pages/                              # 10-page dashboard (chronological order)
+├── pages/                              # 11-page dashboard (chronological order)
 │   ├── 1_🌍_Study_Area.py
 │   ├── 2_🔬_Fluorescence_Physics.py
 │   ├── 3_🔬_NDVI_Physics.py
@@ -73,6 +73,7 @@ GREEN_ALIBI/
 │   ├── 7_🗺️_Spatial_SIF_Analysis.py
 │   ├── 8_🌧️_Rainfall_Validation.py
 │   ├── 9_🔗_Combined_Comparison.py
+│   ├── 9_🗺️_Interactive_Maps.py
 │   └── 10_📝_Findings_and_Conclusion.py
 ├── utils/
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
