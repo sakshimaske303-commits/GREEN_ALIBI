@@ -19,9 +19,9 @@ section_divider()
 # REFERENCE MAP
 # ============================================================
 
-col_a, col_b, col_c = st.columns([1, 3, 1])
+col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
-    st.image("outputs/figures/fig.jpeg", use_container_width=True)
+    st.image("outputs/figures/photo1.png", use_container_width=True)
     styled_caption(
         "Figure 1. Location of the study area — (a) Maharashtra within India, "
         "(b) Marathwada within Maharashtra, (c) the eight constituent districts of Marathwada."
