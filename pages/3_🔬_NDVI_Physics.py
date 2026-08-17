@@ -18,7 +18,7 @@ section_divider()
 # ============================================================
 # DIAGRAM — placed prominently near the top, large and centered
 # ============================================================
-col_a, col_b, col_c = st.columns([1, 4, 1])
+col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
     st.image("outputs/figures/ndvi_physics_diagram.png", use_container_width=True)
     styled_caption(
