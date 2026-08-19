@@ -16,7 +16,7 @@ the analysis.
 section_divider()
 
 # ============================================================
-# PROOF-OF-WORK POPOVERS — tiny, pulsing "📸" buttons next to the
+# PROOF-OF-WORK POPOVERS — tiny, pulsing buttons next to the
 # exact methodology step they back up. Click to reveal the screenshot
 # inline; nothing pushes the page layout around. Drop the PNGs into
 # outputs/proof_screenshots/ (see filenames below) and these activate
@@ -55,7 +55,7 @@ PROOF_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__f
 
 def proof_popover(filename, caption):
     path = _os.path.join(PROOF_DIR, filename)
-    with st.popover("📸"):
+    with st.popover("Proof"):
         if _os.path.exists(path):
             st.image(path, caption=caption, use_container_width=True)
         else:

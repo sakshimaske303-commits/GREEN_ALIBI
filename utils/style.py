@@ -233,7 +233,7 @@ def page_footer():
             text-decoration:none;
             font-size:1rem;
         '>
-            🔗 View Full Project on GitHub
+            View Full Project on GitHub
         </a>
     </div>
     """, unsafe_allow_html=True)

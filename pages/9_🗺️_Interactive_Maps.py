@@ -16,11 +16,11 @@ control to switch between study years.
 section_divider()
 
 MAPS = {
-    "🗺️ SIF by District": "outputs/interactive_maps/maps/marathwada_sif_by_district.html",
-    "🗺️ Rainfall Anomaly by District": "outputs/interactive_maps/maps/marathwada_rainfall_by_district.html",
-    "📈 Seasonal SIF vs. NDVI Trajectories": "outputs/interactive_maps/plots/seasonal_trajectories.html",
-    "📊 SIF-to-NDVI Lag by Threshold": "outputs/interactive_maps/plots/lag_by_threshold.html",
-    "📊 Bootstrap Confidence Intervals on Lag": "outputs/interactive_maps/plots/bootstrap_lag_ci.html",
+    "SIF by District": "outputs/interactive_maps/maps/marathwada_sif_by_district.html",
+    "Rainfall Anomaly by District": "outputs/interactive_maps/maps/marathwada_rainfall_by_district.html",
+    "Seasonal SIF vs. NDVI Trajectories": "outputs/interactive_maps/plots/seasonal_trajectories.html",
+    "SIF-to-NDVI Lag by Threshold": "outputs/interactive_maps/plots/lag_by_threshold.html",
+    "Bootstrap Confidence Intervals on Lag": "outputs/interactive_maps/plots/bootstrap_lag_ci.html",
 }
 
 choice = st.selectbox("Pick a map or chart", list(MAPS.keys()))

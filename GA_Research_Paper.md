@@ -30,7 +30,7 @@ where APAR is the absorbed photosynthetically active radiation, Φ_F is the fluo
 
 ![Figure 1](outputs/figures/fluorescence_physics_diagram.png)
 
-**Figure 1.** Schematic representation of leaf-level light energy partitioning among photochemistry, non-photochemical quenching (heat dissipation), and chlorophyll fluorescence, under well-watered versus drought-stressed conditions.
+**Figure 1.** Schematic representation of leaf-level light energy partitioning among photochemistry, non-photochemical quenching (heat dissipation), and chlorophyll fluorescence, under well-watered versus drought-stressed conditions. AI was used to help generate this image, but the concept and every detail in it are mine.
 
 ### 1.3 Physical Basis of NDVI
 
@@ -44,7 +44,7 @@ Because this signal depends on the plant's outward structural and pigment state,
 
 ![Figure 2](outputs/figures/ndvi_physics_diagram.png)
 
-**Figure 2.** Leaf cross-section illustrating red-light absorption by chlorophyll in the palisade mesophyll versus near-infrared scattering at spongy mesophyll air-cell interfaces, the physical basis of the reflectance contrast measured by NDVI.
+**Figure 2.** Leaf cross-section illustrating red-light absorption by chlorophyll in the palisade mesophyll versus near-infrared scattering at spongy mesophyll air-cell interfaces, the physical basis of the reflectance contrast measured by NDVI. AI was used to help generate this image, but the concept and every detail in it are mine.
 
 ### 1.4 Research Questions
 
@@ -261,6 +261,6 @@ Friedl, M., & Sulla-Menashe, D. (2022). *MODIS/Terra+Aqua Land Cover Type Yearly
 
 Funk, C., Peterson, P., Landsfeld, M., Pedreros, D., Verdin, J., Shukla, S., Husak, G., Rowland, J., Harrison, L., Hoell, A., & Michaelsen, J. (2015). The climate hazards infrared precipitation with stations—a new environmental record for monitoring extremes. *Scientific Data*, 2, Article 150066. https://doi.org/10.1038/sdata.2015.66
 
-Li, X., & Xiao, J. (2019). A global, 0.05-degree product of solar-induced chlorophyll fluorescence derived from OCO-2, MODIS, and reanalysis data. *Remote Sensing*, 11(5), 517.
+Li, X., & Xiao, J. (2019). A global, 0.05-degree product of solar-induced chlorophyll fluorescence derived from OCO-2, MODIS, and reanalysis data. *Remote Sensing*, 11(5), 517. https://doi.org/10.3390/rs11050517
 
 Ministry of Agriculture & Farmers Welfare, Government of India. (2016). *Pradhan Mantri Fasal Bima Yojana (PMFBY)*. Retrieved from https://pmfby.gov.in

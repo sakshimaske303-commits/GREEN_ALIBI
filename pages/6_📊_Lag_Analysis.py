@@ -35,7 +35,7 @@ _badges = "".join(
 st.markdown(
     f"""
     <p style="color:#E91E8C; text-transform:uppercase; letter-spacing:1.5px;
-              font-weight:700; font-size:0.85rem; margin-bottom:6px;">🔍 Robustness At a Glance</p>
+              font-weight:700; font-size:0.85rem; margin-bottom:6px;">Robustness At a Glance</p>
     <div style="display:flex; flex-wrap:wrap; margin-bottom: 6px;">{_badges}</div>
     """,
     unsafe_allow_html=True,

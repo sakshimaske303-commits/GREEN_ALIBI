@@ -1,268 +1,81 @@
 # GREEN ALIBI — Development Log
 
+This is my working log for GREEN ALIBI, a project testing whether Solar-Induced Fluorescence (SIF) — a direct physical proxy for photosynthetic activity — can detect crop and vegetation drought stress earlier than the vegetation-greenness index (NDVI) that India's official drought-monitoring framework currently relies on. I kept this log the way I keep every project's log — as an honest, chronological record of the decisions, dead ends, and fixes that went into the analysis, not a cleaned-up summary written after the fact.
+
+What follows is organized as a set of entries, each covering one phase of the work: framing the research question, building the SIF and NDVI extraction pipelines, catching and fixing a boundary-precision problem, bringing rainfall in as an independent validation, adding a second, independent lag-estimation method, a full self-review pass, and finally expanding the study from three years to eight. Every number, correlation, and decision below reflects what I actually found when I ran the analysis, including results that didn't cleanly support my original hypothesis.
+
 ## Index
 
-1. [Entry 1: Project Framing and Motivation](#entry-1-project-framing-and-motivation)
-2. [Entry 2: SIF Data Acquisition, a Cloud-Masking Bug, and the First Seasonal Comparison](#entry-2-sif-data-acquisition-a-cloud-masking-bug-and-the-first-seasonal-comparison)
-3. [Entry 3: Extending the Observation Window and a Genuinely Surprising Result](#entry-3-extending-the-observation-window-and-a-genuinely-surprising-result)
-4. [Entry 4: Catching and Fixing a Boundary Precision Problem](#development-log--entry-4)
-5. [Entry 5: Verifying the Boundary Fix Actually Worked](#development-log--entry-5)
-6. [Entry 6: Bringing in Rainfall as an Independent, Measured Driver](#development-log--entry-6)
-7. [Entry 7: Mapping Rainfall the Same Way I Mapped SIF](#development-log--entry-7)
-8. [Entry 8: Actually Testing What Entry 7 Left as a Visual-Only Check](#development-log--entry-8)
-9. [Entry 9: Being Honest About What GOSIF Actually Is](#development-log--entry-9)
-10. [Entry 10: Trying to Explain the 2015-vs-2018 Gap](#development-log--entry-10)
-11. [Entry 11: A Real Bug I Found Going Back Through This Project](#development-log--entry-11)
-12. [Entry 12: Adding a Second, Independent Lag-Estimation Method](#development-log--entry-12)
-13. [Entry 13: A Round of Self-Review Before Calling This Done — Uncertainty Quantification, Spatial Autocorrelation, a Scripted Acquisition Step, and Closing the RQ3 Gap](#development-log--entry-13)
-14. [Entry 14: Starting the Sample-Size Expansion (3 years → 8 years)](#entry-14--starting-the-sample-size-expansion-3-years--8-years)
-15. [Entry 15: Running Both Scripts, Three Real Bugs Found, and the Rainfall Picture That Came Back](#entry-15--running-both-scripts-three-real-bugs-found-and-the-rainfall-picture-that-came-back)
-16. [Entry 16: Finishing the Expansion — Reprocessing Everything Against Eight Years](#entry-16--finishing-the-expansion-reprocessing-everything-against-eight-years)
+1. [Entry 1](#entry-1)
+2. [Entry 2](#entry-2)
+3. [Entry 3](#entry-3)
+4. [Entry 4](#entry-4)
+5. [Entry 5](#entry-5)
+6. [Entry 6](#entry-6)
+7. [Entry 7](#entry-7)
+8. [Entry 8](#entry-8)
+9. [Entry 9](#entry-9)
+10. [Entry 10](#entry-10)
+11. [Entry 11](#entry-11)
+12. [Entry 12](#entry-12)
+13. [Entry 13](#entry-13)
+14. [Entry 14](#entry-14)
+15. [Entry 15](#entry-15)
+16. [Entry 16](#entry-16)
 
-## Entry 1: Project Framing and Motivation
+## Entry 1
 
-**What this project is.** GREEN ALIBI is an independent satellite-verification study
-testing whether Solar-Induced Fluorescence (SIF) — a direct physical proxy for actual
-photosynthetic activity — can detect crop and vegetation drought stress earlier than the
-vegetation-greenness index (NDVI) that India's official drought-monitoring framework
-currently relies on.
+GREEN ALIBI is an independent satellite-verification study testing whether Solar-Induced Fluorescence (SIF) — a direct physical proxy for actual photosynthetic activity — can detect crop and vegetation drought stress earlier than the vegetation-greenness index (NDVI) that India's official drought-monitoring framework currently relies on. NDVI is a reflectance-based index: it measures how much visible and near-infrared light a leaf's surface reflects, and that reflectance only changes once a plant's internal structure has already begun to visibly degrade — thinning leaves, reduced chlorophyll content, canopy stress. SIF measures something physically earlier and more direct. When a leaf absorbs sunlight for photosynthesis, a small fraction of that absorbed energy is not converted into chemical energy but is instead re-emitted as fluorescence — a process governed by the quantum yield of photosynthesis. When a plant is under physiological stress, its photosynthetic efficiency drops before its outward greenness does, and this shows up as a measurable change in fluorescence emission well before NDVI shows any decline. In effect, NDVI shows a plant's alibi — it can still look green — while SIF shows what is physically happening inside it.
 
-**The physics behind it.** NDVI is a reflectance-based index: it measures how much visible
-and near-infrared light a leaf's surface reflects, and that reflectance only changes once a
-plant's internal structure has already begun to visibly degrade — thinning leaves, reduced
-chlorophyll content, canopy stress. SIF measures something physically earlier and more
-direct. When a leaf absorbs sunlight for photosynthesis, a small fraction of that absorbed
-energy is not converted into chemical energy but is instead re-emitted as fluorescence — a
-process governed by the quantum yield of photosynthesis. When a plant is under physiological
-stress, its photosynthetic efficiency drops before its outward greenness does, and this
-shows up as a measurable change in fluorescence emission well before NDVI shows any decline.
-In effect, NDVI shows a plant's alibi — it can still look green — while SIF shows what is
-physically happening inside it.
+India's drought declaration process, and the crop-insurance payout mechanism under the Pradhan Mantri Fasal Bima Yojana (PMFBY) that depends on it, is built substantially on rainfall-deficit and NDVI-based assessment. Both are reflectance- or precipitation-based indicators, and both are known to respond only after visible crop stress has already set in. Delayed drought recognition means delayed insurance payouts, at exactly the point when affected farmers need them fastest. This project treats that delay as an empirical, testable question rather than an assumption: if SIF captures physiological stress earlier than NDVI, and if that lag is large and consistent enough to matter, it represents a concrete, physics-based case for an earlier-warning indicator than the one currently used in policy.
 
-**Why this project exists.** India's drought declaration process, and the crop-insurance
-payout mechanism under the Pradhan Mantri Fasal Bima Yojana (PMFBY) that depends on it, is
-built substantially on rainfall-deficit and NDVI-based assessment. Both are reflectance- or
-precipitation-based indicators, and both are known to respond only after visible crop stress
-has already set in. Delayed drought recognition means delayed insurance payouts, at exactly
-the point when affected farmers need them fastest. This project treats that delay as an
-empirical, testable question rather than an assumption: if SIF captures physiological stress
-earlier than NDVI, and if that lag is large and consistent enough to matter, it represents a
-concrete, physics-based case for an earlier-warning indicator than the one currently used in
-policy.
+My aim was to independently test, using satellite-derived SIF and NDVI datasets over drought-affected agricultural districts in India, whether SIF shows a measurably earlier decline than NDVI during known drought episodes, and whether the resulting lag is large enough and consistent enough to carry practical early-warning value for drought declaration and crop-insurance timelines. That aim broke down into four research questions: whether SIF declines measurably earlier than NDVI during documented drought-onset periods in the study region (RQ1); whether the SIF–NDVI lag, where it exists, is consistent across different districts and crop types, or varies meaningfully by geography and crop physiology (RQ2); how the timing of SIF-based stress onset compares against official state drought-declaration dates for the same districts and years (RQ3); and whether the observed SIF–NDVI lag translates into a practically meaningful early-warning window — measured in weeks — relevant to real crop-insurance and drought-relief timelines (RQ4).
 
-**Aim.** To independently test, using satellite-derived SIF and NDVI datasets over
-drought-affected agricultural districts in India, whether SIF shows a measurably earlier
-decline than NDVI during known drought episodes, and whether the resulting lag is large
-enough and consistent enough to carry practical early-warning value for drought
-declaration and crop-insurance timelines.
+Going in, I held three hypotheses: that SIF would show a statistically significant decline before NDVI during the same drought episode, consistent with fluorescence capturing a drop in photosynthetic efficiency ahead of any visible, reflectance-based greenness loss (H1); that the magnitude and timing of SIF–NDVI divergence would not be uniform across crop types, since fluorescence response depends on canopy structure and species-specific photosynthetic pathways (H2); and that official drought declarations would lag behind the SIF-based stress signal, consistent with the official process's reliance on slower-responding rainfall and NDVI indicators rather than a direct physiological measure (H3).
 
-**Research Questions.**
-RQ1: Does SIF decline measurably earlier than NDVI during documented drought-onset periods
-in the study region?
-RQ2: Is the SIF–NDVI lag, where it exists, consistent across different districts and crop
-types, or does it vary meaningfully by geography and crop physiology?
-RQ3: How does the timing of SIF-based stress onset compare against official state
-drought-declaration dates for the same districts and years?
-RQ4: Does the observed SIF–NDVI lag translate into a practically meaningful early-warning
-window — measured in weeks — relevant to real crop-insurance and drought-relief timelines?
+At this earliest planning stage, the foundational tasks ahead were: selecting a study region with a well-documented recent drought history and reliable official declaration records — likely candidates included the Marathwada and Vidarbha regions of Maharashtra and the Bundelkhand region spanning Uttar Pradesh and Madhya Pradesh, all of which have recurring, well-reported drought episodes; sourcing a usable SIF dataset, most likely the gridded GOSIF product or a TROPOMI-derived SIF proxy, since native fine-resolution SIF instruments are not designed for agricultural-field-scale monitoring; sourcing matching NDVI data from MODIS or Sentinel-2 for the same districts and time windows; and identifying accessible official drought-declaration records and, where possible, PMFBY payout timing data to serve as the real-world policy benchmark against which the satellite-derived signal would be compared. None of this data had been acquired yet at this point — this entry marks the start of that process, not its outcome.
 
-**Hypotheses.**
-H1: SIF will show a statistically significant decline before NDVI during the same drought
-episode, consistent with fluorescence capturing a drop in photosynthetic efficiency ahead
-of any visible, reflectance-based greenness loss.
-H2: The magnitude and timing of SIF–NDVI divergence will not be uniform across crop types,
-since fluorescence response depends on canopy structure and species-specific photosynthetic
-pathways.
-H3: Official drought declarations will lag behind the SIF-based stress signal, consistent
-with the official process's reliance on slower-responding rainfall and NDVI indicators
-rather than a direct physiological measure.
+## Entry 2
 
-**Scope and current status.** This project is at its earliest planning stage. The
-foundational tasks ahead are: selecting a study region with a well-documented recent drought
-history and reliable official declaration records — likely candidates include the
-Marathwada and Vidarbha regions of Maharashtra and the Bundelkhand region spanning Uttar
-Pradesh and Madhya Pradesh, all of which have recurring, well-reported drought episodes;
-sourcing a usable SIF dataset, most likely the gridded GOSIF product or a TROPOMI-derived
-SIF proxy, since native fine-resolution SIF instruments are not designed for
-agricultural-field-scale monitoring; sourcing matching NDVI data from MODIS or Sentinel-2
-for the same districts and time windows; and identifying accessible official
-drought-declaration records and, where possible, PMFBY payout timing data to serve as the
-real-world policy benchmark against which the satellite-derived signal will be compared.
-None of this data has been acquired yet — this entry marks the start of that process, not
-its outcome.
+With the project framed in Entry 1, the next task was building the actual satellite pipeline — sourcing SIF data, sourcing a matching NDVI dataset, and producing the first real comparison between the two for Marathwada.
 
-## Entry 2: SIF Data Acquisition, a Cloud-Masking Bug, and the First Seasonal Comparison
+**Study region and years finalized.** Marathwada was chosen as the study region — a personal choice as much as a methodological one, since it is my own home region and has a well-documented recent drought history. Three years were selected for the season of June 1 to November 1 (day-of-year 153–305, the Kharif growing season): 2015 and 2018, both documented Marathwada drought years (2015 in particular being the year of the severe Latur water crisis), and 2020, a comparatively normal monsoon year, as a baseline for comparison.
 
-With the project framed in Entry 1, the next task was building the actual satellite
-pipeline — sourcing SIF data, sourcing a matching NDVI dataset, and producing the first
-real comparison between the two for Marathwada.
+**Sourcing SIF data.** GOSIF v2 — a global, 0.05-degree, 8-day solar-induced fluorescence product derived from OCO-2, MODIS, and reanalysis data (Li & Xiao, 2019), distributed by the Global Ecology Group at the University of New Hampshire — was identified as the most usable SIF source, since native fine-resolution SIF instruments are not designed for field-scale agricultural monitoring. Sixty 8-day GeoTIFF files were downloaded in total (20 each for 2015, 2018, and 2020, covering the same day-of-year range).
 
-**Study region and years finalized.** Marathwada was chosen as the study region — a
-personal choice as much as a methodological one, since it is my own home region and has a
-well-documented recent drought history. Three years were selected for the season of June
-1 to November 1 (day-of-year 153–305, the Kharif growing season): 2015 and 2018, both
-documented Marathwada drought years (2015 in particular being the year of the severe
-Latur water crisis), and 2020, a comparatively normal monsoon year, as a baseline for
-comparison.
+**Clipping and scaling.** A script was written to clip each global GeoTIFF to a Marathwada bounding box (17.5°N–20.5°N, 75.0°E–78.5°E, covering all eight Marathwada districts), and, critically, to correctly handle GOSIF's raw digital values: a scale factor of 0.0001 needed to be applied to convert raw pixel values into actual SIF units, and two fill-value codes (32766 for water bodies, 32767 for non-vegetated or missing data) needed to be masked out before any averaging. Skipping this step would have silently corrupted every downstream mean, since the fill values are numerically far outside the real SIF range and would have dominated any naive average. A second script then aggregated each clipped file into a single Marathwada-wide mean SIF value per date, also recording the fraction of valid (non-masked) pixels per date as a data-quality check.
 
-**Sourcing SIF data.** GOSIF v2 — a global, 0.05-degree, 8-day solar-induced fluorescence
-product derived from OCO-2, MODIS, and reanalysis data (Li & Xiao, 2019), distributed by
-the Global Ecology Group at the University of New Hampshire — was identified as the most
-usable SIF source, since native fine-resolution SIF instruments are not designed for
-field-scale agricultural monitoring. Sixty 8-day GeoTIFF files were downloaded in total (20
-each for 2015, 2018, and 2020, covering the same day-of-year range).
+**A serious cloud-masking bug in the NDVI extraction.** NDVI was sourced separately via Google Earth Engine, computed from MOD09Q1 (MODIS 8-day surface reflectance) so that its temporal resolution would match GOSIF's 8-day cadence exactly. The first version of this script computed NDVI directly from raw reflectance bands without applying any cloud-quality filtering. The resulting NDVI time series was implausibly noisy — during the 2020 season in particular, NDVI swung from roughly 0.55 down to 0.14 and back up to 0.60 within consecutive 8-day periods, a physically impossible rate of change for cropland vegetation. Comparing this against the SIF series, which was smooth and phenologically sensible, made clear that the NDVI series itself was the problem, not the underlying vegetation signal. The cause was identified as cloud and cloud-shadow contamination: Marathwada's growing season coincides with the monsoon, and MOD09Q1's raw reflectance, without explicit quality-band filtering, does not reliably exclude cloud-affected pixels from its "best observation per 8-day window" selection.
 
-**Clipping and scaling.** A script was written to clip each global GeoTIFF to a Marathwada
-bounding box (17.5°N–20.5°N, 75.0°E–78.5°E, covering all eight Marathwada districts), and,
-critically, to correctly handle GOSIF's raw digital values: a scale factor of 0.0001 needed
-to be applied to convert raw pixel values into actual SIF units, and two fill-value codes
-(32766 for water bodies, 32767 for non-vegetated or missing data) needed to be masked out
-before any averaging. Skipping this step would have silently corrupted every downstream
-mean, since the fill values are numerically far outside the real SIF range and would have
-dominated any naive average. A second script then aggregated each clipped file into a
-single Marathwada-wide mean SIF value per date, also recording the fraction of valid
-(non-masked) pixels per date as a data-quality check.
+**Fix: switching to MOD13Q1 with explicit quality masking.** The NDVI extraction was rebuilt around MOD13Q1, NASA's own 16-day Vegetation Index product, which applies a Maximum-Value-Composite algorithm specifically to suppress cloud contamination, and which ships with a `SummaryQA` band (0 = good, 1 = marginal, 2 = snow/ice, 3 = cloudy) that was used to explicitly mask out anything but good-to-marginal-quality pixels. A cropland mask (MCD12Q1 land-cover product, IGBP classes 12 and 14) was also applied at this stage, so that forest, urban, and barren pixels within the bounding box would not dilute a signal that is specifically about crop stress. This traded 8-day temporal resolution for 16-day, but produced a visibly smooth, physically sensible NDVI curve — a trade worth making, since a clean 16-day signal is more trustworthy than a noisy 8-day one.
 
-**A serious cloud-masking bug in the NDVI extraction.** NDVI was sourced separately via
-Google Earth Engine, computed from MOD09Q1 (MODIS 8-day surface reflectance) so that its
-temporal resolution would match GOSIF's 8-day cadence exactly. The first version of this
-script computed NDVI directly from raw reflectance bands without applying any cloud-quality
-filtering. The resulting NDVI time series was implausibly noisy — during the 2020 season in
-particular, NDVI swung from roughly 0.55 down to 0.14 and back up to 0.60 within consecutive
-8-day periods, a physically impossible rate of change for cropland vegetation. Comparing
-this against the SIF series, which was smooth and phenologically sensible, made clear that
-the NDVI series itself was the problem, not the underlying vegetation signal. The cause was
-identified as cloud and cloud-shadow contamination: Marathwada's growing season coincides
-with the monsoon, and MOD09Q1's raw reflectance, without explicit quality-band filtering,
-does not reliably exclude cloud-affected pixels from its "best observation per 8-day window"
-selection.
+**A second, smaller bug: an Earth Engine clip error.** The corrected script initially failed with `Image.clip: Can't transform (0.0,0.0)`, caused by calling `.clip()` on an image built from bands of two different native resolutions (250m NDVI, 500m-derived cropland mask). The fix was to remove the `.clip()` call entirely, since `reduceRegion()` already restricts its calculation to the supplied geometry — the clip step was redundant and was the one throwing the error.
 
-**Fix: switching to MOD13Q1 with explicit quality masking.** The NDVI extraction was rebuilt
-around MOD13Q1, NASA's own 16-day Vegetation Index product, which applies a
-Maximum-Value-Composite algorithm specifically to suppress cloud contamination, and which
-ships with a `SummaryQA` band (0 = good, 1 = marginal, 2 = snow/ice, 3 = cloudy) that was
-used to explicitly mask out anything but good-to-marginal-quality pixels. A cropland mask
-(MCD12Q1 land-cover product, IGBP classes 12 and 14) was also applied at this stage, so that
-forest, urban, and barren pixels within the bounding box would not dilute a signal that is
-specifically about crop stress. This traded 8-day temporal resolution for 16-day, but
-produced a visibly smooth, physically sensible NDVI curve — a trade worth making, since a
-clean 16-day signal is more trustworthy than a noisy 8-day one.
+**Merging two time series at different temporal resolutions.** Since SIF (8-day) and NDVI (16-day, after the fix) no longer shared an identical date grid, the two series were joined using nearest-date matching per year, rather than an exact date join, so that each 8-day SIF value was paired with its closest available 16-day NDVI value.
 
-**A second, smaller bug: an Earth Engine clip error.** The corrected script initially failed
-with `Image.clip: Can't transform (0.0,0.0)`, caused by calling `.clip()` on an image built
-from bands of two different native resolutions (250m NDVI, 500m-derived cropland mask). The
-fix was to remove the `.clip()` call entirely, since `reduceRegion()` already restricts its
-calculation to the supplied geometry — the clip step was redundant and was the one throwing
-the error.
+**A labelling bug caught before it could mislead.** An early version of the comparison plot labelled 2018 as a "normal monsoon year," when it is in fact the second of the two documented drought years in this study. This was a conditional-logic oversight (only 2015 had been explicitly flagged as a drought year in the plotting code) rather than a data error, and was corrected before any interpretation was drawn from the mislabeled chart.
 
-**Merging two time series at different temporal resolutions.** Since SIF (8-day) and NDVI
-(16-day, after the fix) no longer shared an identical date grid, the two series were joined
-using nearest-date matching per year, rather than an exact date join, so that each 8-day SIF
-value was paired with its closest available 16-day NDVI value.
+**First seasonal comparison, and an honest correction of my own overclaim.** With the corrected pipeline, SIF and NDVI trajectories were plotted for all three years. Visually, a consistent pattern holds across all three years: SIF begins declining from its seasonal peak before NDVI does, with NDVI holding near its peak value for a noticeably longer period after SIF has already started dropping. This is a genuine and replicated pattern, and it directly supports the project's core premise — that SIF is more responsive to the onset of post-peak physiological change than NDVI is. However, an initial, more casual visual read of the three charts led me to claim that this lag was distinctly larger in the two drought years (2015, 2018) than in the normal year (2020). Checking that claim properly, by computing each year's decline as a percentage of its own peak value at each subsequent date rather than just eyeballing the chart, did not support it: the apparent lag was of a broadly similar magnitude (roughly 15–25 days) across all three years, drought and normal alike, once measured carefully. That earlier claim is retracted here rather than left standing — the correct, defensible finding at this stage is that SIF leads NDVI's decline in general, not that drought years show a demonstrably larger lag than normal years. Establishing whether drought specifically amplifies this lag will require a proper quantitative lag metric (a day-of-year-to-threshold comparison or a formal cross-correlation calculation) rather than visual comparison, and is the next task.
 
-**A labelling bug caught before it could mislead.** An early version of the comparison plot
-labelled 2018 as a "normal monsoon year," when it is in fact the second of the two documented
-drought years in this study. This was a conditional-logic oversight (only 2015 had been
-explicitly flagged as a drought year in the plotting code) rather than a data error, and was
-corrected before any interpretation was drawn from the mislabeled chart.
+**Status after this entry.** The SIF and NDVI extraction pipelines are both built, cloud/quality-screened, and cropland-masked, covering three years (2015, 2018, 2020) over Marathwada. A real, replicated SIF-leads-NDVI pattern has been observed. What remains before this can be reported as a finding is a rigorous, numeric lag calculation in place of the visual comparison used so far, and — ideally — at least one additional comparison year to strengthen the small sample this analysis currently rests on.
 
-**First seasonal comparison, and an honest correction of my own overclaim.** With the
-corrected pipeline, SIF and NDVI trajectories were plotted for all three years. Visually, a
-consistent pattern holds across all three years: SIF begins declining from its seasonal peak
-before NDVI does, with NDVI holding near its peak value for a noticeably longer period after
-SIF has already started dropping. This is a genuine and replicated pattern, and it directly
-supports the project's core premise — that SIF is more responsive to the onset of
-post-peak physiological change than NDVI is. However, an initial, more casual visual read of
-the three charts led me to claim that this lag was distinctly larger in the two drought
-years (2015, 2018) than in the normal year (2020). Checking that claim properly, by computing
-each year's decline as a percentage of its own peak value at each subsequent date rather than
-just eyeballing the chart, did not support it: the apparent lag was of a broadly similar
-magnitude (roughly 15–25 days) across all three years, drought and normal alike, once
-measured carefully. That earlier claim is retracted here rather than left standing — the
-correct, defensible finding at this stage is that SIF leads NDVI's decline in general, not
-that drought years show a demonstrably larger lag than normal years. Establishing whether
-drought specifically amplifies this lag will require a proper quantitative lag metric (a
-day-of-year-to-threshold comparison or a formal cross-correlation calculation) rather than
-visual comparison, and is the next task.
+## Entry 3
 
-**Status after this entry.** The SIF and NDVI extraction pipelines are both built,
-cloud/quality-screened, and cropland-masked, covering three years (2015, 2018, 2020) over
-Marathwada. A real, replicated SIF-leads-NDVI pattern has been observed. What remains before
-this can be reported as a finding is a rigorous, numeric lag calculation in place of the
-visual comparison used so far, and — ideally — at least one additional comparison year to
-strengthen the small sample this analysis currently rests on.
+Entry 2 ended with an unresolved problem: the first quantitative lag calculation (comparing how many days after its own peak SIF and NDVI each crossed a series of decline thresholds) produced results that could not be trusted, because the observation window — June 1 to November 1 — ended before NDVI had finished declining in two of the three years. Several thresholds simply never resolved (returned no crossing date at all), and the ones that did resolve were being averaged unevenly across years, which made any comparison between drought and normal years unreliable rather than simply inconclusive.
 
-## Entry 3: Extending the Observation Window and a Genuinely Surprising Result
+**Extending the window.** The fix was to extend data collection further into the year, adding seven more 8-day GOSIF periods (day-of-year 313, 321, 329, 337, 345, 353, and 361) for all three years, pushing the observation window from November 1 out to late December. The same clipping and aggregation scripts built in Entry 2 picked up these additional 21 files without any code changes, since both were written to scan for whatever GOSIF files exist in the raw data folder rather than assuming a fixed date range. The NDVI extraction script's end date was likewise extended from November 1 to December 31, and the same MOD13Q1 cloud-screened, cropland-masked pipeline was re-run for the longer window.
 
-Entry 2 ended with an unresolved problem: the first quantitative lag calculation
-(comparing how many days after its own peak SIF and NDVI each crossed a series of
-decline thresholds) produced results that could not be trusted, because the observation
-window — June 1 to November 1 — ended before NDVI had finished declining in two of the
-three years. Several thresholds simply never resolved (returned no crossing date at all),
-and the ones that did resolve were being averaged unevenly across years, which made any
-comparison between drought and normal years unreliable rather than simply inconclusive.
+**The extension worked as intended.** With the longer window, both the SIF and NDVI seasonal curves now taper down smoothly through day 350-360 in all three years, with no sign of the noise or truncation that motivated this fix. More importantly, every single threshold (90%, 80%, 70%, 60%, and 50% of seasonal peak) now resolves to an actual crossing date for all three years — the earlier problem of unresolved, missing thresholds is gone, and the year-to-year comparison can now be made on genuinely equal footing.
 
-**Extending the window.** The fix was to extend data collection further into the year,
-adding seven more 8-day GOSIF periods (day-of-year 313, 321, 329, 337, 345, 353, and 361)
-for all three years, pushing the observation window from November 1 out to late December.
-The same clipping and aggregation scripts built in Entry 2 picked up these additional
-21 files without any code changes, since both were written to scan for whatever GOSIF
-files exist in the raw data folder rather than assuming a fixed date range. The NDVI
-extraction script's end date was likewise extended from November 1 to December 31, and
-the same MOD13Q1 cloud-screened, cropland-masked pipeline was re-run for the longer
-window.
+**The result, once the comparison is fair, does not support the hypothesis as originally framed.** Mean lag across all five thresholds came out to 21.6 days for 2015 (drought), 8.4 days for 2018 (drought), and 28.5 days for 2020 (the normal-monsoon comparison year). Averaged by group, the two drought years show a smaller mean lag (15.0 days) than the single normal year (28.5 days) — the opposite of what H1 predicted. This is not an artifact of the earlier truncation problem: with the extended window, 2020's lag at the 70%, 60%, and 50% thresholds forms a smooth, consistently large curve (36.9, 38.9, and 39.5 days respectively) rather than a single anomalous spike, which is what would be expected if this were still a data-window artifact. The result appears to be genuine.
 
-**The extension worked as intended.** With the longer window, both the SIF and NDVI
-seasonal curves now taper down smoothly through day 350-360 in all three years, with no
-sign of the noise or truncation that motivated this fix. More importantly, every single
-threshold (90%, 80%, 70%, 60%, and 50% of seasonal peak) now resolves to an actual
-crossing date for all three years — the earlier problem of unresolved, missing thresholds
-is gone, and the year-to-year comparison can now be made on genuinely equal footing.
+**An additional complication: the two drought years do not behave alike.** 2015's mean lag (21.6 days) is roughly two and a half times 2018's (8.4 days), despite both being documented Marathwada drought years. This suggests that "drought year" as a simple binary label may be too coarse a category for this analysis — the two droughts likely differed in onset timing, severity, or duration in ways that matter for this specific comparison, and a sample of two drought years is nowhere near enough to characterize that variation, let alone average over it meaningfully.
 
-**The result, once the comparison is fair, does not support the hypothesis as originally
-framed.** Mean lag across all five thresholds came out to 21.6 days for 2015 (drought),
-8.4 days for 2018 (drought), and 28.5 days for 2020 (the normal-monsoon comparison year).
-Averaged by group, the two drought years show a smaller mean lag (15.0 days) than the
-single normal year (28.5 days) — the opposite of what H1 predicted. This is not an
-artifact of the earlier truncation problem: with the extended window, 2020's lag at the
-70%, 60%, and 50% thresholds forms a smooth, consistently large curve (36.9, 38.9, and
-39.5 days respectively) rather than a single anomalous spike, which is what would be
-expected if this were still a data-window artifact. The result appears to be genuine.
+**What does still hold up.** Across all three years — drought and normal alike — SIF consistently begins its post-peak decline before NDVI does, with NDVI holding near its peak value for a longer stretch after SIF has already started dropping. This part of the finding is robust and replicated three times over, and it supports the project's core premise: SIF is a more temporally responsive proxy for the onset of physiological decline than NDVI is. What the data does not support, at least not with this sample, is the more specific claim that drought stress amplifies this lag relative to a normal season. If anything, the limited evidence available points the other way, though with only three years (two drought, one normal) this is far too small a sample to treat as a confident finding in either direction — it is a genuine, honestly-reported non-result on the drought-amplification question, not a confirmed contrary finding.
 
-**An additional complication: the two drought years do not behave alike.** 2015's mean
-lag (21.6 days) is roughly two and a half times 2018's (8.4 days), despite both being
-documented Marathwada drought years. This suggests that "drought year" as a simple binary
-label may be too coarse a category for this analysis — the two droughts likely differed in
-onset timing, severity, or duration in ways that matter for this specific comparison, and
-a sample of two drought years is nowhere near enough to characterize that variation, let
-alone average over it meaningfully.
+**Status after this entry.** The SIF-leads-NDVI decline pattern is now a solid, three-times replicated observation for Marathwada, extending across the full growing season through December. The specific hypothesis that drought years show a larger SIF-NDVI lag than normal years is not supported by this data, and the two drought years studied differ from each other by more than either differs from the normal year, which complicates any binary drought/non-drought framing of this particular comparison. This is being reported as it stands rather than adjusted to fit the original hypothesis — the honest result here is a replicated SIF-leads-NDVI pattern with an inconclusive, and possibly contrary, relationship to drought severity specifically, at this sample size.
 
-**What does still hold up.** Across all three years — drought and normal alike — SIF
-consistently begins its post-peak decline before NDVI does, with NDVI holding near its
-peak value for a longer stretch after SIF has already started dropping. This part of the
-finding is robust and replicated three times over, and it supports the project's core
-premise: SIF is a more temporally responsive proxy for the onset of physiological decline
-than NDVI is. What the data does not support, at least not with this sample, is the more
-specific claim that drought stress amplifies this lag relative to a normal season. If
-anything, the limited evidence available points the other way, though with only three
-years (two drought, one normal) this is far too small a sample to treat as a confident
-finding in either direction — it is a genuine, honestly-reported non-result on the
-drought-amplification question, not a confirmed contrary finding.
-
-**Status after this entry.** The SIF-leads-NDVI decline pattern is now a solid, three-times
-replicated observation for Marathwada, extending across the full growing season through
-December. The specific hypothesis that drought years show a larger SIF-NDVI lag than
-normal years is not supported by this data, and the two drought years studied differ from
-each other by more than either differs from the normal year, which complicates any binary
-drought/non-drought framing of this particular comparison. This is being reported as it
-stands rather than adjusted to fit the original hypothesis — the honest result here is a
-replicated SIF-leads-NDVI pattern with an inconclusive, and possibly contrary, relationship
-to drought severity specifically, at this sample size.
-
-
-# Development Log — Entry 4
-
-**Topic: Catching and fixing a boundary precision problem — from a bounding box to the real Marathwada**
+## Entry 4
 
 After I had a complete, extended-window lag analysis behind me (June–December, 2015/2018/2020, all fifteen threshold-year combinations resolved), I moved on to what I'd been putting off: actually looking at SIF spatially instead of only as a whole-region average. I built a first script, `map_sif_spatial.py`, to plot the raw clipped SIF rasters for a single day (day-of-year 273, right around the point where the seasonal decline is well underway) side by side for all three years, on a shared colour scale.
 
@@ -290,11 +103,7 @@ What I still don't have: any ground-truth confirmation that the specific low-SIF
 
 Next step: regenerate the spatial SIF map using the now-corrected clipped rasters (the underlying files were already overwritten by the boundary fix, so this should just be a re-run, not a rewrite), and then move on to the interactive Folium version.
 
-
-# Development Log — Entry 5
-
-**Date: 30 July 2026**
-**Topic: Verifying the boundary fix actually worked — and fixing the map script itself**
+## Entry 5
 
 With the boundary-precision correction from the previous entry done — GOSIF re-clipped with the real eight-district polygon instead of a rectangle, NDVI re-extracted the same way — the obvious next step was to regenerate the spatial comparison map for day-of-year 273 across 2015, 2018, and 2020, this time expecting it to visibly show Marathwada's actual irregular outline instead of a plain box.
 
@@ -314,10 +123,7 @@ The lesson I'm taking from this one is less about the map itself and more about 
 
 What's still outstanding: this is a single day-of-year snapshot (DOY 273) rather than a full seasonal animation, and the low-SIF zone I'm seeing still hasn't been checked against any actual ground-level drought impact reporting for these districts — it's consistent with what I'd expect from known Marathwada drought geography, but "consistent with expectation" is not the same as "confirmed." Both are worth flagging honestly rather than treating this map as more conclusive than it is.
 
-# Development Log — Entry 6
-
-**Date: 30 July 2026**
-**Topic: Bringing in rainfall as an independent, measured driver — validating (and complicating) the drought labels**
+## Entry 6
 
 Up to this point, "2015 and 2018 were drought years, 2020 was a normal monsoon year" had been a label I was carrying in from general knowledge about Marathwada, not something I had actually measured within this project. Before moving on to writing anything up, I wanted to close that gap, so I brought in CHIRPS daily precipitation data through Earth Engine — the same region, the same June-to-December window I'd been using for SIF and NDVI — and, alongside the three study years, pulled a twenty-year (2001–2020) climatology for the same window so I'd have an actual normal to compare against, rather than comparing the three years only to each other.
 
@@ -329,8 +135,7 @@ I'm treating this as an honest limitation to state plainly rather than something
 
 What this rainfall addition does give me, concretely: the drought-year framing that runs through this entire project is no longer just inherited knowledge, it's independently measured within the same pipeline as everything else. And the finding that "drought amplifies the SIF-NDVI lag" is not supported still stands, now on a firmer footing — with actual rainfall data in hand, it's clear this isn't a case of one of my "drought years" secretly not being that dry after all.
 
-# Development Log — Entry 7
-**Topic: Mapping rainfall the same way I mapped SIF — and seeing how well the two match up spatially**
+## Entry 7
 
 With the district-level rainfall anomaly numbers already validated at the regional level, I wanted the same kind of spatial view for rainfall that I'd already built for SIF — not just a single number per district printed in a table, but something visual, and something that let me directly compare where the rainfall deficit sat against where the SIF stress showed up.
 
@@ -344,9 +149,7 @@ Building the combined figure surfaced a small but real presentation bug: the ove
 
 What I'm not claiming from this: visual correspondence between two maps, however striking, is not a statistical test. I haven't run any actual correlation or regression between district-level rainfall anomaly and district-level SIF across the three years — with only three years and eight districts, that would be a weak analysis anyway (an n of 24 district-year pairs, but not independent since districts within a year are spatially correlated with each other). What I have is a visual, physically-motivated consistency check, and I'm describing it as exactly that and nothing stronger.
 
-# Development Log — Entry 8
-
-**Topic: Going back and actually testing what Entry 7 left as a visual-only check**
+## Entry 8
 
 Entry 7 ended with a deliberate limitation: I had a combined SIF-and-rainfall map that looked convincing side by side, but I explicitly held back from calling it anything more than a visual, physically-motivated consistency check, because I hadn't actually run a correlation between the two. Before treating this project as finished, I went back and did exactly that — the one thing I'd flagged as missing rather than left silently undone.
 
@@ -358,9 +161,7 @@ I'm not treating this as license to overclaim, though, and the same caveat I wro
 
 What this changes: the "visual, physically-motivated consistency check" framing from Entry 7 is now backed by an actual number, and a strong one. What it doesn't change: the core finding from Entries 3, 4, and 6 — that drought severity doesn't cleanly amplify the SIF-NDVI lag — is untouched by this. This correlation is about spatial agreement between SIF and rainfall, a separate question from the temporal lag question, and I don't want the two to blur together just because both turned out to support the project's underlying premise that SIF and rainfall are measuring real, physically connected things.
 
-# Development Log — Entry 9
-
-**Topic: Being honest about what GOSIF actually is, and what that means for comparing it to NDVI**
+## Entry 9
 
 Going back through my own Physical Basis writeup for the research paper, I noticed I'd stated a fact about GOSIF without following it to its actual implication. I'd written that GOSIF "is not itself a direct satellite retrieval, but a statistically modeled reconstruction combining discrete OCO-2 SIF soundings with continuous MODIS reflectance data and meteorological reanalysis." That's accurate — it's how the product is built. What I hadn't spelled out anywhere is what that means for this specific project: the same MODIS reflectance data that GOSIF uses to interpolate SIF values between OCO-2 overpasses is also the underlying data source for the NDVI I'm comparing it against.
 
@@ -368,17 +169,13 @@ In practice, this means SIF and NDVI in this study are not built from two fully 
 
 I'm documenting this directly as a limitation rather than leaving it implicit in a sentence about GOSIF's construction that a reader could easily read past without connecting it to the SIF-NDVI comparison specifically.
 
-# Development Log — Entry 10
-
-**Topic: Trying to actually explain the 2015-vs-2018 gap, instead of just reporting it**
+## Entry 10
 
 I'd reported the difference between 2015's lag (24.2 days) and 2018's lag (5.1 days) honestly since Entry 3, but on rereading my own paper I realized I'd never actually tried to explain it — just flagged it as unresolved and moved on. That's not the same thing as engaging with it.
 
 Sitting with it properly, I don't think I can pin down the actual cause with the data I have. But I can lay out what's physically plausible: the two years had almost the same total rainfall deficit, so if deficit size alone controlled the lag, they should look more alike than they do. Three things could explain the gap without me being able to test any of them — whether the shortfall landed early or late in the monsoon, whether NDVI's coarser 16-day sampling introduced more dating error in one year than the other, or whether farmers were growing different crops in these districts across the two years. I don't have sowing-date or crop-type records to check any of these, so I'm writing this up as three open candidate explanations rather than picking one and asserting it.
 
-# Development Log — Entry 11
-
-**Topic: A real bug I found going back through this project carefully — the region-wide time series was silently built from the pre-boundary-fix data, not the corrected data Entry 4 believed it was using**
+## Entry 11
 
 Going back through this project carefully, raw data included and not just the written output, I caught a discrepancy that I need to record honestly rather than quietly patch and move on from, in keeping with how the rest of this log has handled every other mistake.
 
@@ -392,9 +189,7 @@ Going back through this project carefully, raw data included and not just the wr
 
 **What this means more broadly.** I still have the stale, un-suffixed rectangular files sitting in `data/processed/clipped/` alongside the correct ones. I'm leaving them in place for now rather than trying to delete them myself, since silently deleting data during a project review isn't the right call — but they should be removed before this repository is considered final, precisely because their continued presence is what let this bug hide for as long as it did. Any future script that globs this folder by a loose `GOSIF_*.tif` pattern will reproduce the same failure mode until they're gone.
 
-# Development Log — Entry 12
-
-**Topic: Adding a second, independent lag-estimation method — because "one method, one number" is a weaker claim than it looks**
+## Entry 12
 
 Every lag value reported in this project so far, including through the Entry 11 correction, comes from a single method: threshold-crossing. That method has a specific bias built into it — it's most sensitive to *when decline starts*, particularly at the high thresholds (90%, 80%). It says nothing about whether that same conclusion would hold if I asked the question a genuinely different way. Before treating this project as finished, I wanted a second opinion from a method that isn't just a variant of the same idea.
 
@@ -408,11 +203,9 @@ Every lag value reported in this project so far, including through the Entry 11 
 
 **Where this landed.** New script `src/analysis/cross_correlation_lag.py`, new output `data/processed/cross_correlation_lag_by_year.csv`, new figure `cross_correlation_lag.png`, new GA_Research_Paper.md Section 3.6 (methodology) and 4.6 (results), an added caveat sentence in the Discussion and a new Limitations bullet, a new Lag Analysis dashboard section, and a seventh Key Finding in GA_Project_Report.md. Nothing about the original threshold-crossing numbers changed — this is purely additive, a second lens on the same question rather than a replacement for the first one.
 
-# Development Log — Entry 13
+## Entry 13
 
-**Topic: A round of self-review before calling this done — uncertainty quantification, spatial autocorrelation, a scripted acquisition step, and finally answering RQ3**
-
-Once the paper, journal, dev log, and dashboard were all in a stable state, I sat down and went back through the whole project critically, the way I'd want a thesis committee to, rather than treating "it runs and the numbers look right" as the finish line. Going back through with fresh eyes turned up the same list of gaps every time: no uncertainty quantification around the lag estimates, the district-level correlation's non-independence being asserted but never measured, the Google Earth Engine acquisition step still being unscripted, and — the one that bothered me most — the observation that RQ3, as originally posed in my own planning documents, had never actually been answered in the final paper. This entry records what I did about each of those, and, as with Entry 11 and Entry 12, what I tried and abandoned along the way.
+Once the paper, journal, dev log, and dashboard were all in a stable state, I sat down and went back through the whole project critically, the way I'd want a thesis committee to, rather than treating "it runs and the numbers look right" as the finish line. Going back through with fresh eyes turned up the same list of gaps every time: no uncertainty quantification around the lag estimates, the district-level correlation's non-independence being asserted but never measured, the Google Earth Engine acquisition step still being unscripted, and — the one that bothered me most — the observation that RQ3, as originally posed in my own planning documents, had never actually been answered in the final paper. This entry records what I did about each of those, and what I tried and abandoned along the way.
 
 **1. Bootstrapping the cross-correlation lag estimates — first attempt failed, and why.** My first instinct was a moving-block bootstrap directly on the interpolated daily SIF/NDVI series: chop each year's decline curve into overlapping 10-day blocks, resample the blocks with replacement, recompute the lag on the shuffled reconstruction, repeat 2,000 times. Every single year's resulting confidence interval collapsed to `[0.0, 0.0]` — not a tight interval, a *degenerate* one. That result would have been actively misleading if I'd reported it as "the lag is 0 days ± nothing." What's actually happening: these decline curves are strongly non-stationary (they trend monotonically downward across the season), and shuffling blocks of a trending curve destroys the trend itself — the resampled series stops looking like a decline curve at all, so the cross-correlation procedure just finds whatever's left, which is noise centered near zero lag. I was measuring "what happens when you erase the signal," not sampling uncertainty in the signal.
 
@@ -428,7 +221,7 @@ The 2018 comparison itself: SIF crossed its 90%-decline threshold on 8 September
 
 **Where this all landed.** New scripts: `src/analysis/bootstrap_lag_uncertainty.py`, `src/analysis/spatial_autocorrelation.py`, `src/analysis/rq3_official_declaration_comparison.py`, `src/acquisition/gee_data_acquisition.py`. New data outputs: `cross_correlation_lag_bootstrap_ci.csv`, `spatial_autocorrelation_morans_i.csv`, `rq3_official_declaration_comparison.csv`, `official_drought_declarations.csv`. New figures: `cross_correlation_lag_bootstrap_ci.png`, `spatial_autocorrelation_morans_i.png`, `rq3_declaration_timeline_2018.png`. GA_Research_Paper.md gained three new methodology subsections (3.7–3.9), three new results subsections (4.7–4.9), an expanded Discussion, four revised/new Limitations bullets, a revised Conclusion, and three new references. GA_Project_Report.md gained a new Section 5.8, three new QA entries, three new Key Findings (8, 9, 10), and two new Limitations bullets. The dashboard, README, and PORTFOLIO_STATUS.md were updated to match. Nothing about the core findings from Entries 1–12 changed — every addition in this entry is either a precision improvement (bootstrap CI, Moran's I) or a genuinely new comparison this project should have run from the start (RQ3) — but several claims are now stated with more appropriate, and in places more modest, confidence than before.
 
-## Entry 14 — Starting the sample-size expansion (3 years → 8 years)
+## Entry 14
 
 Every version of this paper's Limitations section has said the same thing: three years (two drought, one normal) is a small sample, and the two drought years differ substantially from each other. That's the single limitation I keep coming back to as the one actually worth fixing rather than just stating. Decided to add five more years — 2016, 2017, 2019, 2022, 2023 — bringing this study to eight years total.
 
@@ -438,7 +231,7 @@ One genuine surprise while setting this up: I can't reach the GOSIF data server 
 
 **Not yet done, and I want to be upfront about it:** neither script has actually been run yet. The GOSIF download needs to happen from a normal home connection, and the GEE extraction needs my authenticated Earth Engine account, same requirement the original (unrun) acquisition script already had. Every number in this project as of this entry is still the original 3-year result. This entry marks the start of the expansion, not its completion — the next entry will cover what actually came back once both scripts have run and I've re-processed the full pipeline (clipping, lag analysis, cross-correlation, bootstrap CIs, Moran's I, and every downstream document and dashboard page) against eight years instead of three.
 
-## Entry 15 — Running both scripts, three real bugs found, and the rainfall picture that came back
+## Entry 15
 
 Ran `download_gosif_new_years.py` first. All 135 files (5 years × 27 composites) came down clean on the first attempt — no repeat of the GOSIF-blocking problem, since this ran from my own connection as expected.
 
@@ -456,7 +249,7 @@ I also switched every hardcoded `DROUGHT_YEARS = {2015, 2018}` across the lag, c
 
 **Still pending as of this entry:** `clip_gosif.py` and `aggregate_sif.py` — the two scripts that turn the raw GOSIF rasters into the actual SIF time series — need to run against all 216 raw files (27 composites × 8 years), and that has to happen on my own machine rather than remotely, purely because 11+ GB of raw rasters isn't worth moving anywhere; the clipped output per file is under 40 KB, so only that tiny output needs to travel anywhere else. Once that's run, the SIF-side findings (lag analysis, cross-correlation, bootstrap CIs, Moran's I, district-level correlation) all get reprocessed against the full 8 years — those are still the original 3-year numbers as of this entry.
 
-## Entry 16 — Finishing the expansion: reprocessing everything against eight years
+## Entry 16
 
 Ran `clip_gosif.py` and `zonal_stats_sif.py` against all 216 raw GOSIF files on my own machine, same as the acquisition scripts in Entry 15. Both are fully generic — glob-based file discovery, no hardcoded year list anywhere in either script — so neither needed a single code change to pick up the five new years. That was a deliberate design choice back when I originally wrote them for three years, and it paid off exactly as intended here. `marathwada_sif_timeseries.csv` came back with 216 rows (27 composites × 8 years) and `sif_by_district.csv` with 64 rows (8 districts × 8 years), matching the region-level rainfall row counts from Entry 15 exactly — a useful cross-check that nothing silently dropped a year or a district on the SIF side either.
 

@@ -1,23 +1,23 @@
-# 🌿 GREEN ALIBI — Testing the Fluorescence Advantage
+# GREEN ALIBI — Testing the Fluorescence Advantage
 
 **Testing whether Solar-Induced Fluorescence catches agricultural drought stress in Marathwada, Maharashtra before NDVI can — and whether drought severity actually makes that head-start bigger — across eight growing seasons.**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg)](https://doi.org/10.5281/zenodo.21762501)
 
-## 🔗 Live Dashboard
+## Live Dashboard
 
 **[View the interactive dashboard →](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app/)**
 
-## 📄 Project Documentation
+## Project Documentation
 
 | Document | What's Inside |
 |---|---|
-| ⚡ [`GA_Executive_Summary.pdf`](./GA_Executive_Summary.pdf) | One-page snapshot — question, method, headline finding, robustness checklist, and links (fastest overview) |
-| 📘 [`GA_Project_Report.md`](./GA_Project_Report.md) | Polished project summary — methodology, findings, conclusions (start here) |
-| 📗 [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
-| 📙 [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
+| [`GA_Executive_Summary.pdf`](./GA_Executive_Summary.pdf) | One-page snapshot — question, method, headline finding, robustness checklist, and links (fastest overview) |
+| [`GA_Project_Report.md`](./GA_Project_Report.md) | Polished project summary — methodology, findings, conclusions (start here) |
+| [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
+| [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
 
-## 🗺️ Interactive Maps & Plots
+## Interactive Maps & Plots
 
 Interactive district-level maps and headline charts are hosted via GitHub Pages:
 
@@ -38,7 +38,7 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 
 ---
 
-## 📊 What This Project Does
+## What This Project Does
 
 - Defines the Marathwada study region using precise FAO GAUL 2015 district-level boundaries (not a rectangular bounding box), independently verified via a boundary-overlay diagnostic
 - Clips GOSIF v2 SIF rasters to the exact district polygon using `rasterio.mask`, and extracts cloud-screened, cropland-masked MODIS NDVI over the same boundary via Google Earth Engine
@@ -48,7 +48,7 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 - Compares SIF- and NDVI-based stress-onset timing against the one well-documented official government drought-declaration date available (2018), to ground the study's policy motivation in an actual institutional timeline rather than rainfall deficit alone
 - Presents all findings through an 11-page Streamlit dashboard, including two dedicated pages explaining the underlying photosynthesis and reflectance physics and one dedicated page consolidating both interactive maps
 
-## 🔬 Key Findings
+## Key Findings
 
 **SIF's decline precedes NDVI's in seven of the eight years studied — 2018 is a genuine, replicated exception.** Across 2015, 2016, 2017, 2019, 2020, 2022, and 2023, SIF's post-peak seasonal decline preceded NDVI's, supporting SIF's physical basis as a more temporally responsive stress indicator — corroborated in direction by an independent cross-correlation method and shown via bootstrap resampling to never favor NDVI leading SIF in any year (100% of resampled replicates, every year). 2018 alone shows a marginally negative threshold-crossing lag, a zero cross-correlation lag, and a bootstrap interval with only 8.1% of replicates favoring a positive lag — three independent methods agreeing that 2018 specifically does not fit the general pattern.
 
@@ -64,7 +64,7 @@ Built on a **"no compromises"** standard — every result is reported exactly as
 
 Full methodology, physical basis, and limitations are documented in `GA_Research_Paper.md`.
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```text
 GREEN_ALIBI/
@@ -101,11 +101,11 @@ GREEN_ALIBI/
 └── requirements.txt
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 Python · Rasterio · GeoPandas · NumPy / Pandas · Matplotlib · Folium · Branca · Streamlit · Google Earth Engine
 
-## 📚 Data Sources
+## Data Sources
 
 | Dataset | Provider |
 |---|---|
@@ -115,7 +115,7 @@ Python · Rasterio · GeoPandas · NumPy / Pandas · Matplotlib · Folium · Bra
 | Precipitation | CHIRPS Daily (UCSB-CHG, via Google Earth Engine) |
 | Administrative Boundaries | FAO GAUL 2015, Level 2 (via Google Earth Engine) |
 
-## ▶️ Running Locally
+## Running Locally
 
 ```bash
 git clone https://github.com/sakshimaske303-commits/GREEN_ALIBI.git
@@ -124,13 +124,13 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## 👤 Author
+## Author
 
 **Sakshi D. Maske**
 
 Independent Geospatial Researcher
 
-## 📜 License
+## License
 
 This project is licensed under [CC BY 4.0](LICENSE). See `CITATION.cff` for citation metadata.
 

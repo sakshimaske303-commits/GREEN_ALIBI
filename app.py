@@ -36,7 +36,6 @@ st.markdown(
                 padding: 16px 32px;
                 box-shadow: 0 4px 20px rgba(233, 30, 140, 0.35);
             ">
-                <span style="font-size:2.1rem; line-height:1;">📦</span>
                 <div style="text-align:left;">
                     <div style="color:{TEAL}; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:0.4px; display:flex; align-items:center; gap:8px;">
                         <span>ARCHIVED &amp; CITABLE ON ZENODO</span>
@@ -83,7 +82,7 @@ st.markdown(
                 border: 1px solid rgba(233, 30, 140, 0.3); border-left: 4px solid {MAGENTA};
                 border-radius: 10px;">
         <p style="color:{MAGENTA}; text-transform:uppercase; letter-spacing:1.5px;
-                  font-weight:700; font-size:0.85rem; margin-bottom:8px;">⚡ Why This Matters</p>
+                  font-weight:700; font-size:0.85rem; margin-bottom:8px;">Why This Matters</p>
         <p style="color:{TEXT_LIGHT}; font-size:1rem; line-height:1.6; margin:0;">
             India's official drought-declaration process and the PMFBY crop-insurance payout mechanism
             lean on NDVI — a signal that only moves once a plant's structure has already visibly
@@ -155,17 +154,17 @@ st.header("How to Explore This Dashboard")
 st.markdown("""
 Use the sidebar to move through the study in the order it was actually built:
 
-- 🌍 **Study Area** — where and why Marathwada
-- 🔬 **Fluorescence Physics** — the science behind SIF
-- 🔬 **NDVI Physics** — the science behind NDVI, and a direct comparison
-- 🛰️ **Data & Methodology** — sources, processing, and a boundary-precision correction
-- 📈 **Seasonal Trajectories** — SIF vs NDVI across the growing season
-- 📊 **Lag Analysis** — the quantitative SIF-to-NDVI decline lag
-- 🗺️ **Spatial SIF Analysis** — where stress concentrated, static and interactive
-- 🌧️ **Rainfall Validation** — independently confirming the drought years
-- 🔗 **Combined Comparison** — SIF and rainfall side by side
-- 🗺️ **Interactive Maps & Plots** — both district-level maps and the three headline charts in one place, hoverable, zoomable, and toggleable
-- 📝 **Findings & Conclusion** — what this project did and did not find
+- **Study Area** — where and why Marathwada
+- **Fluorescence Physics** — the science behind SIF
+- **NDVI Physics** — the science behind NDVI, and a direct comparison
+- **Data & Methodology** — sources, processing, and a boundary-precision correction
+- **Seasonal Trajectories** — SIF vs NDVI across the growing season
+- **Lag Analysis** — the quantitative SIF-to-NDVI decline lag
+- **Spatial SIF Analysis** — where stress concentrated, static and interactive
+- **Rainfall Validation** — independently confirming the drought years
+- **Combined Comparison** — SIF and rainfall side by side
+- **Interactive Maps & Plots** — both district-level maps and the three headline charts in one place, hoverable, zoomable, and toggleable
+- **Findings & Conclusion** — what this project did and did not find
 """)
 
 section_divider()
@@ -173,7 +172,7 @@ section_divider()
 # ============================================================
 # FULL PROJECT DOCUMENTATION
 # ============================================================
-st.header("📄 Full Project Documentation")
+st.header("Full Project Documentation")
 
 st.markdown("""
 The dashboard above presents this project's findings interactively. The full written
@@ -186,7 +185,7 @@ with doc_col0:
     try:
         with open("GA_Executive_Summary.pdf", "rb") as f:
             st.download_button(
-                label="⚡ Executive Summary",
+                label="Executive Summary",
                 data=f,
                 file_name="GA_Executive_Summary.pdf",
                 mime="application/pdf",
@@ -199,7 +198,7 @@ with doc_col1:
     try:
         with open("GA_Research_Paper.pdf", "rb") as f:
             st.download_button(
-                label="📗 Research Paper",
+                label="Research Paper",
                 data=f,
                 file_name="GA_Research_Paper.pdf",
                 mime="application/pdf",
@@ -212,7 +211,7 @@ with doc_col2:
     try:
         with open("GA_Project_Report.pdf", "rb") as f:
             st.download_button(
-                label="📘 Project Report",
+                label="Project Report",
                 data=f,
                 file_name="GA_Project_Report.pdf",
                 mime="application/pdf",
@@ -225,7 +224,7 @@ with doc_col3:
     try:
         with open("GA_Development_Log.pdf", "rb") as f:
             st.download_button(
-                label="📙 Development Log",
+                label="Development Log",
                 data=f,
                 file_name="GA_Development_Log.pdf",
                 mime="application/pdf",
