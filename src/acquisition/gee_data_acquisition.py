@@ -1,14 +1,6 @@
-"""
-GREEN ALIBI — Earth Engine data acquisition.
-
-Python version of the extraction I originally ran by hand in the EE Code
-Editor: MOD13Q1 NDVI (SummaryQA-filtered), MCD12Q1 cropland mask, CHIRPS
-seasonal rainfall + 20-year climatology, over the FAO GAUL Marathwada
-boundary. Needs an authenticated Earth Engine account to run.
-
-Extended for the 8-year expansion (added 2016, 2017, 2019, 2022, 2023 to
-the original 2015/2018/2020) — same pipeline, just more years, plus proper
-CSV exports for region and by-district rainfall instead of console prints.
+"""EE data acquisition (Python port of the extraction I first ran by hand in
+the EE Code Editor): MOD13Q1 NDVI, MCD12Q1 cropland mask, CHIRPS rainfall
+over the Marathwada boundary. Needs an authenticated EE account.
 """
 
 import ee

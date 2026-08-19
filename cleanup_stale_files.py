@@ -1,27 +1,6 @@
-"""
-One-off cleanup script for files that are no longer used by anything in this
-repository but are still sitting on disk. Run this once from the repo root:
-
-    python cleanup_stale_files.py
-
-By default it only prints what it would delete. Pass --delete to actually
-remove the files.
-
-What this removes, and why:
-
-1. data/processed/clipped/GOSIF_<year><doy>.tif (no suffix) and their
-   .tif.aux.xml sidecars, for 2015/2018/2020 — these are the original
-   rectangular-window GOSIF clips from before the boundary-precision fix
-   (see GA_Development_Log.md, Entry 4 and Entry 11). Every current script
-   reads only the *_clipped.tif files (the polygon-masked output), so these
-   plain-named originals are dead weight left over from a stale glob-pattern
-   bug that briefly caused aggregate_sif.py to read the wrong ones. Keeping
-   them around risks that exact bug resurfacing in any future script that
-   globs this folder loosely.
-
-2. outputs/figures/imgg1.png, idk.jpeg, theme.jpeg — image files sitting in
-   the figures folder that no dashboard page, script, or document actually
-   references. Confirmed via a full-repository grep before listing them here.
+"""Removes stale files nothing references anymore: pre-boundary-fix GOSIF
+clips and orphaned figures. Dry-run by default, --delete to actually
+remove.
 """
 
 import argparse

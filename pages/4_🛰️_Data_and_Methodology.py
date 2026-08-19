@@ -15,14 +15,8 @@ the analysis.
 
 section_divider()
 
-# ============================================================
-# PROOF-OF-WORK POPOVERS — tiny, pulsing buttons next to the
-# exact methodology step they back up. Click to reveal the screenshot
-# inline; nothing pushes the page layout around. Drop the PNGs into
-# outputs/proof_screenshots/ (see filenames below) and these activate
-# automatically — until then each falls back to a quiet "not added yet"
-# note instead of breaking the page.
-# ============================================================
+# ---- Proof popovers: pulsing button reveals a screenshot inline; falls back
+# to a quiet "not added yet" note if the PNG isn't in outputs/proof_screenshots/ ----
 st.markdown(f"""
 <style>
     div[data-testid="stPopover"] button {{

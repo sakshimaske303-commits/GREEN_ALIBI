@@ -2,20 +2,10 @@ import pandas as pd
 import numpy as np
 import os
 
-# Bootstrap CI on the cross-correlation lag from cross_correlation_lag.py --
-# a point estimate alone (e.g. "13 days" for 2015) doesn't say how much
-# that could shift with a slightly different set of overpass dates.
-#
-# Case resampling: each year only has ~17 sparse 8-day SIF/NDVI-matched
-# observations post-peak, so the real uncertainty is "which overpass dates
-# we happened to get," not smooth noise. Each replicate resamples those
-# observations with replacement, re-interpolates to daily, and recomputes
-# the max-correlation lag. 2000 reps/year, 2.5th/97.5th percentiles = 95% CI.
-#
-# (First tried a moving-block bootstrap on the interpolated daily series --
-# collapsed every CI to a single point at lag=0, since block-shuffling a
-# trending decline curve destroys the trend that produces the lag in the
-# first place. Case resampling the original sparse points avoids that.)
+# Bootstrap CI on cross_correlation_lag.py's lag estimate. Case resampling of the
+# ~17 sparse post-peak observations/year, not block bootstrap on the interpolated
+# series -- block-shuffling destroyed the trend and collapsed every CI to lag=0.
+# 2000 reps/year, 2.5/97.5 pct = 95% CI.
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_bootstrap_ci.csv"

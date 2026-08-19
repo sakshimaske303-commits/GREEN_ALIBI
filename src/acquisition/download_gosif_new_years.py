@@ -1,21 +1,7 @@
 """
-GREEN ALIBI — GOSIF v2 8-day raw data download for the sample-size
-expansion (3 years -> 8 years).
-
-Pulls the same GOSIF v2 8-day composite product, same seasonal window
-(DOY 153-361, 27 composites/year) and file-naming convention already used
-for 2015/2018/2020, for the five new years: 2016, 2017, 2019, 2022, 2023.
-
-Has to run from a normal home/office connection -- the GOSIF server
-blocks cloud-hosted IP ranges with a 403.
-
-Usage:
-    pip install requests
-    python src/acquisition/download_gosif_new_years.py
-
-Downloads ~135 files as .tif.gz into data/raw/, decompresses each to the
-matching .tif. Safe to re-run after an interruption -- already-downloaded
-files are skipped. ~1.2 GB total.
+GOSIF v2 8-day download for the 5 new years (2016/17/19/22/23), same window
+and naming as 2015/2018/2020. Must run from a home connection — GOSIF blocks
+cloud IPs (403). Safe to re-run, skips files already downloaded. ~1.2 GB total.
 """
 
 import gzip
