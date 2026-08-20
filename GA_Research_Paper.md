@@ -66,9 +66,9 @@ H3: Drought severity, measured independently through rainfall deficit, amplifies
 
 The study region comprises the eight districts constituting Marathwada, Maharashtra — Chhatrapati Sambhajinagar (Aurangabad), Jalna, Parbhani, Hingoli, Nanded, Beed (Bid in the FAO GAUL administrative dataset used for boundary definition — see Section 3.2), Latur, and Dharashiv (Osmanabad) — selected for its recurring, well-documented history of agricultural drought.
 
-![Figure 3](outputs/figures/fig.jpeg)
+![Figure 3](outputs/figures/photo1.png)
 
-**Figure 3.** Location of the study area. (a) Maharashtra state within India. (b) Marathwada division within Maharashtra. (c) The eight constituent districts of Marathwada, with Latur district highlighted for reference.
+**Figure 3.** Location of the study area. (a) Maharashtra state within India. (b) Marathwada division within Maharashtra. (c) The eight constituent districts of Marathwada, with the division boundary outlined for reference.
 
 ## 3. Data and Methodology
 
