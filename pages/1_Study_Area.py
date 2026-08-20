@@ -1,4 +1,6 @@
+import os
 import streamlit as st
+import streamlit.components.v1 as components
 from utils.style import apply_custom_style, section_divider, styled_caption
 
 st.set_page_config(page_title="Study Area — GREEN ALIBI", page_icon="🌍", layout="wide")
@@ -21,11 +23,20 @@ section_divider()
 
 col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
-    st.image("outputs/figures/photo1.png", use_container_width=True)
-    styled_caption(
-        "Figure 1. Location of the study area — (a) Maharashtra within India, "
-        "(b) Marathwada within Maharashtra, (c) the eight constituent districts of Marathwada."
-    )
+    interactive_map_path = "outputs/figures/marathwada_study_area.html"
+    if os.path.exists(interactive_map_path):
+        with open(interactive_map_path, "r", encoding="utf-8") as f:
+            components.html(f.read(), height=480)
+        styled_caption(
+            "Figure 1. The eight constituent districts of Marathwada — the exact FAO GAUL "
+            "2015 level-2 boundary used for every calculation in this study. Hover a district for its name."
+        )
+    else:
+        st.image("outputs/figures/photo1.png", use_container_width=True)
+        styled_caption(
+            "Figure 1. Location of the study area — (a) Maharashtra within India, "
+            "(b) Marathwada within Maharashtra, (c) the eight constituent districts of Marathwada."
+        )
 
 st.subheader("The Eight Districts")
 d1, d2, d3, d4 = st.columns(4)
