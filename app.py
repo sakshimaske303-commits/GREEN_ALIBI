@@ -1,5 +1,7 @@
+import os
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption, page_footer, NAVY_DARK, NAVY_MED, MAGENTA, TEAL, TEXT_LIGHT
+from utils.doc_viewer import render_doc_viewer
 
 st.set_page_config(
     page_title="GREEN ALIBI — Marathwada Drought Study",
@@ -176,62 +178,31 @@ st.header("Full Project Documentation")
 
 st.markdown("""
 The dashboard above presents this project's findings interactively. The full written
-documents — including everything not shown here — are available below as PDFs.
+documents — including everything not shown here — open directly below, no download needed.
 """)
 
-doc_col0, doc_col1, doc_col2, doc_col3 = st.columns(4)
+_all_docs = [
+    {"label": "Executive Summary", "filename": "GA_Executive_Summary.pdf"},
+    {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
+    {"label": "Project Report", "filename": "GA_Project_Report.pdf"},
+    {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
+]
+_docs = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]
+_missing = [d for d in _all_docs if d not in _docs]
 
-with doc_col0:
-    try:
-        with open("GA_Executive_Summary.pdf", "rb") as f:
-            st.download_button(
-                label="Executive Summary",
-                data=f,
-                file_name="GA_Executive_Summary.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    except FileNotFoundError:
-        st.warning("GA_Executive_Summary.pdf not found.")
-
-with doc_col1:
-    try:
-        with open("GA_Research_Paper.pdf", "rb") as f:
-            st.download_button(
-                label="Research Paper",
-                data=f,
-                file_name="GA_Research_Paper.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    except FileNotFoundError:
-        st.warning("GA_Research_Paper.pdf not found.")
-
-with doc_col2:
-    try:
-        with open("GA_Project_Report.pdf", "rb") as f:
-            st.download_button(
-                label="Project Report",
-                data=f,
-                file_name="GA_Project_Report.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    except FileNotFoundError:
-        st.warning("GA_Project_Report.pdf not found.")
-
-with doc_col3:
-    try:
-        with open("GA_Development_Log.pdf", "rb") as f:
-            st.download_button(
-                label="Development Log",
-                data=f,
-                file_name="GA_Development_Log.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-    except FileNotFoundError:
-        st.warning("GA_Development_Log.pdf not found.")
+if _docs:
+    render_doc_viewer(
+        docs=_docs,
+        colors={
+            "navy_dark": NAVY_DARK,
+            "navy_med": NAVY_MED,
+            "magenta": MAGENTA,
+            "teal": TEAL,
+            "text_light": TEXT_LIGHT,
+        },
+    )
+for d in _missing:
+    st.warning(f"{d['filename']} not found.")
 
 section_divider()
 
