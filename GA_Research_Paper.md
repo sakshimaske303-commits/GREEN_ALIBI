@@ -1,5 +1,9 @@
 # Testing the Fluorescence Advantage: Solar-Induced Fluorescence as an Early Indicator of Agricultural Drought Stress in Marathwada, Maharashtra
 
+Sakshi D. Maske
+
+*Independent Geospatial Researcher*
+
 ## Abstract
 
 Drought detection frameworks used for official drought declaration and agricultural insurance assessment in India rely substantially on rainfall-deficit records and the Normalized Difference Vegetation Index (NDVI), both of which respond to crop stress only after visible physiological degradation has already occurred. This study examines whether Solar-Induced Fluorescence (SIF), a satellite-derived proxy for photosynthetic activity, registers vegetation stress measurably earlier than NDVI. Using GOSIF v2 fluorescence data and cloud-screened MODIS NDVI over the Marathwada region of Maharashtra across eight growing seasons (2015–2023, excluding 2021 for data availability reasons), a quantitative lag was calculated between the two indices' post-peak seasonal decline. Rainfall-anomaly validation against a twenty-year (2001–2020) climatological baseline identifies only two of these eight years — 2015 (−21.5%) and 2018 (−18.3%) — as meeting this study's own drought threshold; the remaining six fall within roughly one standard deviation of normal. Under the threshold-crossing lag method, SIF's decline preceded NDVI's decline in seven of the eight years studied; the eighth (2018) showed an essentially flat, slightly negative mean lag (−1.1 days), a genuine exception rather than a rounding artifact. The hypothesis that drought conditions amplify this lag (H3) is again not supported at the larger sample size: the two drought years averaged a smaller lag (7.6 days) than the six normal years (15.0 days). An independent, methodologically distinct cross-correlation lag estimate corroborates the qualitative direction of this finding without reproducing its exact numbers: the correlation-maximizing lag was non-negative in all eight years (never favoring NDVI leading SIF) and strictly positive in four of eight, with the other four — including 2018 — best aligned at zero lag. A case-resampling bootstrap (2,000 replicates per year) confirms this weaker but still real claim precisely: the estimated lag was at or above zero in 100% of replicates in every single year, while the specific day-count magnitude carries wide uncertainty, and every pairwise between-year comparison is statistically indistinguishable. District-level spatial analysis finds mean SIF and rainfall anomaly significantly correlated across the 64 district-year observations (8 districts × 8 years): Pearson r = 0.567, Spearman ρ = 0.551, both p < 0.0001 — a real, still-significant relationship, but substantially weaker than the r = 0.837 reported from the original 24-point, 3-year sample, consistent with that earlier correlation having been inflated by a small, drought-heavy sample. Moran's I confirms that both variables carry genuine spatial structure, though less consistently for SIF (significant in 4 of 8 years) than for rainfall (significant in all 8 years), and the effective independent sample size behind the district correlation remains closer to the number of years than the number of district-year rows. A comparison against the one well-documented official drought-declaration date available (Maharashtra, 31 October 2018) found a notable reversal from the original 3-year study once the underlying district boundary was corrected: NDVI now crosses its 90% decline threshold roughly five days before SIF does in 2018 specifically (not after, as originally reported), though both indicators still lead the official declaration by seven to eight weeks. This reversal, along with the near-zero 2018 lag under both lag methods, is reported directly as a genuine finding of the expanded sample rather than smoothed over.
@@ -30,7 +34,7 @@ where APAR is the absorbed photosynthetically active radiation, Φ_F is the fluo
 
 ![Figure 1](outputs/figures/fluorescence_physics_diagram.png)
 
-**Figure 1.** Schematic representation of leaf-level light energy partitioning among photochemistry, non-photochemical quenching (heat dissipation), and chlorophyll fluorescence, under well-watered versus drought-stressed conditions. AI was used to help generate this image, but the concept and every detail in it are mine.
+**Figure 1.** Schematic representation of leaf-level light energy partitioning among photochemistry, non-photochemical quenching (heat dissipation), and chlorophyll fluorescence, under well-watered versus drought-stressed conditions.
 
 ### 1.3 Physical Basis of NDVI
 
@@ -44,7 +48,7 @@ Because this signal depends on the plant's outward structural and pigment state,
 
 ![Figure 2](outputs/figures/ndvi_physics_diagram.png)
 
-**Figure 2.** Leaf cross-section illustrating red-light absorption by chlorophyll in the palisade mesophyll versus near-infrared scattering at spongy mesophyll air-cell interfaces, the physical basis of the reflectance contrast measured by NDVI. AI was used to help generate this image, but the concept and every detail in it are mine.
+**Figure 2.** Leaf cross-section illustrating red-light absorption by chlorophyll in the palisade mesophyll versus near-infrared scattering at spongy mesophyll air-cell interfaces, the physical basis of the reflectance contrast measured by NDVI.
 
 ### 1.4 Research Questions
 

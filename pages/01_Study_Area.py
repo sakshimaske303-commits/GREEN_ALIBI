@@ -23,7 +23,7 @@ section_divider()
 
 col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
-    interactive_map_path = "outputs/figures/marathwada_study_area.html"
+    interactive_map_path = "outputs/interactive_maps/maps/marathwada_study_area.html"
     if os.path.exists(interactive_map_path):
         with open(interactive_map_path, "r", encoding="utf-8") as f:
             components.html(f.read(), height=480)

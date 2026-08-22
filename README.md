@@ -70,17 +70,17 @@ Full methodology, physical basis, and limitations are documented in `GA_Research
 GREEN_ALIBI/
 ├── app.py                              # Streamlit dashboard home page
 ├── pages/                              # 11-page dashboard (chronological order)
-│   ├── 1_🌍_Study_Area.py
-│   ├── 2_🔬_Fluorescence_Physics.py
-│   ├── 3_🔬_NDVI_Physics.py
-│   ├── 4_🛰️_Data_and_Methodology.py
-│   ├── 5_📈_Seasonal_Trajectories.py
-│   ├── 6_📊_Lag_Analysis.py
-│   ├── 7_🗺️_Spatial_SIF_Analysis.py
-│   ├── 8_🌧️_Rainfall_Validation.py
-│   ├── 9_🔗_Combined_Comparison.py
-│   ├── 9_🗺️_Interactive_Maps.py
-│   └── 10_📝_Findings_and_Conclusion.py
+│   ├── 01_Study_Area.py
+│   ├── 02_Fluorescence_Physics.py
+│   ├── 03_NDVI_Physics.py
+│   ├── 04_Data_and_Methodology.py
+│   ├── 05_Seasonal_Trajectories.py
+│   ├── 06_Lag_Analysis.py
+│   ├── 07_Spatial_SIF_Analysis.py
+│   ├── 08_Rainfall_Validation.py
+│   ├── 09_Combined_Comparison.py
+│   ├── 09_Interactive_Maps.py
+│   └── 10_Findings_and_Conclusion.py
 ├── utils/
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
 ├── src/

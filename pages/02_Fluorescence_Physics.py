@@ -25,9 +25,6 @@ with col_b:
         "Energy partitioning of absorbed sunlight in photosynthesis, and its shift under "
         "drought stress — the physical basis of Solar-Induced Fluorescence."
     )
-    styled_caption(
-        "AI was used to help generate this image, but the concept and every detail in it are mine."
-    )
 
 section_divider()
 

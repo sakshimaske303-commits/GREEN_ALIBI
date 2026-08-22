@@ -26,9 +26,6 @@ with col_b:
         "mesophyll versus multiple scattering and reflection of near-infrared light in "
         "the spongy mesophyll."
     )
-    styled_caption(
-        "AI was used to help generate this image, but the concept and every detail in it are mine."
-    )
 
 section_divider()
 

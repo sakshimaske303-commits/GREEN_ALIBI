@@ -9,6 +9,7 @@ folium
 branca
 libpysal
 esda
+plotly
 
 # Optional — required only to run src/acquisition/gee_data_acquisition.py,
 # which needs an authenticated Earth Engine account and is not part of the
