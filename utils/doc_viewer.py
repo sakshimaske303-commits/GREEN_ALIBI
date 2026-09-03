@@ -1,17 +1,26 @@
 """
 Reusable no-download document viewer for Streamlit apps.
-Renders a row of buttons; clicking one opens the PDF (served from
-Streamlit's static file server) in a new browser tab, where the browser's
-own PDF viewer displays it inline.
+Renders a row of "View" buttons; clicking one opens a full-viewport modal
+with the PDF embedded directly and a close (X) button -- no download
+prompt, no new tab.
 
-Why a new tab, not an embedded modal: an earlier version of this component
-embedded the PDF inside an iframe drawn directly into the page (via
-window.parent.document), which worked locally but failed once deployed --
-Streamlit Community Cloud blocks iframe-embedding of app content as a
-clickjacking protection, so the request came back as a browser-level
-"refused to connect", not a missing-file or CORS error. Opening the same
-same-origin static-file URL as a normal top-level navigation (a new tab)
-sidesteps that restriction entirely, since no framing is involved.
+Why the PDF bytes are embedded as a base64 data: URI instead of being
+fetched from Streamlit's static file server: on this app's actual Streamlit
+Community Cloud deployment, requests to /app/static/<file> came back as a
+server error (HTTP 500) even on a plain, non-iframe page load -- so the
+file wasn't reachable over the network at all, regardless of how it was
+opened. Separately, iframe-embedding a same-origin static URL is blocked by
+the platform's own clickjacking protection. Embedding the file's own bytes
+directly sidesteps both problems: there is no network request to the
+static server and no origin/framing restriction to run into.
+
+Technical note: st.components.v1.html() content lives inside its own small
+iframe, sandboxed to that iframe's own box -- a CSS position:fixed overlay
+built *inside* it would only cover that tiny box, not the real page. To get
+a true full-viewport modal, the JS below reaches into window.parent.document
+(same-origin srcdoc iframe, so this is allowed) and injects the modal
+directly into the actual Streamlit page's <body>. Only the small button row
+stays inside the component's own iframe.
 """
 import streamlit.components.v1 as components
 import json
@@ -19,8 +28,10 @@ import json
 
 def render_doc_viewer(docs, colors, height=70):
     """
-    docs: list of {"label": str, "filename": str} -- filename must be the
-          exact name of a file placed in the app's static/ folder.
+    docs: list of {"label": str, "data_url": str} -- data_url must be a
+          full "data:application/pdf;base64,..." URI containing the
+          document's own bytes (see app.py, which reads each PDF from the
+          static/ folder and base64-encodes it before calling this).
     colors: dict with keys navy_dark, navy_med, magenta, teal, text_light
     height: px height of the button row component.
     """
@@ -42,9 +53,86 @@ def render_doc_viewer(docs, colors, height=70):
 (function() {{
   var docs = {docs_json};
   var C = {colors_json};
+  var pd = window.parent.document;
+  var MODAL_ID = 'dv-shared-modal';
 
-  function appOrigin() {{
-    try {{ return window.parent.location.origin; }} catch (e) {{ return window.location.origin; }}
+  function ensureModal() {{
+    var existing = pd.getElementById(MODAL_ID);
+    if (existing) return existing;
+
+    var style = pd.createElement('style');
+    style.textContent = `
+      #${{MODAL_ID}} {{
+        position: fixed; inset: 0; z-index: 999999; display: none;
+        align-items: center; justify-content: center;
+        background: rgba(5,8,20,.88); backdrop-filter: blur(6px);
+        font-family: 'Poppins', sans-serif;
+      }}
+      #${{MODAL_ID}}.dv-show {{ display: flex; }}
+      #${{MODAL_ID}} .dv-inner {{
+        width: min(1400px, 94vw); height: 90vh;
+        background: ${{C.navy_med}}; border: 1px solid ${{C.teal}};
+        border-radius: 14px; box-shadow: 0 0 60px rgba(0,217,192,.15);
+        display: flex; flex-direction: column; overflow: hidden; min-height: 0;
+      }}
+      #${{MODAL_ID}} .dv-bar {{
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 16px; background: rgba(255,255,255,.04);
+        border-bottom: 1px solid rgba(255,255,255,.08); flex-shrink: 0;
+      }}
+      #${{MODAL_ID}} .dv-title {{ color: ${{C.teal}}; font-size: 14px; font-weight: 600; }}
+      #${{MODAL_ID}} .dv-close {{
+        width: 32px; height: 32px; border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06);
+        color: ${{C.text_light}}; font-size: 16px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; transition: .2s;
+      }}
+      #${{MODAL_ID}} .dv-close:hover {{ background: ${{C.magenta}}; color: white; border-color: transparent; }}
+      #${{MODAL_ID}} .dv-body {{ position: relative; flex: 1; min-height: 0; background: ${{C.navy_dark}}; }}
+      #${{MODAL_ID}} .dv-body iframe {{ width: 100%; height: 100%; border: 0; display: block; }}
+      body.dv-lock {{ overflow: hidden !important; }}
+    `;
+    pd.head.appendChild(style);
+
+    var modal = pd.createElement('div');
+    modal.id = MODAL_ID;
+    modal.innerHTML = `
+      <div class="dv-inner">
+        <div class="dv-bar">
+          <span class="dv-title" id="dv-title"></span>
+          <button class="dv-close" id="dv-close" aria-label="Close">&#10005;</button>
+        </div>
+        <div class="dv-body" id="dv-body"></div>
+      </div>
+    `;
+    pd.body.appendChild(modal);
+
+    function closeDoc() {{
+      modal.classList.remove('dv-show');
+      pd.body.classList.remove('dv-lock');
+      pd.getElementById('dv-body').innerHTML = '';
+    }}
+    pd.getElementById('dv-close').onclick = closeDoc;
+    modal.addEventListener('click', function(e) {{ if (e.target === modal) closeDoc(); }});
+    pd.addEventListener('keydown', function(e) {{
+      if (e.key === 'Escape') closeDoc();
+    }});
+    modal._dvClose = closeDoc;
+    return modal;
+  }}
+
+  var modal = ensureModal();
+
+  function openDoc(dataUrl, label) {{
+    pd.getElementById('dv-title').textContent = label;
+    var bodyEl = pd.getElementById('dv-body');
+    bodyEl.innerHTML = '';
+    var frame = pd.createElement('iframe');
+    frame.src = dataUrl;
+    frame.title = label;
+    bodyEl.appendChild(frame);
+    modal.classList.add('dv-show');
+    pd.body.classList.add('dv-lock');
   }}
 
   var row = document.getElementById('dv-row');
@@ -56,10 +144,7 @@ def render_doc_viewer(docs, colors, height=70):
     btn.style.color = C.navy_dark;
     btn.onmouseenter = function() {{ btn.style.backgroundColor = C.magenta; btn.style.color = 'white'; }};
     btn.onmouseleave = function() {{ btn.style.backgroundColor = C.teal; btn.style.color = C.navy_dark; }};
-    btn.onclick = function() {{
-      var url = appOrigin() + '/app/static/' + encodeURIComponent(d.filename);
-      window.open(url, '_blank');
-    }};
+    btn.onclick = function() {{ openDoc(d.data_url, d.label); }};
     row.appendChild(btn);
   }});
 }})();

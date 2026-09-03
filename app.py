@@ -1,4 +1,5 @@
 import os
+import base64
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption, page_footer, NAVY_DARK, NAVY_MED, MAGENTA, TEAL, TEXT_LIGHT
 from utils.doc_viewer import render_doc_viewer
@@ -186,8 +187,16 @@ _all_docs = [
     {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
     {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
 ]
-_docs = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]
-_missing = [d for d in _all_docs if d not in _docs]
+_docs = []
+_missing = []
+for _d in _all_docs:
+    _path = os.path.join("static", _d["filename"])
+    if os.path.exists(_path):
+        with open(_path, "rb") as _f:
+            _b64 = base64.b64encode(_f.read()).decode("utf-8")
+        _docs.append({"label": _d["label"], "data_url": f"data:application/pdf;base64,{_b64}"})
+    else:
+        _missing.append(_d)
 
 if _docs:
     render_doc_viewer(
