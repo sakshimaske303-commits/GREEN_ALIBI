@@ -1,8 +1,6 @@
 import os
-import base64
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption, page_footer, NAVY_DARK, NAVY_MED, MAGENTA, TEAL, TEXT_LIGHT
-from utils.doc_viewer import render_doc_viewer
 
 st.set_page_config(
     page_title="GREEN ALIBI — Marathwada Drought Study",
@@ -179,7 +177,7 @@ st.header("Full Project Documentation")
 
 st.markdown("""
 The dashboard above presents this project's findings interactively. The full written
-documents — including everything not shown here — open directly below, no download needed.
+documents — including everything not shown here — are available to download below.
 """)
 
 _all_docs = [
@@ -187,28 +185,21 @@ _all_docs = [
     {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
     {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
 ]
-_docs = []
-_missing = []
-for _d in _all_docs:
-    _path = os.path.join("static", _d["filename"])
-    if os.path.exists(_path):
-        with open(_path, "rb") as _f:
-            _b64 = base64.b64encode(_f.read()).decode("utf-8")
-        _docs.append({"label": _d["label"], "data_url": f"data:application/pdf;base64,{_b64}"})
-    else:
-        _missing.append(_d)
+_existing = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]
+_missing = [d for d in _all_docs if d not in _existing]
 
-if _docs:
-    render_doc_viewer(
-        docs=_docs,
-        colors={
-            "navy_dark": NAVY_DARK,
-            "navy_med": NAVY_MED,
-            "magenta": MAGENTA,
-            "teal": TEAL,
-            "text_light": TEXT_LIGHT,
-        },
-    )
+if _existing:
+    _cols = st.columns(len(_existing))
+    for _col, _d in zip(_cols, _existing):
+        with _col:
+            with open(os.path.join("static", _d["filename"]), "rb") as _f:
+                st.download_button(
+                    label=f"⬇ {_d['label']}",
+                    data=_f.read(),
+                    file_name=_d["filename"],
+                    mime="application/pdf",
+                    use_container_width=True,
+                )
 for d in _missing:
     st.warning(f"{d['filename']} not found.")
 
