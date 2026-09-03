@@ -111,6 +111,10 @@ def render_doc_viewer(docs, colors, height=70):
       modal.classList.remove('dv-show');
       pd.body.classList.remove('dv-lock');
       pd.getElementById('dv-body').innerHTML = '';
+      if (typeof currentBlobUrl !== 'undefined' && currentBlobUrl) {{
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
+      }}
     }}
     pd.getElementById('dv-close').onclick = closeDoc;
     modal.addEventListener('click', function(e) {{ if (e.target === modal) closeDoc(); }});
@@ -122,13 +126,36 @@ def render_doc_viewer(docs, colors, height=70):
   }}
 
   var modal = ensureModal();
+  var currentBlobUrl = null;
+
+  function dataUrlToBlobUrl(dataUrl) {{
+    var parts = dataUrl.split(',');
+    var mimeMatch = parts[0].match(/:(.*?);/);
+    var mime = mimeMatch ? mimeMatch[1] : 'application/pdf';
+    var binary = atob(parts[1]);
+    var len = binary.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {{
+      bytes[i] = binary.charCodeAt(i);
+    }}
+    var blob = new Blob([bytes], {{ type: mime }});
+    return URL.createObjectURL(blob);
+  }}
 
   function openDoc(dataUrl, label) {{
     pd.getElementById('dv-title').textContent = label;
     var bodyEl = pd.getElementById('dv-body');
     bodyEl.innerHTML = '';
+    if (currentBlobUrl) {{
+      URL.revokeObjectURL(currentBlobUrl);
+      currentBlobUrl = null;
+    }}
+    // Edge (and some Chrome builds) block navigating an iframe straight to
+    // a data: URI as a phishing precaution. A blob: URL built from the
+    // same bytes isn't subject to that block, so convert before assigning.
+    currentBlobUrl = dataUrlToBlobUrl(dataUrl);
     var frame = pd.createElement('iframe');
-    frame.src = dataUrl;
+    frame.src = currentBlobUrl;
     frame.title = label;
     bodyEl.appendChild(frame);
     modal.classList.add('dv-show');
