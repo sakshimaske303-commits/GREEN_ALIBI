@@ -48,5 +48,6 @@ keywords:
   - PMFBY
   - spatial statistics
 license: CC-BY-4.0
-version: 1.0.0
-date-released: "2026-08-02"
+version: 1.1.0
+# NOTE: bump this again + cut an actual new Zenodo release (github release -> Zenodo will auto-archive) so the DOI's archived snapshot matches this version
+date-released: "2026-08-31"

@@ -49,7 +49,7 @@ PROOF_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__f
 
 def proof_popover(filename, caption):
     path = _os.path.join(PROOF_DIR, filename)
-    with st.popover("Proof"):
+    with st.popover("📷"):
         if _os.path.exists(path):
             st.image(path, caption=caption, use_container_width=True)
         else:

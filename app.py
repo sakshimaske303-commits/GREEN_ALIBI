@@ -183,8 +183,8 @@ documents — including everything not shown here — open directly below, no do
 
 _all_docs = [
     {"label": "Executive Summary", "filename": "GA_Executive_Summary.pdf"},
-    {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
     {"label": "Project Report", "filename": "GA_Project_Report.pdf"},
+    {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
     {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
 ]
 _docs = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]

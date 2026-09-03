@@ -12,8 +12,8 @@
 
 | Document | What's Inside |
 |---|---|
-| [`GA_Executive_Summary.pdf`](./GA_Executive_Summary.pdf) | One-page snapshot — question, method, headline finding, robustness checklist, and links (fastest overview) |
-| [`GA_Project_Report.md`](./GA_Project_Report.md) | Polished project summary — methodology, findings, conclusions (start here) |
+| [`GA_Executive_Summary.md`](./GA_Executive_Summary.md) / [`.pdf`](./GA_Executive_Summary.pdf) | One-page snapshot — project overview, question, method, headline finding, robustness checklist, and links (start here) |
+| [`Policy_Brief.pdf`](./Policy_Brief.pdf) | Non-technical brief for a policy audience — the drought-declaration/PMFBY problem, what was found, and the policy implication |
 | [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper — physical basis, methodology, results, discussion, limitations |
 | [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log — every bug, boundary correction, and methodology iteration |
 
