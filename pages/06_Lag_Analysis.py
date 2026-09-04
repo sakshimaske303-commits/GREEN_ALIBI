@@ -17,12 +17,13 @@ difference between the two crossing dates.
 section_divider()
 
 _checks = [
-    ("#00D9C0", "✓", "Two Independent Lag-Estimation Methods"),
+    ("#00D9C0", "✓", "Two Methodologically Distinct Lag-Estimation Methods"),
     ("#00D9C0", "✓", "Bootstrap Confidence Intervals (2,000 replicates/year)"),
     ("#00D9C0", "✓", "Independent Rainfall Validation (CHIRPS)"),
     ("#00D9C0", "✓", "Moran's I Spatial-Autocorrelation Check"),
     ("#00D9C0", "✓", "Cross-Referenced Against Official Drought Declaration"),
     ("#FBBF24", "!", "H3 (Drought Amplifies Lag) — Honestly Not Supported"),
+    ("#FBBF24", "!", "Cross-Correlation/Bootstrap Search-Space Bug — Found, Fixed, Disclosed"),
     ("#FBBF24", "!", "Exact Year Ranking — Flagged as Method-Sensitive"),
 ]
 _badges = "".join(
@@ -145,29 +146,37 @@ section_divider()
 # ============================================================
 # CROSS-CORRELATION ROBUSTNESS CHECK
 # ============================================================
-st.header("Robustness Check: An Independent Lag Method")
+st.header("Robustness Check: A Methodologically Distinct Lag Method")
 
 st.markdown("""
 The threshold-crossing method above is sensitive mainly to *when decline starts*,
 especially at high thresholds. As a check on whether that specific choice of method is
-driving the lag numbers above, a second, independently computed lag estimate was built
+driving the lag numbers above, a second, methodologically distinct lag estimate was built
 using **time-lagged cross-correlation** — finding the single time-shift that best aligns
 the overall shape of the SIF and NDVI curves, rather than any particular threshold
-crossing.
+crossing. It runs on the same underlying SIF/NDVI series as the threshold-crossing method,
+just a different piece of math — not a second independent dataset.
+""")
+
+st.error("""
+**A real bug was found and fixed here before this page was published.** This script's lag
+search originally ran from 0 to +N/4 days only — it could never test a negative lag, so it
+was mathematically impossible for it to ever report NDVI leading SIF, regardless of what
+the data showed. Fixed to search the full −N/4 to +N/4 range and rerun from scratch; the
+numbers below are the corrected ones. Full account in Development Log, Entry 17.
 """)
 
 st.image("outputs/figures/cross_correlation_lag.png", use_container_width=True)
 styled_caption(
-    "Cross-correlation between SIF(t) and NDVI(t + lag), by year, all eight study years. "
-    "Lags tested are capped at N/4 of the decline window (a standard guideline) to avoid "
-    "boundary-pinned, unreliable peak estimates. All peaks shown are interior maxima, well "
-    "clear of that boundary."
+    "Cross-correlation between SIF(t) and NDVI(t + lag), by year, all eight study years, "
+    "searched over both directions (−N/4 to +N/4 days) of each year's decline window. "
+    "A negative lag means NDVI leads SIF."
 )
 
 _cc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 _cc_drought = [True, False, False, True, False, False, False, False]
-_cc_lag = [4, 2, 27, 0, 18, 0, 0, 0]
-_cc_r = [0.9933, 0.9961, 0.9878, 0.9917, 0.9696, 0.9879, 0.9821, 0.9067]
+_cc_lag = [4, 2, 27, -4, 18, 0, -9, -10]
+_cc_r = [0.9933, 0.9961, 0.9878, 0.9942, 0.9696, 0.9879, 0.9928, 0.9400]
 
 cc_row1 = st.columns(4)
 cc_row2 = st.columns(4)
@@ -177,24 +186,25 @@ for i, (yr, dr, lag, r) in enumerate(zip(_cc_years, _cc_drought, _cc_lag, _cc_r)
     col.metric(label, f"{lag} days", f"r = {r:.4f}")
 
 st.success("""
-**What this confirms:** no year's correlation-maximizing lag is negative — an entirely
-independent method agrees that SIF never lags *behind* NDVI. In 4 of 8 years (2015, 2016,
-2017, 2019) the lag is strictly positive, and the remaining 4 (2018, 2020, 2022, 2023) tie
-at exactly zero rather than reversing sign. **H1 now rests on two methods, not one**, though
-the eight-year sample shows this as a directional finding — SIF never trails NDVI — rather
-than a universal strictly-positive lag.
+**What this confirms, now that the search can actually find both directions:** SIF clearly
+leads in 4 of 8 years (2015, 2016, 2017, 2019), 2020 is a genuine tie at exactly zero, and
+NDVI clearly leads in 3 years (2018, 2022, 2023) — not a boundary artifact, but a real
+correlation-maximizing lag on the negative side. **H1 now rests on two methods, not one**,
+and the two methods only partly agree: cross-correlation confirms the threshold-crossing
+direction in 5 of 8 years but reverses it in 2022 and 2023, where threshold-crossing found
+a small SIF lead.
 """)
 
 st.warning("""
-**What this does *not* confirm:** the same year-to-year *ranking*, or that the lag is always
-strictly positive. The threshold-crossing method's largest average lags belong to 2016 and
-2017; cross-correlation agrees 2017 is large (27 days) but ranks 2019 (18 days) above 2016
-(2 days) — the two methods answering slightly different questions (onset timing vs.
-whole-curve shape alignment). 2018 registers as essentially zero-lag under both methods,
-consistent with the exception already flagged above. It means the *exact* day-count lag
-values, and which single year "wins," should be read as method-dependent estimates — not
-precise, method-independent facts. The qualitative direction (SIF never trails NDVI) is the
-robust result here; the specific ranking and the exact zero/positive boundary are not.
+**What this does *not* confirm:** a single shared year-to-year ranking, or that the direction
+itself is settled for every year. The threshold-crossing method's largest average lags belong
+to 2016 and 2017; cross-correlation agrees 2017 is large (27 days) but ranks 2019 (18 days)
+above 2016 (2 days) — the two methods answering slightly different questions (onset timing
+vs. whole-curve shape alignment). 2018 stays the year both methods agree breaks the pattern,
+but cross-correlation now also flags 2022 and 2023 the same way, which threshold-crossing
+does not. It means the *exact* day-count lag values, which single year "wins," and — for
+2022/2023 — even the direction itself should be read as method-dependent rather than fixed,
+universal facts.
 """)
 
 section_divider()
@@ -206,11 +216,21 @@ st.header("How Precise Are These Numbers? A Bootstrap Check")
 
 st.markdown("""
 Every lag value above is a single point estimate computed from a small number of discrete
-satellite observations — only 17 post-peak 8-day dates per year. A point estimate with no
-uncertainty range invites a fair question: how much would this number move if the satellite
-had happened to catch slightly different overpass dates that season? A case-resampling
-bootstrap (2,000 replicates per year, resampling which of the 17 observations feed the fit)
-answers this directly for the cross-correlation lag estimates above.
+satellite observations — only 14-18 post-peak 8-day dates per year, depending on the year. A
+point estimate with no uncertainty range invites a fair question: how much would this number
+move if the satellite had happened to catch slightly different overpass dates that season? A
+case-resampling bootstrap (2,000 replicates per year, resampling which of that year's
+observations feed the fit) answers this directly for the cross-correlation lag estimates
+above.
+""")
+
+st.error("""
+**Same bug, same fix, same re-run as the cross-correlation check above.** This bootstrap's
+internal lag search had the identical one-sided range (0 to +N/4), so it was mathematically
+impossible for any replicate, in any year, to come back negative — a claim like "100% of
+replicates non-negative" was guaranteed by the code, not shown by the data. Fixed to search
+both directions and rerun from scratch; the numbers below are the corrected ones. Full
+account in Development Log, Entry 17.
 """)
 
 st.image("outputs/figures/cross_correlation_lag_bootstrap_ci.png", use_container_width=True)
@@ -221,9 +241,10 @@ styled_caption(
 
 _bc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
 _bc_drought = [True, False, False, True, False, False, False, False]
-_bc_lag = [4, 2, 27, 0, 18, 0, 0, 0]
-_bc_ci = ["[0, 11]", "[0, 7]", "[0, 30]", "[0, 5]", "[0, 26]", "[0, 32]", "[0, 0]", "[0, 0]"]
-_bc_pct_pos = [89.6, 72.9, 96.8, 8.1, 87.5, 41.9, 0.3, 0.1]
+_bc_lag = [4, 2, 27, -4, 18, 0, -9, -10]
+_bc_ci = ["[0, 11]", "[-3, 7]", "[0, 30]", "[-13, 3]", "[-9, 26]", "[-32, 32]", "[-16, -2]", "[-25, -2]"]
+_bc_pct_pos = [89.6, 72.9, 96.1, 7.1, 85.7, 41.3, 0.3, 0.1]
+_bc_pct_neg = [2.2, 17.3, 2.0, 87.4, 10.0, 14.6, 99.4, 99.1]
 
 bc_row1 = st.columns(4)
 bc_row2 = st.columns(4)
@@ -233,26 +254,26 @@ for i, (yr, dr, lag, ci) in enumerate(zip(_bc_years, _bc_drought, _bc_lag, _bc_c
     col.metric(label, f"{lag} days", f"95% CI {ci}")
 
 st.success(f"""
-**Direction: robust, with real variation by year.** Across every year, the bootstrap-
-estimated lag was non-negative in effectively all replicates — the interval never dips
-below zero anywhere. But the *share* of replicates showing a strictly positive lag varies
-widely: {_bc_pct_pos[2]}% (2017), {_bc_pct_pos[0]}% (2015), {_bc_pct_pos[4]}% (2019), and
-{_bc_pct_pos[1]}% (2016) are solidly positive, while {_bc_pct_pos[5]}% (2020) is a near-even
-split and {_bc_pct_pos[3]}% (2018), {_bc_pct_pos[6]}% (2022), and {_bc_pct_pos[7]}% (2023)
-are effectively zero-lag years. SIF trailing NDVI is not seen in any year's bootstrap
-distribution — but "SIF leads NDVI" is a strong, consistent result in only about half of
-the eight years, not a uniform property of every season.
+**Direction: genuinely mixed, not uniform.** The share of replicates landing at zero-or-above
+breaks down as: 97.8% (2015), 82.7% (2016), 98.0% (2017), 12.7% (2018), 90.0% (2019), 85.4%
+(2020), 0.6% (2022), and 0.9% (2023). Flip that around: in 2022 and 2023, {_bc_pct_neg[6]}%
+and {_bc_pct_neg[7]}% of replicates land *below* zero — a strong, well-resolved signal in the
+NDVI-leads direction, not a weak one. 2018 leans the same way ({_bc_pct_neg[3]}% negative) but
+its interval still straddles zero, so it's less settled than 2022/2023. That leaves five years
+with real evidence in the SIF-leads direction — 2015 and 2017 strongly, 2016 and 2019 more
+moderately, and 2020 sitting almost exactly on the fence.
 """)
 
 st.warning("""
-**Magnitude: not precise enough to rank years.** The confidence intervals above are wide
-relative to the point estimates, and **all 28 pairwise comparisons between the eight years'
-intervals overlap**. That means the specific year-to-year ranking discussed above — and the
-exact day-count values themselves — are not statistically distinguishable from noise at
-this sample size. This is a quantified, stronger version of the caution already given for
-the method-sensitivity finding above: treat the *direction* (SIF never trailing NDVI) as
-this study's robust result, and both the *exact numbers* and the *magnitude* of the lead as
-approximate — genuinely small or absent in some years, such as 2018, 2022, and 2023.
+**Magnitude: mostly indistinguishable, but not entirely.** The confidence intervals above are
+wide relative to the point estimates, and of the **28 possible pairwise comparisons, 24 still
+overlap** and aren't distinguishable from each other. But **4 pairs now genuinely don't
+overlap** — 2015 vs. 2022, 2015 vs. 2023, 2017 vs. 2022, and 2017 vs. 2023 — meaning the two
+years with the clearest SIF-leads signal are statistically distinguishable from the two years
+with the clearest NDVI-leads signal. The honest summary: SIF's decline comes out ahead in
+about half of the eight years with reasonable-to-strong confidence, NDVI comes out ahead in
+two of the eight years with strong confidence, and the remaining two years (2018, 2020) don't
+clearly resolve either way.
 """)
 
 styled_caption("GREEN ALIBI — Quantitative Lag Analysis")

@@ -17,24 +17,24 @@ Eight districts of Marathwada, Maharashtra were tested across eight growing seas
 
 ## The Finding
 
-SIF's decline precedes NDVI's in 7 of the 8 years — confirmed in direction by an independent cross-correlation method, and by bootstrap resampling never favoring NDVI leading SIF in any single year (100% of replicates, every year). 2018 is a genuine, replicated exception: its threshold-crossing lag is marginally negative, its cross-correlation lag is exactly zero, and only 8.1% of its bootstrap replicates show a positive lag — three independent methods agreeing 2018 breaks the pattern. Drought severity still doesn't amplify the lag: the two drought years averaged a smaller lag (7.6 days) than the six normal years (15.0 days) — the same direction as the original 3-year study, now confirmed at more than double the sample size.
+SIF's decline precedes NDVI's in 7 of the 8 years under the threshold-crossing method. A second, methodologically distinct cross-correlation check gives a more mixed picture — and this section itself was rewritten after fixing a real bug: the cross-correlation and bootstrap scripts originally searched only non-negative lags, so they could never have reported NDVI leading SIF no matter what the data showed. Once fixed and rerun, cross-correlation shows SIF clearly leading in 4 years, a tie in 1, and NDVI clearly leading in 3 (2018, 2022, 2023) — 2 of those (2022, 2023) backed by a bootstrap where 99%+ of replicates land below zero. 2018 is a genuine, multiply-confirmed exception across every method: its threshold-crossing lag is marginally negative, its cross-correlation lag is clearly negative (−4 days), and 87.4% of its bootstrap replicates land below zero. Drought severity still doesn't amplify the threshold-crossing lag: the two drought years averaged a smaller lag (7.6 days) than the six normal years (15.0 days) — the same direction as the original 3-year study, now confirmed at more than double the sample size.
 
 | Year | Rainfall Anomaly | Threshold-Crossing Lag | Cross-Corr. Lag |
 |---|---|---|---|
 | 2015 (drought) | −21.5% | 16.3 days | 4 days |
 | 2016 (normal) | +9.5% | 23.8 days | 2 days |
 | 2017 (normal) | −1.1% | 21.6 days | 27 days |
-| 2018 (drought) | −18.3% | −1.1 days | 0 days |
+| 2018 (drought) | −18.3% | −1.1 days | −4 days |
 | 2019 (normal) | +13.3% | 17.2 days | 18 days |
 | 2020 (normal) | +29.1% | 20.6 days | 0 days |
-| 2022 (normal) | +36.8% | 5.1 days | 0 days |
-| 2023 (normal) | −3.7% | 4.2 days | 0 days |
+| 2022 (normal) | +36.8% | 5.1 days | −9 days |
+| 2023 (normal) | −3.7% | 4.2 days | −10 days |
 
-H1 (SIF leads NDVI) holds up under both methods in most years, with 2018 an honestly-disclosed exception across all of them. H3 (drought amplifies the lag) is reported plainly as not supported — a real non-result, confirmed at n = 8 years rather than just n = 3.
+H1 (SIF leads NDVI) holds up under threshold-crossing in most years, but the cross-correlation check — after its bug fix — agrees only on 5 of the 8 years and finds the opposite direction on 3 (2018, 2022, 2023). That disagreement between methods is now reported as a real finding, not smoothed over. H3 (drought amplifies the lag) is reported plainly as not supported — a real non-result, confirmed at n = 8 years rather than just n = 3.
 
 ## Validation & Robustness Checklist
 
-✓ Two independent lag-estimation methods (threshold-crossing + cross-correlation)
+✓ Two methodologically distinct lag-estimation methods (threshold-crossing + cross-correlation)
 
 ✓ Bootstrap confidence intervals (2,000 replicates per year, all 8 years)
 
@@ -50,11 +50,13 @@ H1 (SIF leads NDVI) holds up under both methods in most years, with 2018 an hone
 
 ! 2018 is a consistent exception to H1 across every method — reported, not hidden
 
-! Exact year-to-year ranking flagged as method-sensitive, not robust
+! Cross-correlation and bootstrap both had a real search-space bug (non-negative lags only) — found, fixed, and rerun before publishing; see Development Log Entry 17
+
+! Exact year-to-year ranking flagged as method-sensitive, not robust — and for 2022/2023, so is the direction
 
 ## Honest Limitation
 
-Only 2 of 8 years meet this study's own drought threshold, so the drought-vs-normal comparison stays a 2-versus-6 split, not a balanced one. Every lag value is a point estimate from just 14–18 post-peak satellite observations per year, so confidence intervals run wide — all 28 possible pairwise comparisons between years' intervals overlap, meaning the exact year-to-year ranking isn't statistically distinguishable from noise even at 8 years. The SIF-rainfall spatial correlation (Pearson r = 0.567, p < 0.0001, n = 64 district-years) is real but noticeably weaker than the r = 0.837 the smaller, drought-heavy 3-year sample originally produced, and a Moran's I diagnostic finds SIF's own spatial clustering significant in only 4 of 8 years, against rainfall's, significant in all 8.
+Only 2 of 8 years meet this study's own drought threshold, so the drought-vs-normal comparison stays a 2-versus-6 split, not a balanced one. Every lag value is a point estimate from just 14–18 post-peak satellite observations per year, so confidence intervals run wide — 24 of the 28 possible pairwise comparisons between years' intervals overlap, meaning most of the exact year-to-year ranking isn't statistically distinguishable from noise even at 8 years (the 4 pairs that do come apart cleanly separate the strongest SIF-leads years from the strongest NDVI-leads years). The SIF-rainfall spatial correlation (Pearson r = 0.567, p < 0.0001, n = 64 district-years) is real but noticeably weaker than the r = 0.837 the smaller, drought-heavy 3-year sample originally produced, and a Moran's I diagnostic finds SIF's own spatial clustering significant in only 4 of 8 years, against rainfall's, significant in all 8. A real bug in the cross-correlation and bootstrap scripts — a lag search that only ever looked one direction — was found and fixed before this paper went out; it's disclosed in full rather than quietly patched, because it changed a real finding (Development Log, Entry 17).
 
 ## Real-World Relevance
 

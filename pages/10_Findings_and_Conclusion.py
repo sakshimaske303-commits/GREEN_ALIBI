@@ -15,12 +15,15 @@ st.header("Key Findings")
 
 st.success("""
 **1.** SIF's post-peak seasonal decline precedes NDVI's decline in seven of the eight study
-years (all but 2018) — supporting SIF's physical basis as a more temporally responsive
-stress indicator (**H1**, general form: supported, though not universal). This finding is
-corroborated by two independent lag-estimation methods (threshold-crossing and
-cross-correlation — see **Lag Analysis**): no year shows SIF trailing NDVI under either
-method, though the cross-correlation method registers 2018, 2020, 2022, and 2023 as
-essentially zero-lag rather than strictly positive.
+years (all but 2018) under the threshold-crossing method — supporting SIF's physical basis
+as a more temporally responsive stress indicator (**H1**, general form: supported, though
+not universal). A second, methodologically distinct check (cross-correlation — see **Lag
+Analysis**) tells a more mixed story, and only does so honestly after a real bug was found
+and fixed: the cross-correlation and bootstrap scripts originally searched only
+non-negative lags, making it impossible for either to ever find NDVI leading SIF. Corrected
+and rerun, cross-correlation shows SIF clearly leading in 4 of 8 years, a tie in 1 (2020),
+and NDVI clearly leading in 3 (2018, 2022, 2023) — 2 of those backed by a bootstrap where
+99%+ of replicates land below zero.
 """)
 
 st.warning("""
@@ -54,11 +57,14 @@ Aurangabad run driest on average while Nanded and Hingoli run consistently wette
 """)
 
 st.info("""
-**5.** A bootstrap check confirms Finding 1's *direction* is robust — no year's
-bootstrap-estimated lag distribution dips meaningfully below zero — but shows both its
-*exact magnitude* and *consistency* are not: the share of bootstrap replicates showing a
-strictly positive lag ranges from under 1% (2023) to 96.8% (2017), and all 28 pairwise
-between-year comparisons of confidence intervals overlap. Separately, Moran's I confirms —
+**5.** A bootstrap check, rerun after the same fix applied to Finding 1's cross-correlation
+numbers, shows Finding 1's direction is genuinely mixed rather than uniformly robust: 2022
+and 2023 have 99%+ of replicates landing below zero (a strong NDVI-leads signal), 2018 leans
+the same way at 87.4%, and five years (2015, 2016, 2017, 2019, 2020) show real evidence in
+the SIF-leads direction with varying strength. Of the 28 possible pairwise between-year
+comparisons, 24 still overlap, but 4 — 2015 vs. 2022, 2015 vs. 2023, 2017 vs. 2022, 2017 vs.
+2023 — are genuinely distinguishable, separating the strongest SIF-leads years from the
+strongest NDVI-leads years. Separately, Moran's I confirms —
 with a number rather than a caveat — that the district-level rainfall data behind Finding 3
 are spatially clustered in all 8 of 8 years, while SIF is spatially clustered in only 4 of 8
 years (down from 3 of 3 in the original sample). Neither check overturns a finding; both
@@ -100,7 +106,7 @@ with c4:
 
 c5, c6, c7, c8 = st.columns(4)
 with c5:
-    st.metric("Cross-correlation: lag never negative", "8 / 8 years")
+    st.metric("Cross-correlation: SIF leads / tied / NDVI leads", "4 / 1 / 3 years")
 with c6:
     st.metric("Moran's I — rainfall significant", "8 / 8 years")
 with c7:
@@ -129,12 +135,22 @@ st.markdown("""
   than Marathwada's actual climate record — but it also means drought-year statistics in
   this study still rest on an n of 2, not a larger balanced sample.
 - 2018 is a genuine, unexplained exception to this study's central SIF-leads-NDVI finding:
-  its threshold-crossing lag is marginally negative, its cross-correlation lag is exactly
-  zero, only 8.1% of its bootstrap replicates show a positive lag, and its RQ3
+  its threshold-crossing lag is marginally negative, its cross-correlation lag is clearly
+  negative (−4 days), 87.4% of its bootstrap replicates land below zero, and its RQ3
   official-declaration comparison shows NDVI crossing threshold *before* SIF — the opposite
-  ordering from every other year with a positive lag. No crop-type, sowing-date, or other
-  covariate data was available to investigate why 2018 specifically differs; it is reported
-  as an open question, not resolved.
+  ordering from every year with a clear SIF lead. 2022 and 2023 show this same negative-lag
+  pattern under cross-correlation and bootstrap (99%+ of bootstrap replicates below zero in
+  both), though neither meets this study's own drought threshold, so the exception isn't
+  confined to 2018 or to drought years specifically. No crop-type, sowing-date, or other
+  covariate data was available to investigate why these years specifically differ; it is
+  reported as an open question, not resolved.
+- A real bug in the cross-correlation and bootstrap scripts, found and fixed before this
+  dashboard was published: both scripts originally searched only non-negative lags (0 to
+  N/4), making it mathematically impossible for either to ever report NDVI leading SIF,
+  regardless of what the data showed. Fixed to search the full −N/4 to +N/4 range and rerun
+  from scratch; this changed three years (2018, 2022, 2023) from a zero/positive
+  cross-correlation lag to a genuinely negative one. Disclosed in full rather than folded
+  quietly into revised numbers — see **Development Log, Entry 17**.
 - The spatial correspondence between rainfall deficit and SIF stress was tested via
   Pearson and Spearman correlation (r = 0.567, ρ = 0.551, both p < 0.001) rather than left
   as a purely visual comparison; however, with only eight independent study years and eight
@@ -166,7 +182,8 @@ st.markdown("""
   reproducibility gap rather than only improving it on paper.
 - The exact lag values in **Lag Analysis**, and their year-to-year ranking, carry wider
   uncertainty than the point estimates alone suggest — see the bootstrap confidence
-  intervals there, where all 28 pairwise between-year comparisons overlap.
+  intervals there, where 24 of the 28 pairwise between-year comparisons overlap (the
+  remaining 4 separate the strongest SIF-leads years from the strongest NDVI-leads years).
 """)
 
 section_divider()
@@ -177,17 +194,22 @@ section_divider()
 st.header("Conclusion")
 
 st.markdown("""
-This study finds consistent evidence that Solar-Induced Fluorescence registers the onset
-of post-peak seasonal vegetation decline earlier than, or no later than, NDVI in seven of
-the eight years studied in Marathwada, Maharashtra — supporting SIF's physical basis,
-developed on the **Physics** pages, as a more temporally responsive stress indicator in
-most, though not all, years. It does not find evidence that this lag is amplified
-specifically by drought conditions — the opposite direction replicated at more than double
-the original sample size — and identifies substantial inter-annual and intra-regional
-variation that a simple drought/normal binary does not capture. Expanding the sample from
-three years to eight also surfaced a genuine, unexplained exception: 2018, despite being
-one of only two years meeting this study's own drought threshold, shows an essentially
-zero or reversed lag across every method used to measure it.
+This study finds that Solar-Induced Fluorescence registers the onset of post-peak seasonal
+vegetation decline earlier than, or no later than, NDVI in seven of the eight years studied
+in Marathwada, Maharashtra, under the threshold-crossing method — supporting SIF's physical
+basis, developed on the **Physics** pages, as a more temporally responsive stress indicator
+in most, though not all, years. A second, methodologically distinct cross-correlation check,
+corrected after finding it had originally been unable to search for a negative lag, tells a
+more mixed story: SIF clearly ahead in 4 years, a genuine tie in 1, and NDVI clearly ahead
+in 3 (2018, 2022, 2023), two of those backed by strong bootstrap support. Finding and fixing
+that bug, and reporting what the corrected analysis actually says, is as much a part of this
+study's result as the headline lag numbers themselves. It does not find evidence that this
+lag is amplified specifically by drought conditions — the opposite direction replicated at
+more than double the original sample size — and identifies substantial inter-annual and
+intra-regional variation that a simple drought/normal binary does not capture. Expanding the
+sample from three years to eight also surfaced a genuine exception: 2018 remains the year
+every method agrees breaks the SIF-leads-NDVI pattern, while 2022 and 2023 turn out to be a
+softer, method-dependent version of the same story.
 
 Independent rainfall validation and spatial cross-referencing between SIF and
 precipitation data lend physical coherence to the district-level findings — a
@@ -196,15 +218,16 @@ original three-year sample suggested (Pearson r = 0.567, Spearman ρ = 0.551, bo
 p < 0.001, versus the original r = 0.837), and further characterized, via Moran's I, rather
 than only caveated. A comparison against the one available official drought-declaration
 date (2018) suggests the practical policy case is better framed as "satellite monitoring
-generally, refined by SIF specifically, in most years" than as SIF's edge over NDVI being a
-uniform, dominant lever on payout timing — precisely because 2018, the one year with a
-verifiable declaration date, is also the year where that edge disappears. Several
-limitations — an unbalanced 2-versus-6 drought/normal split, the unexplained 2018 exception,
-absence of ground validation, and the spatial non-independence underlying the correlation
-above — are reported directly rather than resolved beyond what the available data supports.
-The Earth Engine acquisition step, unlike in the original study, was actually scripted and
-executed for all eight years during this expansion, closing what had been an open
-reproducibility gap.
+generally, refined by SIF specifically, in most but not all years" than as SIF's edge over
+NDVI being a uniform, dominant lever on payout timing — precisely because 2018, the one
+year with a verifiable declaration date, is also the year where that edge disappears.
+Several limitations — an unbalanced 2-versus-6 drought/normal split, the 2018/2022/2023
+exception that isn't fully explained, absence of ground validation, the spatial
+non-independence underlying the correlation above, and a real search-space bug in two of
+the four lag-estimation checks that changed a genuine finding once fixed — are reported
+directly rather than resolved beyond what the available data supports. The Earth Engine
+acquisition step, unlike in the original study, was actually scripted and executed for all
+eight years during this expansion, closing what had been an open reproducibility gap.
 """)
 
 st.markdown("""

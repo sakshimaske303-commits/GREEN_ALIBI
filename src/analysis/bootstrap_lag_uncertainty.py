@@ -24,17 +24,24 @@ df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min
 
 
 def lag_from_daily(sif_daily, ndvi_daily, max_lag):
+    # BUG (found in code review, fixed before publishing — see Development
+    # Log Entry 17): this used to search lags = np.arange(0, max_lag + 1),
+    # a one-sided search that could never resolve a replicate in the
+    # NDVI-leads-SIF direction. Fixed by searching both directions, with
+    # the boundary-safety check applied symmetrically for negative lags.
     sif_c = sif_daily - sif_daily.mean()
     ndvi_c = ndvi_daily - ndvi_daily.mean()
-    lags = np.arange(0, max_lag + 1)
+    lags = np.arange(-max_lag, max_lag + 1)
     corrs = []
     for lag in lags:
-        if lag == 0:
-            c = np.corrcoef(sif_c, ndvi_c)[0, 1]
-        elif len(sif_c) - lag < 5:
+        if abs(lag) >= len(sif_c) - 4:
             c = np.nan
-        else:
+        elif lag == 0:
+            c = np.corrcoef(sif_c, ndvi_c)[0, 1]
+        elif lag > 0:
             c = np.corrcoef(sif_c[:-lag], ndvi_c[lag:])[0, 1]
+        else:
+            c = np.corrcoef(sif_c[-lag:], ndvi_c[:lag])[0, 1]
         corrs.append(c)
     corrs = np.array(corrs)
     if np.all(np.isnan(corrs)):
@@ -83,6 +90,7 @@ for year in sorted(df["year"].unique()):
     ci_low, ci_high = np.percentile(boot_lags, [2.5, 97.5])
     pct_positive = float((boot_lags > 0).mean() * 100)
     pct_nonneg = float((boot_lags >= 0).mean() * 100)
+    pct_negative = float((boot_lags < 0).mean() * 100)
     results.append({
         "year": year,
         "is_drought_year": year in DROUGHT_YEARS,
@@ -96,6 +104,7 @@ for year in sorted(df["year"].unique()):
         "bootstrap_std_days": float(np.std(boot_lags)),
         "pct_replicates_lag_gt_0": round(pct_positive, 1),
         "pct_replicates_lag_geq_0": round(pct_nonneg, 1),
+        "pct_replicates_lag_lt_0": round(pct_negative, 1),
     })
 
 res_df = pd.DataFrame(results)

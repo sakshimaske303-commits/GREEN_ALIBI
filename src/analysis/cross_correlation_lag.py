@@ -47,21 +47,38 @@ for year in sorted(df["year"].unique()):
     sif_c = sif_daily - sif_daily.mean()
     ndvi_c = ndvi_daily - ndvi_daily.mean()
 
+    def lagged_corr(x, y, lag):
+        # lag > 0: shift y forward relative to x (NDVI lagging behind SIF,
+        # i.e. SIF leads). lag < 0: shift x forward relative to y (SIF
+        # lagging behind NDVI, i.e. NDVI leads). lag == 0: no shift.
+        if lag > 0:
+            return np.corrcoef(x[:-lag], y[lag:])[0, 1]
+        elif lag < 0:
+            return np.corrcoef(x[-lag:], y[:lag])[0, 1]
+        else:
+            return np.corrcoef(x, y)[0, 1]
+
     # Cap the tested lag at N/4 (a standard cross-correlation guideline) —
     # testing lags close to the full series length leaves too few
     # overlapping points for a reliable estimate and produces spurious
     # peaks pinned to the search boundary rather than a genuine optimum.
+    #
+    # BUG (found in code review, fixed before publishing — see Development
+    # Log Entry 17): this used to be `np.arange(0, max_lag + 1)`, a
+    # one-sided search that could only ever find SIF leading NDVI or a
+    # zero lag. It was structurally impossible for this script to ever
+    # report NDVI leading SIF, no matter what the data actually showed,
+    # which made the "SIF never lags NDVI" claim built on it a tautology
+    # of the search space rather than a real finding. Fixed by searching
+    # both directions.
     max_lag = int(n_days / 4)
-    lags = np.arange(0, max_lag + 1)
-    corrs = np.array([
-        np.corrcoef(sif_c, ndvi_c)[0, 1] if lag == 0
-        else np.corrcoef(sif_c[:-lag], ndvi_c[lag:])[0, 1]
-        for lag in lags
-    ])
+    lags = np.arange(-max_lag, max_lag + 1)
+    corrs = np.array([lagged_corr(sif_c, ndvi_c, lag) for lag in lags])
 
     best_idx = int(np.argmax(corrs))
     best_lag = int(lags[best_idx])
     best_corr = float(corrs[best_idx])
+    zero_idx = int(np.where(lags == 0)[0][0])
 
     results.append({
         "year": year,
@@ -70,8 +87,9 @@ for year in sorted(df["year"].unique()):
         "max_lag_tested": max_lag,
         "cross_corr_lag_days": best_lag,
         "max_correlation": round(best_corr, 4),
-        "corr_at_zero_lag": round(float(corrs[0]), 4),
-        "peak_at_search_boundary": best_lag == max_lag,
+        "corr_at_zero_lag": round(float(corrs[zero_idx]), 4),
+        "peak_at_upper_boundary": best_lag == max_lag,
+        "peak_at_lower_boundary": best_lag == -max_lag,
     })
     curves[year] = (lags, corrs)
 
@@ -102,7 +120,7 @@ for ax, year in zip(axes, years_sorted):
 for ax in axes[len(years_sorted):]:
     ax.set_visible(False)
 axes[0].set_ylabel("Cross-correlation, SIF(t) vs NDVI(t + lag)")
-fig.suptitle("Cross-Correlation-Based Lag — Independent Check on the Threshold-Crossing Method, 8 years", fontsize=13)
+fig.suptitle("Cross-Correlation-Based Lag, Two-Sided Search — Independent Check on the Threshold-Crossing Method, 8 years", fontsize=13)
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, "cross_correlation_lag.png"), dpi=150)
 print(f"\nPlot saved to {OUT_DIR}/cross_correlation_lag.png")

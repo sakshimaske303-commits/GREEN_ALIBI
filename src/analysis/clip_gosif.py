@@ -25,7 +25,7 @@ if boundary.crs is None:
 elif boundary.crs.to_epsg() != 4326:
     boundary = boundary.to_crs("EPSG:4326")
 
-geometry = [boundary.geometry.unary_union]  # merge into one polygon for masking
+geometry = [boundary.geometry.union_all()]  # merge into one polygon for masking
 
 # --- Process each raw GOSIF file ---
 raw_files = sorted(glob.glob(os.path.join(RAW_DIR, "GOSIF_*.tif")))
