@@ -204,6 +204,7 @@ _all_docs = [
     {"label": "Executive Summary", "filename": "GA_Executive_Summary.pdf"},
     {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
     {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
+    {"label": "Policy Brief", "filename": "Policy_Brief.pdf"},
 ]
 _existing = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]
 _missing = [d for d in _all_docs if d not in _existing]
