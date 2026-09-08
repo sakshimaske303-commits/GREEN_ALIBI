@@ -82,9 +82,9 @@ H3: Drought severity, measured independently through rainfall deficit, amplifies
 
 The study covers all eight districts of Marathwada, Maharashtra — Chhatrapati Sambhajinagar (Aurangabad), Jalna, Parbhani, Hingoli, Nanded, Beed (called "Bid" in the FAO GAUL administrative dataset used for boundary definition; see Section 3.2), Latur, and Dharashiv (Osmanabad) — chosen for its long, well-documented history of agricultural drought.
 
-![Figure 3](outputs/figures/photo1.png)
+![Figure 3](outputs/figures/figure3_study_area_map.png)
 
-**Figure 3. [AI Generated]** Location of the study area. (a) Maharashtra state within India. (b) Marathwada division within Maharashtra. (c) The eight constituent districts of Marathwada, with the division boundary outlined for reference.
+**Figure 3.** Study area: the eight constituent districts of Marathwada, Maharashtra, India, with district boundaries and names labeled.
 
 ## 3. Data and Methodology
 
@@ -290,7 +290,7 @@ Across eight growing seasons in Marathwada, Maharashtra, Solar-Induced Fluoresce
 
 **Acknowledgements:** None.
 
-**Declaration of generative AI use:** ChatGPT (GPT-5, July 2026) was used to generate 3 explanatory diagrams (Figures 1,2 and 3) that illustrate known physical concepts, from prompts I wrote describing what each diagram needed to show. I checked all diagrams for scientific accuracy myself. An AI assistant was also used to review this project's manuscript and repository for errors, inconsistencies, and wording issues, and to suggest corrections; I reviewed those suggestions and applied the fixes myself. All scientific analysis, findings, interpretations, and conclusions in this paper are my own work. No generative AI was used for data analysis, code, or generating the scientific content of this paper.
+**Declaration of generative AI use:** ChatGPT (GPT-5, July 2026) was used to generate two explanatory diagrams (Figures 1 and 2) that illustrate known physical concepts, from prompts I wrote describing what each diagram needed to show. I checked both diagrams for scientific accuracy myself. An AI assistant was also used to review this project's manuscript and repository for errors, inconsistencies, and wording issues, and to suggest corrections; I reviewed those suggestions and applied the fixes myself. All scientific analysis, findings, interpretations, and conclusions in this paper are my own work. No generative AI was used for data analysis, code, or generating the scientific content of this paper.
 
 ## References
 
