@@ -64,7 +64,7 @@ Because it depends on the plant's outward structure and pigment state, NDVI is i
 
 ### 1.4 Research Questions
 
-RQ1: Does SIF decline measurably earlier than NDVI during years classified as drought under this study's own rainfall-anomaly criterion (Section 3.5) in the study region?
+RQ1: Does SIF decline measurably earlier than NDVI across this study's growing seasons, and does that pattern also hold in years classified as drought under this study's own rainfall-anomaly criterion (Section 3.5)?
 
 RQ2: Is the SIF–NDVI lag, where present, consistent across the study region, or does it vary meaningfully by geography?
 
@@ -72,7 +72,7 @@ RQ3: How does the timing of SIF-based stress onset relate to independently measu
 
 ### 1.5 Hypotheses
 
-H1: SIF declines significantly before NDVI during a given drought episode.
+H1: SIF declines measurably before NDVI across the study period, including during drought episodes.
 
 H2: The magnitude of SIF–NDVI divergence is not spatially uniform across the study region.
 
