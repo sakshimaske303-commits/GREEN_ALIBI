@@ -13,7 +13,7 @@ DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 RAINFALL_CSV = "data/processed/rainfall_anomaly_by_district.csv"
 OUTPUT_PLOT = "outputs/figures/combined_sif_rainfall_comparison.png"
 
-# --- SIF rasters ---
+# SIF rasters
 boundary = gpd.read_file(BOUNDARY_PATH)
 if boundary.crs is None:
     boundary = boundary.set_crs("EPSG:4326")
@@ -30,7 +30,7 @@ for year in YEARS:
 sif_all_valid = np.concatenate([sif_arrays[y][~np.isnan(sif_arrays[y])].ravel() for y in YEARS])
 sif_vmin, sif_vmax = np.nanpercentile(sif_all_valid, [2, 98])
 
-# --- Rainfall by district ---
+# Rainfall by district
 districts = gpd.read_file(DISTRICTS_PATH)
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")
@@ -45,7 +45,7 @@ merged = districts.merge(rain_wide, on="ADM2_NAME", how="left")
 rain_all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
 rain_norm = mcolors.Normalize(vmin=rain_all_values.min(), vmax=rain_all_values.max())
 
-# --- Combined 2-row figure: SIF on top, rainfall below ---
+# Combined 2-row figure: SIF on top, rainfall below
 fig, axes = plt.subplots(2, len(YEARS), figsize=(4.2 * len(YEARS), 11))
 
 for col_idx, year in enumerate(YEARS):

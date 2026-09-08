@@ -15,9 +15,7 @@ they are physically sensitive to and on what timescale.
 
 section_divider()
 
-# ============================================================
 # DIAGRAM — placed prominently near the top, large and centered
-# ============================================================
 col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
     st.image("outputs/figures/ndvi_physics_diagram.png", use_container_width=True)
@@ -29,9 +27,7 @@ with col_b:
 
 section_divider()
 
-# ============================================================
 # NDVI'S PHYSICAL BASIS
-# ============================================================
 st.header("NDVI: A Reflectance-Based Index")
 
 st.latex(r"NDVI = \frac{NIR - RED}{NIR + RED}")
@@ -56,9 +52,7 @@ physiological stress, not its earliest onset.
 
 section_divider()
 
-# ============================================================
-# THE ATMOSPHERIC COMPLICATION
-# ============================================================
+# The atmospheric complication
 st.header("A Complication: What the Satellite Actually Sees Is Not Always the Ground")
 
 st.markdown("""
@@ -77,9 +71,7 @@ corrected using MODIS's own cloud-screening quality band.
 
 section_divider()
 
-# ============================================================
-# SIDE-BY-SIDE COMPARISON
-# ============================================================
+# Side-by-side comparison
 st.header("SIF vs. NDVI: A Direct Comparison")
 
 comparison_df = pd.DataFrame({
@@ -113,9 +105,7 @@ st.dataframe(comparison_df, use_container_width=True, hide_index=True)
 
 section_divider()
 
-# ============================================================
-# WHY THIS MATTERS FOR THE HYPOTHESES
-# ============================================================
+# Why this matters for the hypotheses
 st.header("Connecting the Physics to This Study's Hypotheses")
 
 st.markdown("""

@@ -51,8 +51,8 @@ def lag_from_daily(sif_daily, ndvi_daily, max_lag):
 
 
 def interp_and_lag(sub_doy, sub_sif, sub_ndvi, grid_min, grid_max):
-    # average duplicate DOYs (can occur when a bootstrap replicate
-    # draws the same observation more than once), then sort
+    # averaging duplicate DOYs (can occur when a bootstrap replicate
+    # draws the same observation more than once), then sorting
     tmp = pd.DataFrame({"doy": sub_doy, "sif": sub_sif, "ndvi": sub_ndvi})
     tmp = tmp.groupby("doy", as_index=False).mean().sort_values("doy")
     if len(tmp) < 6:

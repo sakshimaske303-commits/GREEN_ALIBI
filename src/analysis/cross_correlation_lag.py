@@ -97,7 +97,7 @@ res_df = pd.DataFrame(results)
 res_df.to_csv(OUT_CSV, index=False)
 print(res_df.to_string(index=False))
 
-# --- Plot: correlation-vs-lag curve per year, peak marked ---
+# Plot: correlation-vs-lag curve per year, peak marked
 years_sorted = sorted(curves.keys())
 _palette = matplotlib.colormaps["tab10"].resampled(max(len(years_sorted), 3))
 colors = {y: _palette(i) for i, y in enumerate(years_sorted)}

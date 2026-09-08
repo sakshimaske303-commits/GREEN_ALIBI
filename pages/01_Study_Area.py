@@ -17,9 +17,7 @@ affected much of the region.
 
 section_divider()
 
-# ============================================================
-# REFERENCE MAP
-# ============================================================
+# Reference map
 
 col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
@@ -46,9 +44,7 @@ for col, name in zip([d1, d2, d3, d4, d1, d2, d3, d4], districts):
 
 section_divider()
 
-# ============================================================
-# WHY MARATHWADA
-# ============================================================
+# Why Marathwada
 st.header("Why This Region")
 
 st.markdown("""
@@ -70,9 +66,7 @@ than relying solely on the data in isolation.
 
 section_divider()
 
-# ============================================================
-# BOUNDARY PRECISION NOTE
-# ============================================================
+# Boundary precision note
 st.info("""
 **A methodological note carried through this entire study:** the exact geographic boundary
 used for every calculation here is the precise administrative outline of these eight districts

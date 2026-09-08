@@ -37,7 +37,7 @@ print(f"Islands (no neighbors): {w.islands}\n")
 results = []
 for year in sorted(df["year"].unique()):
     sub = df[df["year"] == year].set_index("district_key")
-    # reindex to match the weights matrix's district order exactly
+    # reindexing to match the weights matrix's district order exactly
     order = w.id_order
     sif_vals = sub.loc[order, "mean_sif"].values
     rain_vals = sub.loc[order, "anomaly_pct"].values

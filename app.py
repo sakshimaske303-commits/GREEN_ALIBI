@@ -10,9 +10,7 @@ st.set_page_config(
 
 apply_custom_style()
 
-# ============================================================
-# HERO SECTION
-# ============================================================
+# Hero section
 st.markdown("""
 <h1 style='text-align:center; font-size:3.2rem; font-weight:800;'>🌿 GREEN ALIBI</h1>
 <h3 style='text-align:center; font-weight:500; color:#FF6EC7;'>
@@ -82,9 +80,7 @@ SIF shows what is physically happening inside it.</strong>
 
 section_divider()
 
-# ============================================================
-# KEY METRICS
-# ============================================================
+# Key metrics
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Districts Studied", "8", "Marathwada")
@@ -119,9 +115,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ============================================================
-# PROJECT OVERVIEW
-# ============================================================
+# Project overview
 st.header("What This Project Tests")
 
 st.markdown("""
@@ -138,9 +132,7 @@ measurable, usable time lag — and whether drought conditions make that lag big
 
 section_divider()
 
-# ============================================================
-# RESEARCH QUESTIONS
-# ============================================================
+# Research questions
 st.header("Research Questions")
 
 st.markdown("""
@@ -152,9 +144,7 @@ st.markdown("""
 
 section_divider()
 
-# ============================================================
-# HYPOTHESES
-# ============================================================
+# Hypotheses
 st.header("Hypotheses")
 
 h1, h2, h3 = st.columns(3)
@@ -167,9 +157,7 @@ with h3:
 
 section_divider()
 
-# ============================================================
-# NAVIGATION GUIDE
-# ============================================================
+# Navigation guide
 st.header("How to Explore This Dashboard")
 
 st.markdown("""
@@ -190,9 +178,7 @@ Use the sidebar to move through the study in the order it was actually built:
 
 section_divider()
 
-# ============================================================
-# FULL PROJECT DOCUMENTATION
-# ============================================================
+# Full project documentation
 st.header("Full Project Documentation")
 
 st.markdown("""
@@ -226,7 +212,5 @@ for d in _missing:
 
 section_divider()
 
-# ============================================================
-# FOOTER
-# ============================================================
+# Footer
 page_footer()

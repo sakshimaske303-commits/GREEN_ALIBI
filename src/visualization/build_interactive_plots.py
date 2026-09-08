@@ -34,9 +34,7 @@ DARK_LAYOUT = dict(
 )
 
 
-# ============================================================
-# 1. SEASONAL TRAJECTORIES — normalized SIF vs NDVI, per year
-# ============================================================
+# Seasonal trajectories — normalized SIF vs NDVI, per year
 def build_seasonal_trajectories():
     df = pd.read_csv(f"{DATA}/marathwada_sif_ndvi_merged.csv")
     rain = pd.read_csv(f"{DATA}/rainfall_anomaly_summary.csv")
@@ -75,9 +73,7 @@ def build_seasonal_trajectories():
     print("Saved:", f"{OUT}/seasonal_trajectories.html")
 
 
-# ============================================================
-# 2. LAG BY THRESHOLD — one line per year
-# ============================================================
+# Lag by threshold — one line per year
 def build_lag_by_threshold():
     df = pd.read_csv(f"{DATA}/sif_ndvi_lag_by_threshold.csv")
     years = sorted(df["year"].unique())
@@ -105,9 +101,7 @@ def build_lag_by_threshold():
     print("Saved:", f"{OUT}/lag_by_threshold.html")
 
 
-# ============================================================
-# 3. BOOTSTRAP CI — cross-correlation lag point estimates + 95% CI
-# ============================================================
+# Bootstrap CI — cross-correlation lag point estimates + 95% CI
 def build_bootstrap_ci():
     df = pd.read_csv(f"{DATA}/cross_correlation_lag_bootstrap_ci.csv").sort_values("year").reset_index(drop=True)
 

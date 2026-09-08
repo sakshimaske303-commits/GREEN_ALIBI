@@ -6,13 +6,13 @@ over the Marathwada boundary. Needs an authenticated EE account.
 import ee
 import geemap
 
-# Fill in your own EE cloud project id before running.
+# I fill in my own EE cloud project id here before running this.
 EE_PROJECT_ID = "ecological-balance-sheet"
 
 ee.Authenticate()  # first run only, no-ops if already logged in
 ee.Initialize(project=EE_PROJECT_ID)
 
-# --- 1. Study boundary: FAO GAUL 2015 level 2, Marathwada's 8 districts ---
+# Study boundary: FAO GAUL 2015 level 2, Marathwada's 8 districts
 MARATHWADA_DISTRICTS = [
     "Aurangabad", "Jalna", "Bid", "Latur",
     "Osmanabad", "Nanded", "Parbhani", "Hingoli",
@@ -31,7 +31,7 @@ marathwada_fc = gaul.filter(
 marathwada_boundary = marathwada_fc.union(1).geometry()
 
 
-# --- 2. Cropland mask: MCD12Q1 IGBP classes 12 (cropland) + 14 (mosaic) ---
+# Cropland mask: MCD12Q1 IGBP classes 12 (cropland) + 14 (mosaic)
 def get_cropland_mask(year):
     lc = (
         ee.ImageCollection("MODIS/061/MCD12Q1")
@@ -42,7 +42,7 @@ def get_cropland_mask(year):
     return lc.eq(12).Or(lc.eq(14))
 
 
-# --- 3. NDVI: MOD13Q1, SummaryQA <= 1 (good/marginal), cropland-masked ---
+# NDVI: MOD13Q1, SummaryQA <= 1 (good/marginal), cropland-masked
 def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
@@ -52,7 +52,7 @@ def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
         qa = img.select("SummaryQA")
         good_quality = qa.lte(1)
         ndvi = img.select("NDVI").multiply(0.0001)
-        # No .clip() here on purpose — clipping MOD13Q1's native sinusoidal
+        # I skip .clip() here on purpose — clipping MOD13Q1's native sinusoidal
         # grid against this boundary throws a transform error, and
         # reduceRegion() below already restricts to the same geometry.
         return (
@@ -90,7 +90,7 @@ def extract_ndvi_timeseries(year, scale=250):
     return ee.FeatureCollection(coll.map(reduce_image))
 
 
-# --- 4. CHIRPS rainfall: seasonal totals + 20-year climatology ---
+# CHIRPS rainfall: seasonal totals + 20-year climatology
 def get_seasonal_rainfall_total(year, start_month_day="06-01", end_month_day="12-31"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
@@ -120,7 +120,7 @@ def get_climatology(start_year=2001, end_year=2020):
     }
 
 
-# --- 5. District-level exports ---
+# District-level exports
 def get_district_boundaries():
     return marathwada_fc  # one feature per district, ADM2_NAME is the key
 
@@ -151,7 +151,7 @@ def get_district_seasonal_rainfall(year, start_month_day="06-01", end_month_day=
     return marathwada_fc.map(reduce_district)
 
 
-# --- 6. Main ---
+# Main
 if __name__ == "__main__":
     NEW_YEARS = [2016, 2017, 2019, 2022, 2023]
     STUDY_YEARS = [2015, 2018, 2020] + NEW_YEARS

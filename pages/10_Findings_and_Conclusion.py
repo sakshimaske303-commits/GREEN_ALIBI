@@ -8,9 +8,7 @@ st.title("📝 Key Findings, Limitations & Conclusion")
 
 section_divider()
 
-# ============================================================
-# KEY FINDINGS
-# ============================================================
+# Key findings
 st.header("Key Findings")
 
 st.success("""
@@ -89,9 +87,7 @@ comparably verifiable 2015 declaration date could not be located, so this compar
 
 section_divider()
 
-# ============================================================
-# SUMMARY METRICS
-# ============================================================
+# Summary metrics
 st.header("Study at a Glance")
 
 c1, c2, c3, c4 = st.columns(4)
@@ -116,9 +112,7 @@ with c8:
 
 section_divider()
 
-# ============================================================
-# LIMITATIONS
-# ============================================================
+# Limitations
 st.header("Limitations")
 
 st.markdown("""
@@ -188,9 +182,7 @@ st.markdown("""
 
 section_divider()
 
-# ============================================================
-# CONCLUSION
-# ============================================================
+# Conclusion
 st.header("Conclusion")
 
 st.markdown("""

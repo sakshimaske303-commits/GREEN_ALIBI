@@ -10,7 +10,7 @@ CLIPPED_DIR = "data/processed/clipped"
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 OUTPUT_CSV = "data/processed/sif_by_district.csv"
 
-# --- Load district-level boundaries (8 separate features, with names) ---
+# Loading district-level boundaries (8 separate features, with names)
 districts = gpd.read_file(DISTRICTS_PATH)
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")

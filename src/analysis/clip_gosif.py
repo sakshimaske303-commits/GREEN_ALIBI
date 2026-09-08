@@ -5,7 +5,7 @@ import rasterio
 from rasterio.mask import mask
 import geopandas as gpd
 
-# --- Config ---
+# Config
 RAW_DIR = "data/raw"
 OUTPUT_DIR = "data/processed/clipped"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
@@ -14,11 +14,11 @@ FILL_VALUES = [32766, 32767]  # water, non-vegetated/missing
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# --- Load the precise Marathwada boundary (8 districts, from GEE FAO GAUL, Bid-fixed) ---
+# Loading the precise Marathwada boundary (8 districts, from GEE FAO GAUL, Bid-fixed)
 boundary = gpd.read_file(BOUNDARY_PATH)
 print(f"Loaded boundary: {len(boundary)} feature(s), CRS: {boundary.crs}")
 
-# GOSIF is in geographic WGS84 (EPSG:4326) — reproject defensively in case
+# GOSIF is in geographic WGS84 (EPSG:4326) — I reproject defensively in case
 # the GeoJSON export from GEE didn't carry CRS metadata cleanly
 if boundary.crs is None:
     boundary = boundary.set_crs("EPSG:4326")
@@ -27,7 +27,7 @@ elif boundary.crs.to_epsg() != 4326:
 
 geometry = [boundary.geometry.union_all()]  # merge into one polygon for masking
 
-# --- Process each raw GOSIF file ---
+# Processing each raw GOSIF file
 raw_files = sorted(glob.glob(os.path.join(RAW_DIR, "GOSIF_*.tif")))
 print(f"Found {len(raw_files)} raw GOSIF files to clip.")
 
@@ -47,7 +47,7 @@ for filepath in raw_files:
     data = np.where(data == -1, np.nan, data)
     # GOSIF's own fill codes (water / non-vegetated) -> NaN
     data = np.where(np.isin(data, FILL_VALUES), np.nan, data)
-    # Apply GOSIF scale factor to get real SIF units
+    # Applying GOSIF scale factor to get real SIF units
     data = data * SCALE_FACTOR
 
     out_meta.update({

@@ -16,9 +16,7 @@ across all eight study years.
 
 section_divider()
 
-# ============================================================
-# REGIONAL RAINFALL ANOMALY
-# ============================================================
+# Regional rainfall anomaly
 st.header("Regional Rainfall Anomaly")
 
 st.image("outputs/figures/rainfall_anomaly_2015_2023_8years.png", use_container_width=True)
@@ -50,9 +48,7 @@ finding carried through every other page and document in this project.
 
 section_divider()
 
-# ============================================================
-# DISTRICT-LEVEL STATIC MAP
-# ============================================================
+# District-level static map
 st.header("District-Level Rainfall Anomaly")
 
 st.image("outputs/figures/rainfall_anomaly_by_district_static.png", use_container_width=True)
@@ -76,9 +72,7 @@ west-to-east variation within Marathwada, not just variation confined to 2015 an
 
 section_divider()
 
-# ============================================================
-# INTERACTIVE FOLIUM MAP
-# ============================================================
+# Interactive Folium map
 st.header("Interactive District Map")
 
 st.markdown("""

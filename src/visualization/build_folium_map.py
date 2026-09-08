@@ -8,7 +8,7 @@ DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 SIF_CSV = "data/processed/sif_by_district.csv"
 OUTPUT_HTML = "outputs/interactive_maps/maps/marathwada_sif_by_district.html"
 
-# --- Load districts + SIF data ---
+# Loading districts + SIF data
 districts = gpd.read_file(DISTRICTS_PATH)
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")
@@ -24,7 +24,7 @@ for y in YEARS:
 
 merged = districts.merge(sif_wide, on="ADM2_NAME", how="left")
 
-# --- Shared color scale across all years, so the three layers are comparable ---
+# Same color scale across all years, so the three layers are comparable
 all_values = pd.concat([merged[f"sif_{y}"] for y in YEARS])
 vmin, vmax = all_values.min(), all_values.max()
 
@@ -34,7 +34,7 @@ colormap = cm.LinearColormap(
     caption="Mean SIF (DOY 273)"
 )
 
-# --- Build the map ---
+# Building the map
 center = [merged.geometry.union_all().centroid.y, merged.geometry.union_all().centroid.x]
 m = folium.Map(location=center, zoom_start=8, tiles="CartoDB positron")
 

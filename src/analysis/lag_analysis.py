@@ -15,7 +15,7 @@ THRESHOLDS = [0.9, 0.8, 0.7, 0.6, 0.5]
 
 df = pd.read_csv(MERGED_CSV)
 
-# Normalize each series 0-1 within its own year (peak = 1, seasonal min = 0)
+# Normalizing each series 0-1 within its own year (peak = 1, seasonal min = 0)
 df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
 df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
 
@@ -40,7 +40,7 @@ for year in sorted(df["year"].unique()):
     sif_peak_doy = sub.loc[sub["sif_norm"].idxmax(), "doy"]
     ndvi_peak_doy = sub.loc[sub["ndvi_norm"].idxmax(), "doy"]
 
-    # Restrict to each series' own decline phase (from its own peak onward)
+    # Restricting to each series' own decline phase (from its own peak onward)
     sif_decline = sub[sub["doy"] >= sif_peak_doy]
     ndvi_decline = sub[sub["doy"] >= ndvi_peak_doy]
 

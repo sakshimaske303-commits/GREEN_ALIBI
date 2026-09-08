@@ -30,7 +30,7 @@ for year in _years_sorted:
     )
     # no per-point district labels -- at 64 points they'd just overlap into a smear
 
-# --- regression line across ALL district-year points ---
+# Regression line across ALL district-year points
 slope, intercept, r_value, p_value, std_err = stats.linregress(df["anomaly_pct"], df["mean_sif"])
 spearman_rho, spearman_p = stats.spearmanr(df["anomaly_pct"], df["mean_sif"])
 x_line = np.linspace(df["anomaly_pct"].min(), df["anomaly_pct"].max(), 100)

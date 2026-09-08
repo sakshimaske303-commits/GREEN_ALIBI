@@ -41,7 +41,7 @@ print(f"\nSIF-vs-NDVI edge at this threshold: {ndvi_doy - sif_doy:.1f} days")
 print(f"Satellite-vs-official-declaration gap: SIF {DECLARATION_DOY_2018 - sif_doy:.1f} days, "
       f"NDVI {DECLARATION_DOY_2018 - ndvi_doy:.1f} days")
 
-# --- Timeline figure ---
+# Timeline figure
 fig, ax = plt.subplots(figsize=(9, 3.2))
 sif_date_str = doy_to_date(2018, sif_doy).strftime("%-d %b %Y")
 ndvi_date_str = doy_to_date(2018, ndvi_doy).strftime("%-d %b %Y")
@@ -51,7 +51,7 @@ events = [
     (DECLARATION_DOY_2018, "Official drought\ndeclaration\n(31 Oct 2018)", "#B23A48"),
 ]
 ax.hlines(0, min(e[0] for e in events) - 5, max(e[0] for e in events) + 5, color="gray", linewidth=1.5, zorder=1)
-# SIF and NDVI can land only a few days apart on the x-axis, so stagger
+# SIF and NDVI can land only a few days apart on the x-axis, so I stagger
 # label heights whenever two points are close enough to collide.
 y_offsets = [28] * len(events)
 for i in range(1, len(events)):

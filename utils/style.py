@@ -1,9 +1,7 @@
 import streamlit as st
 
-# ============================================================
 # GREEN ALIBI — Custom Theme v2
 # Palette: deep navy (base) + magenta + hot pink + teal + black
-# ============================================================
 
 NAVY_DARK = "#0A1128"      # main background
 NAVY_MED = "#101B3D"       # sidebar / card background

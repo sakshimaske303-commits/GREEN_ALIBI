@@ -9,14 +9,14 @@ DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
 
-# --- Load precise boundary (for overlay) ---
+# Loading the precise boundary (for overlay)
 boundary = gpd.read_file(BOUNDARY_PATH)
 if boundary.crs is None:
     boundary = boundary.set_crs("EPSG:4326")
 elif boundary.crs.to_epsg() != 4326:
     boundary = boundary.to_crs("EPSG:4326")
 
-# --- Load each raster, keeping its own true (cropped) bounds ---
+# Loading each raster, keeping its own true (cropped) bounds
 arrays = {}
 bounds_by_year = {}
 for year in YEARS:
@@ -26,11 +26,11 @@ for year in YEARS:
         arrays[year] = data
         bounds_by_year[year] = src.bounds
 
-# --- Shared color scale across all years ---
+# Shared color scale across all years
 all_valid = np.concatenate([arrays[y][~np.isnan(arrays[y])].ravel() for y in YEARS])
 vmin, vmax = np.nanpercentile(all_valid, [2, 98])
 
-# --- Plot ---
+# Plot
 ncols = 4  # wrap into a grid instead of one long row
 nrows = math.ceil(len(YEARS) / ncols)
 fig, axes = plt.subplots(nrows, ncols, figsize=(4.5 * ncols, 5 * nrows))
