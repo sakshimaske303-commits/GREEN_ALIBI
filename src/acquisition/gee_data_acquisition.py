@@ -43,7 +43,7 @@ def get_cropland_mask(year):
 
 
 # NDVI: MOD13Q1, SummaryQA <= 1 (good/marginal), cropland-masked
-def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-31"):
+def get_ndvi_collection(year, start_month_day="06-01", end_month_day="12-27"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
     cropland_mask = get_cropland_mask(year)
@@ -91,7 +91,7 @@ def extract_ndvi_timeseries(year, scale=250):
 
 
 # CHIRPS rainfall: seasonal totals + 20-year climatology
-def get_seasonal_rainfall_total(year, start_month_day="06-01", end_month_day="12-31"):
+def get_seasonal_rainfall_total(year, start_month_day="06-01", end_month_day="12-27"):
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")
     chirps = (
@@ -125,7 +125,7 @@ def get_district_boundaries():
     return marathwada_fc  # one feature per district, ADM2_NAME is the key
 
 
-def get_district_seasonal_rainfall(year, start_month_day="06-01", end_month_day="12-31"):
+def get_district_seasonal_rainfall(year, start_month_day="06-01", end_month_day="12-27"):
     """One seasonal rainfall total per district."""
     start = ee.Date(f"{year}-{start_month_day}")
     end = ee.Date(f"{year}-{end_month_day}")

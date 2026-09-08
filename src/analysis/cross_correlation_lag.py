@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 
-# Cross-correlation lag: a second, independent check on the threshold-
+# Cross-correlation lag: a second, methodologically distinct check on the threshold-
 # crossing method in lag_analysis.py. That method asks "when does each
 # series cross X% of peak" (onset-sensitive); this asks "what single
 # shift best aligns the whole curve" (weighs the full decline, not just
