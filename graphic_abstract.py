@@ -7,11 +7,11 @@ from matplotlib.lines import Line2D
 # GREEN ALIBI — GRAPHICAL ABSTRACT
 # ============================================================
 
-fig = plt.figure(figsize=(16, 7), dpi=300)
+fig = plt.figure(figsize=(16, 6.4), dpi=300)
 
 ax = fig.add_axes([0, 0, 1, 1])
 ax.set_xlim(0, 16)
-ax.set_ylim(0, 7)
+ax.set_ylim(0, 6.4)
 ax.axis("off")
 
 
@@ -49,7 +49,7 @@ def draw_box(x, y, width, height, title, body,
 
     ax.text(
         x + width / 2,
-        y + height - 0.36,
+        y + height - 0.33,
         title,
         ha="center",
         va="center",
@@ -60,7 +60,7 @@ def draw_box(x, y, width, height, title, body,
 
     ax.text(
         x + width / 2,
-        y + height / 2 - 0.08,
+        y + height / 2 - 0.07,
         body,
         ha="center",
         va="center",
@@ -90,7 +90,7 @@ def draw_arrow(x1, y1, x2, y2):
 
 ax.text(
     8,
-    6.55,
+    6.00,
     "GREEN ALIBI: Does Fluorescence Catch Drought Stress Before NDVI?",
     ha="center",
     va="center",
@@ -101,7 +101,7 @@ ax.text(
 
 ax.text(
     8,
-    6.08,
+    5.58,
     "Marathwada, Maharashtra, India  |  8 districts  |  "
     "8 growing seasons (2015–2023, excluding 2021)",
     ha="center",
@@ -117,32 +117,32 @@ ax.text(
 # ============================================================
 
 draw_box(
-    0.45, 4.15, 2.65, 1.35,
+    0.45, 3.80, 2.65, 1.35,
     "STUDY",
     "Agricultural drought stress\nacross 8 districts"
 )
 
 draw_box(
-    3.55, 4.15, 2.65, 1.35,
+    3.55, 3.80, 2.65, 1.35,
     "SATELLITE + RAINFALL",
     "GOSIF SIF  |  MODIS NDVI\nCHIRPS rainfall",
     title_size=13
 )
 
 draw_box(
-    6.65, 4.15, 2.65, 1.35,
+    6.65, 3.80, 2.65, 1.35,
     "ANALYSIS",
     "Threshold crossing\nCross-correlation\nBootstrap uncertainty"
 )
 
 draw_box(
-    9.75, 4.15, 2.65, 1.35,
+    9.75, 3.80, 2.65, 1.35,
     "SPATIAL CHECK",
     "District patterns\nMoran's I\nRainfall correspondence"
 )
 
 draw_box(
-    12.85, 4.15, 2.70, 1.35,
+    12.85, 3.80, 2.70, 1.35,
     "POLICY CHECK",
     "2018 satellite signals\nvs official declaration",
     title_size=13
@@ -150,10 +150,10 @@ draw_box(
 
 
 # Arrows
-draw_arrow(3.10, 4.82, 3.45, 4.82)
-draw_arrow(6.20, 4.82, 6.55, 4.82)
-draw_arrow(9.30, 4.82, 9.65, 4.82)
-draw_arrow(12.40, 4.82, 12.75, 4.82)
+draw_arrow(3.10, 4.47, 3.45, 4.47)
+draw_arrow(6.20, 4.47, 6.55, 4.47)
+draw_arrow(9.30, 4.47, 9.65, 4.47)
+draw_arrow(12.40, 4.47, 12.75, 4.47)
 
 
 # ============================================================
@@ -161,9 +161,9 @@ draw_arrow(12.40, 4.82, 12.75, 4.82)
 # ============================================================
 
 panel = FancyBboxPatch(
-    (0.45, 1.25),
+    (0.45, 1.15),
     15.10,
-    2.35,
+    2.20,
     boxstyle="round,pad=0.04,rounding_size=0.10",
     linewidth=1.4,
     edgecolor=BORDER,
@@ -174,7 +174,7 @@ ax.add_patch(panel)
 
 ax.text(
     8,
-    3.30,
+    3.08,
     "KEY RESULTS",
     ha="center",
     va="center",
@@ -190,9 +190,9 @@ ax.text(
 
 draw_box(
     0.75,
-    1.50,
+    1.38,
     3.25,
-    1.40,
+    1.30,
     "7 / 8 YEARS",
     "SIF decline led NDVI decline\n"
     "under threshold-crossing",
@@ -207,9 +207,9 @@ draw_box(
 
 draw_box(
     4.35,
-    1.50,
+    1.38,
     3.25,
-    1.40,
+    1.30,
     "METHOD-DEPENDENT",
     "Cross-correlation:\n"
     "4 SIF-leading  |  1 tie  |  3 NDVI-leading",
@@ -224,9 +224,9 @@ draw_box(
 
 draw_box(
     7.95,
-    1.50,
+    1.38,
     3.25,
-    1.40,
+    1.30,
     "DROUGHT-SEVERITY HYPOTHESIS",
     "7.6 vs 15.0 days\n"
     "Drought years did not show a larger lag\n"
@@ -241,9 +241,9 @@ draw_box(
 # ============================================================
 
 timeline_box = FancyBboxPatch(
-    (11.55, 1.50),
+    (11.55, 1.38),
     3.55,
-    1.40,
+    1.30,
     boxstyle="round,pad=0.03,rounding_size=0.08",
     linewidth=1.7,
     edgecolor=TEAL,
@@ -254,7 +254,7 @@ ax.add_patch(timeline_box)
 
 ax.text(
     13.325,
-    2.63,
+    2.42,
     "2018 POLICY TIMELINE",
     ha="center",
     va="center",
@@ -267,7 +267,7 @@ ax.text(
 ax.add_line(
     Line2D(
         [11.95, 14.72],
-        [1.98, 1.98],
+        [1.83, 1.83],
         linewidth=2,
         color=GREY
     )
@@ -276,7 +276,7 @@ ax.add_line(
 # NDVI marker
 ax.add_patch(
     Circle(
-        (12.25, 1.98),
+        (12.25, 1.83),
         0.075,
         facecolor=PINK,
         edgecolor=WHITE,
@@ -287,7 +287,7 @@ ax.add_patch(
 # SIF marker
 ax.add_patch(
     Circle(
-        (12.55, 1.98),
+        (12.55, 1.83),
         0.075,
         facecolor=TEAL,
         edgecolor=WHITE,
@@ -298,7 +298,7 @@ ax.add_patch(
 # Official declaration marker
 ax.add_patch(
     Circle(
-        (14.35, 1.98),
+        (14.35, 1.83),
         0.075,
         facecolor=PINK,
         edgecolor=WHITE,
@@ -308,7 +308,7 @@ ax.add_patch(
 
 ax.text(
     12.25,
-    1.76,
+    1.62,
     "NDVI\n4 Sep",
     ha="center",
     va="top",
@@ -318,7 +318,7 @@ ax.text(
 
 ax.text(
     12.55,
-    2.18,
+    2.02,
     "SIF\n8 Sep",
     ha="center",
     va="bottom",
@@ -328,7 +328,7 @@ ax.text(
 
 ax.text(
     14.35,
-    1.76,
+    1.62,
     "Official\n31 Oct",
     ha="center",
     va="top",
@@ -338,7 +338,7 @@ ax.text(
 
 ax.text(
     13.45,
-    2.42,
+    2.25,
     "~7–8 weeks",
     ha="center",
     va="center",
@@ -354,7 +354,7 @@ ax.text(
 
 ax.text(
     8,
-    0.70,
+    0.58,
     "CONCLUSION  •  SIF shows promise for earlier detection of "
     "agricultural stress, but its lead over NDVI is year- and "
     "method-dependent.",
