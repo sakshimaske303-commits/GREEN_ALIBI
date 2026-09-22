@@ -228,7 +228,7 @@ draw_box(
     3.25,
     1.30,
     "DROUGHT-SEVERITY HYPOTHESIS",
-    "7.6 vs 15.0 days\n"
+    "7.6 vs 15.4 days\n"
     "Drought years did not show a larger lag\n"
     "H3 not supported",
     title_size=11.5,

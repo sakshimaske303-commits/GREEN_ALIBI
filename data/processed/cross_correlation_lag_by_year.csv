@@ -5,5 +5,6 @@ year,is_drought_year,decline_window_days,max_lag_tested,cross_corr_lag_days,max_
 2018,True,129,32,-4,0.9942,0.9917,False,False
 2019,False,105,26,18,0.9696,0.9515,False,False
 2020,False,129,32,0,0.9879,0.9879,False,False
+2021,False,129,32,14,0.9843,0.9805,False,False
 2022,False,121,30,-9,0.9928,0.9821,False,False
 2023,False,105,26,-10,0.94,0.9067,False,False

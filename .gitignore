@@ -4,6 +4,11 @@ data/raw/*.tiff
 data/processed/clipped/*.tif
 data/processed/clipped/*.tiff
 
+# raw external ground-truth source (455k-row, all-India government CSV --
+# too large for git; re-download via India Data Portal, see
+# src/analysis/crop_yield_validation.py's docstring for the source URL)
+data/external/extracted/
+
 # python
 __pycache__/
 *.pyc

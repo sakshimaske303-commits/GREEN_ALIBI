@@ -9,16 +9,16 @@ st.title("📈 Seasonal SIF vs. NDVI Trajectories")
 st.markdown("""
 Before any quantitative lag calculation, the first test of this project's core premise was
 simple: plot both indices, normalized to their own seasonal peak, side by side across all
-eight study years, and see whether SIF actually begins declining before NDVI does.
+nine study years, and see whether SIF actually begins declining before NDVI does.
 """)
 
 section_divider()
 
 st.image("outputs/figures/sif_vs_ndvi_seasonal_v2.png", use_container_width=True)
 styled_caption(
-    "Normalized SIF and NDVI seasonal trajectories, Marathwada, all eight study years "
-    "(2015–2023, excluding 2021), labeled by drought classification. SIF's post-peak "
-    "decline precedes NDVI's decline in seven of the eight years; 2018 is a visible "
+    "Normalized SIF and NDVI seasonal trajectories, Marathwada, all nine study years "
+    "(2015–2023), labeled by drought classification. SIF's post-peak "
+    "decline precedes NDVI's decline in eight of the nine years; 2018 is a visible "
     "exception where the two curves track much more tightly together."
 )
 
@@ -32,7 +32,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("The Consistent Pattern — and Its Exception")
     st.markdown("""
-    In seven of the eight years — regardless of drought classification — SIF begins its
+    In eight of the nine years — regardless of drought classification — SIF begins its
     post-peak decline visibly before NDVI does. NDVI holds near its peak value for a
     noticeably longer stretch after SIF has already started dropping. This pattern
     supports **H1** and the underlying physical mechanism covered on the **Physics**
@@ -50,9 +50,9 @@ with col2:
     SIF–NDVI gap looked distinctly larger in drought years than in the normal year.
     Checking that claim rigorously — by measuring each year's decline as a percentage of
     its own peak at each subsequent date, rather than eyeballing the chart — did **not**
-    support it, in the original three-year sample or in the expanded eight-year one: the
+    support it, in the original three-year sample or in the expanded nine-year one: the
     two years meeting this study's drought threshold actually show a *smaller* average
-    lag than the six normal years. That initial claim was withdrawn rather than left
+    lag than the seven normal years. That initial claim was withdrawn rather than left
     standing. The proper, quantitative version of this test is on the **Lag Analysis**
     page.
     """)

@@ -1,0 +1,9 @@
+system:index,district,rainfall_mm,year,.geo
+00020000000000000271,Latur,1031.6127619728989,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000273,Nanded,1176.1002705913352,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000275,Osmanabad,866.203151301653,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000280,Aurangabad,821.5374169911393,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000282,Bid,893.9677277161371,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000284,Hingoli,1145.4978697351996,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000285,Jalna,863.8092597862684,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000288,Parbhani,1053.6287065956071,2021,"{""type"":""MultiPoint"",""coordinates"":[]}"

@@ -1,0 +1,9 @@
+system:index,climatology_mean_mm,climatology_std_mm,district,end_year,start_year,.geo
+00020000000000000271,857.6499023826233,170.0128325833538,Latur,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000273,1008.9913671074731,175.2196296346268,Nanded,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000275,704.8983204848475,162.53556192534626,Osmanabad,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000280,725.0548569136677,163.01918755442225,Aurangabad,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000282,744.7266217271472,150.21146789608073,Bid,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000284,960.5014023014755,180.37257245843549,Hingoli,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000285,781.2193798326057,154.2388092307656,Jalna,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"
+00020000000000000288,899.1093051528424,168.513004087119,Parbhani,2020,2001,"{""type"":""MultiPoint"",""coordinates"":[]}"

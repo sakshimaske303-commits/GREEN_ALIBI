@@ -38,7 +38,7 @@ with col_b:
 
 st.subheader("The Eight Districts")
 d1, d2, d3, d4 = st.columns(4)
-districts = ["Aurangabad", "Jalna", "Parbhani", "Hingoli", "Nanded", "Beed (Bid)", "Latur", "Osmanabad"]
+districts = ["Aurangabad", "Jalna", "Parbhani", "Hingoli", "Nanded", "Bid", "Latur", "Osmanabad"]
 for col, name in zip([d1, d2, d3, d4, d1, d2, d3, d4], districts):
     col.markdown(f"- {name}")
 
@@ -51,11 +51,11 @@ st.markdown("""
 Marathwada sits in Maharashtra's rain-shadow zone, east of the Western Ghats, making it
 structurally more drought-prone than the state's coastal and western districts. It has a
 recent history of well-documented drought years — including 2015 and 2018, both study years
-in this project — alongside genuinely normal monsoon years, giving this study eight growing
-seasons (2015–2023, excluding 2021) within a single, geographically coherent region rather
+in this project — alongside genuinely normal monsoon years, giving this study nine growing
+seasons (2015–2023) within a single, geographically coherent region rather
 than across regions with different baseline climates. Independently measured rainfall
 anomaly (see Rainfall Validation) confirms that only 2015 and 2018 actually meet this
-study's own drought threshold among the eight years studied — the other six sit within
+study's own drought threshold among the nine years studied — the other seven sit within
 roughly one standard deviation of the region's 20-year normal.
 
 Studying one's own home region also carries a practical advantage: local familiarity with

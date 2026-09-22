@@ -85,9 +85,9 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Districts Studied", "8", "Marathwada")
 with col2:
-    st.metric("Study Years", "8", "2015–2023 (excl. 2021)")
+    st.metric("Study Years", "9", "2015–2023")
 with col3:
-    st.metric("Drought Years", "2", "2015, 2018 (of 8)")
+    st.metric("Drought Years", "2", "2015, 2018 (of 9)")
 with col4:
     st.metric("Datasets Used", "4", "SIF · NDVI · Rainfall · Land Cover")
 
@@ -173,6 +173,7 @@ Use the sidebar to move through the study in the order it was actually built:
 - **Rainfall Validation** — independently confirming the drought years
 - **Combined Comparison** — SIF and rainfall side by side
 - **Interactive Maps & Plots** — both district-level maps and the three headline charts in one place, hoverable, zoomable, and toggleable
+- **Crop-Yield Validation** — checking this study's drought classification against official government harvest statistics
 - **Findings & Conclusion** — what this project did and did not find
 """)
 

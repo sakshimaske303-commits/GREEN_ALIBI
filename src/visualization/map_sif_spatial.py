@@ -4,7 +4,7 @@ import rasterio
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
-YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
@@ -54,7 +54,7 @@ fig.subplots_adjust(wspace=0.3, hspace=0.35, top=0.90, bottom=0.08, left=0.05, r
 cbar_ax = fig.add_axes([0.92, 0.15, 0.015, 0.7])
 fig.colorbar(ims[-1], cax=cbar_ax, label="SIF (mW/m²/sr/nm)")
 
-fig.suptitle(f"Solar-Induced Fluorescence — Marathwada (precise boundary) — DOY {DOY}, 8 years", fontsize=15, y=0.97)
+fig.suptitle(f"Solar-Induced Fluorescence — Marathwada (precise boundary) — DOY {DOY}, 9 years", fontsize=15, y=0.97)
 
 fig.savefig("outputs/figures/sif_spatial_comparison_doy273_v2.png", dpi=300, bbox_inches="tight")
 plt.show()

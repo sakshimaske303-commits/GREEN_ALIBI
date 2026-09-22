@@ -5,7 +5,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
@@ -77,6 +77,6 @@ rain_sm._A = []
 rain_cbar_ax = fig.add_axes([0.90, 0.10, 0.02, 0.35])
 fig.colorbar(rain_sm, cax=rain_cbar_ax, label="Rainfall anomaly (%)")
 
-fig.suptitle("SIF stress vs rainfall deficit — Marathwada, 8 years (2015-2023)", fontsize=15, y=0.97)
+fig.suptitle("SIF stress vs rainfall deficit — Marathwada, 9 years (2015-2023)", fontsize=15, y=0.97)
 fig.savefig(OUTPUT_PLOT, dpi=300, bbox_inches="tight")
 plt.show()

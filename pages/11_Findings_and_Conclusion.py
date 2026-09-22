@@ -12,36 +12,36 @@ section_divider()
 st.header("Key Findings")
 
 st.success("""
-**1.** SIF's post-peak seasonal decline precedes NDVI's decline in seven of the eight study
+**1.** SIF's post-peak seasonal decline precedes NDVI's decline in eight of the nine study
 years (all but 2018) under the threshold-crossing method — supporting SIF's physical basis
 as a more temporally responsive stress indicator (**H1**, general form: supported, though
 not universal). A second, methodologically distinct check (cross-correlation — see **Lag
 Analysis**) tells a more mixed story, and only does so honestly after a real bug was found
 and fixed: the cross-correlation and bootstrap scripts originally searched only
 non-negative lags, making it impossible for either to ever find NDVI leading SIF. Corrected
-and rerun, cross-correlation shows SIF clearly leading in 4 of 8 years, a tie in 1 (2020),
+and rerun, cross-correlation shows SIF clearly leading in 5 of 9 years, a tie in 1 (2020),
 and NDVI clearly leading in 3 (2018, 2022, 2023) — 2 of those backed by a bootstrap where
 99%+ of replicates land below zero.
 """)
 
 st.warning("""
 **2.** The hypothesis that drought amplifies the SIF–NDVI lag (**H3**) is **not
-supported, replicated at more than double the original sample size**. Mean lag was smaller
-in the two drought years (7.6 days average) than in the six normal years (15.0 days
+supported, replicated at three times the original sample size**. Mean lag was smaller
+in the two drought years (7.6 days average) than in the seven normal years (15.1 days
 average) — the same direction found in the original three-year study.
 """)
 
 st.info("""
 **3.** District-level spatial analysis identifies **Osmanabad** as the most consistently
-low-SIF district (lowest of all eight districts in 7 of 8 years), with **Bid** taking over
+low-SIF district (lowest of all eight districts in 8 of 9 years), with **Bid** taking over
 as the single lowest-SIF district specifically in 2018. This corresponds spatially with the
-districts recording the largest average rainfall deficits across the full eight-year record
+districts recording the largest average rainfall deficits across the full nine-year record
 — Osmanabad, Bid, and Aurangabad (**H2**: supported — the effect is not spatially uniform).
 This correspondence is confirmed statistically, though more moderately than the original
-sample suggested: mean SIF and rainfall anomaly are significantly correlated across all 64
-district-year observations (Pearson r = 0.567, Spearman ρ = 0.551, both p < 0.001, down
+sample suggested: mean SIF and rainfall anomaly are significantly correlated across all 72
+district-year observations (Pearson r = 0.531, Spearman ρ = 0.504, both p < 0.0001, down
 from r = 0.837 at the original three-year sample size). Unlike the original sample, no
-single district is consistently *highest* in SIF — Aurangabad leads most often (4 of 8
+single district is consistently *highest* in SIF — Aurangabad leads most often (5 of 9
 years), but the top spot rotates among four different districts across the record.
 """)
 
@@ -50,7 +50,7 @@ st.info("""
 2018, when eastern districts (Nanded, Hingoli) recorded near-normal or surplus rainfall
 despite a region-wide deficit of 18.3% — showing that "drought year" as a single regional
 label conceals meaningful sub-regional variation. This west-drier/east-wetter gradient is
-not confined to drought years: averaged across all eight years, Osmanabad, Bid, and
+not confined to drought years: averaged across all nine years, Osmanabad, Bid, and
 Aurangabad run driest on average while Nanded and Hingoli run consistently wettest.
 """)
 
@@ -58,13 +58,14 @@ st.info("""
 **5.** A bootstrap check, rerun after the same fix applied to Finding 1's cross-correlation
 numbers, shows Finding 1's direction is genuinely mixed rather than uniformly robust: 2022
 and 2023 have 99%+ of replicates landing below zero (a strong NDVI-leads signal), 2018 leans
-the same way at 87.4%, and five years (2015, 2016, 2017, 2019, 2020) show real evidence in
-the SIF-leads direction with varying strength. Of the 28 possible pairwise between-year
-comparisons, 24 still overlap, but 4 — 2015 vs. 2022, 2015 vs. 2023, 2017 vs. 2022, 2017 vs.
+the same way at 87.4%, and four years (2015, 2016, 2017, 2019) show reasonable-to-strong
+evidence in the SIF-leads direction, while 2020 and 2021 both sit almost exactly on the
+fence. Of the 36 possible pairwise between-year
+comparisons, 32 still overlap, but 4 — 2015 vs. 2022, 2015 vs. 2023, 2017 vs. 2022, 2017 vs.
 2023 — are genuinely distinguishable, separating the strongest SIF-leads years from the
 strongest NDVI-leads years. Separately, Moran's I confirms —
 with a number rather than a caveat — that the district-level rainfall data behind Finding 3
-are spatially clustered in all 8 of 8 years, while SIF is spatially clustered in only 4 of 8
+are spatially clustered in all 9 of 9 years, while SIF is spatially clustered in only 4 of 9
 years (down from 3 of 3 in the original sample). Neither check overturns a finding; both
 state precisely how much confidence each finding can support. See **Lag Analysis** and
 **Combined Comparison** for the full detail.
@@ -85,6 +86,19 @@ comparably verifiable 2015 declaration date could not be located, so this compar
 2018 only.
 """)
 
+st.info("""
+**7.** None of Findings 1–6 touch actual agricultural outcomes — they compare one
+remote-sensing product against another, or against an official policy date. **Official
+government Kharif crop-yield statistics** (Ministry of Agriculture & Farmers Welfare,
+1997-98 to 2022-23) provide an independent, external check: this study's two rainfall-
+defined drought years (2015, 2018) show a meaningfully lower Yield Anomaly Index than the
+six normal years with yield data available (**−1.08 vs. +0.07**), the same direction the
+satellite and rainfall record already point — though not statistically significant at
+conventional thresholds given the small drought-year group (n = 2, t = −2.87, p = 0.15).
+2021 itself sits close to zero (−0.13), a normal but unremarkable year by this measure too.
+See **Crop-Yield Validation** for the full detail.
+""")
+
 section_divider()
 
 # Summary metrics
@@ -92,23 +106,29 @@ st.header("Study at a Glance")
 
 c1, c2, c3, c4 = st.columns(4)
 with c1:
-    st.metric("SIF leads NDVI decline", "7 / 8 years")
+    st.metric("SIF leads NDVI decline", "8 / 9 years")
 with c2:
     st.metric("Drought-lag amplification (H3)", "Not supported")
 with c3:
-    st.metric("Rainfall-confirmed drought years", "2 / 8")
+    st.metric("Rainfall-confirmed drought years", "2 / 9")
 with c4:
-    st.metric("Spatial SIF-rainfall match", "r = 0.567 ✓")
+    st.metric("Spatial SIF-rainfall match", "r = 0.531 ✓")
 
 c5, c6, c7, c8 = st.columns(4)
 with c5:
-    st.metric("Cross-correlation: SIF leads / tied / NDVI leads", "4 / 1 / 3 years")
+    st.metric("Cross-correlation: SIF leads / tied / NDVI leads", "5 / 1 / 3 years")
 with c6:
-    st.metric("Moran's I — rainfall significant", "8 / 8 years")
+    st.metric("Moran's I — rainfall significant", "9 / 9 years")
 with c7:
-    st.metric("Moran's I — SIF significant", "4 / 8 years")
+    st.metric("Moran's I — SIF significant", "4 / 9 years")
 with c8:
     st.metric("Satellite lead vs. official declaration (2018)", "~7–8 weeks")
+
+c9, c10 = st.columns(2)
+with c9:
+    st.metric("Crop-yield anomaly: drought vs. normal years", "−1.08 vs. +0.07")
+with c10:
+    st.metric("Crop-yield vs. rainfall anomaly correlation", "r = 0.928")
 
 section_divider()
 
@@ -122,9 +142,9 @@ st.markdown("""
   used for comparison, the two variables are not fully independent at the input-data
   level, a property of the dataset choice this study does not attempt to quantify or
   correct for.
-- The sample, now eight years (2015–2023, excluding 2021), is still unbalanced toward
-  normal years: only 2 of 8 years (2015, 2018) meet this study's own rainfall-anomaly
-  drought threshold (z-score < -0.5), against 6 normal years. This is itself a finding —
+- The sample, now nine years (2015–2023), is still unbalanced toward
+  normal years: only 2 of 9 years (2015, 2018) meet this study's own rainfall-anomaly
+  drought threshold (z-score < -0.5), against 7 normal years. This is itself a finding —
   the original three-year sample (2 of 3 drought years) was considerably more drought-heavy
   than Marathwada's actual climate record — but it also means drought-year statistics in
   this study still rest on an n of 2, not a larger balanced sample.
@@ -146,37 +166,45 @@ st.markdown("""
   cross-correlation lag to a genuinely negative one. Disclosed in full rather than folded
   quietly into revised numbers — see **Development Log, Entry 17**.
 - The spatial correspondence between rainfall deficit and SIF stress was tested via
-  Pearson and Spearman correlation (r = 0.567, ρ = 0.551, both p < 0.001) rather than left
-  as a purely visual comparison; however, with only eight independent study years and eight
-  geographically adjacent districts, the 64 district-year observations are not fully
+  Pearson and Spearman correlation (r = 0.531, ρ = 0.504, both p < 0.0001) rather than left
+  as a purely visual comparison; however, with only nine independent study years and eight
+  geographically adjacent districts, the 72 district-year observations are not fully
   independent, and this correlation should be read as real but moderate corroborating
   evidence rather than a formally independent statistical confirmation. This is now
   quantified, not just asserted: Moran's I is significantly positive (p < 0.05) for
-  rainfall anomaly in all 8 years, but for mean SIF in only 4 of 8 years — a genuine,
+  rainfall anomaly in all 9 years, but for mean SIF in only 4 of 9 years — a genuine,
   year-dependent weakening from the original three-year sample, where all three years were
   significant for both variables (see **Combined Comparison**).
-- The low-SIF zones identified have not been validated against ground-level crop-stress
-  or drought-impact reporting for the districts concerned.
+- This study's drought classification is checked against official government Kharif
+  crop-yield statistics (**Crop-Yield Validation** page), rather than left entirely
+  unvalidated against ground outcomes — but that check is not a field-level crop-stress
+  survey, and it doesn't extend to validating SIF's within-season lag-timing claims
+  specifically. It also has its own constraints: the government dataset's most recent
+  published season is 2022-23, so 2023 has no yield counterpart yet (n = 8 region-years,
+  not 9), and the drought-versus-normal yield comparison itself rests on a small n = 2
+  drought-year group, the same constraint that limits H3 elsewhere in this study.
 - District-level rainfall anomaly was computed relative to a single region-wide
   climatological baseline rather than a per-district climatology.
 - SIF- and NDVI-based stress timing was compared against the one well-documented official
   drought-declaration date I could find (Maharashtra, 31 October 2018).
   A comparably verifiable single declaration date for 2015 could not be located, so this
-  comparison remains partial — one of eight study years — rather than complete, and that
+  comparison remains partial — one of nine study years — rather than complete, and that
   one year happens to be 2018, the study's own sign-reversal exception.
-- The Earth Engine-based acquisition step for the five newly added years was rewritten as
-  a standalone Python script (`src/acquisition/gee_data_acquisition.py`) and was actually
-  executed for all eight study years during the sample-size expansion — unlike the original
-  three-year study, where this step had only been run interactively and never as a checked-in
-  script. Running it surfaced three genuine bugs (a missing Earth Engine Cloud project, a
-  MODIS sinusoidal-projection clip error, and the "Beed"/"Bid" district-naming mismatch
-  recurring independently in the new script, despite already having been fixed once in the
-  original interactive workflow) — all caught and fixed before any figure in this dashboard
-  was computed, and documented in the **Development Log**. This closes the original
-  reproducibility gap rather than only improving it on paper.
+- The Earth Engine-based acquisition step for the five years added during the original
+  sample-size expansion was rewritten as a standalone Python script
+  (`src/acquisition/gee_data_acquisition.py`) and was actually executed for all eight of
+  those years — unlike the original three-year study, where this step had only been run
+  interactively and never as a checked-in script. Running it surfaced three genuine bugs (a
+  missing Earth Engine Cloud project, a MODIS sinusoidal-projection clip error, and the
+  "Beed"/"Bid" district-naming mismatch recurring independently in the new script, despite
+  already having been fixed once in the original interactive workflow) — all caught and
+  fixed before any figure in this dashboard was computed, and documented in the
+  **Development Log**. 2021, the ninth year, was added separately and later, by hand — its
+  raw GOSIF rasters had to be tracked down and processed outside this script (see
+  **Development Log, Entry 20**).
 - The exact lag values in **Lag Analysis**, and their year-to-year ranking, carry wider
   uncertainty than the point estimates alone suggest — see the bootstrap confidence
-  intervals there, where 24 of the 28 pairwise between-year comparisons overlap (the
+  intervals there, where 32 of the 36 pairwise between-year comparisons overlap (the
   remaining 4 separate the strongest SIF-leads years from the strongest NDVI-leads years).
 """)
 
@@ -187,39 +215,41 @@ st.header("Conclusion")
 
 st.markdown("""
 This study finds that Solar-Induced Fluorescence registers the onset of post-peak seasonal
-vegetation decline earlier than, or no later than, NDVI in seven of the eight years studied
+vegetation decline earlier than, or no later than, NDVI in eight of the nine years studied
 in Marathwada, Maharashtra, under the threshold-crossing method — supporting SIF's physical
 basis, developed on the **Physics** pages, as a more temporally responsive stress indicator
 in most, though not all, years. A second, methodologically distinct cross-correlation check,
 corrected after finding it had originally been unable to search for a negative lag, tells a
-more mixed story: SIF clearly ahead in 4 years, a genuine tie in 1, and NDVI clearly ahead
+more mixed story: SIF clearly ahead in 5 years, a genuine tie in 1, and NDVI clearly ahead
 in 3 (2018, 2022, 2023), two of those backed by strong bootstrap support. Finding and fixing
 that bug, and reporting what the corrected analysis actually says, is as much a part of this
 study's result as the headline lag numbers themselves. It does not find evidence that this
 lag is amplified specifically by drought conditions — the opposite direction replicated at
-more than double the original sample size — and identifies substantial inter-annual and
+three times the original sample size — and identifies substantial inter-annual and
 intra-regional variation that a simple drought/normal binary does not capture. Expanding the
-sample from three years to eight also surfaced a genuine exception: 2018 remains the year
+sample from three years to nine also surfaced a genuine exception: 2018 remains the year
 every method agrees breaks the SIF-leads-NDVI pattern, while 2022 and 2023 turn out to be a
 softer, method-dependent version of the same story.
 
 Independent rainfall validation and spatial cross-referencing between SIF and
 precipitation data lend physical coherence to the district-level findings — a
-correspondence confirmed statistically at eight years, though more moderately than the
-original three-year sample suggested (Pearson r = 0.567, Spearman ρ = 0.551, both
-p < 0.001, versus the original r = 0.837), and further characterized, via Moran's I, rather
+correspondence confirmed statistically at nine years, though more moderately than the
+original three-year sample suggested (Pearson r = 0.531, Spearman ρ = 0.504, both
+p < 0.0001, versus the original r = 0.837), and further characterized, via Moran's I, rather
 than only caveated. A comparison against the one available official drought-declaration
 date (2018) suggests the practical policy case is better framed as "satellite monitoring
 generally, refined by SIF specifically, in most but not all years" than as SIF's edge over
 NDVI being a uniform, dominant lever on payout timing — precisely because 2018, the one
 year with a verifiable declaration date, is also the year where that edge disappears.
-Several limitations — an unbalanced 2-versus-6 drought/normal split, the 2018/2022/2023
+Several limitations — an unbalanced 2-versus-7 drought/normal split, the 2018/2022/2023
 exception that isn't fully explained, absence of ground validation, the spatial
 non-independence underlying the correlation above, and a real search-space bug in two of
 the four lag-estimation checks that changed a genuine finding once fixed — are reported
 directly rather than resolved beyond what the available data supports. The Earth Engine
-acquisition step, unlike in the original study, was actually scripted and executed for all
-eight years during this expansion, closing what had been an open reproducibility gap.
+acquisition step, unlike in the original study, was actually scripted and executed for
+eight of the nine years during the original sample expansion, closing what had been an open
+reproducibility gap; the ninth year, 2021, was added later by hand (**Development Log,
+Entry 20**).
 """)
 
 st.markdown("""

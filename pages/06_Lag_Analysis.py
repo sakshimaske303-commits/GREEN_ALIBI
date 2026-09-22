@@ -45,21 +45,21 @@ st.markdown(
 section_divider()
 
 st.image("outputs/figures/sif_ndvi_lag_by_threshold.png", use_container_width=True)
-styled_caption("SIF-to-NDVI decline lag (days), by decline threshold and year, all eight study years.")
+styled_caption("SIF-to-NDVI decline lag (days), by decline threshold and year, all nine study years.")
 
 section_divider()
 
 # Key metrics
 st.header("Mean Lag by Year")
 
-_years_lag = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
-_drought_flag = [True, False, False, True, False, False, False, False]
-_mean_lag = [16.3, 23.8, 21.6, -1.1, 17.2, 20.6, 5.1, 4.2]
+_years_lag = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+_drought_flag = [True, False, False, True, False, False, False, False, False]
+_mean_lag = [16.3, 23.8, 21.6, -1.1, 17.2, 20.6, 13.1, 5.1, 4.2]
 
-row1 = st.columns(4)
+row1 = st.columns(5)
 row2 = st.columns(4)
 for i, (yr, dr, lag) in enumerate(zip(_years_lag, _drought_flag, _mean_lag)):
-    col = row1[i] if i < 4 else row2[i - 4]
+    col = row1[i] if i < 5 else row2[i - 5]
     label = f"{yr} ({'drought' if dr else 'normal'})"
     col.metric(label, f"{lag} days")
 
@@ -68,7 +68,7 @@ g1, g2 = st.columns(2)
 with g1:
     st.metric("Drought years (mean, n=2)", "7.6 days")
 with g2:
-    st.metric("Normal years (mean, n=6)", "15.0 days")
+    st.metric("Normal years (mean, n=7)", "15.1 days")
 
 section_divider()
 
@@ -76,15 +76,16 @@ section_divider()
 st.header("Full Threshold-by-Threshold Results")
 
 lag_data = pd.DataFrame({
-    "Year": [2015]*5 + [2016]*5 + [2017]*5 + [2018]*5 + [2019]*5 + [2020]*5 + [2022]*5 + [2023]*5,
-    "Drought Year": [True]*5 + [False]*5 + [False]*5 + [True]*5 + [False]*5 + [False]*5 + [False]*5 + [False]*5,
-    "Threshold": [0.9, 0.8, 0.7, 0.6, 0.5] * 8,
+    "Year": [2015]*5 + [2016]*5 + [2017]*5 + [2018]*5 + [2019]*5 + [2020]*5 + [2021]*5 + [2022]*5 + [2023]*5,
+    "Drought Year": [True]*5 + [False]*5 + [False]*5 + [True]*5 + [False]*5 + [False]*5 + [False]*5 + [False]*5 + [False]*5,
+    "Threshold": [0.9, 0.8, 0.7, 0.6, 0.5] * 9,
     "SIF Crossing (DOY)": [263.6, 270.6, 276.3, 281.7, 289.6,
                             259.6, 266.2, 272.6, 283.2, 291.7,
                             253.5, 260.0, 267.7, 283.8, 290.7,
                             251.4, 257.4, 262.6, 268.0, 273.4,
                             268.8, 276.7, 285.2, 304.7, 314.5,
                             249.4, 258.3, 262.2, 269.3, 289.5,
+                            246.4, 256.8, 263.9, 273.1, 282.6,
                             260.3, 270.3, 280.6, 287.2, 295.1,
                             264.7, 269.2, 274.2, 282.4, 287.6],
     "NDVI Crossing (DOY)": [274.5, 278.4, 290.9, 296.7, 323.1,
@@ -93,6 +94,7 @@ lag_data = pd.DataFrame({
                              246.6, 258.6, 261.4, 264.2, 276.7,
                              258.7, 292.8, 312.1, 340.6, None,
                              247.2, 261.0, 290.5, 308.0, 324.9,
+                             245.3, 258.3, 278.7, 295.0, 311.2,
                              260.3, 274.2, 279.0, 295.0, 310.3,
                              261.4, 273.6, 277.3, 280.9, 305.9],
     "Lag (days)": [10.9, 7.8, 14.6, 15.0, 33.4,
@@ -101,6 +103,7 @@ lag_data = pd.DataFrame({
                    -4.8, 1.2, -1.2, -3.7, 3.2,
                    -10.1, 16.2, 26.8, 36.0, None,
                    -2.2, 2.7, 28.3, 38.6, 35.4,
+                   -1.1, 1.5, 14.8, 21.9, 28.6,
                    -0.0, 4.0, -1.6, 7.8, 15.2,
                    -3.4, 4.4, 3.0, -1.5, 18.3]
 })
@@ -115,17 +118,17 @@ st.header("What This Means for H3")
 
 st.warning("""
 **H3 (drought amplifies the SIF–NDVI lag) is not supported by this data — confirmed at
-more than double the original sample size.**
+three times the original sample size.**
 
-The two drought years (2015, 2018) produced a *smaller* average lag (7.6 days) than the six
-normal years (15.0 days) — the opposite of the predicted direction, and the same direction
+The two drought years (2015, 2018) produced a *smaller* average lag (7.6 days) than the seven
+normal years (15.1 days) — the opposite of the predicted direction, and the same direction
 found in the original three-year study. This indicates that "drought year" is too coarse a
 category to predict SIF–NDVI lag behavior on its own — a finding that has now replicated
-across two independently sized samples (n = 3 and n = 8 years).
+across two independently sized samples (n = 3 and n = 9 years).
 """)
 
 st.markdown("""
-What **does** hold up: SIF's decline precedes NDVI's decline in seven of the eight years,
+What **does** hold up: SIF's decline precedes NDVI's decline in eight of the nine years,
 supporting **H1** in its general form (see **Seasonal Trajectories**). What does not
 hold up is the more specific claim that drought severity scales the size of that lead —
 a genuine, honestly-reported non-result rather than a confirmed contrary finding.
@@ -160,30 +163,30 @@ numbers below are the corrected ones. Full account in Development Log, Entry 17.
 
 st.image("outputs/figures/cross_correlation_lag.png", use_container_width=True)
 styled_caption(
-    "Cross-correlation between SIF(t) and NDVI(t + lag), by year, all eight study years, "
+    "Cross-correlation between SIF(t) and NDVI(t + lag), by year, all nine study years, "
     "searched over both directions (−N/4 to +N/4 days) of each year's decline window. "
     "A negative lag means NDVI leads SIF."
 )
 
-_cc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
-_cc_drought = [True, False, False, True, False, False, False, False]
-_cc_lag = [4, 2, 27, -4, 18, 0, -9, -10]
-_cc_r = [0.9933, 0.9961, 0.9878, 0.9942, 0.9696, 0.9879, 0.9928, 0.9400]
+_cc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+_cc_drought = [True, False, False, True, False, False, False, False, False]
+_cc_lag = [4, 2, 27, -4, 18, 0, 14, -9, -10]
+_cc_r = [0.9933, 0.9961, 0.9878, 0.9942, 0.9696, 0.9879, 0.9843, 0.9928, 0.9400]
 
-cc_row1 = st.columns(4)
+cc_row1 = st.columns(5)
 cc_row2 = st.columns(4)
 for i, (yr, dr, lag, r) in enumerate(zip(_cc_years, _cc_drought, _cc_lag, _cc_r)):
-    col = cc_row1[i] if i < 4 else cc_row2[i - 4]
+    col = cc_row1[i] if i < 5 else cc_row2[i - 5]
     label = f"{yr} ({'drought' if dr else 'normal'})"
     col.metric(label, f"{lag} days", f"r = {r:.4f}")
 
 st.success("""
 **What this confirms, now that the search can actually find both directions:** SIF clearly
-leads in 4 of 8 years (2015, 2016, 2017, 2019), 2020 is a genuine tie at exactly zero, and
+leads in 5 of 9 years (2015, 2016, 2017, 2019, 2021), 2020 is a genuine tie at exactly zero, and
 NDVI clearly leads in 3 years (2018, 2022, 2023) — not a boundary artifact, but a real
 correlation-maximizing lag on the negative side. **H1 now rests on two methods, not one**,
 and the two methods only partly agree: cross-correlation confirms the threshold-crossing
-direction in 5 of 8 years but reverses it in 2022 and 2023, where threshold-crossing found
+direction in 6 of 9 years but reverses it in 2022 and 2023, where threshold-crossing found
 a small SIF lead.
 """)
 
@@ -226,44 +229,45 @@ account in Development Log, Entry 17.
 st.image("outputs/figures/cross_correlation_lag_bootstrap_ci.png", use_container_width=True)
 styled_caption(
     "Cross-correlation lag point estimates with 95% bootstrap confidence intervals "
-    "(case-resampling bootstrap, N = 2,000 replicates per year), all eight study years."
+    "(case-resampling bootstrap, N = 2,000 replicates per year), all nine study years."
 )
 
-_bc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
-_bc_drought = [True, False, False, True, False, False, False, False]
-_bc_lag = [4, 2, 27, -4, 18, 0, -9, -10]
-_bc_ci = ["[0, 11]", "[-3, 7]", "[0, 30]", "[-13, 3]", "[-9, 26]", "[-32, 32]", "[-16, -2]", "[-25, -2]"]
-_bc_pct_pos = [89.6, 72.9, 96.1, 7.1, 85.7, 41.3, 0.3, 0.1]
-_bc_pct_neg = [2.2, 17.3, 2.0, 87.4, 10.0, 14.6, 99.4, 99.1]
+_bc_years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+_bc_drought = [True, False, False, True, False, False, False, False, False]
+_bc_lag = [4, 2, 27, -4, 18, 0, 14, -9, -10]
+_bc_ci = ["[0, 11]", "[-3, 7]", "[0, 30]", "[-13, 3]", "[-9, 26]", "[-32, 32]", "[-32, 32]", "[-16, -2]", "[-25, -2]"]
+_bc_pct_pos = [89.6, 72.9, 96.1, 7.1, 85.7, 41.3, 47.9, 0.3, 0.1]
+_bc_pct_neg = [2.2, 17.3, 2.0, 87.4, 10.0, 14.6, 47.9, 99.4, 99.1]
 
-bc_row1 = st.columns(4)
+bc_row1 = st.columns(5)
 bc_row2 = st.columns(4)
 for i, (yr, dr, lag, ci) in enumerate(zip(_bc_years, _bc_drought, _bc_lag, _bc_ci)):
-    col = bc_row1[i] if i < 4 else bc_row2[i - 4]
+    col = bc_row1[i] if i < 5 else bc_row2[i - 5]
     label = f"{yr} ({'drought' if dr else 'normal'})"
     col.metric(label, f"{lag} days", f"95% CI {ci}")
 
 st.success(f"""
 **Direction: genuinely mixed, not uniform.** The share of replicates landing at zero-or-above
 breaks down as: 97.8% (2015), 82.7% (2016), 98.0% (2017), 12.7% (2018), 90.0% (2019), 85.4%
-(2020), 0.6% (2022), and 0.9% (2023). Flip that around: in 2022 and 2023, {_bc_pct_neg[6]}%
-and {_bc_pct_neg[7]}% of replicates land *below* zero — a strong, well-resolved signal in the
+(2020), 52.1% (2021), 0.6% (2022), and 0.9% (2023). Flip that around: in 2022 and 2023, {_bc_pct_neg[7]}%
+and {_bc_pct_neg[8]}% of replicates land *below* zero — a strong, well-resolved signal in the
 NDVI-leads direction, not a weak one. 2018 leans the same way ({_bc_pct_neg[3]}% negative) but
-its interval still straddles zero, so it's less settled than 2022/2023. That leaves five years
-with real evidence in the SIF-leads direction — 2015 and 2017 strongly, 2016 and 2019 more
-moderately, and 2020 sitting almost exactly on the fence.
+its interval still straddles zero, so it's less settled than 2022/2023. That leaves four years
+with reasonable-to-strong evidence in the SIF-leads direction — 2015 and 2017 strongly, 2016 and
+2019 more moderately — while 2020 and 2021 both sit almost exactly on the fence (2021 at 52.1%
+zero-or-above is essentially a coin flip).
 """)
 
 st.warning("""
 **Magnitude: mostly indistinguishable, but not entirely.** The confidence intervals above are
-wide relative to the point estimates, and of the **28 possible pairwise comparisons, 24 still
+wide relative to the point estimates, and of the **36 possible pairwise comparisons, 32 still
 overlap** and aren't distinguishable from each other. But **4 pairs now genuinely don't
 overlap** — 2015 vs. 2022, 2015 vs. 2023, 2017 vs. 2022, and 2017 vs. 2023 — meaning the two
 years with the clearest SIF-leads signal are statistically distinguishable from the two years
 with the clearest NDVI-leads signal. The honest summary: SIF's decline comes out ahead in
-about half of the eight years with reasonable-to-strong confidence, NDVI comes out ahead in
-two of the eight years with strong confidence, and the remaining two years (2018, 2020) don't
-clearly resolve either way.
+four of the nine years with reasonable-to-strong confidence, NDVI comes out ahead in
+two of the nine years with strong confidence, and the remaining three years (2018, 2020, 2021)
+don't clearly resolve either way.
 """)
 
 styled_caption("GREEN ALIBI — Quantitative Lag Analysis")

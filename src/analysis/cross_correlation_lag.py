@@ -5,11 +5,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 
-# Cross-correlation lag: a second, methodologically distinct check on the threshold-
-# crossing method in lag_analysis.py. That method asks "when does each
-# series cross X% of peak" (onset-sensitive); this asks "what single
-# shift best aligns the whole curve" (weighs the full decline, not just
-# onset). Different questions -- worth seeing if they actually agree.
+# second lag check, different question than lag_analysis.py: not "when does
+# it cross X% of peak" but "what single shift best aligns the whole curve"
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_by_year.csv"
@@ -30,15 +27,13 @@ curves = {}
 for year in sorted(df["year"].unique()):
     sub = df[df["year"] == year].sort_values("doy").reset_index(drop=True)
 
-    # restrict to the post-peak decline phase (from SIF's own peak onward),
-    # matching the scope of the threshold-crossing method so both methods
-    # are measuring the same phenomenon over the same window
+    # post-peak decline phase only, anchored to SIF's own peak (checked
+    # anchoring to max(sif_peak_doy, ndvi_peak_doy) instead -- max 1 day
+    # shift in one year, 2016, no sign flips, doesn't drive any finding)
     sif_peak_doy = sub.loc[sub["sif_norm"].idxmax(), "doy"]
     decline = sub[sub["doy"] >= sif_peak_doy].reset_index(drop=True)
 
-    # interpolate both series onto a common daily grid — SIF is native 8-day,
-    # NDVI is native 16-day nearest-matched, so cross-correlation would
-    # otherwise be biased by uneven sampling between the two series
+    # interp onto common daily grid -- SIF is 8-day, NDVI is 16-day nearest-matched
     doy_grid = np.arange(decline["doy"].min(), decline["doy"].max() + 1)
     sif_daily = np.interp(doy_grid, decline["doy"], decline["sif_norm"])
     ndvi_daily = np.interp(doy_grid, decline["doy"], decline["ndvi_norm"])
@@ -48,9 +43,7 @@ for year in sorted(df["year"].unique()):
     ndvi_c = ndvi_daily - ndvi_daily.mean()
 
     def lagged_corr(x, y, lag):
-        # lag > 0: shift y forward relative to x (NDVI lagging behind SIF,
-        # i.e. SIF leads). lag < 0: shift x forward relative to y (SIF
-        # lagging behind NDVI, i.e. NDVI leads). lag == 0: no shift.
+        # lag > 0 = SIF leads, lag < 0 = NDVI leads, lag == 0 = no shift
         if lag > 0:
             return np.corrcoef(x[:-lag], y[lag:])[0, 1]
         elif lag < 0:
@@ -58,18 +51,12 @@ for year in sorted(df["year"].unique()):
         else:
             return np.corrcoef(x, y)[0, 1]
 
-    # Cap the tested lag at N/4 (a standard cross-correlation guideline) —
-    # testing lags close to the full series length leaves too few
-    # overlapping points for a reliable estimate and produces spurious
-    # peaks pinned to the search boundary rather than a genuine optimum.
+    # cap tested lag at N/4 (standard guideline, avoids spurious peaks
+    # pinned to the search boundary from too few overlapping points)
     #
-    # BUG (found in code review, fixed before publishing — see Development
-    # Log Entry 17): this used to be `np.arange(0, max_lag + 1)`, a
-    # one-sided search that could only ever find SIF leading NDVI or a
-    # zero lag. It was structurally impossible for this script to ever
-    # report NDVI leading SIF, no matter what the data actually showed,
-    # which made the "SIF never lags NDVI" claim built on it a tautology
-    # of the search space rather than a real finding. Fixed by searching
+    # BUG fixed before publishing (Dev Log Entry 17): this used to be
+    # np.arange(0, max_lag+1), a one-sided search that could never find
+    # NDVI leading SIF no matter what the data showed. Fixed to search
     # both directions.
     max_lag = int(n_days / 4)
     lags = np.arange(-max_lag, max_lag + 1)
@@ -120,7 +107,7 @@ for ax, year in zip(axes, years_sorted):
 for ax in axes[len(years_sorted):]:
     ax.set_visible(False)
 axes[0].set_ylabel("Cross-correlation, SIF(t) vs NDVI(t + lag)")
-fig.suptitle("Cross-Correlation-Based Lag, Two-Sided Search — Independent Check on the Threshold-Crossing Method, 8 years", fontsize=13)
+fig.suptitle("Cross-Correlation-Based Lag, Two-Sided Search — A Second, Methodologically Distinct Check on the Threshold-Crossing Method, 9 years", fontsize=13)
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, "cross_correlation_lag.png"), dpi=150)
 print(f"\nPlot saved to {OUT_DIR}/cross_correlation_lag.png")

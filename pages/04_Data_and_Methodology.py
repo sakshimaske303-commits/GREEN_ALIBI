@@ -80,11 +80,13 @@ st.dataframe(data_sources, use_container_width=True, hide_index=True)
 col_sp1, col_sp2 = st.columns([0.94, 0.06])
 with col_sp1:
     st.markdown("""
-    **Study period:** June 1 – late December (day-of-year 153–361), for eight years —
-    2015, 2016, 2017, 2018, 2019, 2020, 2022, and 2023. The study originally covered three
-    years (2015, 2018, 2020); five more were added in a later expansion pass to address
-    this study's own recurring small-sample limitation, using the identical acquisition
-    and processing pipeline throughout.
+    **Study period:** June 1 – late December (day-of-year 153–361), for nine years —
+    2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, and 2023. The study originally covered
+    three years (2015, 2018, 2020); five more (2016, 2017, 2019, 2022, 2023) were added in
+    a later expansion pass to address this study's own recurring small-sample limitation,
+    using the identical acquisition and processing pipeline throughout. 2021 was added
+    last, its raw GOSIF rasters tracked down and processed separately by hand after that
+    expansion was already complete (see **Development Log, Entry 20**).
     """)
 with col_sp2:
     proof_popover("01_sif_ndvi_data_excel.png", "The merged SIF–NDVI dataset (marathwada_sif_ndvi_merged.csv) opened in Excel — the core file behind the lag analysis.")
@@ -98,11 +100,12 @@ tab1, tab2, tab3 = st.tabs(["SIF Processing", "NDVI Processing", "Temporal Align
 
 with tab1:
     st.markdown("""
-    - 216 8-day GOSIF GeoTIFFs acquired across all eight study years (twenty-seven per
+    - 243 8-day GOSIF GeoTIFFs acquired across all nine study years (twenty-seven per
       year, June–December, after the observation window was extended from an initial
       June–November cut). The original 81 files (three years) were pulled first; a
-      further 135 files, for the five newly added years, were downloaded in a later
-      expansion pass using the identical seasonal window and file-naming convention.
+      further 135 files, for the five years added in the main expansion pass, followed
+      using the identical seasonal window and file-naming convention; the final 27, for
+      2021, were tracked down and processed separately by hand after that.
     - Raw digital values scaled by GOSIF's factor of **0.0001** to obtain physical SIF units.
     - Fill-value codes masked prior to any averaging: **32766** (water), **32767**
       (non-vegetated / missing).

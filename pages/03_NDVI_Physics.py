@@ -89,7 +89,7 @@ comparison_df = pd.DataFrame({
         "Minutes to hours",
         "Fraunhofer line-filling in reflected sunlight",
         "Faint signal, geometric/canopy escape effects",
-        "Leads NDVI in most years (7 of 8 by threshold-crossing); a cross-correlation check finds NDVI leading instead in 3 years (2018, 2022, 2023)"
+        "Leads NDVI in most years (8 of 9 by threshold-crossing); a cross-correlation check finds NDVI leading instead in 3 years (2018, 2022, 2023)"
     ],
     "NDVI": [
         "Differential reflectance from chlorophyll absorption and leaf structural scattering",
@@ -97,7 +97,7 @@ comparison_df = pd.DataFrame({
         "Days to weeks",
         "Simple reflectance-band ratio",
         "Cloud/cloud-shadow contamination, saturation at high biomass",
-        "Typically declines after SIF, but leads it instead in 3 of 8 years under the cross-correlation check"
+        "Typically declines after SIF, but leads it instead in 3 of 9 years under the cross-correlation check"
     ]
 })
 

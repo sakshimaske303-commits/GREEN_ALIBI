@@ -1,9 +1,15 @@
+# WARNING to self: YEARS_CSV below is still the original 8-year GEE export,
+# missing 2021 -- I added that row to OUTPUT_CSV by hand instead (Dev Log
+# Entries 19-20). Rerunning this as-is silently overwrites the correct
+# 9-year rainfall_anomaly_summary.csv with an 8-year one again. Add 2021's
+# row (969.950372 mm) into YEARS_CSV first, or re-append it after, same as
+# Entry 19.
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
 CLIM_CSV = "data/raw/marathwada_rainfall_climatology_2001_2020.csv"
-YEARS_CSV = "data/raw/marathwada_rainfall_2015_2023_8years.csv"  # 8-year export, Bid boundary fix
+YEARS_CSV = "data/raw/marathwada_rainfall_2015_2023_8years.csv"  # 8-year export, Bid boundary fix -- see WARNING above, missing 2021
 OUTPUT_CSV = "data/processed/rainfall_anomaly_summary.csv"
 OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2023_8years.png"
 
