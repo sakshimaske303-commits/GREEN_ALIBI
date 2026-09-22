@@ -6,7 +6,7 @@ This study tests whether Solar-Induced Fluorescence (SIF) picks up drought stres
 
 I believe this paper fits the scope of your journal because it applies earth observation data directly to a real agricultural and policy problem, and tests the robustness of its central SIF–NDVI lag finding using several methodologically distinct techniques applied to the same underlying series — threshold-crossing lag, cross-correlation, and bootstrap confidence intervals — alongside a separate Moran's I spatial-autocorrelation diagnostic that quantifies, rather than just asserts, how independent the district-level observations actually are. This revision also adds an external ground-truth check against official Ministry of Agriculture & Farmers Welfare district-level crop-yield statistics (1997-98 to 2022-23): the two rainfall-defined drought years show a meaningfully lower yield anomaly than the study's normal years, an independent, government-sourced signal consistent with this study's satellite-based drought classification.
 
-This manuscript is original and has not been published in, or submitted to, any other journal. An earlier version is available as a preprint on EarthArXiv and archived on Zenodo, as noted in the manuscript. I am the sole author and have approved this submission.
+This manuscript is original and has not been published in, or submitted to, any other journal. I am the sole author and have approved this submission.
 
 Thank you for considering my manuscript. I look forward to your response.
 

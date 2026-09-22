@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import os
 
 SIF_CSV = "data/processed/marathwada_sif_timeseries.csv"
-NDVI_CSV = "data/raw/marathwada_ndvi_mod13q1_timeseries_8years.csv"  # 8-year consolidated export
+NDVI_CSV = "data/raw/marathwada_ndvi_mod13q1_timeseries_8years.csv"  # filename kept as-is from the original export; the file itself has all 9 years now (2021's rows appended by hand, Dev Log Entry 20)
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # drought year = Jun-Dec rainfall anomaly z-score < -0.5 vs 2001-2020 mean,
-# same rule as rainfall_analysis.py. Only 2015 and 2018 clear it at 8 years.
+# same rule as rainfall_analysis.py. Only 2015 and 2018 clear it at 9 years.
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 
@@ -49,7 +49,7 @@ for ax in axes[len(years):]:
     ax.set_visible(False)
 axes[0].set_ylabel("Normalized value (0–1 within year)")
 axes[0].legend()
-fig.suptitle("SIF vs NDVI (cloud-screened) seasonal trajectory — Marathwada, 8 years")
+fig.suptitle("SIF vs NDVI (cloud-screened) seasonal trajectory — Marathwada, 9 years")
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, "sif_vs_ndvi_seasonal_v2.png"), dpi=150)
 plt.show()
