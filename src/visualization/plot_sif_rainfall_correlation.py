@@ -1,3 +1,5 @@
+# SIF-rainfall correlation plot
+
 import matplotlib
 import pandas as pd
 import numpy as np
@@ -10,7 +12,6 @@ OUTPUT_PNG = "outputs/figures/sif_rainfall_correlation_scatter.png"
 
 df = pd.read_csv(INPUT_CSV)
 
-# drought/normal label from the same anomaly_zscore < -0.5 rule used everywhere else
 _rain_anomaly = pd.read_csv(RAIN_ANOMALY_CSV)
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 _years_sorted = sorted(df["year"].unique())
@@ -28,9 +29,7 @@ for year in _years_sorted:
         s=70, color=color, edgecolor="black", linewidth=0.6,
         label=YEAR_LABELS[year], zorder=3
     )
-    # no per-point district labels -- at 64 points they'd just overlap into a smear
 
-# Regression line across ALL district-year points
 slope, intercept, r_value, p_value, std_err = stats.linregress(df["anomaly_pct"], df["mean_sif"])
 spearman_rho, spearman_p = stats.spearmanr(df["anomaly_pct"], df["mean_sif"])
 x_line = np.linspace(df["anomaly_pct"].min(), df["anomaly_pct"].max(), 100)

@@ -8,7 +8,6 @@ st.title("📝 Key Findings, Limitations & Conclusion")
 
 section_divider()
 
-# Key findings
 st.header("Key Findings")
 
 st.success("""
@@ -101,7 +100,6 @@ See **Crop-Yield Validation** for the full detail.
 
 section_divider()
 
-# Summary metrics
 st.header("Study at a Glance")
 
 c1, c2, c3, c4 = st.columns(4)
@@ -132,7 +130,6 @@ with c10:
 
 section_divider()
 
-# Limitations
 st.header("Limitations")
 
 st.markdown("""
@@ -210,7 +207,6 @@ st.markdown("""
 
 section_divider()
 
-# Conclusion
 st.header("Conclusion")
 
 st.markdown("""

@@ -1,3 +1,5 @@
+# SIF vs NDVI threshold-crossing lag, per year
+
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -8,21 +10,14 @@ MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 THRESHOLDS = [0.9, 0.8, 0.7, 0.6, 0.5]
 
 df = pd.read_csv(MERGED_CSV)
 
-# Normalizing each series 0-1 within its own year (peak = 1, seasonal min = 0)
-df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-
 
 def find_crossing_doy(doys, values, threshold):
-    """Linearly-interpolated DOY at which a declining series first drops
-    below `threshold`. Returns NaN if it never crosses within the window."""
     for i in range(len(values) - 1):
         v1, v2 = values[i], values[i + 1]
         if v1 >= threshold and v2 < threshold:
@@ -40,7 +35,6 @@ for year in sorted(df["year"].unique()):
     sif_peak_doy = sub.loc[sub["sif_norm"].idxmax(), "doy"]
     ndvi_peak_doy = sub.loc[sub["ndvi_norm"].idxmax(), "doy"]
 
-    # Restricting to each series' own decline phase (from its own peak onward)
     sif_decline = sub[sub["doy"] >= sif_peak_doy]
     ndvi_decline = sub[sub["doy"] >= ndvi_peak_doy]
 
@@ -67,10 +61,10 @@ print(lag_df.to_string(index=False))
 print("\nMean lag per year (across all thresholds that resolved):")
 print(lag_df.groupby("year")["lag_days"].mean().round(1))
 
-print("\nMean lag: drought years vs normal year:")
-print(lag_df.groupby("is_drought_year")["lag_days"].mean().round(1))
+print("\nMean lag: drought years vs normal years (mean of each year's own mean):")
+_per_year = lag_df.groupby(["year", "is_drought_year"])["lag_days"].mean().reset_index()
+print(_per_year.groupby("is_drought_year")["lag_days"].mean().round(1))
 
-# Plot: lag (days) by threshold, one line per year
 fig, ax = plt.subplots(figsize=(9, 6))
 _years_for_palette = sorted(lag_df["year"].unique())
 _palette = matplotlib.colormaps["tab10"].resampled(max(len(_years_for_palette), 3))
@@ -80,7 +74,7 @@ for year in sorted(lag_df["year"].unique()):
     label = f"{year}" + (" (drought)" if year in DROUGHT_YEARS else " (normal)")
     ax.plot(sub["threshold"], sub["lag_days"], marker="o", label=label, color=colors.get(year))
 
-ax.set_xlabel("Decline threshold (fraction of seasonal peak)")
+ax.set_xlabel("Decline threshold (normalized 0-1 scale, 1 = seasonal peak, 0 = seasonal minimum)")
 ax.set_ylabel("NDVI lag behind SIF (days)")
 ax.set_title("SIF-to-NDVI decline lag, by threshold and year — Marathwada")
 ax.invert_xaxis()

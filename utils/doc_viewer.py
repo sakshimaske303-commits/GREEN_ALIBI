@@ -1,40 +1,10 @@
-"""
-Reusable no-download document viewer for Streamlit apps.
-Renders a row of "View" buttons; clicking one opens a full-viewport modal
-with the PDF embedded directly and a close (X) button -- no download
-prompt, no new tab.
+# document viewer for the dashboard
 
-Why the PDF bytes are embedded as a base64 data: URI instead of being
-fetched from Streamlit's static file server: on this app's actual Streamlit
-Community Cloud deployment, requests to /app/static/<file> came back as a
-server error (HTTP 500) even on a plain, non-iframe page load -- so the
-file wasn't reachable over the network at all, regardless of how it was
-opened. Separately, iframe-embedding a same-origin static URL is blocked by
-the platform's own clickjacking protection. Embedding the file's own bytes
-directly sidesteps both problems: there is no network request to the
-static server and no origin/framing restriction to run into.
-
-Technical note: st.components.v1.html() content lives inside its own small
-iframe, sandboxed to that iframe's own box -- a CSS position:fixed overlay
-built *inside* it would only cover that tiny box, not the real page. To get
-a true full-viewport modal, the JS below reaches into window.parent.document
-(same-origin srcdoc iframe, so this is allowed) and injects the modal
-directly into the actual Streamlit page's <body>. Only the small button row
-stays inside the component's own iframe.
-"""
 import streamlit.components.v1 as components
 import json
 
 
 def render_doc_viewer(docs, colors, height=70):
-    """
-    docs: list of {"label": str, "data_url": str} -- data_url must be a
-          full "data:application/pdf;base64,..." URI containing the
-          document's own bytes (see app.py, which reads each PDF from the
-          static/ folder and base64-encodes it before calling this).
-    colors: dict with keys navy_dark, navy_med, magenta, teal, text_light
-    height: px height of the button row component.
-    """
     docs_json = json.dumps(docs)
     colors_json = json.dumps(colors)
     html = f"""

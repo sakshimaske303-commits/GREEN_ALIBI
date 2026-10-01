@@ -1,25 +1,12 @@
-"""Ground-truth check against official district-level crop-yield stats --
-answers JAG rejection reason #5 (no field validation). No farm-level survey
-of my own, but Ministry of Agriculture & Farmers Welfare APY (Area/
-Production/Yield) data is the standard proxy remote-sensing drought studies
-use when a field survey isn't available.
+# crop yield validation
 
-Source: MoA&FW APY dataset via India Data Portal (data.desagri.gov.in),
-district granularity, 1997-98 to 2022-23. Local copy at
-data/external/extracted/crop-wise-area-production-yield.csv (455,359 rows,
-all-India) -- filtered here to the 8 Marathwada districts.
+import os
+import zipfile
 
-Method: Kharif season only -> per (district, crop) yield z-score against
-that pair's own 1997-2022 mean/std (same z-score logic as the CHIRPS
-rainfall anomaly) -> averaged per district-year into a Yield Anomaly Index
--> averaged to a region-year mean, compared against rainfall anomaly
-(Section 3.5) and mean SIF (Section 4.1-4.5).
-
-Caveat: government data only goes to 2022-23, so 2023 has no yield
-counterpart -- covers 8 of the study's 9 years (all but 2023).
-
-Outputs data/processed/crop_yield_validation_summary.csv and prints results.
-"""
+RAW_ZIP = "data/external/Crop_Wise_Area_Production_Yield.zip"
+if not os.path.exists("data/external/extracted/crop-wise-area-production-yield.csv") and os.path.exists(RAW_ZIP):
+    with zipfile.ZipFile(RAW_ZIP) as z:
+        z.extractall("data/external/extracted")
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -27,11 +14,6 @@ from scipy import stats
 RAW_CSV = "data/external/extracted/crop-wise-area-production-yield.csv"
 OUT_CSV = "data/processed/crop_yield_validation_summary.csv"
 
-# Government-dataset district name -> this study's own district name (Section
-# 3: the 2023 official renames of Aurangabad -> Chhatrapati Sambhajinagar and
-# Osmanabad -> Dharashiv; the crop dataset uses the new names throughout its
-# full 1997-2022 history, this study's own files use the pre-2023 names it
-# was built around)
 GOV_TO_GA_DISTRICT = {
     "Chhatrapati Sambhajinagar": "Aurangabad",
     "Dharashiv": "Osmanabad",
@@ -44,9 +26,6 @@ GOV_TO_GA_DISTRICT = {
 }
 MIN_YEARS_FOR_BASELINE = 10
 
-# ---------------------------------------------------------------------------
-# Load and filter
-# ---------------------------------------------------------------------------
 df = pd.read_csv(RAW_CSV, low_memory=False)
 df = df[
     (df["state_name"] == "Maharashtra")
@@ -61,11 +40,6 @@ print("Loaded", len(df), "Kharif-season crop-district-year rows for the 8 Marath
 print("Years available:", df["study_year"].min(), "-", df["study_year"].max())
 print("=" * 70)
 
-# ---------------------------------------------------------------------------
-# Step 1-2: per (district, crop) yield z-score against that pair's own
-# long-run mean/std (1997-2022 baseline, not just the 8 study years -- a much
-# more stable baseline)
-# ---------------------------------------------------------------------------
 rows = []
 for (district, crop), g in df.groupby(["district", "crop_name"]):
     if g["study_year"].nunique() < MIN_YEARS_FOR_BASELINE:
@@ -82,19 +56,12 @@ zdf = pd.DataFrame(rows)
 print(f"\n{zdf['crop'].nunique()} crops retained (>= {MIN_YEARS_FOR_BASELINE} years of district history each)")
 print(f"{zdf[['district','crop']].drop_duplicates().shape[0]} district-crop series scored")
 
-# ---------------------------------------------------------------------------
-# Step 3: district-year Yield Anomaly Index = mean of that year's per-crop
-# z-scores in that district
-# ---------------------------------------------------------------------------
 district_year = zdf.groupby(["district", "study_year"])["yield_zscore"].mean().reset_index()
 district_year.columns = ["district", "study_year", "yield_anomaly_index"]
 
-# ---------------------------------------------------------------------------
-# Step 4: Marathwada-region-year mean, compared against rainfall anomaly and
-# mean SIF for the study's own 8 study years
-# ---------------------------------------------------------------------------
 STUDY_YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
-DROUGHT_YEARS = {2015, 2018}
+_rain = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
+DROUGHT_YEARS = set(_rain.loc[_rain["anomaly_zscore"] < -0.5, "year"])
 
 region_year = district_year[district_year["study_year"].isin(STUDY_YEARS)].groupby("study_year")["yield_anomaly_index"].mean().reset_index()
 
@@ -110,7 +77,6 @@ print("MARATHWADA-REGION-YEAR SUMMARY (Kharif season)")
 print("=" * 70)
 print(summary.to_string(index=False))
 
-# correlations, computed only over years where all three series have data
 valid = summary.dropna(subset=["yield_anomaly_index", "rainfall_anomaly_zscore", "mean_sif"])
 r_yield_rain, p_yield_rain = stats.pearsonr(valid["yield_anomaly_index"], valid["rainfall_anomaly_zscore"])
 r_yield_sif, p_yield_sif = stats.pearsonr(valid["yield_anomaly_index"], valid["mean_sif"])
@@ -121,7 +87,7 @@ print(f"corr(yield anomaly, mean regional SIF) = {r_yield_sif:.3f}  p={p_yield_s
 d = valid.loc[valid["is_drought_year"], "yield_anomaly_index"]
 n = valid.loc[~valid["is_drought_year"], "yield_anomaly_index"]
 t_stat, p_ttest = stats.ttest_ind(d, n, equal_var=False)
-print(f"\nMean yield anomaly in this study's {len(d)} drought years (2015, 2018): {d.mean():.3f}")
+print(f"\nMean yield anomaly in this study's {len(d)} drought years ({sorted(DROUGHT_YEARS)}): {d.mean():.3f}")
 print(f"Mean yield anomaly in this study's {len(n)} normal years:      {n.mean():.3f}")
 print(f"Welch's t-test (n={len(d)} vs n={len(n)}, deliberately not treated as confirmatory given the tiny n):")
 print(f"  t={t_stat:.3f}  p={p_ttest:.4f}")

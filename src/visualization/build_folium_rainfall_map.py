@@ -1,14 +1,15 @@
+# interactive rainfall map
+
 import pandas as pd
 import geopandas as gpd
 import folium
 import branca.colormap as cm
 
-YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 RAINFALL_CSV = "data/processed/rainfall_anomaly_by_district.csv"
 OUTPUT_HTML = "outputs/interactive_maps/maps/marathwada_rainfall_by_district.html"
 
-# Loading districts + rainfall anomaly data
 districts = gpd.read_file(DISTRICTS_PATH)
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")
@@ -24,7 +25,6 @@ for y in YEARS:
 
 merged = districts.merge(rain_wide, on="ADM2_NAME", how="left")
 
-# Shared color scale across all years
 all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
 vmin, vmax = all_values.min(), all_values.max()
 
@@ -34,7 +34,6 @@ colormap = cm.LinearColormap(
     caption="Rainfall anomaly (% departure from regional 20-yr normal)"
 )
 
-# Building the map
 center = [merged.geometry.union_all().centroid.y, merged.geometry.union_all().centroid.x]
 m = folium.Map(location=center, zoom_start=8, tiles="CartoDB positron")
 

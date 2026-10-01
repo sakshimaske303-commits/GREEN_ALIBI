@@ -23,7 +23,6 @@ did Marathwada's farmers actually harvest less?**
 
 section_divider()
 
-# Method
 st.header("Data & Method")
 
 st.markdown("""
@@ -46,7 +45,6 @@ no yield ground-truth counterpart yet**, leaving **n = 8 region-years** for the 
 
 section_divider()
 
-# Figure
 st.header("Yield Anomaly by Year")
 
 st.image("outputs/figures/crop_yield_anomaly_by_year.png", use_container_width=True)
@@ -69,7 +67,6 @@ for i, (yr, dr, val) in enumerate(zip(_yy_years, _yy_drought, _yy_val)):
 
 section_divider()
 
-# Results
 st.header("Results")
 
 m1, m2, m3, m4 = st.columns(4)
@@ -110,7 +107,6 @@ meaningfully-sized directional finding, not a confirmatory statistical test.
 
 section_divider()
 
-# What this does/doesn't establish
 st.header("What This Does and Doesn't Establish")
 
 st.warning("""

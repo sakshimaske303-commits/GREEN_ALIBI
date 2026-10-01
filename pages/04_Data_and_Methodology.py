@@ -15,8 +15,6 @@ the analysis.
 
 section_divider()
 
-# ---- Proof popovers: pulsing button reveals a screenshot inline; falls back
-# to a quiet "not added yet" note if the PNG isn't in outputs/proof_screenshots/ ----
 st.markdown(f"""
 <style>
     div[data-testid="stPopover"] button {{
@@ -55,7 +53,6 @@ def proof_popover(filename, caption):
         else:
             st.caption(f"Screenshot not added yet — save it as `outputs/proof_screenshots/{filename}`.")
 
-# Data sources table
 st.header("Data Sources")
 
 data_sources = pd.DataFrame({
@@ -93,7 +90,6 @@ with col_sp2:
 
 section_divider()
 
-# Processing pipeline
 st.header("Processing Pipeline")
 
 tab1, tab2, tab3 = st.tabs(["SIF Processing", "NDVI Processing", "Temporal Alignment"])
@@ -144,7 +140,6 @@ with tab3:
 
 section_divider()
 
-# Boundary correction story
 st.header("A Boundary-Precision Correction")
 
 st.markdown("""
@@ -205,7 +200,6 @@ with col2:
 
 section_divider()
 
-# Lag calculation method
 col_lag1, col_lag2 = st.columns([0.94, 0.06])
 with col_lag1:
     st.header("Quantitative Lag Calculation")

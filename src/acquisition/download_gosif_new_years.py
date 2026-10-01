@@ -1,8 +1,4 @@
-"""
-GOSIF v2 8-day download for the 5 new years (2016/17/19/22/23), same window
-and naming as 2015/2018/2020. Must run from a home connection — GOSIF blocks
-cloud IPs (403). Safe to re-run, skips files already downloaded. ~1.2 GB total.
-"""
+# GOSIF v2 8-day download, 2015-2023, DOY 153-361
 
 import gzip
 import os
@@ -14,14 +10,10 @@ import requests
 BASE_URL = "https://data.globalecology.unh.edu/data/GOSIF_v2/8day/"
 OUT_DIR = "data/raw"
 
-# Same seasonal window already used for 2015/2018/2020 — day-of-year
-# 153 through 361 in 8-day steps (27 composites per year, roughly
-# early June through late December).
 DOYS = list(range(153, 362, 8))
 
-# The five new years agreed for this expansion pass. 2015/2018/2020 are
-# intentionally NOT re-downloaded — they're already in data/raw/.
-NEW_YEARS = [2016, 2017, 2019, 2022, 2023]
+NEW_YEARS = list(range(2015, 2024))
+EXISTING_DIRS = ["data/raw", "data/external"]
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -32,11 +24,12 @@ HEADERS = {
 def download_one(year, doy):
     filename = f"GOSIF_{year}{doy:03d}.tif.gz"
     gz_path = os.path.join(OUT_DIR, filename)
-    tif_path = gz_path[:-3]  # strip ".gz"
+    tif_path = gz_path[:-3]
 
-    if os.path.exists(tif_path):
-        print(f"  {filename}: already have the decompressed .tif, skipping.")
-        return True
+    for d in EXISTING_DIRS:
+        base = os.path.join(d, filename[:-3])
+        if os.path.exists(base) or os.path.exists(base + ".gz"):
+            return True
 
     url = BASE_URL + filename
     for attempt in (1, 2, 3):
@@ -50,14 +43,14 @@ def download_one(year, doy):
         if resp.status_code == 200:
             with open(gz_path, "wb") as f:
                 f.write(resp.content)
-            with gzip.open(gz_path, "rb") as f_in, open(tif_path, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-            print(f"  {filename}: downloaded and decompressed ({len(resp.content)/1e6:.1f} MB).")
+            with gzip.open(gz_path, "rb") as f_in:
+                f_in.read(1024)
+            print(f"  {filename}: downloaded ({len(resp.content)/1e6:.1f} MB).")
             return True
 
         print(f"  {filename}: attempt {attempt} failed (HTTP {resp.status_code})")
         if resp.status_code == 404:
-            break  # no point retrying a genuine 404
+            break
         time.sleep(5)
 
     print(f"  {filename}: FAILED after retries — this composite date may not exist for this year, "

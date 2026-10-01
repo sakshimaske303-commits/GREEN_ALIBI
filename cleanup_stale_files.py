@@ -1,7 +1,4 @@
-"""Removes stale files nothing references anymore: pre-boundary-fix GOSIF
-clips and orphaned figures. Dry-run by default, --delete to actually
-remove.
-"""
+# delete stale files nothing uses anymore
 
 import argparse
 import os

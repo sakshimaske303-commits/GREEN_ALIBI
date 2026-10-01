@@ -1,3 +1,5 @@
+# cross-correlation lag
+
 import math
 import pandas as pd
 import numpy as np
@@ -5,21 +7,16 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 
-# second lag check, different question than lag_analysis.py: not "when does
-# it cross X% of peak" but "what single shift best aligns the whole curve"
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_by_year.csv"
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 
 df = pd.read_csv(MERGED_CSV)
-df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
 
 results = []
 curves = {}
@@ -27,13 +24,9 @@ curves = {}
 for year in sorted(df["year"].unique()):
     sub = df[df["year"] == year].sort_values("doy").reset_index(drop=True)
 
-    # post-peak decline phase only, anchored to SIF's own peak (checked
-    # anchoring to max(sif_peak_doy, ndvi_peak_doy) instead -- max 1 day
-    # shift in one year, 2016, no sign flips, doesn't drive any finding)
     sif_peak_doy = sub.loc[sub["sif_norm"].idxmax(), "doy"]
-    decline = sub[sub["doy"] >= sif_peak_doy].reset_index(drop=True)
+    decline = sub[sub["doy"] >= sif_peak_doy].dropna(subset=["sif_norm", "ndvi_norm"]).reset_index(drop=True)
 
-    # interp onto common daily grid -- SIF is 8-day, NDVI is 16-day nearest-matched
     doy_grid = np.arange(decline["doy"].min(), decline["doy"].max() + 1)
     sif_daily = np.interp(doy_grid, decline["doy"], decline["sif_norm"])
     ndvi_daily = np.interp(doy_grid, decline["doy"], decline["ndvi_norm"])
@@ -43,7 +36,6 @@ for year in sorted(df["year"].unique()):
     ndvi_c = ndvi_daily - ndvi_daily.mean()
 
     def lagged_corr(x, y, lag):
-        # lag > 0 = SIF leads, lag < 0 = NDVI leads, lag == 0 = no shift
         if lag > 0:
             return np.corrcoef(x[:-lag], y[lag:])[0, 1]
         elif lag < 0:
@@ -51,13 +43,6 @@ for year in sorted(df["year"].unique()):
         else:
             return np.corrcoef(x, y)[0, 1]
 
-    # cap tested lag at N/4 (standard guideline, avoids spurious peaks
-    # pinned to the search boundary from too few overlapping points)
-    #
-    # BUG fixed before publishing (Dev Log Entry 17): this used to be
-    # np.arange(0, max_lag+1), a one-sided search that could never find
-    # NDVI leading SIF no matter what the data showed. Fixed to search
-    # both directions.
     max_lag = int(n_days / 4)
     lags = np.arange(-max_lag, max_lag + 1)
     corrs = np.array([lagged_corr(sif_c, ndvi_c, lag) for lag in lags])
@@ -84,7 +69,6 @@ res_df = pd.DataFrame(results)
 res_df.to_csv(OUT_CSV, index=False)
 print(res_df.to_string(index=False))
 
-# Plot: correlation-vs-lag curve per year, peak marked
 years_sorted = sorted(curves.keys())
 _palette = matplotlib.colormaps["tab10"].resampled(max(len(years_sorted), 3))
 colors = {y: _palette(i) for i, y in enumerate(years_sorted)}

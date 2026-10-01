@@ -1,7 +1,4 @@
-"""Interactive Plotly versions of the three headline GREEN ALIBI charts.
-Same underlying processed CSVs as the static figures - just Plotly instead
-of matplotlib, so every line/point gets a hover tooltip and toggleable
-legend instead of being locked into a flat PNG."""
+# interactive Plotly charts
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -12,7 +9,7 @@ DATA = "data/processed"
 OUT = "outputs/interactive_maps/plots"
 os.makedirs(OUT, exist_ok=True)
 
-YEAR_COLORS_BASE = "#2FA88C"  # not used directly; per-year palette built below
+YEAR_COLORS_BASE = "#2FA88C"
 
 
 def distinct_colors(n):
@@ -34,17 +31,14 @@ DARK_LAYOUT = dict(
 )
 
 
-# Seasonal trajectories — normalized SIF vs NDVI, per year
 def build_seasonal_trajectories():
     df = pd.read_csv(f"{DATA}/marathwada_sif_ndvi_merged.csv")
     rain = pd.read_csv(f"{DATA}/rainfall_anomaly_summary.csv")
     drought_years = set(rain.loc[rain["anomaly_zscore"] < -0.5, "year"])
 
-    df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-    df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
 
     years = sorted(df["year"].unique())
-    default_years = {2015, 2018}  # the two drought years, shown by default
+    default_years = {2015, 2018}
 
     fig = go.Figure()
     for year in years:
@@ -73,7 +67,6 @@ def build_seasonal_trajectories():
     print("Saved:", f"{OUT}/seasonal_trajectories.html")
 
 
-# Lag by threshold — one line per year
 def build_lag_by_threshold():
     df = pd.read_csv(f"{DATA}/sif_ndvi_lag_by_threshold.csv")
     years = sorted(df["year"].unique())
@@ -92,7 +85,7 @@ def build_lag_by_threshold():
     fig.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.4)")
     fig.update_layout(
         title="SIF-to-NDVI Decline Lag, by Threshold and Year — Marathwada",
-        xaxis_title="Decline threshold (fraction of seasonal peak)",
+        xaxis_title="Decline threshold (normalized 0-1: 1 = seasonal peak, 0 = seasonal minimum)",
         yaxis_title="NDVI lag behind SIF (days)",
         xaxis=dict(autorange="reversed"),
         height=560, hovermode="closest", **DARK_LAYOUT,
@@ -101,7 +94,6 @@ def build_lag_by_threshold():
     print("Saved:", f"{OUT}/lag_by_threshold.html")
 
 
-# Bootstrap CI — cross-correlation lag point estimates + 95% CI
 def build_bootstrap_ci():
     df = pd.read_csv(f"{DATA}/cross_correlation_lag_bootstrap_ci.csv").sort_values("year").reset_index(drop=True)
 
@@ -117,7 +109,7 @@ def build_bootstrap_ci():
         error_y=dict(type="data", symmetric=False, array=upper_err, arrayminus=lower_err,
                       color="rgba(255,255,255,0.6)", thickness=1.5, width=6),
         customdata=df["pct_replicates_lag_geq_0"],
-        hovertemplate="%{x}<br>Point estimate: %{y} days<br>95%% CI replicates ≥0: %{customdata:.1f}%%<extra></extra>",
+        hovertemplate="%{x}<br>Point estimate: %{y} days<br>Bootstrap replicates ≥0: %{customdata:.1f}%%<extra></extra>",
         showlegend=False,
     ))
     fig.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.4)")

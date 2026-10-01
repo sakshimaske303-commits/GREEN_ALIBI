@@ -1,3 +1,5 @@
+# final summary table
+
 import pandas as pd
 
 RAINFALL_CSV = "data/processed/rainfall_anomaly_summary.csv"

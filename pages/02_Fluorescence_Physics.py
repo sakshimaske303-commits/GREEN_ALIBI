@@ -15,7 +15,6 @@ starts here.
 
 section_divider()
 
-# DIAGRAM — placed prominently near the top, large and centered
 col_a, col_b, col_c = st.columns([0.2, 5.9, 0.2])
 with col_b:
     st.image("outputs/figures/fluorescence_physics_diagram.png", use_container_width=True)
@@ -26,7 +25,6 @@ with col_b:
 
 section_divider()
 
-# The three pathways
 st.header("The Three Fates of Absorbed Light Energy")
 
 st.markdown("""
@@ -64,7 +62,6 @@ st.latex(r"\Phi_P + \Phi_{NPQ} + \Phi_F = 1")
 
 section_divider()
 
-# Why this responds fast
 st.header("Why Fluorescence Reacts Faster Than Reflectance")
 
 st.markdown("""
@@ -87,7 +84,6 @@ signal versus a slow structural one.
 
 section_divider()
 
-# The SIF signal equation
 st.header("What a Satellite Actually Receives")
 
 st.markdown("""
@@ -107,7 +103,6 @@ and *how efficiently it is using that light* — both physiologically meaningful
 
 section_divider()
 
-# How satellites see fluorescence at all
 st.header("Measuring a Faint Signal Hidden in Sunlight")
 
 st.markdown("""

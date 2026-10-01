@@ -1,3 +1,5 @@
+# spatial autocorrelation plot
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,7 +40,7 @@ ax.set_ylabel("Moran's I")
 n_sig = int((df["p_value_permutation"] < 0.05).sum())
 ax.set_title(f"Spatial autocorrelation (Moran's I) by year, {len(years)} years — "
              f"* = significant at p<0.05 ({n_sig} of {len(df)} year x variable combinations)", fontsize=12)
-ax.legend(fontsize=9, loc="upper right")
+ax.legend(fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=3, frameon=False)
 ax.grid(axis="y", alpha=0.25)
 
 fig.tight_layout()

@@ -1,29 +1,4 @@
-"""Tier-3 extension #1 and #2: more study years, and a per-district (rather
-than region-wide) rainfall climatology. Needs my authenticated Earth Engine
-account -- ee.Authenticate() below opens a browser login the first time I
-run this.
-
-Reuses every boundary/NDVI/rainfall function already defined in
-gee_data_acquisition.py (same FAO GAUL boundary, same MOD13Q1/CHIRPS calls,
-same cropland mask) so this stays consistent with the rest of the project
-instead of re-deriving the boundary logic and risking a second Bid/Beed-style
-typo. Run from the project root: `python src/acquisition/gee_extended_years.py`
-
-BEFORE RUNNING:
-1. Confirm EE_PROJECT_ID in gee_data_acquisition.py (line 10) is still set to
-   my own EE cloud project id.
-2. Check what years the SIF data actually covers before adding a year here --
-   NDVI/rainfall below come straight from Earth Engine (always current), but
-   the matching SIF file for any new year still has to be downloaded by hand
-   from https://data.globalecology.unh.edu/data/GOSIF_v2/ (GOSIF isn't an
-   Earth Engine dataset) and dropped into data/raw/ as GOSIF_<year>_<doy>.tif,
-   same as every other year already in that folder -- then run clip_gosif.py
-   on it like normal. This script only gets the NDVI and rainfall side.
-3. EXTRA_YEARS below defaults to just [2021] -- the one year Section 3.1
-   flagged as "didn't make it into this expansion pass" without saying why.
-   Add more years (e.g. 2024) once I've confirmed GOSIF v2 actually has that
-   year's files on the UNH page above.
-"""
+# GEE: extra years + district rainfall climatology
 
 import geemap
 
@@ -35,23 +10,9 @@ from gee_data_acquisition import (
 )
 import ee
 
-EXTRA_YEARS = [2021]  # edit once I've confirmed SIF coverage for whichever
-                       # years I'm adding (see note 2 above)
+EXTRA_YEARS = [2021]
 
-# ---------------------------------------------------------------------------
-# Extension #2: per-district rainfall climatology (2001-2020), instead of the
-# single region-wide number get_climatology() in gee_data_acquisition.py
-# computes. This study's own Section 6 Limitations names this exact gap:
-# "District-level rainfall anomaly was computed using one region-wide
-# climatological baseline. A separate baseline for each district was not
-# built." -- this function is that separate baseline.
-# ---------------------------------------------------------------------------
 def get_district_climatology(start_year=2001, end_year=2020):
-    """Returns one FeatureCollection: one feature per district, with that
-    district's own 20-year seasonal-rainfall mean and standard deviation --
-    the same climatology logic as get_climatology() in the main acquisition
-    script, just computed separately per district instead of pooled across
-    all eight."""
     years = list(range(start_year, end_year + 1))
 
     def reduce_district(feature):

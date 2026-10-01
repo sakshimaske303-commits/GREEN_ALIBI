@@ -24,7 +24,6 @@ styled_caption(
 
 section_divider()
 
-# Interpretation
 st.header("What This Shows")
 
 col1, col2 = st.columns(2)

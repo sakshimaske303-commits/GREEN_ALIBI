@@ -1,29 +1,18 @@
-"""Tier-3 follow-through on the per-district climatology pulled from Earth
-Engine (data/processed/rainfall_climatology_by_district.csv, 2001-2020,
-one mean/std per district instead of one pooled region-wide number).
+# district rainfall climatology and anomalies
 
-This recomputes each district-year's rainfall anomaly z-score against its
-OWN district's 20-year baseline, and compares that against the anomaly
-z-score this study has used everywhere so far -- one region-wide 2001-2020
-mean/std (826.4 mm, 158.8 mm) applied to every district alike. This is
-exactly the check Section 6's own Limitations names as missing: "District-
-level rainfall anomaly was computed using one region-wide climatological
-baseline. A separate baseline for each district was not built."
-
-Outputs data/processed/district_climatology_anomaly_comparison.csv and
-prints how much the two approaches actually disagree.
-"""
 import pandas as pd
 
-REGION_MEAN_MM = 826.4310  # recovered from rainfall_anomaly_summary.csv --
-REGION_STD_MM = 158.7780   # the one pooled baseline used everywhere so far
+TOTALS_CSV = "data/raw/chirps_seasonal_totals_1981_2023.csv"
+BASELINE = (2001, 2020)
+tot = pd.read_csv(TOTALS_CSV)
+base = tot[tot["year"].between(*BASELINE)]
+REGION_MEAN_MM = base.loc[base["unit"] == "Marathwada", "rainfall_mm"].mean()
+REGION_STD_MM = base.loc[base["unit"] == "Marathwada", "rainfall_mm"].std()
 
-district_rain = pd.read_csv("data/processed/sif_rainfall_district_merged.csv")[
-    ["district", "year", "rainfall_mm"]
-].drop_duplicates()
-clim = pd.read_csv("data/processed/rainfall_climatology_by_district.csv")[
-    ["district", "climatology_mean_mm", "climatology_std_mm"]
-]
+district_rain = pd.read_csv("data/processed/rainfall_anomaly_by_district.csv")[["district", "year", "rainfall_mm"]]
+clim = (base[base["unit"] != "Marathwada"].groupby("unit")["rainfall_mm"]
+        .agg(climatology_mean_mm="mean", climatology_std_mm="std").reset_index()
+        .rename(columns={"unit": "district"}))
 
 df = district_rain.merge(clim, on="district", how="left")
 df["zscore_region_baseline"] = (df["rainfall_mm"] - REGION_MEAN_MM) / REGION_STD_MM

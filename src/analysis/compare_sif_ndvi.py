@@ -1,55 +1,73 @@
+# SIF vs NDVI seasonal comparison
+
 import math
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
 SIF_CSV = "data/processed/marathwada_sif_timeseries.csv"
-NDVI_CSV = "data/raw/marathwada_ndvi_mod13q1_timeseries_8years.csv"  # filename kept as-is from the original export; the file itself has all 9 years now (2021's rows appended by hand, Dev Log Entry 20)
+NDVI_CSV = "data/raw/ndvi_obsdate_2015_2023.csv"
+OUT_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# drought year = Jun-Dec rainfall anomaly z-score < -0.5 vs 2001-2020 mean,
-# same rule as rainfall_analysis.py. Only 2015 and 2018 clear it at 9 years.
+SIF_COL = "mean_sif_crop1214"
+
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 
-sif = pd.read_csv(SIF_CSV).rename(columns={
-    "valid_pixel_count": "sif_valid_pixel_count",
-    "valid_pixel_fraction": "sif_valid_pixel_fraction"
-})
-ndvi = pd.read_csv(NDVI_CSV).rename(columns={"valid_pixel_count": "ndvi_valid_pixel_count"})
+
+def minmax(x):
+    x = np.asarray(x, dtype=float)
+    return (x - np.nanmin(x)) / (np.nanmax(x) - np.nanmin(x))
+
+
+sif = pd.read_csv(SIF_CSV)
+ndvi = pd.read_csv(NDVI_CSV)
 
 merged_years = []
 for year in sorted(sif["year"].unique()):
-    sif_y = sif[sif["year"] == year].sort_values("doy")
-    ndvi_y = ndvi[ndvi["year"] == year].sort_values("doy")
-    m = pd.merge_asof(sif_y, ndvi_y, on="doy", by="year", direction="nearest")
-    merged_years.append(m)
+    s = sif[sif["year"] == year].sort_values("doy")
+    n = ndvi[ndvi["year"] == year].sort_values("doy_start")
+    t = s["doy"].values + 3.5
+    ndvi_interp = np.interp(t, n["mean_obs_doy"].values, n["mean_ndvi"].values, left=np.nan, right=np.nan)
+    ndvi_norm = np.interp(t, n["mean_obs_doy"].values, minmax(n["mean_ndvi"].values), left=np.nan, right=np.nan)
+    merged_years.append(pd.DataFrame({
+        "year": year,
+        "sif_start_doy": s["doy"].values,
+        "doy": t,
+        "date": s["date"].values,
+        "mean_sif": s[SIF_COL].values,
+        "mean_sif_all": s["mean_sif"].values,
+        "mean_ndvi": ndvi_interp,
+        "sif_norm": minmax(s[SIF_COL].values),
+        "ndvi_norm": ndvi_norm,
+    }))
 
 merged = pd.concat(merged_years).reset_index(drop=True)
-merged.to_csv("data/processed/marathwada_sif_ndvi_merged.csv", index=False)
-print(merged[["year", "doy", "mean_sif", "mean_ndvi"]])
-
-merged["sif_norm"] = merged.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-merged["ndvi_norm"] = merged.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
+merged.to_csv(OUT_CSV, index=False)
+print(merged[["year", "doy", "mean_sif", "mean_ndvi", "sif_norm", "ndvi_norm"]])
 
 years = sorted(merged["year"].unique())
-ncols = 4  # wrap into a grid instead of one long row of 8 panels
+ncols = 4
 nrows = math.ceil(len(years) / ncols)
 fig, axes = plt.subplots(nrows, ncols, figsize=(4 * ncols, 4.5 * nrows), sharey=True)
 axes = axes.flatten()
 for ax, year in zip(axes, years):
     sub = merged[merged["year"] == year]
-    ax.plot(sub["doy"], sub["sif_norm"], marker="o", label="SIF (normalized)", color="#2FA88C")
-    ax.plot(sub["doy"], sub["ndvi_norm"], marker="s", label="NDVI (normalized, cloud-screened)", color="#D98E30")
+    n = ndvi[ndvi["year"] == year].sort_values("doy_start")
+    ax.plot(sub["doy"], sub["sif_norm"], marker="o", label="SIF (cropland-weighted, normalized)", color="#2FA88C")
+    ax.plot(n["mean_obs_doy"], minmax(n["mean_ndvi"].values), marker="s", label="NDVI (at actual observation day)",
+            color="#D98E30")
     ax.set_title(f"{year}" + (" — drought year" if year in DROUGHT_YEARS else " — normal monsoon year"))
     ax.set_xlabel("Day of Year")
     ax.grid(alpha=0.3)
 for ax in axes[len(years):]:
     ax.set_visible(False)
 axes[0].set_ylabel("Normalized value (0–1 within year)")
-axes[0].legend()
-fig.suptitle("SIF vs NDVI (cloud-screened) seasonal trajectory — Marathwada, 9 years")
+axes[0].legend(fontsize=8)
+fig.suptitle(f"SIF vs NDVI seasonal trajectory — Marathwada, {len(years)} years")
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, "sif_vs_ndvi_seasonal_v2.png"), dpi=150)
 plt.show()

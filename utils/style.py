@@ -1,15 +1,15 @@
+# dashboard styling
+
 import streamlit as st
 
-# GREEN ALIBI — Custom Theme v2
-# Palette: deep navy (base) + magenta + hot pink + teal + black
 
-NAVY_DARK = "#0A1128"      # main background
-NAVY_MED = "#101B3D"       # sidebar / card background
-MAGENTA = "#E91E8C"        # primary accent — headers, highlights
-PINK = "#FF6EC7"           # secondary accent
-TEAL = "#00D9C0"           # tertiary accent — borders, buttons, links
-BLACK = "#000000"          # deep contrast
-TEXT_LIGHT = "#F2F2F5"     # main body text on dark background
+NAVY_DARK = "#0A1128"
+NAVY_MED = "#101B3D"
+MAGENTA = "#E91E8C"
+PINK = "#FF6EC7"
+TEAL = "#00D9C0"
+BLACK = "#000000"
+TEXT_LIGHT = "#F2F2F5"
 
 
 def apply_custom_style():
@@ -205,7 +205,6 @@ def styled_caption(text):
 
 
 def page_footer():
-    """Standard footer used on app.py — name, role, and GitHub link, in a styled card."""
     st.markdown(f"""
     <div style='
         background-color:{NAVY_MED};

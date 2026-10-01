@@ -1,3 +1,5 @@
+# spatial autocorrelation (Moran's I)
+
 import json
 import geopandas as gpd
 import pandas as pd
@@ -5,11 +7,6 @@ import numpy as np
 from libpysal.weights import Queen
 from esda.moran import Moran
 
-# Moran's I per year for mean SIF and rainfall anomaly, using a
-# Queen-contiguity weights matrix from the real district polygons --
-# quantifies how much neighboring districts share similar values,
-# instead of just asserting the district-year observations aren't
-# fully independent.
 
 DISTRICTS_GEOJSON = "data/raw/marathwada_districts_separate.geojson"
 MERGED_CSV = "data/processed/sif_rainfall_district_merged.csv"
@@ -21,7 +18,6 @@ gdf["district_key"] = gdf["ADM2_NAME"].str.strip()
 df = pd.read_csv(MERGED_CSV)
 df["district_key"] = df["district"].str.strip()
 
-# Sanity check: every CSV district name must match a boundary polygon
 csv_districts = set(df["district_key"].unique())
 geo_districts = set(gdf["district_key"].unique())
 missing = csv_districts - geo_districts
@@ -29,15 +25,16 @@ if missing:
     raise ValueError(f"District name mismatch between CSV and boundary file: {missing}")
 
 w = Queen.from_dataframe(gdf, use_index=False, ids=gdf["district_key"].tolist())
-w.transform = "r"  # row-standardized weights, standard for Moran's I
+w.transform = "r"
 
 print(f"Spatial weights: {w.n} districts, mean neighbors per district = {w.mean_neighbors:.2f}")
 print(f"Islands (no neighbors): {w.islands}\n")
 
+np.random.seed(42)
+
 results = []
 for year in sorted(df["year"].unique()):
     sub = df[df["year"] == year].set_index("district_key")
-    # reindexing to match the weights matrix's district order exactly
     order = w.id_order
     sif_vals = sub.loc[order, "mean_sif"].values
     rain_vals = sub.loc[order, "anomaly_pct"].values

@@ -1,16 +1,17 @@
+# district zonal stats for SIF
+
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio
 from rasterio.mask import mask
 
-YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 DOY = 273
 CLIPPED_DIR = "data/processed/clipped"
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 OUTPUT_CSV = "data/processed/sif_by_district.csv"
 
-# Loading district-level boundaries (8 separate features, with names)
 districts = gpd.read_file(DISTRICTS_PATH)
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")

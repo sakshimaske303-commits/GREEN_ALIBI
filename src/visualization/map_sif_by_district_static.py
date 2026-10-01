@@ -1,10 +1,12 @@
+# static district SIF map
+
 import math
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2022, 2023]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 DISTRICTS_PATH = "data/raw/marathwada_districts_separate.geojson"
 SIF_CSV = "data/processed/sif_by_district.csv"
 OUTPUT_PLOT = "outputs/figures/sif_by_district_static.png"
@@ -27,7 +29,7 @@ vmin, vmax = all_values.min(), all_values.max()
 cmap = plt.cm.RdYlGn
 norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
 
-ncols = 4  # wrap into a grid instead of one long row
+ncols = 4
 nrows = math.ceil(len(YEARS) / ncols)
 fig, axes = plt.subplots(nrows, ncols, figsize=(4.5 * ncols, 5 * nrows))
 axes = axes.flatten()

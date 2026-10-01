@@ -1,3 +1,5 @@
+# crop yield validation plot
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -9,7 +11,6 @@ plot_df = df[df["has_yield_data"]].reset_index(drop=True)
 
 fig, axes = plt.subplots(1, 2, figsize=(14, 6), gridspec_kw={"width_ratios": [2.2, 1]})
 
-# Left panel: Yield Anomaly Index by year
 ax = axes[0]
 colors = ["#B23A48" if drought else "#2FA88C" for drought in plot_df["is_drought_year"]]
 x = range(len(plot_df))
@@ -25,7 +26,6 @@ ax.set_title(f"Official Kharif crop-yield anomaly by year, Marathwada region ({l
              fontsize=11)
 ax.grid(axis="y", alpha=0.25)
 
-# Right panel: grouped mean, drought vs normal
 ax2 = axes[1]
 grp = plot_df.groupby("is_drought_year")["yield_anomaly_index"].agg(["mean", "count"])
 labels = []

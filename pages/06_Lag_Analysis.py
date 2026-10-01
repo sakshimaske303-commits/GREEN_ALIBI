@@ -49,7 +49,6 @@ styled_caption("SIF-to-NDVI decline lag (days), by decline threshold and year, a
 
 section_divider()
 
-# Key metrics
 st.header("Mean Lag by Year")
 
 _years_lag = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
@@ -72,7 +71,6 @@ with g2:
 
 section_divider()
 
-# Full data table
 st.header("Full Threshold-by-Threshold Results")
 
 lag_data = pd.DataFrame({
@@ -113,7 +111,6 @@ st.caption("Blank NDVI/lag values (2016 and 2019, 50% threshold) mean that thres
 
 section_divider()
 
-# Interpretation
 st.header("What This Means for H3")
 
 st.warning("""
@@ -140,7 +137,6 @@ bootstrap checks below.
 
 section_divider()
 
-# Cross-correlation robustness check
 st.header("Robustness Check: A Methodologically Distinct Lag Method")
 
 st.markdown("""
@@ -204,7 +200,6 @@ universal facts.
 
 section_divider()
 
-# UNCERTAINTY QUANTIFICATION — BOOTSTRAP CONFIDENCE INTERVALS
 st.header("How Precise Are These Numbers? A Bootstrap Check")
 
 st.markdown("""

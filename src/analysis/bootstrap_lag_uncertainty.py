@@ -1,34 +1,23 @@
+# bootstrap CI for the SIF-NDVI lag
+
 import pandas as pd
 import numpy as np
 import os
 
-# Bootstrap CI on cross_correlation_lag.py's lag estimate. Case resampling of the
-# ~17 sparse post-peak observations/year, not block bootstrap on the interpolated
-# series -- block-shuffling destroyed the trend and collapsed every CI to lag=0.
-# 2000 reps/year, 2.5/97.5 pct = 95% CI.
 
 MERGED_CSV = "data/processed/marathwada_sif_ndvi_merged.csv"
 OUT_CSV = "data/processed/cross_correlation_lag_bootstrap_ci.csv"
 
-# drought classification from data (anomaly_zscore < -0.5), see compare_sif_ndvi.py
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
 N_BOOT = 2000
 RNG_SEED = 42
 
-rng = np.random.default_rng(RNG_SEED)
 
 df = pd.read_csv(MERGED_CSV)
-df["sif_norm"] = df.groupby("year")["mean_sif"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-df["ndvi_norm"] = df.groupby("year")["mean_ndvi"].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
 
 
 def lag_from_daily(sif_daily, ndvi_daily, max_lag):
-    # BUG (found in code review, fixed before publishing — see Development
-    # Log Entry 17): this used to search lags = np.arange(0, max_lag + 1),
-    # a one-sided search that could never resolve a replicate in the
-    # NDVI-leads-SIF direction. Fixed by searching both directions, with
-    # the boundary-safety check applied symmetrically for negative lags.
     sif_c = sif_daily - sif_daily.mean()
     ndvi_c = ndvi_daily - ndvi_daily.mean()
     lags = np.arange(-max_lag, max_lag + 1)
@@ -51,8 +40,6 @@ def lag_from_daily(sif_daily, ndvi_daily, max_lag):
 
 
 def interp_and_lag(sub_doy, sub_sif, sub_ndvi, grid_min, grid_max):
-    # averaging duplicate DOYs (can occur when a bootstrap replicate
-    # draws the same observation more than once), then sorting
     tmp = pd.DataFrame({"doy": sub_doy, "sif": sub_sif, "ndvi": sub_ndvi})
     tmp = tmp.groupby("doy", as_index=False).mean().sort_values("doy")
     if len(tmp) < 6:
@@ -68,7 +55,7 @@ results = []
 for year in sorted(df["year"].unique()):
     sub = df[df["year"] == year].sort_values("doy").reset_index(drop=True)
     sif_peak_doy = sub.loc[sub["sif_norm"].idxmax(), "doy"]
-    decline = sub[sub["doy"] >= sif_peak_doy].reset_index(drop=True)
+    decline = sub[sub["doy"] >= sif_peak_doy].dropna(subset=["sif_norm", "ndvi_norm"]).reset_index(drop=True)
     n_obs = len(decline)
     grid_min, grid_max = decline["doy"].min(), decline["doy"].max()
 
@@ -76,12 +63,14 @@ for year in sorted(df["year"].unique()):
         decline["doy"].values, decline["sif_norm"].values, decline["ndvi_norm"].values, grid_min, grid_max
     )
 
+    rng = np.random.default_rng(RNG_SEED + int(year))
     boot_lags = []
     for _ in range(N_BOOT):
-        idx = rng.integers(0, n_obs, size=n_obs)  # case resample, with replacement
+        idx = rng.integers(0, n_obs, size=n_obs)
+        b_doy = decline["doy"].values[idx]
         b_lag, b_corr = interp_and_lag(
-            decline["doy"].values[idx], decline["sif_norm"].values[idx], decline["ndvi_norm"].values[idx],
-            grid_min, grid_max
+            b_doy, decline["sif_norm"].values[idx], decline["ndvi_norm"].values[idx],
+            b_doy.min(), b_doy.max()
         )
         if not np.isnan(b_lag):
             boot_lags.append(b_lag)

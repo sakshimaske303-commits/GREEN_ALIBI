@@ -15,7 +15,6 @@ in both pixel-level and district-level views.
 
 section_divider()
 
-# Pixel-level spatial map
 st.header("Pixel-Level SIF, Day-of-Year 273")
 
 st.image("outputs/figures/sif_spatial_comparison_doy273_v2.png", use_container_width=True)
@@ -36,7 +35,6 @@ at the bottom.
 
 section_divider()
 
-# District-level static map
 st.header("District-Level Mean SIF")
 
 st.image("outputs/figures/sif_by_district_static.png", use_container_width=True)
@@ -56,7 +54,6 @@ directly rather than smoothed into the original three-year framing.
 
 section_divider()
 
-# Interactive Folium map
 st.header("Interactive District Map")
 
 st.markdown("""

@@ -1,3 +1,5 @@
+# study area map (Fig 3)
+
 import os
 
 import geopandas as gpd
@@ -5,10 +7,6 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch
 from matplotlib.ticker import FuncFormatter
 
-
-# ============================================================
-# GREEN ALIBI — FIGURE 3: STUDY AREA MAP
-# ============================================================
 
 BOUNDARY_PATH = "data/raw/marathwada_districts_separate.geojson"
 
@@ -27,10 +25,6 @@ OUTPUT_PDF = os.path.join(
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
-# ============================================================
-# LOAD ACTUAL STUDY-AREA BOUNDARIES
-# ============================================================
-
 districts = gpd.read_file(BOUNDARY_PATH)
 
 if districts.empty:
@@ -42,23 +36,11 @@ if "ADM2_NAME" not in districts.columns:
     )
 
 
-# ============================================================
-# CRS
-# ============================================================
-
 if districts.crs is None:
     districts = districts.set_crs("EPSG:4326")
 
-# Convert to UTM Zone 43N.
-# Marathwada lies within UTM Zone 43N.
-# This projected CRS uses metres, which allows an accurate
-# 50-km scale bar.
 map_gdf = districts.to_crs("EPSG:32643")
 
-
-# ============================================================
-# FIGURE
-# ============================================================
 
 fig, ax = plt.subplots(
     figsize=(7.2, 7.2),
@@ -71,10 +53,6 @@ ax.set_facecolor("white")
 ax.set_aspect("equal")
 
 
-# ============================================================
-# STUDY-AREA POLYGONS
-# ============================================================
-
 map_gdf.plot(
     ax=ax,
     facecolor="#DDF4F1",
@@ -83,14 +61,8 @@ map_gdf.plot(
 )
 
 
-# ============================================================
-# DISTRICT LABELS
-# ============================================================
-
 for _, row in map_gdf.iterrows():
 
-    # representative_point() guarantees the label point
-    # remains inside the district polygon.
     point = row.geometry.representative_point()
 
     ax.text(
@@ -105,10 +77,6 @@ for _, row in map_gdf.iterrows():
     )
 
 
-# ============================================================
-# STUDY-AREA OUTER BOUNDARY
-# ============================================================
-
 study_boundary = map_gdf.dissolve()
 
 study_boundary.boundary.plot(
@@ -118,19 +86,11 @@ study_boundary.boundary.plot(
 )
 
 
-# ============================================================
-# MAP EXTENT
-# ============================================================
-
 xmin, ymin, xmax, ymax = map_gdf.total_bounds
 
 x_range = xmax - xmin
 y_range = ymax - ymin
 
-
-# ============================================================
-# NORTH ARROW
-# ============================================================
 
 arrow_x = xmax - 0.10 * x_range
 arrow_y = ymax - 0.13 * y_range
@@ -160,16 +120,11 @@ ax.text(
 )
 
 
-# ============================================================
-# SCALE BAR — 50 KM
-# ============================================================
-
-scale_length = 50_000  # 50 km in metres
+scale_length = 50_000
 
 bar_x = xmin + 0.08 * x_range
 bar_y = ymin + 0.07 * y_range
 
-# Main scale-bar line
 ax.plot(
     [bar_x, bar_x + scale_length],
     [bar_y, bar_y],
@@ -178,7 +133,6 @@ ax.plot(
     solid_capstyle="butt"
 )
 
-# Left marker
 ax.plot(
     [bar_x, bar_x],
     [
@@ -189,7 +143,6 @@ ax.plot(
     linewidth=2
 )
 
-# Right marker
 ax.plot(
     [bar_x + scale_length, bar_x + scale_length],
     [
@@ -212,10 +165,6 @@ ax.text(
 )
 
 
-# ============================================================
-# TITLE
-# ============================================================
-
 ax.set_title(
     "Study Area: Marathwada, Maharashtra, India",
     fontsize=16,
@@ -224,13 +173,6 @@ ax.set_title(
     pad=14
 )
 
-
-# ============================================================
-# AXES
-# ============================================================
-
-# Because the map is plotted in EPSG:32643, the raw coordinates
-# are metres. Display them as kilometres for readability.
 
 ax.set_xlabel(
     "Easting (km)",
@@ -263,18 +205,10 @@ ax.tick_params(
 )
 
 
-# ============================================================
-# CLEAN FRAME
-# ============================================================
-
 for spine in ax.spines.values():
     spine.set_linewidth(0.8)
     spine.set_edgecolor("#BBBBBB")
 
-
-# ============================================================
-# EXPORT
-# ============================================================
 
 plt.savefig(
     OUTPUT_PNG,

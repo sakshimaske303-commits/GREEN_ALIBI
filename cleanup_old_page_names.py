@@ -1,11 +1,5 @@
-"""Removes the old emoji-named page files in GREEN_ALIBI/pages/, now that
-each one has a clean re-saved copy without the emoji in the filename.
-Dry-run by default, prints what it'd remove; pass --delete to actually remove.
+# delete the old emoji-named page files
 
-Run from the GREEN_ALIBI folder:
-    python cleanup_old_page_names.py
-    python cleanup_old_page_names.py --delete
-"""
 import os
 import sys
 

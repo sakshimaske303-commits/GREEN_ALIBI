@@ -23,7 +23,6 @@ styled_caption(
 
 section_divider()
 
-# Interpretation
 st.header("Reading the Correspondence")
 
 col1, col2 = st.columns(2)
@@ -70,7 +69,6 @@ with col2:
 
 section_divider()
 
-# Statistical confirmation
 st.header("Quantifying the Correspondence")
 
 st.image("outputs/figures/sif_rainfall_correlation_scatter.png", use_container_width=True)
@@ -102,7 +100,6 @@ correction applied throughout this project (see **Data & Methodology**).
 
 section_divider()
 
-# SPATIAL AUTOCORRELATION — QUANTIFYING "NOT FULLY INDEPENDENT"
 st.header("How Non-Independent, Exactly? A Moran's I Check")
 
 st.markdown("""

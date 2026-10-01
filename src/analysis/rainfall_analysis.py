@@ -1,32 +1,29 @@
-# WARNING to self: YEARS_CSV below is still the original 8-year GEE export,
-# missing 2021 -- I added that row to OUTPUT_CSV by hand instead (Dev Log
-# Entries 19-20). Rerunning this as-is silently overwrites the correct
-# 9-year rainfall_anomaly_summary.csv with an 8-year one again. Add 2021's
-# row (969.950372 mm) into YEARS_CSV first, or re-append it after, same as
-# Entry 19.
+# region seasonal rainfall anomaly
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-CLIM_CSV = "data/raw/marathwada_rainfall_climatology_2001_2020.csv"
-YEARS_CSV = "data/raw/marathwada_rainfall_2015_2023_8years.csv"  # 8-year export, Bid boundary fix -- see WARNING above, missing 2021
+TOTALS_CSV = "data/raw/chirps_seasonal_totals_1981_2023.csv"
+BASELINE = (2001, 2020)
+STUDY_YEARS = list(range(2015, 2024))
 OUTPUT_CSV = "data/processed/rainfall_anomaly_summary.csv"
 OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2023_8years.png"
 
-# Loading data
-clim = pd.read_csv(CLIM_CSV)
-years_df = pd.read_csv(YEARS_CSV)
+tot = pd.read_csv(TOTALS_CSV)
+region = tot[tot["unit"] == "Marathwada"].rename(columns={"rainfall_mm": "total_rainfall_mm"})
+clim = region[region["year"].between(*BASELINE)]
+assert len(clim) == BASELINE[1] - BASELINE[0] + 1, "baseline years missing from the export"
+years_df = region[region["year"].isin(STUDY_YEARS)][["year", "total_rainfall_mm"]].copy()
+assert len(years_df) == len(STUDY_YEARS), "study years missing from the export"
 
-print("Climatology (2001-2020) years loaded:", len(clim))
-print(clim.sort_values("year"))
-
+print(f"Climatology ({BASELINE[0]}-{BASELINE[1]}) years loaded:", len(clim))
 clim_mean = clim["total_rainfall_mm"].mean()
 clim_std = clim["total_rainfall_mm"].std()
 
 print(f"\n20-year climatological mean (Jun-Dec rainfall): {clim_mean:.1f} mm")
 print(f"20-year climatological std dev: {clim_std:.1f} mm")
 
-# Computing anomaly for study years
 years_df["anomaly_mm"] = years_df["total_rainfall_mm"] - clim_mean
 years_df["anomaly_pct"] = (years_df["anomaly_mm"] / clim_mean) * 100
 years_df["anomaly_zscore"] = years_df["anomaly_mm"] / clim_std
@@ -37,7 +34,6 @@ years_df.to_csv(OUTPUT_CSV, index=False)
 print("\nRainfall anomaly summary for study years:")
 print(years_df[["year", "total_rainfall_mm", "anomaly_mm", "anomaly_pct", "anomaly_zscore"]].round(2))
 
-# Plot
 fig, ax = plt.subplots(figsize=(8, 6))
 colors = ["#a50026" if v < 0 else "#1a9850" for v in years_df["anomaly_pct"]]
 ax.bar(years_df["year"].astype(str), years_df["anomaly_pct"], color=colors)
