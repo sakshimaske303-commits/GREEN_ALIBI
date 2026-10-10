@@ -32,6 +32,7 @@ I organized my txt into separate entries, nd each section covers one specific ph
 22. [Entry 22](#entry-22)
 23. [Entry 23](#entry-23)
 24. [Entry 24](#entry-24)
+25. [Entry 25](#entry-25)
 
 ## Entry 1
 
@@ -444,3 +445,13 @@ Other checks. `ndvi_coverage_check.py`: 23 of 117 regional NDVI composites have 
 Figures and docs. Redid the RQ3 timeline (both drought years, alarms, trigger, declarations), the rainfall bar chart (z labels, criterion line), the anomaly curves (z = −3 line), the bootstrap and yield plots, and the graphical abstract. Map scripts now use colour scales symmetric about zero and the study-area map gets a locator inset once the state outlines are exported. Rewrote the paper around H4 as the main question, with a literature section, the normalisation result, and supplementary figures; updated the executive summary, highlights, policy brief, README, CITATION abstract, cover letter and dashboard pages to match; removed the proof-screenshot popovers and made the dashboard offer the .md documents when the PDFs are absent. Added `requirements-lock.txt` and new scripts to `run_all.py`.
 
 Still to do (needs my machine or Earth Engine): full `run_all.py` rerun with the log committed; `gee_vi_obsdate.py` (NDVI vs EVI vs NIRv, to see whether the remaining lead is an NDVI property); the per-pixel trigger; more TROPOMI years; 2001–2014 extension; regenerating the maps; removing stale files and the decompressed raw GeoTIFFs.
+
+## Entry 25
+
+Two checks from my finish plan, both run in the Earth Engine Code Editor and then analysed with the existing scripts.
+
+EVI and NIRv. I wanted to know whether the small SIF lead that survives the decline-range scaling is real or just NDVI being slow. I exported EVI and NIRv (NDVI x NIR reflectance) from the same MOD13Q1 composites, same masks, same observation dates; the NDVI column matched my old NDVI file exactly. NIRv declines before NDVI in 9 of 9 years (+22.8 days season-scaled, +9.9 decline-scaled) and EVI in 9 and 8 (+17.1, +7.7), as much as SIF does (+20.9, +4.3). Compared directly, SIF is first against NIRv in only 4 of 9 years season-scaled and in none decline-scaled. So the lead is an NDVI property (saturation, slow return to baseline), not a fluorescence one. The main conclusion does not change; this answers the obvious reviewer question.
+
+Trigger-1 per pixel. I ran the dry-spell trigger in every CHIRPS pixel instead of on district-averaged rain. It reached 25% of a district's area only in Aurangabad 2018 (40%), Bid 2018 (35%) and Bid 2017 (72%, a normal year). In 2015 it fired in at most 7% of any district. So the trigger is rare because of the rule itself in this region, not because of averaging. Timing against the alarms is the same as before: in Aurangabad 2018 NDVI came first (8.5 days), SIF 0.5 days before; in Bid 2018 both came 0.5 days after.
+
+Updated the paper (methods 3.4 and 3.10, results 4.6 and 4.9, discussion, limitations, conclusion, abstract, highlights), the summaries, README, CITATION, dashboard pages and the graphical abstract.

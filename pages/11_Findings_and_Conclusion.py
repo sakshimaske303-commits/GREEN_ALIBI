@@ -68,8 +68,15 @@ st.info("""
 **Cross-correlation and TROPOMI.** Whole-curve cross-correlation, which does not depend on
 scaling, gives 10, 12, 14, 4, 0, 9, 20, −1 and −3 days, closer to the decline-scaled
 estimate. TROPOMI SIF (2018–2020), not built from MODIS reflectance, put SIF first in all
-three years under both scalings (decline-scaled 10.4, 10.3 and 27.7 days), so a small lead
-may remain.
+three years under both scalings (decline-scaled 10.4, 10.3 and 27.7 days).
+""")
+
+st.warning("""
+**Is the remaining lead an NDVI property? Yes.** MODIS NIRv and EVI, from the same composites,
+also decline before NDVI: NIRv in 9 of 9 years (+22.8 days season-scaled, +9.9 decline-scaled),
+EVI in 9 and 8 (+17.1 and +7.7), as much as SIF (+20.9 and +4.3). Compared directly, SIF is not
+ahead of NIRv: first in 4 of 9 years season-scaled and in none decline-scaled. The lead comes
+from NDVI's late decline, not from fluorescence.
 """)
 
 st.image("outputs/figures/district_lag_by_year.png", use_container_width=True)
@@ -101,6 +108,11 @@ spell of at least 21 days between 1 July and 30 September. On averaged rainfall 
 fired for the region. At district level it fired in 2 of 15 drought district-years
 (Aurangabad and Bid, 2018) and one normal one (Bid 2017). In Aurangabad, NDVI's alarm came
 23.5 days and SIF's 15.5 days before the trigger; in Bid both came at the same time.
+
+**Per pixel.** Evaluated in every CHIRPS pixel, the trigger reached 25% of a district's area
+only in Aurangabad 2018 (40%), Bid 2018 (35%) and Bid 2017 (72%, a normal year). In 2015, the
+stronger drought year, it fired in at most 7% of any district. The trigger's rarity is a
+property of the rule, not of averaging.
 """)
 
 st.info("""
@@ -163,8 +175,8 @@ st.markdown("""
   cropland mask; they do not describe individual crops or fields.
 - **District non-independence.** District observations are spatially clustered. With
   district and year fixed effects, SIF does not track rainfall anomaly (p = 0.37).
-- **Rainfall trigger approximation.** My Trigger-1 is computed on averaged rainfall, not per
-  taluka or per pixel.
+- **Rainfall trigger approximation.** My Trigger-1 is computed on district-averaged rainfall and
+  per CHIRPS pixel, not per taluka with field inputs as the state does.
 - **Declarations.** I found only three declaration dates; the 2015 date is the date it was
   reported. Declarations follow field verification, so they are structurally late.
 - **Yield data.** One end-of-season number per district-crop, ending in 2022-23 (drought
@@ -188,13 +200,14 @@ coincided, with NDVI earlier at looser thresholds.
 SIF's normal seasonal decline appears to start well before NDVI's when each curve is scaled
 over the whole season, but most of that lead comes from NDVI not returning to its pre-season
 level after the monsoon. Measured over each curve's own decline, or by cross-correlation, the
-lead is small and absent in about a third of the years.
+lead is small and absent in about a third of the years, and MODIS NIRv and EVI lead NDVI by
+as much as SIF does, so what remains is a property of NDVI, not of fluorescence.
 
 So my conclusion is negative on the question I started from. In this region and dataset,
 SIF is not an earlier drought alarm than NDVI. Satellite vegetation anomalies may add lead
 time to a rainfall-led trigger, but I found no evidence that SIF would add more than NDVI
-already does. Testing that properly would need more drought years, direct SIF retrievals over
-more seasons, and a comparison with other reflectance indices.
+already does. Testing that properly would need more drought years and direct SIF retrievals over
+more seasons.
 """)
 
 st.markdown("""

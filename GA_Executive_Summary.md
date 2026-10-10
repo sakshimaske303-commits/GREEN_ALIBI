@@ -41,13 +41,17 @@ I built GREEN ALIBI to turn a physical hunch into a testable claim. Solar-Induce
 | 2022 | +36.7% | No | +11.8 | −1.0 | −1 |
 | 2023 | −3.8% | No | +11.1 | +0.4 | −3 |
 
-Cross-correlation, which does not depend on scaling, agrees more with the decline-scaled lag. TROPOMI put SIF first in all three of its years under both scalings, so a small lead may remain.
+Cross-correlation, which does not depend on scaling, agrees more with the decline-scaled lag. TROPOMI put SIF first in all three of its years under both scalings. MODIS NIRv and EVI, from the same composites, also lead NDVI by as much as SIF does (NIRv: 9/9 years, +22.8 days season-scaled, +9.9 decline-scaled), and SIF does not lead NIRv (decline-scaled, first in 0 of 9 years). The remaining lead is a property of NDVI, not of fluorescence.
 
 **No district differences once scaling is matched (H2 not supported).** Season-scaled, the lag differs between districts (Friedman p = 0.043); decline-scaled, it does not (p = 0.97; district means 2.9–5.6 days). **Drought does not widen the lag (H3 not supported):** season-scaled, drought years averaged 14.8 days against 22.6; decline-scaled, 6.5 against 3.6 — with two drought years, neither difference means much.
 
 ## Validation & Robustness Checklist
 
 ✓ Independent SIF retrieval (TROPOMI, 2018–2020)
+
+✓ Comparison with MODIS EVI and NIRv from the same composites
+
+✓ Rainfall trigger evaluated per CHIRPS pixel as well as on averaged rainfall
 
 ✓ Two normalisations, a double-logistic fit and cross-correlation for the seasonal lag
 
@@ -71,11 +75,11 @@ Cross-correlation, which does not depend on scaling, agrees more with the declin
 
 ## Limitation
 
-Only two drought years regionally (2015, 2018). Decline-scaled leads are mostly shorter than the 16-day NDVI sampling interval. The thresholds were chosen during the study, so the analysis is exploratory. GOSIF uses MODIS reflectance as a predictor; TROPOMI removes that dependence but covers only 2018–2020. Results are regional or district averages at about 5 km over a mixed cropland mask, and districts are spatially clustered. The Trigger-1 used here is computed on averaged rainfall, not per taluka. Several data-handling errors in the first preprint are corrected and documented in the Development Log.
+Only two drought years regionally (2015, 2018). Decline-scaled leads are mostly shorter than the 16-day NDVI sampling interval. The thresholds were chosen during the study, so the analysis is exploratory. GOSIF uses MODIS reflectance as a predictor; TROPOMI removes that dependence but covers only 2018–2020. Results are regional or district averages at about 5 km over a mixed cropland mask, and districts are spatially clustered. Trigger-1 is approximated on district-averaged rainfall and per CHIRPS pixel, not per taluka. Several data-handling errors in the first preprint are corrected and documented in the Development Log.
 
 ## Real World Relevance
 
-The rainfall trigger, as approximated here, never fired for the region and fired in only 2 of 15 drought district-years (Aurangabad and Bid, 2018); its deficit component alone fired as often in normal years as in drought years. Where it fired, NDVI's alarm was at least as early as SIF's. Both alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but a declaration follows field verification, so a satellite signal precedes it almost by construction. Satellite vegetation anomalies could add lead time to a rainfall-led trigger; this study gives no reason to prefer SIF over the NDVI already in use.
+The rainfall trigger, as approximated here, never fired for the region and fired in only 2 of 15 drought district-years (Aurangabad and Bid, 2018). Evaluated per CHIRPS pixel, it reached 25% of a district's area only in Aurangabad and Bid 2018 and Bid 2017 (a normal year), and in 2015 it fired in at most 7% of any district. Its deficit component alone fired as often in normal years as in drought years. Where it fired, NDVI's alarm was at least as early as SIF's. Both alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but a declaration follows field verification, so a satellite signal precedes it almost by construction. Satellite vegetation anomalies could add lead time to a rainfall-led trigger; this study gives no reason to prefer SIF over the NDVI already in use.
 
 ---
 

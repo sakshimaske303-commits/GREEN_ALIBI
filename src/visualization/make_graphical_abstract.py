@@ -82,6 +82,8 @@ box(0.63, 1.5, 18.74, 2.85, edge="#cccccc", face="white", lw=1.5)
 ax.text(10, 3.98, "KEY RESULTS", ha="center", va="center", fontsize=17, fontweight="bold", color=INK)
 
 ns = pd.read_csv(P + "normalisation_sensitivity_region.csv")
+vi = pd.read_csv(P + "vegetation_index_lag.csv")
+n_sif_nirv = int((vi["SIF_vs_NIRv_decline"] > 0).sum())
 n_decl_first = int((ns["lag_decline"] > 0).sum())
 dsum = pd.read_csv(P + "drought_signal_district_summary.csv")
 d3 = dsum[(dsum["baseline"].str.startswith("own")) & (dsum["threshold"] == -3.0)].iloc[0]
@@ -95,9 +97,10 @@ cards = [
      f"Season-scaled: SIF first {n_sif_first}/{n_years} years\n"
      f"Decline-scaled: SIF first {n_decl_first}/{n_years} years\n"
      f"Cross-corr.: {xc_pos} SIF | {xc_tie} tie | {xc_neg} NDVI"),
-    ("NO DISTRICT EFFECT", 16.5,
-     f"District differences vanish when\ncurves are scaled over their own decline\n"
-     f"TROPOMI: SIF first {trop_first}/{len(trop)} years (2018–2020)"),
+    ("AN NDVI EFFECT", 16.5,
+     f"NIRv and EVI lead NDVI as much as SIF\n"
+     f"SIF does not lead NIRv ({n_sif_nirv}/{len(vi)}, decline-scaled)\n"
+     f"No district differences once scaled"),
 ]
 cw, ch, cy = 4.1, 1.72, 1.8
 cx0 = 1.0
@@ -124,7 +127,7 @@ for lab, doy, col, side in pts:
             color=INK, linespacing=1.1)
 
 ax.text(10, 0.85, "CONCLUSION  •  SIF is not an earlier drought alarm than NDVI; "
-        "its seasonal lead is largely a scaling effect.", ha="center", va="center", fontsize=16.5,
+        "its seasonal lead comes from NDVI, not fluorescence.", ha="center", va="center", fontsize=16.5,
         fontweight="bold", color=INK)
 
 for ext in ["png", "svg", "pdf"]:

@@ -26,10 +26,12 @@ abstract: >-
   days), but NDVI does not return to its pre-season level after the monsoon;
   scaled from peak to post-peak minimum the lead falls to -5.5 to +13.4 days,
   is absent in three years, and district differences disappear (Friedman
-  p = 0.97). TROPOMI SIF (2018-2020) put SIF first under both scalings. Only
+  p = 0.97). TROPOMI SIF (2018-2020) put SIF first under both scalings;
+  MODIS NIRv and EVI lead NDVI as much as SIF does and SIF does not lead
+  NIRv, so the remaining lead is a property of NDVI. Only
   2015 and 2018 met the CHIRPS rainfall drought criterion. An approximation of
   the rainfall-based Trigger-1 never fired at the regional scale and fired in
-  2 of 15 drought district-years. In this dataset SIF is not an earlier
+  2 of 15 drought district-years, also when evaluated per pixel. In this dataset SIF is not an earlier
   drought alarm than NDVI, and its seasonal lead is largely a property of how
   NDVI's decline is measured.
 keywords:

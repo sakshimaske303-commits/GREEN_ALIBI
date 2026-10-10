@@ -291,9 +291,34 @@ NDVI's in all three years, and also gives 2018 the smallest lead. All four varia
 
 st.warning("""
 Decline-scaled, TROPOMI still puts SIF first in all three years (10.4, 10.3 and 27.7 days,
-against GOSIF's 3.5, −5.5 and 8.8), so a small SIF lead may exist in the direct retrieval. The
-size differs between products, and the check covers just one drought year (2018), since TROPOMI
-does not reach back to 2015.
+against GOSIF's 3.5, −5.5 and 8.8). The size differs between products, and the check covers just
+one drought year (2018), since TROPOMI does not reach back to 2015.
+""")
+
+section_divider()
+
+st.header("Is the Lead an NDVI Property? EVI and NIRv")
+
+st.markdown("""
+GOSIF is partly predicted from MODIS EVI, and NDVI saturates over dense canopy. So I ran the same
+threshold-crossing comparison with two other MOD13Q1 indices from the same composites: EVI, and
+NIRv (NDVI × near-infrared reflectance), a proxy for canopy structure and absorbed light.
+""")
+
+vi = load_csv("vegetation_index_lag.csv")
+vi_cols = {"SIF_vs_NDVI": "SIF before NDVI", "NIRv_vs_NDVI": "NIRv before NDVI",
+           "EVI_vs_NDVI": "EVI before NDVI", "SIF_vs_NIRv": "SIF before NIRv"}
+vi_rows = []
+for key, label in vi_cols.items():
+    for how, hl in [("season", "season-scaled"), ("decline", "decline-scaled")]:
+        col = vi[f"{key}_{how}"]
+        vi_rows.append({"Comparison": label, "Scaling": hl, "Years first": f"{(col > 0).sum()}/{col.notna().sum()}",
+                        "Mean lag (days)": round(col.mean(), 1)})
+st.dataframe(pd.DataFrame(vi_rows), use_container_width=True, hide_index=True)
+
+st.warning("""
+NIRv and EVI lead NDVI by as much as SIF does, and SIF does not lead NIRv. The lead SIF shows over
+NDVI is a property of NDVI's late decline, not an early fluorescence response.
 """)
 
 styled_caption("GREEN ALIBI — Quantitative Lag Analysis")
