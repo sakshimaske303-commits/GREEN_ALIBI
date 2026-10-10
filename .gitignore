@@ -32,3 +32,6 @@ data/external/troposif_raw/
 
 # local backups made during the October 2026 review
 _review_backup_*/
+
+# private finish plan (not part of the repository)
+PROJECT_PLAN.md

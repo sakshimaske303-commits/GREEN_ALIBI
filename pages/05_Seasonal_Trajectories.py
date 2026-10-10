@@ -17,7 +17,8 @@ section_divider()
 st.image("outputs/figures/sif_vs_ndvi_seasonal_v2.png", use_container_width=True)
 styled_caption(
     "Normalized cropland-weighted SIF and NDVI (at actual observation day) seasonal trajectories, "
-    "Marathwada, 2015–2023, labeled by drought classification."
+    "Marathwada, 2015–2023, labeled by drought classification. Open squares: NDVI composites with "
+    "fewer than 25% of cropland pixels passing the quality screen."
 )
 
 section_divider()

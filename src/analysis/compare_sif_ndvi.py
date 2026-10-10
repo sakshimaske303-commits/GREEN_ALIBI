@@ -69,9 +69,18 @@ for ax, year in zip(axes, years):
     ax.grid(alpha=0.3)
 for ax in axes[len(years):]:
     ax.set_visible(False)
-axes[0].set_ylabel("Normalized value (0–1 within year)")
-axes[0].legend(fontsize=8)
+for ax in axes[::ncols]:
+    ax.set_ylabel("Normalized value (0–1 within year)")
 fig.suptitle(f"SIF vs NDVI seasonal trajectory — Marathwada, {len(years)} years")
 plt.tight_layout()
+# legend in the empty panel space, so it covers no data
+handles, labels = axes[0].get_legend_handles_labels()
+spare = axes[len(years)] if len(years) < len(axes) else None
+if spare is not None:
+    spare.set_visible(True)
+    spare.axis("off")
+    spare.legend(handles, labels, loc="center", fontsize=10, frameon=False)
+else:
+    fig.legend(handles, labels, loc="lower center", ncol=3, fontsize=9)
 plt.savefig(os.path.join(OUT_DIR, "sif_vs_ndvi_seasonal_v2.png"), dpi=150)
 plt.show()

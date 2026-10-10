@@ -192,7 +192,7 @@ At the regional scale, at z < −3, SIF and NDVI both raised the 2015 alarm on 2
 | z < −2 | 14 | 15 | 11 | 12 | 14 | 2 | 2 | 10 |
 | z < −3 | 12 | 13 | 2 | 4 | 12 | 1 | 6 | 5 |
 
-At the main threshold the two indices most often raised the alarm on the same composite, and where they differed NDVI was usually first; at looser thresholds NDVI was first in most drought district-years (Table 2). SIF had slightly fewer false alarms. With the regional baseline instead (17 drought district-years), the picture is the same: at z < −3 both flag 12, NDVI is earlier in 7, the same in 4 and later in 1. The date-by-date AUC shows both indices separating drought from normal district-years from 23 July (AUC ≥ 0.75; SIF 0.80, NDVI 0.76). SIF's AUC is slightly higher from mid-July to 8 August, and NDVI's is higher from 24 August to 19 October (0.79–0.96 vs 0.76–0.94).
+At the main threshold the two indices most often raised the alarm on the same composite, and where they differed NDVI was usually first; at looser thresholds NDVI was first in most drought district-years (Table 2). SIF had slightly fewer false alarms. With the regional baseline instead (17 drought district-years), the picture is the same: at z < −3 both flag 12, NDVI is earlier in 7, the same in 4 and later in 1. The date-by-date AUC shows both indices separating drought from normal district-years from 23 July (AUC ≥ 0.75; SIF 0.80, NDVI 0.76). SIF's AUC is slightly higher from mid-July to 8 August, and NDVI's is higher from 24 August to 19 October (0.78–0.96 vs 0.76–0.94).
 
 H4 is therefore not supported: in this dataset SIF does not depart from its normal-year range earlier than NDVI. Its only consistent advantage is a slightly higher separation in July and early August and fewer false alarms, neither large enough to change the timing of a drought alarm.
 
@@ -200,7 +200,7 @@ H4 is therefore not supported: in this dataset SIF does not depart from its norm
 
 ![Figure 8](outputs/figures/sif_vs_ndvi_seasonal_v2.png)
 
-**Figure 8.** Normalised cropland-weighted SIF and NDVI (at observation day) seasonal trajectories, Marathwada, 2015–2023 (season-range scaling).
+**Figure 8.** Normalised cropland-weighted SIF and NDVI (at observation day) seasonal trajectories, Marathwada, 2015–2023 (season-range scaling). Open squares mark NDVI composites in which fewer than 25% of cropland pixels passed the quality screen.
 
 Under season-range scaling, SIF's post-peak decline appears to get under way ahead of NDVI's in all nine years, with NDVI holding near its peak for longer. Figure 8 also shows why the scaling matters: by late December SIF is back near its June level (0.00–0.28 on the season scale), but NDVI is not (0.23–0.59). Post-monsoon NDVI stays well above its pre-monsoon level, likely because of residual vegetation, Rabi sowing and weeds on fallow land.
 

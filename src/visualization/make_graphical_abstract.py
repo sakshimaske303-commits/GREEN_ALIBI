@@ -27,6 +27,7 @@ trop_first = int((trop["lag_tropomi_vs_ndvi"] > 0).sum())
 lag_d = lag.loc[lag["year"].isin(drought), "mean_lag_days"].mean()
 lag_n = lag.loc[~lag["year"].isin(drought), "mean_lag_days"].mean()
 final = trig[trig["is_final"]]
+f18 = final[final["declaration"].astype(str).str.startswith("2018")].iloc[0]
 lead_lo = int(np.floor(final[["SIF_alarm_days_before_declaration", "NDVI_alarm_days_before_declaration"]].min().min()))
 lead_hi = int(np.ceil(final[["SIF_alarm_days_before_declaration", "NDVI_alarm_days_before_declaration"]].max().max()))
 
@@ -94,7 +95,7 @@ cards = [
      f"Season-scaled: SIF first {n_sif_first}/{n_years} years\n"
      f"Decline-scaled: SIF first {n_decl_first}/{n_years} years\n"
      f"Cross-corr.: {xc_pos} SIF | {xc_tie} tie | {xc_neg} NDVI"),
-    ("NO DISTRICT OR DROUGHT EFFECT", 15,
+    ("NO DISTRICT EFFECT", 16.5,
      f"District differences vanish when\ncurves are scaled over their own decline\n"
      f"TROPOMI: SIF first {trop_first}/{len(trop)} years (2018–2020)"),
 ]
@@ -110,7 +111,7 @@ x = cx0 + 3 * (cw + 0.36)
 box(x, cy, cw + 0.45, ch)
 ax.text(x + (cw + 0.45) / 2, cy + ch - 0.3, "2018 DROUGHT TIMELINE", ha="center", va="center",
         fontsize=16, fontweight="bold", color=INK)
-ax.text(x + (cw + 0.45) / 2, cy + ch - 0.6, f"alarms {lead_lo}–{lead_hi} days before final declarations",
+ax.text(x + (cw + 0.45) / 2, cy + ch - 0.6, f"alarms {f18.NDVI_alarm_days_before_declaration:.1f} (NDVI) and {f18.SIF_alarm_days_before_declaration:.1f} (SIF) days before declaration",
         ha="center", va="center", fontsize=11, fontweight="bold", color=MAGENTA)
 d0, d1 = 250, 310
 xa, xb = x + 0.45, x + cw
