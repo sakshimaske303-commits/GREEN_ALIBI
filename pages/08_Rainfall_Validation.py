@@ -8,23 +8,24 @@ apply_custom_style()
 st.title("🌧️ Rainfall Validation")
 
 st.markdown("""
-Up to this point, "2015 and 2018 were drought years" had been a label carried in from
-general knowledge about Marathwada — not something measured within this project. This page
-closes that gap using CHIRPS precipitation data, independently of the SIF and NDVI analysis,
-across all nine study years.
+I needed a measured definition of a drought year rather than one carried in from general
+knowledge about Marathwada. This page builds it from CHIRPS daily rainfall alone,
+independently of the SIF and NDVI data. Every rainfall anomaly in this study comes from the
+same CHIRPS seasonal-total series (1 June – 27 December), compared against a 2001–2020
+baseline.
 """)
 
 section_divider()
 
 st.header("Regional Rainfall Anomaly")
 
-st.image("outputs/figures/rainfall_anomaly_2015_2023_8years.png", use_container_width=True)
+st.image("outputs/figures/rainfall_anomaly_2015_2023.png", use_container_width=True)
 styled_caption("Regional rainfall anomaly (% departure from 2001–2020 climatological mean), all nine study years.")
 
 _rain_years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
-_rain_mm = ["649.0 mm", "904.7 mm", "817.5 mm", "674.9 mm", "936.4 mm", "1066.5 mm", "970.0 mm", "1130.7 mm", "795.9 mm"]
-_rain_pct = ["-21.5%", "+9.5%", "-1.1%", "-18.3%", "+13.3%", "+29.1%", "+17.4%", "+36.8%", "-3.7%"]
-_rain_z = [-1.12, 0.49, -0.06, -0.95, 0.69, 1.51, 0.90, 1.92, -0.19]
+_rain_mm = ["649.0 mm", "904.7 mm", "817.4 mm", "674.9 mm", "936.3 mm", "1066.5 mm", "970.0 mm", "1130.3 mm", "795.3 mm"]
+_rain_pct = ["-21.5%", "+9.4%", "-1.1%", "-18.4%", "+13.3%", "+29.0%", "+17.3%", "+36.7%", "-3.8%"]
+_rain_z = [-1.12, 0.49, -0.06, -0.96, 0.69, 1.51, 0.90, 1.91, -0.20]
 
 rain_row1 = st.columns(5)
 rain_row2 = st.columns(4)
@@ -34,15 +35,13 @@ for i, (yr, mm, pct, z) in enumerate(zip(_rain_years, _rain_mm, _rain_pct, _rain
     col.metric(f"{yr}{tag}", mm, pct)
 
 st.info("""
-Against a **twenty-year (2001–2020) climatological mean of 826.4 mm** (σ = 158.8 mm) for
-the June–December window, only **2015** (z = -1.12) and **2018** (z = -0.95) cross this
-study's own drought threshold (anomaly z-score < -0.5). The other seven years — including
-2017 and 2023, which are both still mildly below the long-run mean — sit within roughly
-one standard deviation of normal, and 2022 was the wettest year of the entire nine-year
-record (+36.8%). This independently confirms, via measured precipitation deficit rather
-than assumption, that only 2/9 (22%) of the study's years are genuine drought years — a
-notably smaller share than the 2/3 (67%) implied by the original three-year sample, and a
-finding carried through every other page and document in this project.
+Against a 2001–2020 mean of **826.8 mm** (σ = 158.9 mm), only **2015** (z = −1.12) and
+**2018** (z = −0.96) fall below my drought cut-off of z < −0.5. The other seven years are
+normal; 2017 and 2023 are slightly below the mean, and 2022 is the wettest year in the
+record (+36.7%). The same two years come out as drought years under all four baselines I
+tested (2001–2020, 2001–2014, 1981–2014, 1991–2020) and for every cut-off from −0.3 to
+−0.75. Under z < −1.0 only 2015 remains. So every drought-versus-normal comparison in this
+study rests on two years out of nine.
 """)
 
 section_divider()
@@ -50,22 +49,23 @@ section_divider()
 st.header("District-Level Rainfall Anomaly")
 
 st.image("outputs/figures/rainfall_anomaly_by_district_static.png", use_container_width=True)
-styled_caption("Rainfall anomaly by district (% departure from regional 20-year normal), all nine study years.")
+styled_caption("Rainfall anomaly by district (% departure from the regional 2001–2020 mean), 2015–2023.")
 
 st.markdown("""
-The regional deficit was **not spatially uniform**, and this holds well beyond the drought
-years alone. In 2018, Aurangabad (−37.3%) and Bid (−38.0%) recorded the largest deficits,
-while Hingoli (+10.2%) and Nanded (+14.7%) actually recorded rainfall **surpluses** in the
-same year — despite the region-wide figure showing an 18.3% deficit.
+The deficit was **not spatially uniform**. In 2018, Bid (−38.0%), Aurangabad (−37.3%) and
+Osmanabad (−33.9%) had the largest deficits, while Hingoli (+10.2%) and Nanded (+14.6%) had
+surpluses, even though the region as a whole was 18.4% short. In 2015, Osmanabad (−36.4%)
+had the largest deficit and Hingoli (−8.0%) and Nanded (−7.1%) the mildest.
 
-Averaged across all nine study years, this west-drier / east-wetter gradient is a
-persistent feature of the region, not a one-year artifact: **Osmanabad (−5.6%), Bid (−4.2%),
-and Aurangabad (−4.9%)** run below the long-term regional mean on average across the full
-record, while **Nanded (+29.6%) and Hingoli (+24.1%)** run well above it. This lines up
-directly with the SIF-based spatial pattern on the previous page, where Osmanabad recorded
-the lowest district-level SIF in 8 of 9 years — the same district that is, on average, the
-driest. "Drought year" as a single regional label conceals substantial and *consistent*
-west-to-east variation within Marathwada, not just variation confined to 2015 and 2018.
+Part of this is a fixed west–east gradient. District baselines range from 704.9 mm
+(Osmanabad) to 1,009.0 mm (Nanded), so against the regional mean Osmanabad (−5.6%),
+Aurangabad (−5.0%) and Bid (−4.2%) run below average over the nine years, and Nanded
+(+29.5%) and Hingoli (+24.1%) well above it. Because of this I also classified district-years
+against each district's own baseline: 6 of 72 classifications change (Hingoli and Nanded
+2015 become drought district-years; Aurangabad 2017 and Aurangabad, Bid and Osmanabad 2023
+become normal), and the two sets of z-scores correlate at r = 0.83. The own-district
+classification (15 drought district-years: all eight districts in 2015, six in 2018 and Jalna
+in 2023) is the one used for the district drought-alarm tests; the regional one is a check.
 """)
 
 section_divider()

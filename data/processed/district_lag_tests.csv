@@ -1,0 +1,13 @@
+test,statistic,p_value
+"H2 two-way ANOVA, district effect (threshold lag)",2.1283137665547267,0.05522386608228403
+"H2 Friedman test, districts across 9 complete years",14.518518518518476,0.04269112234385427
+"H3 district-level, zscore_region_baseline: Pearson r",0.12458771778293845,0.2970736798188615
+"H3 district-level, zscore_region_baseline: within-year r",0.08461162177963467,0.4797797270880402
+"H3 district-level, zscore_region_baseline: clustered OLS slope",0.9841788044101484,0.6238485593106874
+"H3 district-level, zscore_region_baseline: Welch t drought vs normal",-1.8003179887107565,0.08290122299132498
+"H3 district-level, zscore_region_baseline: n drought district-years",17.0,
+"H3 district-level, zscore_district_baseline: Pearson r",0.10488943120065844,0.38056164419563204
+"H3 district-level, zscore_district_baseline: within-year r",-0.07184590485135316,0.5486801275370127
+"H3 district-level, zscore_district_baseline: clustered OLS slope",1.0508442886305602,0.7040285389802221
+"H3 district-level, zscore_district_baseline: Welch t drought vs normal",-1.8261937588924513,0.07992252906206188
+"H3 district-level, zscore_district_baseline: n drought district-years",15.0,

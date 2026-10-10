@@ -24,13 +24,10 @@ styled_caption(
 )
 
 st.markdown("""
-A low-SIF (red) zone recurs in the southwestern districts — Osmanabad most consistently,
-joined by Bid specifically in 2018 — across most years, while the seven normal years show
-markedly more green (high-SIF) coverage than the two drought years, 2015 and 2018. Unlike
-the original three-year sample, the expanded nine-year picture shows this low-SIF zone
-shifting slightly year to year rather than sitting in exactly the same districts every time,
-which is part of why the district-level ranking below is less stable at the top than it is
-at the bottom.
+A low-SIF zone recurs in the southwest of the region — Osmanabad in most years, and Bid in
+2018. The pattern shifts a little from year to year rather than sitting on exactly the same
+districts every time, which is why the district ranking below is more stable at the bottom
+than at the top.
 """)
 
 section_divider()
@@ -41,15 +38,14 @@ st.image("outputs/figures/sif_by_district_static.png", use_container_width=True)
 styled_caption("Mean SIF by district, day-of-year 273, all nine study years.")
 
 st.markdown("""
-Osmanabad recorded the lowest district-level mean SIF in eight of the nine years studied
-(2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, ranging 0.135–0.240) — the sole exception is
-2018, when **Bid** recorded the lowest value of any district in any year (0.143), even
-below Osmanabad's own 2018 figure (0.151). At the top of the ranking, the original
-three-year sample's finding that Nanded is "consistently highest" does **not** replicate at
-nine years: Nanded is highest in only 2 of 9 years (2015, 2018), while **Aurangabad** is
-highest most often (5 of 9: 2016, 2017, 2020, 2021, 2022), and Jalna (2019) and Parbhani (2023)
-each lead once. The bottom of the ranking is far more stable than the top — this is reported
-directly rather than smoothed into the original three-year framing.
+Osmanabad has the lowest district SIF on day-of-year 273 in eight of the nine years. The
+exception is 2018, when **Bid** (0.143) is lower than Osmanabad (0.151). The highest-SIF
+district varies: Aurangabad in five years (2016, 2017, 2020, 2021, 2022), Nanded in two
+(2015, 2018), and Jalna (2019) and Parbhani (2023) in one each.
+
+A single date is a noisy snapshot. Day-of-year-273 SIF is spatially clustered (Moran's I,
+p < 0.05) in only four years (2015, 2016, 2018, 2020), while season-mean SIF (June–December)
+is clustered in all nine. I give the full Moran's I results on **Combined Comparison**.
 """)
 
 section_divider()

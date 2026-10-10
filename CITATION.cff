@@ -1,10 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software or its findings, please cite it using the metadata below."
-title: "Testing the Fluorescence Advantage: Solar-Induced Fluorescence as an Early Indicator of Agricultural Drought Stress in Marathwada, Maharashtra"
+title: "Testing the Fluorescence Advantage: Does Solar-Induced Fluorescence Signal Agricultural Drought Earlier than NDVI in Marathwada, India?"
 type: software
 authors:
   - family-names: "Maske"
     given-names: "Sakshi D."
+    orcid: "https://orcid.org/0009-0002-5683-5966"
 repository-code: "https://github.com/sakshimaske303-commits/GREEN_ALIBI"
 url: "https://github.com/sakshimaske303-commits/GREEN_ALIBI"
 identifiers:
@@ -14,43 +15,36 @@ identifiers:
 doi: "10.5281/zenodo.21762501"
 abstract: >-
   A satellite remote-sensing study testing whether Solar-Induced Fluorescence
-  (SIF), a proxy for photosynthetic activity, registers agricultural drought
-  stress measurably earlier than NDVI, the reflectance-based indicator
-  currently underpinning India's drought declaration and PMFBY crop-insurance
-  payout process. Using GOSIF v2 fluorescence data and cloud-screened MODIS
-  NDVI over Marathwada, Maharashtra, across eight growing seasons (2015-2023,
-  excluding 2021; two years, 2015 and 2018, meeting this study's own
-  rainfall-anomaly drought threshold), a quantitative SIF-to-NDVI decline lag
-  was calculated and checked against a second, methodologically distinct
-  cross-correlation lag estimate (not an independent one — both run on the
-  same underlying SIF/NDVI series), with a case-resampling bootstrap
-  uncertainty analysis. SIF's decline preceded NDVI's decline in seven of the
-  eight years studied under the threshold-crossing method, but the
-  cross-correlation check agrees in only five of those eight years and finds
-  NDVI leading instead in three (2018, 2022, 2023). The hypothesis that
-  drought severity amplifies this lag was not supported. Independent CHIRPS
-  rainfall validation confirmed the drought/normal classification, and
-  district-level spatial analysis found mean SIF and rainfall anomaly
-  significantly correlated (Pearson r = 0.567, p < 0.001, n = 64
-  district-years), a relationship further characterized via a Moran's I
-  spatial-autocorrelation diagnostic showing rainfall consistently spatially
-  clustered (8 of 8 years) and SIF clustered in about half of the years
-  studied (4 of 8). A supplementary comparison against the one well-documented
-  official government drought-declaration date available (2018) found both
-  satellite indicators leading the official declaration by roughly seven to
-  eight weeks.
+  (SIF) signals agricultural drought earlier than NDVI in the eight districts
+  of Marathwada, Maharashtra, over nine Kharif seasons (2015-2023), comparing
+  cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's
+  observation date. Standardised against normal years, SIF did not flag
+  drought before NDVI: both crossed z < -3 on the same date in 2015 and NDVI
+  was eight days earlier in 2018; across 15 drought district-years the two
+  coincided in 6, NDVI was earlier in 5 and SIF in 1. Scaled over the whole
+  season, SIF's normal decline came before NDVI's in all nine years (8.0-34.2
+  days), but NDVI does not return to its pre-season level after the monsoon;
+  scaled from peak to post-peak minimum the lead falls to -5.5 to +13.4 days,
+  is absent in three years, and district differences disappear (Friedman
+  p = 0.97). TROPOMI SIF (2018-2020) put SIF first under both scalings. Only
+  2015 and 2018 met the CHIRPS rainfall drought criterion. An approximation of
+  the rainfall-based Trigger-1 never fired at the regional scale and fired in
+  2 of 15 drought district-years. In this dataset SIF is not an earlier
+  drought alarm than NDVI, and its seasonal lead is largely a property of how
+  NDVI's decline is measured.
 keywords:
   - solar-induced fluorescence
-  - remote sensing
-  - drought monitoring
+  - GOSIF
+  - TROPOMI
   - NDVI
-  - agricultural stress
+  - remote sensing
+  - agricultural drought
+  - drought early warning
+  - phenology
   - Marathwada
   - Google Earth Engine
   - crop insurance
   - PMFBY
-  - spatial statistics
 license: CC-BY-4.0
-version: 1.1.0
-# NOTE: bump this again + cut an actual new Zenodo release (github release -> Zenodo will auto-archive) so the DOI's archived snapshot matches this version
-date-released: "2026-08-31"
+version: 1.2.0
+date-released: "2026-10-01"

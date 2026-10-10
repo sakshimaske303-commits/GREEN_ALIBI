@@ -5,13 +5,18 @@ import pandas as pd
 
 BASELINE = (2001, 2020)
 START_DOY = 182
+MONSOON_END_DOY = 273  # 30 Sep: dry spells are counted only inside the monsoon (1 Jul - 30 Sep)
+# (deficit %, dry-day mm, spell days, rule, last DOY on which a dry day can count towards a spell)
+# Earlier versions counted dry days to 26 Dec, so the natural post-monsoon dry season (Oct-Dec)
+# satisfied the spell criterion every year; that variant is kept as "old: spell counted to Dec".
 VARIANTS = {
-    "main: deficit>25% & spell>=21d": (25, 2.5, 21, "both"),
-    "deficit>20% & spell>=21d": (20, 2.5, 21, "both"),
-    "deficit>30% & spell>=21d": (30, 2.5, 21, "both"),
-    "dry day <1mm": (25, 1.0, 21, "both"),
-    "deficit>25% only": (25, 2.5, 21, "deficit"),
-    "spell>=21d only": (25, 2.5, 21, "spell"),
+    "main: deficit>25% & spell>=21d": (25, 2.5, 21, "both", MONSOON_END_DOY),
+    "deficit>20% & spell>=21d": (20, 2.5, 21, "both", MONSOON_END_DOY),
+    "deficit>30% & spell>=21d": (30, 2.5, 21, "both", MONSOON_END_DOY),
+    "dry day <1mm": (25, 1.0, 21, "both", MONSOON_END_DOY),
+    "deficit>25% only": (25, 2.5, 21, "deficit", MONSOON_END_DOY),
+    "spell>=21d only": (25, 2.5, 21, "spell", MONSOON_END_DOY),
+    "old: spell counted to Dec": (25, 2.5, 21, "both", 366),
 }
 
 reg = pd.read_csv("data/raw/chirps_daily_region_2001_2023.csv")
@@ -28,12 +33,13 @@ base = tot[tot["year"].between(*BASELINE)].groupby("unit")["rainfall_mm"].mean()
 scale = (base / base["Marathwada"]).to_dict()
 
 
-def trigger_date(g, unit, deficit_pct, dry_mm, spell_days, rule):
+def trigger_date(g, unit, deficit_pct, dry_mm, spell_days, rule, spell_end_doy):
     g = g.sort_values("doy")
     cum = g["rain_mm"].cumsum().values
     norm = normal_cum.reindex(g["doy"]).values * scale[unit]
     deficit = 100 * (1 - cum / norm)
-    dry = ((g["rain_mm"].values < dry_mm) & (g["doy"].values >= START_DOY)).astype(int)
+    in_window = (g["doy"].values >= START_DOY) & (g["doy"].values <= spell_end_doy)
+    dry = ((g["rain_mm"].values < dry_mm) & in_window).astype(int)
     run, longest, out = 0, 0, []
     for v in dry:
         run = run + 1 if v else 0
@@ -102,4 +108,6 @@ for v in ["SIF", "NDVI"]:
           f"satellite earlier {(diff < 0).sum()}, later {(diff > 0).sum()}, median {diff.median():+.0f} d")
 O.to_csv("data/processed/rainfall_trigger_vs_satellite.csv", index=False)
 print("\nSaved rainfall_trigger_dates.csv, rainfall_trigger_vs_satellite.csv")
-print("Note: Trigger-1 is applied by the state at taluka level; this region/district version is an approximation.")
+print("Note: Trigger-1 is applied by the state at taluka level; this region/district version applies a dry-spell rule\n"
+      "to spatially averaged rainfall, which smooths out local dry spells. See gee_chirps_dryspell_area.py for the\n"
+      "pixel-level version.")

@@ -35,7 +35,13 @@ colormap = cm.LinearColormap(
 )
 
 center = [merged.geometry.union_all().centroid.y, merged.geometry.union_all().centroid.x]
-m = folium.Map(location=center, zoom_start=8, tiles="CartoDB positron")
+# Esri Light Gray basemap (the CARTO basemap started asking for an API key)
+m = folium.Map(location=center, zoom_start=8, tiles=None)
+folium.TileLayer(
+    tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    attr="Tiles &copy; Esri — Esri, HERE, Garmin, &copy; OpenStreetMap contributors",
+    name="Light basemap", max_native_zoom=16,
+).add_to(m)
 
 def make_style_function(col):
     def style_function(feature):

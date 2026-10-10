@@ -1,75 +1,88 @@
-# satellite signal vs official drought declaration
+# satellite drought alarms vs rainfall trigger vs official drought declarations (RQ3)
+#
+# For each declaration year (2015, 2018) the figure shows, on one time axis:
+#   - the drought-specific alarms (first date z < -3 for two composites, region)
+#   - the regional rainfall Trigger-1 date (if it fired)
+#   - the official declarations
+#   - the seasonal 0.9-threshold crossings, drawn faintly, because they happen at a
+#     similar time in every year and mark the normal start of the decline, not drought
+# Needs drought_signal_analysis.py and rainfall_trigger_comparison.py to have run first.
 
-import pandas as pd
-import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
-DECLARATION_DOY_2018 = 304
 LAG_TABLE = "data/processed/sif_ndvi_lag_by_threshold.csv"
+ALARMS = "data/processed/drought_signal_region.csv"
+TRIGGER = "data/processed/rainfall_trigger_dates.csv"
+DECL = "data/external/official_drought_declarations.csv"
 OUT_CSV = "data/processed/rq3_official_declaration_comparison.csv"
-
-
-def _fmt(d):
-    return f"{d.day} {d.strftime('%b %Y')}"
+OUT_FIG = "outputs/figures/rq3_declaration_timeline.png"
+MAIN_TRIGGER = "main: deficit>25% & spell>=21d"
 
 
 def doy_to_date(year, doy):
-    return datetime(year, 1, 1) + timedelta(days=int(round(doy)) - 1)
+    return datetime(year, 1, 1) + timedelta(days=float(doy) - 1)
 
 
-lag_df = pd.read_csv(LAG_TABLE)
-row = lag_df[(lag_df["year"] == 2018) & (lag_df["threshold"] == 0.9)].iloc[0]
+lag = pd.read_csv(LAG_TABLE)
+lag = lag[lag["threshold"] == 0.9].set_index("year")
+alarms = pd.read_csv(ALARMS).set_index("year")
+trig = pd.read_csv(TRIGGER)
+trig = trig[(trig["variant"] == MAIN_TRIGGER) & (trig["unit"] == "Marathwada")].set_index("year")["trigger_doy"]
+decl = pd.read_csv(DECL)
 
-sif_doy = row["sif_crossing_doy"]
-ndvi_doy = row["ndvi_crossing_doy"]
+rows = []
+for y in sorted(decl["year"].unique()):
+    ev = [("SIF drought alarm (z < -3)", alarms.loc[y, "SIF_alarm_-3.0"], "alarm"),
+          ("NDVI drought alarm (z < -3)", alarms.loc[y, "NDVI_alarm_-3.0"], "alarm"),
+          ("Rainfall Trigger-1 (region)", trig.get(y, np.nan), "trigger"),
+          ("SIF seasonal 0.9 crossing", lag.loc[y, "sif_crossing_doy"], "seasonal"),
+          ("NDVI seasonal 0.9 crossing", lag.loc[y, "ndvi_crossing_doy"], "seasonal")]
+    for d in decl[decl["year"] == y].itertuples():
+        ev.append(("Final declaration" if d.is_final_declaration else "First-stage declaration", d.doy, "declaration"))
+    final_doy = decl[(decl["year"] == y) & decl["is_final_declaration"]]["doy"].iloc[0]
+    for name, doy, kind in ev:
+        rows.append({"year": y, "event": name, "kind": kind, "doy": doy,
+                     "date": "" if pd.isna(doy) else doy_to_date(y, doy).strftime("%Y-%m-%d"),
+                     "days_before_final_declaration": final_doy - doy if pd.notna(doy) else np.nan})
+R = pd.DataFrame(rows)
+R.to_csv(OUT_CSV, index=False)
+print(R.round(1).to_string(index=False))
 
-result = pd.DataFrame([
-    {"event": "SIF crosses 0.9 threshold (10% of the way from seasonal peak to seasonal minimum)", "doy": sif_doy,
-     "date": doy_to_date(2018, sif_doy).strftime("%Y-%m-%d"),
-     "days_before_official_declaration": DECLARATION_DOY_2018 - sif_doy},
-    {"event": "NDVI crosses 0.9 threshold (10% of the way from seasonal peak to seasonal minimum)", "doy": ndvi_doy,
-     "date": doy_to_date(2018, ndvi_doy).strftime("%Y-%m-%d"),
-     "days_before_official_declaration": DECLARATION_DOY_2018 - ndvi_doy},
-    {"event": "Official Maharashtra govt drought declaration", "doy": DECLARATION_DOY_2018,
-     "date": doy_to_date(2018, DECLARATION_DOY_2018).strftime("%Y-%m-%d"),
-     "days_before_official_declaration": 0},
-])
-result.to_csv(OUT_CSV, index=False)
-print(result.to_string(index=False))
-print(f"\nSIF-vs-NDVI edge at this threshold: {ndvi_doy - sif_doy:.1f} days")
-print(f"Satellite-vs-official-declaration gap: SIF {DECLARATION_DOY_2018 - sif_doy:.1f} days, "
-      f"NDVI {DECLARATION_DOY_2018 - ndvi_doy:.1f} days")
-
-fig, ax = plt.subplots(figsize=(9, 3.2))
-sif_date_str = _fmt(doy_to_date(2018, sif_doy))
-ndvi_date_str = _fmt(doy_to_date(2018, ndvi_doy))
-events = [
-    (sif_doy, f"SIF: 0.9 threshold\n({sif_date_str})", "#2FA88C"),
-    (ndvi_doy, f"NDVI: 0.9 threshold\n({ndvi_date_str})", "#D9822B"),
-    (DECLARATION_DOY_2018, "Official drought\ndeclaration\n(31 Oct 2018)", "#B23A48"),
-]
-ax.hlines(0, min(e[0] for e in events) - 5, max(e[0] for e in events) + 5, color="gray", linewidth=1.5, zorder=1)
-y_offsets = [28] * len(events)
-for i in range(1, len(events)):
-    if events[i][0] - events[i - 1][0] < 15:
-        y_offsets[i] = y_offsets[i - 1] + 40
-for (doy, label, color), y_off in zip(events, y_offsets):
-    ax.scatter([doy], [0], s=140, color=color, zorder=3, edgecolor="black")
-    ax.annotate(label, (doy, 0), xytext=(0, y_off), textcoords="offset points",
-                ha="center", fontsize=9, color=color, fontweight="bold")
-
-ax.annotate("", xy=(DECLARATION_DOY_2018, -0.35), xytext=(sif_doy, -0.35),
-            arrowprops=dict(arrowstyle="<->", color="#555555"))
-ax.text((sif_doy + DECLARATION_DOY_2018) / 2, -0.55, f"{DECLARATION_DOY_2018 - sif_doy:.0f} days",
-        ha="center", fontsize=9, color="#555555")
-
-ax.set_ylim(-0.9, max(0.6, 0.15 * max(y_offsets)))
-ax.set_yticks([])
-ax.set_xlabel("Day of year, 2018")
-ax.set_title("2018: Satellite 0.9-Threshold Crossings vs. Official Drought Declaration", fontsize=11)
-for spine in ["top", "left", "right"]:
-    ax.spines[spine].set_visible(False)
+colors = {"SIF": "#2FA88C", "NDVI": "#D9822B", "Rainfall": "#2166ac", "Final": "#B23A48", "First-stage": "#B23A48"}
+order = ["SIF drought alarm (z < -3)", "NDVI drought alarm (z < -3)", "Rainfall Trigger-1 (region)",
+         "First-stage declaration", "Final declaration", "SIF seasonal 0.9 crossing", "NDVI seasonal 0.9 crossing"]
+years = sorted(R["year"].unique())
+fig, axes = plt.subplots(len(years), 1, figsize=(10, 2.7 * len(years)), sharex=True)
+axes = np.atleast_1d(axes)
+for ax, y in zip(axes, years):
+    sub = R[R["year"] == y].set_index("event")
+    sub = sub.reindex([o for o in order if o in sub.index]).reset_index()
+    n = len(sub)
+    for i, r in sub.iterrows():
+        yy = n - 1 - i
+        col = colors[r["event"].split()[0]]
+        if pd.isna(r["doy"]):
+            ax.text(227, yy, "did not fire", va="center", fontsize=8, color="#555555", style="italic")
+            continue
+        faint = r["kind"] == "seasonal"
+        ax.scatter(r["doy"], yy, s=70, color=col, alpha=0.35 if faint else 1, edgecolor="black", zorder=3,
+                   marker="D" if r["kind"] == "declaration" else "o")
+        ax.text(r["doy"] + 1.5, yy, doy_to_date(y, r["doy"]).strftime("%d %b"), va="center", fontsize=8,
+                color="#333333")
+    ax.set_yticks(range(n))
+    ax.set_yticklabels(list(sub["event"])[::-1], fontsize=8)
+    for d in sub.loc[sub["kind"] == "declaration", "doy"]:
+        ax.axvline(d, color="#B23A48", lw=0.8, ls=":")
+    ax.set_title(f"{y} (rainfall-defined drought year)", fontsize=10, loc="left")
+    ax.grid(axis="x", alpha=0.3)
+    ax.set_xlim(225, 312)
+axes[-1].set_xlabel("Day of year")
+fig.suptitle("Satellite drought alarms, rainfall trigger and official declarations, Marathwada\n"
+             "(faint: seasonal 0.9 crossings, which fall at a similar date in normal years as well)", fontsize=10)
 plt.tight_layout()
-plt.savefig("outputs/figures/rq3_declaration_timeline_2018.png", dpi=150)
-print("\nFigure saved to outputs/figures/rq3_declaration_timeline_2018.png")
+plt.savefig(OUT_FIG, dpi=170)
+print(f"\nSaved {OUT_CSV} and {OUT_FIG}")

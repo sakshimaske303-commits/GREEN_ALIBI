@@ -1,0 +1,31 @@
+level,metric,statistic,p_value,method
+region (n=9),total_mm,0.19999999999999998,0.6059012741795534,Spearman rho
+region (n=9),jun_jul_mm,-0.03333333333333333,0.9321567355405039,Spearman rho
+region (n=9),aug_mm,0.11666666666666665,0.765007942926146,Spearman rho
+region (n=9),sep_mm,0.06666666666666667,0.8646897846262036,Spearman rho
+region (n=9),oct_dec_mm,0.38333333333333336,0.3084952723803716,Spearman rho
+region (n=9),centroid_doy,0.19999999999999998,0.6059012741795534,Spearman rho
+region (n=9),doy_50pct,0.5333333333333333,0.13922686754397814,Spearman rho
+region (n=9),doy_90pct,0.33333333333333337,0.38071318167686347,Spearman rho
+region (n=9),longest_dry_spell_jjas,-0.4267819784654187,0.25195669028740064,Spearman rho
+region (n=9),dry_days_aug_sep,-0.36820405985251814,0.329560364972003,Spearman rho
+"district, within-year",total_mm,0.08454244181457157,0.48014023390877714,Pearson r (year-demeaned)
+"district, pooled",total_mm,0.006198111871663818,0.6235884466395234,"OLS slope, SE clustered by year"
+"district, within-year",jun_jul_mm,0.13881230215737772,0.24487526780463847,Pearson r (year-demeaned)
+"district, pooled",jun_jul_mm,-0.007992648105420483,0.5318743032632312,"OLS slope, SE clustered by year"
+"district, within-year",aug_mm,0.1595912416154451,0.1805456214450019,Pearson r (year-demeaned)
+"district, pooled",aug_mm,0.02126482634489859,0.566127193608932,"OLS slope, SE clustered by year"
+"district, within-year",sep_mm,-0.2084726151851553,0.0788574805627304,Pearson r (year-demeaned)
+"district, pooled",sep_mm,0.03634687730765387,0.2705477363696388,"OLS slope, SE clustered by year"
+"district, within-year",oct_dec_mm,-0.22334104803372024,0.059316387745394814,Pearson r (year-demeaned)
+"district, pooled",oct_dec_mm,0.045735648774573937,0.33075465230113055,"OLS slope, SE clustered by year"
+"district, within-year",centroid_doy,-0.17041886915190357,0.15236222980795808,Pearson r (year-demeaned)
+"district, pooled",centroid_doy,0.3315979490859743,0.12022784414309118,"OLS slope, SE clustered by year"
+"district, within-year",doy_50pct,-0.1804287413751233,0.12934965364669737,Pearson r (year-demeaned)
+"district, pooled",doy_50pct,0.21203530298198475,0.05012099813349368,"OLS slope, SE clustered by year"
+"district, within-year",doy_90pct,-0.11576747789643711,0.3328503439543708,Pearson r (year-demeaned)
+"district, pooled",doy_90pct,0.32623447234313874,0.11819517246010788,"OLS slope, SE clustered by year"
+"district, within-year",longest_dry_spell_jjas,0.07426368669787378,0.5352730777154757,Pearson r (year-demeaned)
+"district, pooled",longest_dry_spell_jjas,-0.6323166542675047,0.11678676079630287,"OLS slope, SE clustered by year"
+"district, within-year",dry_days_aug_sep,0.05630463600659811,0.6385178292893168,Pearson r (year-demeaned)
+"district, pooled",dry_days_aug_sep,-0.42580419998833857,0.11456714643786751,"OLS slope, SE clustered by year"

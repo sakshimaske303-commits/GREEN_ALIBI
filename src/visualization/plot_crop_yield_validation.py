@@ -2,6 +2,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy import stats
 
 INPUT_CSV = "data/processed/crop_yield_validation_summary.csv"
 OUTPUT_PNG = "outputs/figures/crop_yield_anomaly_by_year.png"
@@ -27,26 +28,31 @@ ax.set_title(f"Official Kharif crop-yield anomaly by year, Marathwada region ({l
 ax.grid(axis="y", alpha=0.25)
 
 ax2 = axes[1]
-grp = plot_df.groupby("is_drought_year")["yield_anomaly_index"].agg(["mean", "count"])
-labels = []
-means = []
-bar_colors = []
-for is_drought, color, label in [(True, "#B23A48", "Drought years"), (False, "#2FA88C", "Normal years")]:
-    if is_drought in grp.index:
-        n = int(grp.loc[is_drought, "count"])
-        labels.append(f"{label}\n(n={n})")
-        means.append(grp.loc[is_drought, "mean"])
-        bar_colors.append(color)
-ax2.bar(labels, means, color=bar_colors, edgecolor="black", zorder=3)
+# every year is shown as a point: with n = 2 drought years a bar of means hides how little data there is
+rng_x = {True: 0, False: 1}
+for is_drought, color in [(True, "#B23A48"), (False, "#2FA88C")]:
+    sub = plot_df[plot_df["is_drought_year"] == is_drought]
+    xs = [rng_x[is_drought]] * len(sub)
+    ax2.scatter(xs, sub["yield_anomaly_index"], s=70, color=color, edgecolor="black", zorder=3)
+    for xv, (yr, v) in zip(xs, zip(sub["study_year"], sub["yield_anomaly_index"])):
+        ax2.annotate(str(int(yr)), (xv, v), xytext=(8, -3), textcoords="offset points", fontsize=8)
+    ax2.hlines(sub["yield_anomaly_index"].mean(), rng_x[is_drought] - 0.25, rng_x[is_drought] + 0.25,
+               color="black", lw=2, zorder=4)
+    ax2.annotate(f"mean {sub['yield_anomaly_index'].mean():+.2f}", (rng_x[is_drought] - 0.25,
+                 sub["yield_anomaly_index"].mean()), xytext=(-4, 6), textcoords="offset points",
+                 ha="right", fontsize=9, fontweight="bold")
+ax2.set_xticks([0, 1])
+n_d = int(plot_df["is_drought_year"].sum())
+ax2.set_xticklabels([f"Drought years\n(n={n_d})", f"Normal years\n(n={len(plot_df) - n_d})"])
+ax2.set_xlim(-0.8, 1.6)
 ax2.axhline(0, color="gray", linestyle=":", linewidth=1)
-ax2.set_ylabel("Mean Yield Anomaly Index")
-ax2.set_title("Grouped comparison", fontsize=11)
+ax2.set_ylabel("Yield Anomaly Index")
+_p = stats.ttest_ind(plot_df.loc[plot_df["is_drought_year"], "yield_anomaly_index"],
+                     plot_df.loc[~plot_df["is_drought_year"], "yield_anomaly_index"], equal_var=False).pvalue
+ax2.set_title(f"Drought vs normal years (Welch p = {_p:.2f})", fontsize=11)
 ax2.grid(axis="y", alpha=0.25)
-for i, v in enumerate(means):
-    ax2.annotate(f"{v:.2f}", (i, v), xytext=(0, 6 if v >= 0 else -14), textcoords="offset points",
-                 ha="center", fontsize=10, fontweight="bold")
 
-fig.suptitle("Ground-truth validation: official government crop-yield statistics vs. this study's drought classification",
+fig.suptitle("Crop-yield check: official district Kharif yield statistics vs. this study's rainfall-based drought classification",
              fontsize=12, y=1.02)
 fig.tight_layout()
 fig.savefig(OUTPUT_PNG, dpi=300, bbox_inches="tight")

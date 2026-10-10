@@ -1,0 +1,2 @@
+year,is_drought,n_reference_years,TROPOMI_alarm_-1.0,TROPOMI_alarm_-1.5,TROPOMI_alarm_-2.0,TROPOMI_alarm_-3.0,GOSIF_alarm_-1.0,GOSIF_alarm_-1.5,GOSIF_alarm_-2.0,GOSIF_alarm_-3.0,NDVI_alarm_-1.0,NDVI_alarm_-1.5,NDVI_alarm_-2.0,NDVI_alarm_-3.0
+2018,True,2,260.5,260.5,284.5,284.5,252.5,252.5,252.5,284.5,236.5,244.5,244.5,244.5

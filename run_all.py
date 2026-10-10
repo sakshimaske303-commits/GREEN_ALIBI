@@ -11,6 +11,9 @@ import time
 
 ACQUIRE = [
     "src/acquisition/gee_cropland_fraction_and_ndvi_obsdates.py",
+    "src/acquisition/gee_vi_obsdate.py",
+    "src/acquisition/gee_chirps_dryspell_area.py",
+    "src/acquisition/gee_india_states_for_locator.py",
     "src/acquisition/gee_district_ndvi_and_rain_timing.py",
     "src/acquisition/gee_rainfall_seasonal_totals_1981_2023.py",
 ]
@@ -25,7 +28,6 @@ ANALYSIS = [
     "src/analysis/bootstrap_lag_uncertainty.py",
     "src/analysis/final_summary.py",
     "src/analysis/h3_continuous_severity.py",
-    "src/analysis/rq3_official_declaration_comparison.py",
     "src/analysis/zonal_stats_sif.py",
     "src/analysis/sif_rainfall_correlation.py",
     "src/analysis/district_climatology_anomaly.py",
@@ -39,10 +41,18 @@ ANALYSIS = [
     "src/analysis/crop_yield_sensitivity.py",
     "src/analysis/baseline_sensitivity.py",
     "src/analysis/lag_uncertainty_check.py",
+    "src/analysis/normalisation_sensitivity.py",
+    "src/analysis/ndvi_coverage_check.py",
+    "src/analysis/vegetation_index_lag.py",          # skips itself until gee_vi_obsdate.py has been run
     "src/analysis/drought_signal_analysis.py",
     "src/analysis/rainfall_trigger_comparison.py",
+    "src/analysis/rainfall_window_sensitivity.py",
+    "src/analysis/rainfall_trigger_pixel.py",        # skips itself until gee_chirps_dryspell_area.py has been run
+    "src/analysis/rq3_official_declaration_comparison.py",
     "src/analysis/method_dependence.py",
     "src/analysis/gosif_grid_shift_check.py",
+    "src/analysis/tropomi_sif_analysis.py",          # uses the extracted soundings; raw TROPOSIF only if present
+    "src/analysis/tropomi_drought_signal.py",
 ]
 FIGURES = [
     "src/analysis/check_boundary_overlay.py",
@@ -71,9 +81,10 @@ REQUIRED_INPUTS = [
     "data/raw/marathwada_ndvi_mod13q1_timeseries_8years.csv",
     "data/external/extracted/crop-wise-area-production-yield.csv",
     "data/external/official_drought_declarations.csv",
+    "data/processed/tropomi_soundings_marathwada.csv.gz",
 ] + [f"data/external/cropland_fraction/cropland_fraction_{y}.tif" for y in range(2015, 2024)]
 PACKAGES = ["numpy", "pandas", "scipy", "statsmodels", "rasterio", "geopandas", "shapely", "affine",
-            "libpysal", "esda", "matplotlib", "folium", "plotly", "earthengine-api", "geemap"]
+            "libpysal", "esda", "matplotlib", "folium", "branca", "plotly", "streamlit", "earthengine-api", "geemap"]
 
 
 def main():

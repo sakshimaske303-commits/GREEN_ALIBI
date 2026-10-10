@@ -11,8 +11,8 @@ st.title("🌍 Study Area: Marathwada, Maharashtra")
 st.markdown("""
 The study region comprises the eight districts constituting **Marathwada**, a division of
 Maharashtra state in western India, selected for its recurring, well-documented history of
-agricultural drought — including the severe 2015 Latur water crisis and the 2018 drought that
-affected much of the region.
+agricultural drought — including the 2015 drought, the Latur water crisis that followed in 2016, and the 2018 drought
+that affected much of the region.
 """)
 
 section_divider()
@@ -29,10 +29,10 @@ with col_b:
             "2015 level-2 boundary used for every calculation in this study. Hover a district for its name."
         )
     else:
-        st.image("outputs/figures/photo1.png", use_container_width=True)
+        st.image("outputs/figures/figure3_study_area_map.png", use_container_width=True)
         styled_caption(
-            "Figure 1. Location of the study area — (a) Maharashtra within India, "
-            "(b) Marathwada within Maharashtra, (c) the eight constituent districts of Marathwada."
+            "Figure 1. Study area: the eight districts of Marathwada, Maharashtra, with district "
+            "boundaries and names labeled."
         )
 
 st.subheader("The Eight Districts")
@@ -48,27 +48,28 @@ st.header("Why This Region")
 st.markdown("""
 Marathwada sits in Maharashtra's rain-shadow zone, east of the Western Ghats, making it
 structurally more drought-prone than the state's coastal and western districts. It has a
-recent history of well-documented drought years — including 2015 and 2018, both study years
-in this project — alongside genuinely normal monsoon years, giving this study nine growing
-seasons (2015–2023) within a single, geographically coherent region rather
-than across regions with different baseline climates. Independently measured rainfall
-anomaly (see Rainfall Validation) confirms that only 2015 and 2018 actually meet this
-study's own drought threshold among the nine years studied — the other seven sit within
-roughly one standard deviation of the region's 20-year normal.
+recent history of drought years, including 2015 and 2018, alongside normal and wet monsoon
+years, which gives me nine Kharif seasons (2015–2023) within one region instead of across
+regions with different baseline climates. CHIRPS rainfall (see Rainfall Validation) shows
+that only 2015 (−21.5%, z = −1.12) and 2018 (−18.4%, z = −0.96) meet my drought criterion
+(z < −0.5 against the 2001–2020 mean). That holds under four baselines and every cut-off
+from −0.3 to −0.75. The other seven years range from slightly dry (2023, z = −0.20) to clearly
+wet (2022, z = +1.91). Two drought years is the main constraint on everything that compares
+drought with normal years.
 
-Studying one's own home region also carries a practical advantage: local familiarity with
-which districts are typically hardest hit made it possible to sanity-check satellite-derived
-findings (Section: Spatial SIF Analysis) against independent, real-world expectation, rather
-than relying solely on the data in isolation.
+The deficit was not even across districts. In 2018, Bid (−38.0%), Aurangabad (−37.3%) and
+Osmanabad (−33.9%) had the largest deficits while Hingoli and Nanded had surpluses. Across
+the 72 district-years, 17 count as drought district-years. I'm from Vidarbha, next door, so
+I had a rough local sense of which districts are usually hit hardest, which helped me
+sanity-check the spatial results (see Spatial SIF Analysis).
 """)
 
 section_divider()
 
 st.info("""
-**A methodological note carried through this entire study:** the exact geographic boundary
-used for every calculation here is the precise administrative outline of these eight districts
-(FAO GAUL 2015 level-2 dataset) — not an approximate bounding rectangle. This distinction,
-and why it mattered, is covered in detail on the **Data & Methodology** page.
+Every calculation uses the FAO GAUL 2015 level-2 outline of these eight districts, not a
+bounding rectangle. GAUL spells Beed as "Bid", so that is the name used in tables and maps.
+SIF and NDVI are both restricted to cropland (see **Data & Methodology**).
 """)
 
 styled_caption("GREEN ALIBI — Study Area")

@@ -1,9 +1,13 @@
-# GOSIF v2 8-day download, 2015-2023, DOY 153-361
+# GOSIF v2 8-day download, DOY 153-361
+#   python src/acquisition/download_gosif_new_years.py             # 2015-2023
+#   python src/acquisition/download_gosif_new_years.py 2001 2014   # any year range (e.g. the 2001-2014 extension)
 
 import gzip
 import os
 import shutil
 import time
+
+import sys
 
 import requests
 
@@ -12,7 +16,8 @@ OUT_DIR = "data/raw"
 
 DOYS = list(range(153, 362, 8))
 
-NEW_YEARS = list(range(2015, 2024))
+NEW_YEARS = (list(range(int(sys.argv[1]), int(sys.argv[2]) + 1)) if len(sys.argv) == 3
+             else list(range(2015, 2024)))
 EXISTING_DIRS = ["data/raw", "data/external"]
 
 HEADERS = {

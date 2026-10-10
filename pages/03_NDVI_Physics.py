@@ -8,9 +8,8 @@ apply_custom_style()
 st.title("🔬 NDVI Physics: Reflectance, Radiative Transfer, and a Direct Comparison to SIF")
 
 st.markdown("""
-Part 1 covered SIF's physical basis. This page covers the physics behind NDVI — the
-indicator SIF is being tested against — and lays out, directly, how the two differ in what
-they are physically sensitive to and on what timescale.
+Part 1 covered SIF's physical basis. This page covers the physics behind NDVI, the index I
+test SIF against, and how the two differ in what they are sensitive to and on what timescale.
 """)
 
 section_divider()
@@ -21,7 +20,8 @@ with col_b:
     styled_caption(
         "The physical basis of NDVI: red light absorption by chlorophyll in the palisade "
         "mesophyll versus multiple scattering and reflection of near-infrared light in "
-        "the spongy mesophyll."
+        "the spongy mesophyll. "
+        "Illustration generated with an AI image tool, used only as a visual aid; it is not data or a result of this study."
     )
 
 section_divider()
@@ -58,12 +58,11 @@ physical problem: cloud and cloud-shadow contamination. Clouds scatter incoming 
 (via Mie scattering from water droplets, orders of magnitude stronger than the Rayleigh
 scattering from clear-sky air molecules) before it ever reaches the ground, and a satellite
 sensor observing through or near a cloud records a reflectance value dominated by
-atmospheric scattering rather than the vegetation surface beneath it. This is a real,
-practical issue encountered directly in this project's own data processing (documented in
-the **Data & Methodology** page) — Marathwada's growing season overlaps with the monsoon,
-and an initial NDVI extraction without explicit cloud-quality filtering produced
-physically implausible swings inconsistent with any real vegetation phenology, before being
-corrected using MODIS's own cloud-screening quality band.
+atmospheric scattering rather than the vegetation surface beneath it. Marathwada's growing
+season overlaps with the monsoon, so this matters here. I keep only MOD13Q1 pixels that its
+`SummaryQA` band marks as good or marginal quality, and only cropland pixels. Because a 16-day
+MOD13Q1 value can come from any day in its window, I date each composite by the mean of its
+pixels' actual observation days (`DayOfYear` band), not by the window start.
 """)
 
 section_divider()
@@ -85,7 +84,7 @@ comparison_df = pd.DataFrame({
         "Minutes to hours",
         "Fraunhofer line-filling in reflected sunlight",
         "Faint signal, geometric/canopy escape effects",
-        "Leads NDVI in most years (8 of 9 by threshold-crossing); a cross-correlation check finds NDVI leading instead in 3 years (2018, 2022, 2023)"
+        "Not an earlier drought alarm. Seasonal decline first in 9/9 years when scaled over the season, but only 6/9 (−5.5 to +13.4 days) when scaled over its own decline."
     ],
     "NDVI": [
         "Differential reflectance from chlorophyll absorption and leaf structural scattering",
@@ -93,7 +92,7 @@ comparison_df = pd.DataFrame({
         "Days to weeks",
         "Simple reflectance-band ratio",
         "Cloud/cloud-shadow contamination, saturation at high biomass",
-        "Typically declines after SIF, but leads it instead in 3 of 9 years under the cross-correlation check"
+        "Stays well above its pre-season level after the monsoon, which makes its decline look late on a season scale. As a drought anomaly (z < −3) it coincided with SIF in 6 of 12 district-years flagged by both and was earlier in 5 (SIF in 1)"
     ]
 })
 
@@ -104,16 +103,16 @@ section_divider()
 st.header("Connecting the Physics to This Study's Hypotheses")
 
 st.markdown("""
-H1 predicts SIF should decline before NDVI, directly because Φ_F is coupled to a fast
-biochemical process while NDVI depends on slow structural change — this is the physical
-mechanism the **Seasonal Trajectories** and **Lag Analysis** pages test quantitatively. H2
-predicts this lag need not be spatially uniform, since local canopy structure, crop type,
-and soil-moisture buffering can all modulate how quickly photochemical stress translates
-into a measurable SIF signal — tested on the **Spatial SIF Analysis** page. H3 predicts
-drought severity should scale the size of this lag; whether the physical picture developed
-here actually holds up under real, independently-validated rainfall data is addressed
-honestly, including where it does not hold up, in the **Lag Analysis** and **Findings**
-pages.
+H1 predicts SIF's seasonal decline starts before NDVI's, because Φ_F responds quickly while
+NDVI depends on slower structural change. The **Seasonal Trajectories** and **Lag Analysis**
+pages test this; the lead is large when each curve is scaled over the whole season, but
+mostly because NDVI does not return to its pre-season level, and small or absent when each
+curve is scaled over its own decline. H2 predicts the lag varies between districts; it does
+not once the scaling is matched (Friedman p = 0.97). H3 predicts drought widens the lag; it
+does not. H4 predicts SIF departs from its normal-year range before NDVI in drought years; it
+does not — the two mostly coincided, and NDVI was otherwise usually first. So
+the physics explains why SIF might lead, but in this dataset it did not translate into an
+earlier drought signal.
 """)
 
 styled_caption("GREEN ALIBI — The Physics, Part 2: NDVI's Mechanism and a Direct SIF Comparison")

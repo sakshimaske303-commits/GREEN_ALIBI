@@ -7,10 +7,10 @@ apply_custom_style()
 st.title("🔬 Fluorescence Physics: Where Does Absorbed Sunlight Actually Go?")
 
 st.markdown("""
-This project's central claim rests on a specific piece of plant biophysics: when a leaf
-absorbs sunlight, that energy does not have only one possible fate. Understanding what SIF
-physically measures — and why it responds to stress on a different timescale than NDVI —
-starts here.
+The expectation I tested rests on a piece of plant biophysics: when a leaf absorbs sunlight,
+that energy has more than one possible fate. This page covers what SIF physically measures
+and why it is expected to respond to stress sooner than NDVI. Whether that shows up in the
+satellite data is a separate question, answered on the **Lag Analysis** and **Findings** pages.
 """)
 
 section_divider()
@@ -20,7 +20,8 @@ with col_b:
     st.image("outputs/figures/fluorescence_physics_diagram.png", use_container_width=True)
     styled_caption(
         "Energy partitioning of absorbed sunlight in photosynthesis, and its shift under "
-        "drought stress — the physical basis of Solar-Induced Fluorescence."
+        "drought stress — the physical basis of Solar-Induced Fluorescence. "
+        "Illustration generated with an AI image tool, used only as a visual aid; it is not data or a result of this study."
     )
 
 section_divider()
@@ -72,14 +73,18 @@ must still sum to one, that drop in Φ_P has to be absorbed elsewhere: primarily
 increased non-photochemical quenching, with a resulting shift in the fluorescence yield,
 **Φ_F**, as well.
 
-This is the physical basis for SIF's early-detection potential: **Φ_F is coupled directly
-to the real-time state of the electron transport chain**, a fast biochemical process. NDVI,
-by contrast, depends on structural and pigment properties of the leaf and canopy — leaf
-area, chlorophyll concentration, cell structure — which only change once sustained stress
-has caused actual physiological damage. That structural degradation is a slow process,
-typically unfolding over days to weeks, not hours. The lag this project measures between
-SIF and NDVI is, physically, the gap between these two timescales: a fast biochemical
-signal versus a slow structural one.
+This is the physical basis for SIF's expected early-detection potential: **Φ_F is linked to
+the state of the photosynthetic machinery**, which changes quickly. NDVI depends on structural
+and pigment properties of the canopy — leaf area, chlorophyll content, cell structure — which
+change only once stress has lasted long enough to cause visible damage, over days to weeks.
+
+That is the prediction. In my data it does not hold: SIF does not depart from its normal-year
+range earlier than NDVI in drought years. SIF's normal seasonal decline appears to start first,
+but mostly because NDVI does not return to its pre-season level after the monsoon; measured over
+each curve's own decline, the lead is small and absent in three of nine years. One reason may be
+that canopy SIF largely follows absorbed light (APAR, below) and canopy structure rather than
+the fluorescence yield, and GOSIF is itself predicted partly from MODIS reflectance. I can't
+separate these mechanisms with this dataset.
 """)
 
 section_divider()
@@ -122,11 +127,12 @@ to retrieve the fluorescence signal directly. Instruments such as OCO-2, GOME-2,
 TROPOMI all exploit this principle, at different Fraunhofer wavelengths, to retrieve SIF
 from space.
 
-The GOSIF product used in this study is not a direct satellite retrieval itself, but a
-statistically modeled, gridded reconstruction — trained to match OCO-2's sparse, discrete
-SIF retrievals using continuous MODIS reflectance and reanalysis meteorological data as
-predictors — which is what makes a complete, gap-free 0.05°, 8-day time series over
-Marathwada possible in the first place.
+GOSIF, my main SIF product, is not a direct retrieval. It is a statistically modeled,
+gridded reconstruction trained on OCO-2's sparse SIF soundings, with MODIS reflectance and
+MERRA-2 reanalysis as predictors. That is what gives a gap-free 0.05°, 8-day series over
+Marathwada, but it also means GOSIF and MODIS NDVI are not fully independent. To check this
+I repeated the lag analysis with TROPOMI SIF (TROPOSIF v2.1), a direct retrieval available
+for 2018–2020. TROPOMI agreed on the direction of the lead in all three years.
 """)
 
 styled_caption("GREEN ALIBI — The Physics, Part 1: Energy Partitioning and Fluorescence Retrieval")

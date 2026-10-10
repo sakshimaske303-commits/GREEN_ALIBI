@@ -9,6 +9,9 @@ from matplotlib.ticker import FuncFormatter
 
 
 BOUNDARY_PATH = "data/raw/marathwada_districts_separate.geojson"
+# India state outlines for the locator inset (FAO GAUL 2015 level 1), exported by
+# src/acquisition/gee_india_states_for_locator.py; the inset is skipped if the file is absent
+STATES_PATH = "data/external/india_states_gaul_l1.geojson"
 
 OUTPUT_DIR = "outputs/figures"
 
@@ -175,13 +178,13 @@ ax.set_title(
 
 
 ax.set_xlabel(
-    "Easting (km)",
+    "Easting (km), UTM zone 43N (EPSG:32643)",
     fontsize=10,
     color="#444444"
 )
 
 ax.set_ylabel(
-    "Northing (km)",
+    "Northing (km), UTM zone 43N",
     fontsize=10,
     color="#444444"
 )
@@ -208,6 +211,28 @@ ax.tick_params(
 for spine in ax.spines.values():
     spine.set_linewidth(0.8)
     spine.set_edgecolor("#BBBBBB")
+
+
+if os.path.exists(STATES_PATH):
+    try:
+        states = gpd.read_file(STATES_PATH)
+        states = states.set_crs("EPSG:4326") if states.crs is None else states.to_crs("EPSG:4326")
+        name_col = "ADM1_NAME" if "ADM1_NAME" in states.columns else states.columns[0]
+        inset = ax.inset_axes([0.70, 0.02, 0.28, 0.28])  # empty lower-right corner
+        states.plot(ax=inset, facecolor="#F2F2F2", edgecolor="#9E9E9E", linewidth=0.25)
+        states[states[name_col].astype(str).str.contains("Maharashtra")].plot(
+            ax=inset, facecolor="#BFE6E2", edgecolor="#1B8F89", linewidth=0.5)
+        districts.to_crs("EPSG:4326").dissolve().plot(ax=inset, facecolor="#1B8F89", edgecolor="none")
+        inset.set_xticks([])
+        inset.set_yticks([])
+        inset.set_aspect("equal")
+        for spine in inset.spines.values():
+            spine.set_edgecolor("#888888")
+        inset.set_title("India / Maharashtra", fontsize=7, pad=2)
+    except Exception as e:  # the locator is decorative: never let it stop the pipeline
+        print(f"Locator inset skipped: {e}")
+else:
+    print(f"Locator inset skipped: {STATES_PATH} not found (run src/acquisition/gee_india_states_for_locator.py)")
 
 
 plt.savefig(

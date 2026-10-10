@@ -20,7 +20,7 @@ MAPS = {
     "Rainfall Anomaly by District": "outputs/interactive_maps/maps/marathwada_rainfall_by_district.html",
     "Seasonal SIF vs. NDVI Trajectories": "outputs/interactive_maps/plots/seasonal_trajectories.html",
     "SIF-to-NDVI Lag by Threshold": "outputs/interactive_maps/plots/lag_by_threshold.html",
-    "Bootstrap Confidence Intervals on Lag": "outputs/interactive_maps/plots/bootstrap_lag_ci.html",
+    "Bootstrap Confidence Intervals on Cross-Correlation Lag": "outputs/interactive_maps/plots/bootstrap_lag_ci.html",
 }
 
 choice = st.selectbox("Pick a map or chart", list(MAPS.keys()))
@@ -33,8 +33,10 @@ except FileNotFoundError:
     st.error(f"File not found at {MAPS[choice]}")
 
 styled_caption(
-    "Same underlying data as the static maps and charts elsewhere in this dashboard, just "
-    "hoverable, zoomable, and toggleable. Individual maps are also linked on the Spatial SIF "
+    "Same data as the static maps and charts elsewhere in this dashboard, in hoverable form. "
+    "The SIF map shows day-of-year 273; the lag chart shows threshold-crossing lags, and the "
+    "bootstrap chart shows cross-correlation lags, which find no SIF lead in 2019, 2022 and 2023. "
+    "Individual maps are also linked on the Spatial SIF "
     "Analysis and Rainfall Validation pages; the charts summarize the Seasonal Trajectories and "
     "Lag Analysis pages."
 )

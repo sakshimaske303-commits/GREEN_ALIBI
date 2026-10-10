@@ -167,5 +167,10 @@ def analyse():
 
 
 if __name__ == "__main__":
-    extract()
+    # the raw TROPOSIF files (~100 GB) are not in the repository; without them the
+    # analysis runs from the extracted soundings file that is
+    if glob.glob(os.path.join(RAW_DIR, "TROPOSIF_L2B_*.nc")):
+        extract()
+    else:
+        print(f"No raw TROPOSIF files in {RAW_DIR}; using the extracted soundings in {SOUNDINGS}")
     analyse()

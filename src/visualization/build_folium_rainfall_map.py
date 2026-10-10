@@ -26,7 +26,9 @@ for y in YEARS:
 merged = districts.merge(rain_wide, on="ADM2_NAME", how="left")
 
 all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
-vmin, vmax = all_values.min(), all_values.max()
+# symmetric about zero so that 0% is the neutral colour
+lim = max(abs(all_values.min()), abs(all_values.max()))
+vmin, vmax = -lim, lim
 
 colormap = cm.LinearColormap(
     colors=["#a50026", "#f46d43", "#fee08b", "#66bd63", "#1a9850"],
@@ -35,7 +37,13 @@ colormap = cm.LinearColormap(
 )
 
 center = [merged.geometry.union_all().centroid.y, merged.geometry.union_all().centroid.x]
-m = folium.Map(location=center, zoom_start=8, tiles="CartoDB positron")
+# Esri Light Gray basemap (the CARTO basemap started asking for an API key)
+m = folium.Map(location=center, zoom_start=8, tiles=None)
+folium.TileLayer(
+    tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    attr="Tiles &copy; Esri — Esri, HERE, Garmin, &copy; OpenStreetMap contributors",
+    name="Light basemap", max_native_zoom=16,
+).add_to(m)
 
 def make_style_function(col):
     def style_function(feature):

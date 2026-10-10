@@ -110,6 +110,15 @@ def threshold_lag(ts, sif, tn, nd):
     return (np.mean(vals) if vals else np.nan), out
 
 
+BLOCK = 3  # residuals are resampled in moving blocks of 3 consecutive composites (they are autocorrelated)
+
+
+def block_resample(res, rng, block=BLOCK):
+    n = len(res)
+    starts = rng.integers(0, n - block + 1, size=int(np.ceil(n / block)))
+    return np.concatenate([res[s:s + block] for s in starts])[:n]
+
+
 def smooth(v):
     return savgol_filter(v, 5, 2, mode="interp")
 
@@ -128,9 +137,13 @@ for y in YEARS:
     rng = np.random.default_rng(SEED + 1000 + int(y))
     b = []
     for _ in range(N_BOOT):
-        b.append(threshold_lag(ts, fs + rng.choice(rs, len(rs)), tn, fn + rng.choice(rn, len(rn)))[0])
+        b.append(threshold_lag(ts, fs + block_resample(rs, rng), tn, fn + block_resample(rn, rng))[0])
     b = np.array(b)
     b = b[~np.isnan(b)]
+    # the replicates scatter around the lag of the SMOOTHED curves, not around the raw-data point
+    # estimate, so shift them to centre on the reported estimate before taking percentiles
+    smooth_lag = threshold_lag(ts, fs, tn, fn)[0]
+    b = b - smooth_lag + point
     boot_means[y] = b
 
     loo = []
@@ -146,13 +159,14 @@ for y in YEARS:
                   "thresholds_not_reached": ",".join(map(str, missing)),
                   "sif_residual_sd_pct_of_range": 100 * rs.std() / np.ptp(sif),
                   "ndvi_residual_sd_pct_of_range": 100 * rn.std() / np.ptp(nd),
+                  "smoothed_curve_lag": smooth_lag,
                   "boot_ci_low": np.percentile(b, 2.5), "boot_ci_high": np.percentile(b, 97.5),
                   "boot_pct_le_0": 100 * (b <= 0).mean(),
                   "jackknife_min": np.nanmin(loo), "jackknife_max": np.nanmax(loo)})
 tr = pd.DataFrame(trows)
 tr.to_csv("data/processed/lag_uncertainty_threshold.csv", index=False)
 
-print("\nPART B -- threshold-crossing lag (main method), residual bootstrap + leave-one-out")
+print("\nPART B -- threshold-crossing lag (main method), moving-block residual bootstrap (centred on the estimate) + leave-one-out")
 print(tr.drop(columns=["is_drought"]).round(1).to_string(index=False))
 
 pairs, sep = 0, []

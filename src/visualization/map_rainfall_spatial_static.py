@@ -24,7 +24,9 @@ rain_wide.columns = ["ADM2_NAME"] + [f"anomaly_{y}" for y in rain_wide.columns[1
 merged = districts.merge(rain_wide, on="ADM2_NAME", how="left")
 
 all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
-vmin, vmax = all_values.min(), all_values.max()
+# symmetric about zero so that 0% is the neutral (yellow) colour of the diverging map
+lim = max(abs(all_values.min()), abs(all_values.max()))
+vmin, vmax = -lim, lim
 
 cmap = plt.cm.RdYlGn
 norm = mcolors.Normalize(vmin=vmin, vmax=vmax)

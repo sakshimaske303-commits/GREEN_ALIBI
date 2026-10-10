@@ -43,7 +43,8 @@ rain_wide.columns = ["ADM2_NAME"] + [f"anomaly_{y}" for y in rain_wide.columns[1
 merged = districts.merge(rain_wide, on="ADM2_NAME", how="left")
 
 rain_all_values = pd.concat([merged[f"anomaly_{y}"] for y in YEARS])
-rain_norm = mcolors.Normalize(vmin=rain_all_values.min(), vmax=rain_all_values.max())
+_lim = max(abs(rain_all_values.min()), abs(rain_all_values.max()))  # centred on 0%
+rain_norm = mcolors.Normalize(vmin=-_lim, vmax=_lim)
 
 fig, axes = plt.subplots(2, len(YEARS), figsize=(4.2 * len(YEARS), 11))
 

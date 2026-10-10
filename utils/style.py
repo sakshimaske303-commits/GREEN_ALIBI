@@ -82,7 +82,7 @@ def apply_custom_style():
     }}
 
     /* ---- Sidebar — same dark-gradient nav-pill language used
-    across the whole portfolio (matched to Double Jeopardy) ---- */
+    across my projects (matched to Double Jeopardy) ---- */
     section[data-testid="stSidebar"] {{
         background: linear-gradient(180deg, {NAVY_MED} 0%, {NAVY_DARK} 100%);
         border-right: 1px solid rgba(0, 217, 192, 0.2);

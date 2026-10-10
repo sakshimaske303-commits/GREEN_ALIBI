@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils.style import apply_custom_style, section_divider, styled_caption, MAGENTA
+from utils.style import apply_custom_style, section_divider, styled_caption
 
 st.set_page_config(page_title="Data & Methodology — GREEN ALIBI", page_icon="🛰️", layout="wide")
 apply_custom_style()
@@ -8,169 +8,171 @@ apply_custom_style()
 st.title("🛰️ Data & Methodology")
 
 st.markdown("""
-This page documents the datasets used, the processing pipeline applied to each, and a
-boundary-precision correction that was applied to the entire study region partway through
-the analysis.
+This page describes the datasets I used, how each is processed, and the checks I ran on the
+results. The whole pipeline runs end to end from one script, `run_all.py`.
 """)
 
 section_divider()
 
-st.markdown(f"""
-<style>
-    div[data-testid="stPopover"] button {{
-        animation: proof-blink 1.8s ease-in-out infinite;
-        border: 3px solid {MAGENTA} !important;
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 50% !important;
-        padding: 0 !important;
-        min-height: unset !important;
-        min-width: unset !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }}
-    div[data-testid="stPopover"] button p {{
-        margin: 0 !important;
-        font-size: 0.95rem !important;
-        line-height: 1 !important;
-    }}
-    @keyframes proof-blink {{
-        0%, 100% {{ box-shadow: 0 0 0px rgba(233, 30, 140, 0); }}
-        50% {{ box-shadow: 0 0 12px rgba(233, 30, 140, 0.85); }}
-    }}
-</style>
-""", unsafe_allow_html=True)
-
-import os as _os
-PROOF_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "outputs", "proof_screenshots")
-
-def proof_popover(filename, caption):
-    path = _os.path.join(PROOF_DIR, filename)
-    with st.popover("📷"):
-        if _os.path.exists(path):
-            st.image(path, caption=caption, use_container_width=True)
-        else:
-            st.caption(f"Screenshot not added yet — save it as `outputs/proof_screenshots/{filename}`.")
-
 st.header("Data Sources")
 
 data_sources = pd.DataFrame({
-    "Variable": ["SIF", "NDVI", "Land Cover", "Precipitation"],
+    "Variable": ["SIF (main)", "SIF (independent check)", "NDVI", "Land Cover", "Precipitation", "Crop yields", "Declarations"],
     "Source": [
         "GOSIF v2 (Li & Xiao, 2019), UNH Global Ecology Group",
+        "TROPOSIF v2.1, Sentinel-5P TROPOMI (Guanter et al., 2021)",
         "MODIS MOD13Q1, via Google Earth Engine",
         "MODIS MCD12Q1 (IGBP classification)",
-        "CHIRPS Daily, UCSB-CHG, via Google Earth Engine"
+        "CHIRPS Daily, UCSB-CHG, via Google Earth Engine",
+        "District Area/Production/Yield statistics, Ministry of Agriculture & Farmers Welfare",
+        "2015 declaration (reported 16 Oct), 2018 first-stage (23 Oct) and final (31 Oct)",
     ],
-    "Resolution": ["0.05°, 8-day", "250 m, 16-day", "500 m, annual", "0.05°, daily"],
+    "Resolution": ["0.05°, 8-day", "Daily soundings → 8-day composites, 2018–2020", "250 m, 16-day", "500 m, annual", "0.05°, daily", "District, Kharif season", "Dates"],
     "Role": [
-        "Primary outcome — physiological stress proxy",
-        "Comparison outcome — structural/reflectance proxy",
-        "Cropland mask (classes 12, 14)",
-        "Independent drought validation"
+        "Main SIF series, cropland-weighted",
+        "Check not built from MODIS reflectance",
+        "Comparison index, cropland pixels, timed by observation date",
+        "Cropland definition (classes 12, 14)",
+        "The single rainfall source for every anomaly (seasonal totals 1981–2023)",
+        "Check that the drought classification matches harvests",
+        "Timing benchmark for RQ3",
     ]
 })
 
 st.dataframe(data_sources, use_container_width=True, hide_index=True)
 
-col_sp1, col_sp2 = st.columns([0.94, 0.06])
-with col_sp1:
-    st.markdown("""
-    **Study period:** June 1 – late December (day-of-year 153–361), for nine years —
-    2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, and 2023. The study originally covered
-    three years (2015, 2018, 2020); five more (2016, 2017, 2019, 2022, 2023) were added in
-    a later expansion pass to address this study's own recurring small-sample limitation,
-    using the identical acquisition and processing pipeline throughout. 2021 was added
-    last, its raw GOSIF rasters tracked down and processed separately by hand after that
-    expansion was already complete (see **Development Log, Entry 20**).
-    """)
-with col_sp2:
-    proof_popover("01_sif_ndvi_data_excel.png", "The merged SIF–NDVI dataset (marathwada_sif_ndvi_merged.csv) opened in Excel — the core file behind the lag analysis.")
+st.markdown("""
+**Study period:** 1 June – 27 December (day-of-year 153–361) of nine Kharif seasons,
+2015–2023, for all eight Marathwada districts.
+
+Two things limit how the results can be read. GOSIF uses MODIS reflectance as a predictor,
+so GOSIF and MOD13Q1 NDVI are not fully independent; that is why I added the TROPOMI check.
+And GOSIF's 0.05° grid (about 5 km) is far coarser than NDVI's 250 m, so every comparison
+here is a regional or district signal over a mixed cropland landscape, not a field-scale one.
+""")
 
 section_divider()
 
 st.header("Processing Pipeline")
 
-tab1, tab2, tab3 = st.tabs(["SIF Processing", "NDVI Processing", "Temporal Alignment"])
+tab1, tab2, tab3, tab4 = st.tabs(["SIF Processing", "NDVI Processing", "Rainfall & Drought Years", "TROPOMI Check"])
 
 with tab1:
     st.markdown("""
-    - 243 8-day GOSIF GeoTIFFs acquired across all nine study years (twenty-seven per
-      year, June–December, after the observation window was extended from an initial
-      June–November cut). The original 81 files (three years) were pulled first; a
-      further 135 files, for the five years added in the main expansion pass, followed
-      using the identical seasonal window and file-naming convention; the final 27, for
-      2021, were tracked down and processed separately by hand after that.
-    - Raw digital values scaled by GOSIF's factor of **0.0001** to obtain physical SIF units.
-    - Fill-value codes masked prior to any averaging: **32766** (water), **32767**
-      (non-vegetated / missing).
-    - Each file clipped to the study region boundary (see below) using polygon-based
-      raster masking.
-    - A regional mean SIF value computed per date, alongside a valid-pixel-fraction
-      quality metric.
+    - GOSIF 8-day GeoTIFFs (27 per year) clipped to the FAO GAUL 2015 level-2 outline of the
+      eight districts with `rasterio.mask`.
+    - Values scaled by GOSIF's factor of **0.0001**; fill values **32767** (water) and
+      **32766** (snow/ice or barren) masked before any averaging.
+    - Each 0.05° cell weighted by its **cropland fraction**: the share of MCD12Q1 pixels in
+      classes 12 or 14 inside that cell, computed in Earth Engine on the GOSIF grid. This makes
+      the regional and district SIF series describe mainly farmland, as the NDVI series does.
+    - Each 8-day composite dated at its centre (start day + 3.5).
     """)
-    col_t1a, col_t1b = st.columns([0.94, 0.06])
-    with col_t1b:
-        proof_popover("02_clip_gosif_vscode.png", "clip_gosif.py open in VS Code — the rasterio.mask script that clips each GOSIF raster to the exact Marathwada boundary polygon.")
 
 with tab2:
     st.markdown("""
-    - Initial extraction using raw MOD09Q1 reflectance, without cloud-quality filtering,
-      produced a physically implausible time series — single-period swings inconsistent
-      with any real vegetation phenology.
-    - Root cause: Marathwada's growing season overlaps with the monsoon, and MOD09Q1's
-      composited reflectance does not reliably exclude cloud-contaminated pixels without
-      explicit quality-band filtering.
-    - **Fix:** rebuilt extraction around MOD13Q1, using its native `SummaryQA` band
-      (retaining only good- and marginal-quality pixels: QA values 0 and 1), combined with
-      the cropland mask.
-    - This traded temporal resolution (16-day vs. 8-day) for a physically sound signal —
-      a necessary trade given the alternative was an unusable series.
+    - MOD13Q1 pixels kept only where `SummaryQA` marks good or marginal quality (0, 1) and
+      MCD12Q1 marks cropland (classes 12, 14).
+    - A 16-day MOD13Q1 value can come from any day in its window, so I date each composite by
+      the **mean of its pixels' `DayOfYear` values** (the day each pixel was actually observed),
+      not by the window start.
+    - Each year's NDVI series is normalised on its own observations and linearly interpolated
+      onto the SIF composite centre dates.
+    - During the monsoon many composites rest on few clear pixels (23 of 117 regional composites
+      under 25% coverage); dropping them does not change the direction of any year's lag.
     """)
 
 with tab3:
     st.markdown("""
-    - SIF (8-day) and NDVI (16-day) were merged per year using **nearest-date matching**,
-      since their native cadences do not align to a common date grid.
-    - Each year's series was normalized (0–1) within-year before threshold-crossing
-      analysis, so that comparisons across years are relative to each year's own seasonal
-      peak rather than an absolute scale.
+    - One rainfall source throughout: **CHIRPS** seasonal totals (1 June – 27 December) for
+      1981–2023, at region and district level, plus daily series for the rainfall trigger.
+    - A year is a **drought year** when its seasonal total has z < −0.5 against the 2001–2020
+      mean (826.8 mm, σ = 158.9 mm). Only **2015** and **2018** qualify.
+    - This holds under three other baselines (2001–2014, 1981–2014, 1991–2020) and every cut-off
+      from −0.3 to −0.75. District-years are classified against each district's own 2001–2020
+      baseline: 15 of 72 are drought district-years (17 against the regional baseline).
+    """)
+
+with tab4:
+    st.markdown("""
+    - TROPOSIF soundings over Marathwada, 2018–2020, kept where cloud fraction < 0.2, solar
+      zenith angle < 70° and the land-cover flag is cropland; 53% of 630,091 soundings passed.
+    - Main variable: `SIF_Corr_743`; averaged into 8-day composites aligned with GOSIF's.
+    - The same threshold-crossing lag against NDVI is computed for each year, under both scalings. Three variants
+      (cloud fraction < 0.5, all land cover, uncorrected SIF_743) are also run.
     """)
 
 section_divider()
 
-st.header("A Boundary-Precision Correction")
+st.header("How I Measure the Lag")
 
 st.markdown("""
-The study region was initially defined as a rectangular bounding box
-(75.0–78.5°E, 17.5–20.5°N). Visual inspection in Google Earth Engine — after explicitly
-drawing the rectangle on the map, rather than trusting its coordinates blindly — showed
-that this box extended beyond Marathwada into neighboring Telangana districts (Nizamabad,
-Bidar, Adilabad) and into Solapur and Yavatmal, all outside the study region and subject to
-different rainfall regimes. Every regional mean computed up to that point had quietly
-included pixels from outside Marathwada.
+**Threshold-crossing.** Each year's SIF and NDVI series is rescaled 0–1 and linear interpolation
+gives the day each series first falls below **0.9, 0.8, 0.7, 0.6 and 0.5** after its peak. The lag
+at each threshold is the NDVI crossing date minus the SIF crossing date (positive = SIF first); a
+year's lag is the mean over the thresholds it reaches. Two scalings are compared:
+*season-scaled* (0 at the seasonal minimum, 1 at the peak — the original method) and
+*decline-scaled* (0 at the minimum after the peak). They agree only if both series return to their
+pre-season level; NDVI does not, so the season scale delays its crossings. An asymmetric
+double-logistic end-of-season date is a third, indicative estimate.
 
-The boundary was corrected to the precise union of the eight Marathwada districts, sourced
-from the **FAO GAUL 2015 level-2** administrative dataset. A subsequent naming-convention
-gap was caught during this correction: the 2015-vintage dataset stores Beed district under
-its earlier spelling, **"Bid,"** causing an initial filter on "Beed" to silently omit the
-district entirely, with no error raised. This was caught by visual inspection rather than
-by the script itself, and an explicit district-count check was added to the pipeline
-afterward to catch similar naming mismatches automatically in the future.
+**Cross-correlation.** Over the post-peak decline window, both series are put on a daily grid,
+de-meaned, and cross-correlated at shifts from −N/4 to +N/4 days. The best-fitting shift is that
+year's lag. Correlation does not depend on scale, so this estimate is unaffected by the scaling
+choice.
 
-The exact same naming gap reappeared, independently, when the acquisition step was later
-rewritten as a standalone Python script for the eight-year sample-size expansion — the new
-script's own district list also used "Beed" rather than "Bid," silently dropping the
-district from all eight years' region- and district-level exports on the first run. This
-was caught by counting rows in the by-district output rather than trusting a clean run, and
-the full extraction was re-run and re-verified before any figure in this dashboard was
-computed. It's recorded here rather than smoothed over, since it's a useful reminder that
-"we already fixed this once" doesn't mean a rewritten script inherits the fix automatically.
+**Uncertainty.** A 2,000-replicate case-resampling bootstrap for cross-correlation, and a
+2,000-replicate moving-block residual bootstrap (blocks of three composites, centred on the
+reported lag) plus a leave-one-out jackknife for threshold-crossing.
 
-Both the SIF clipping pipeline (rebuilt using `rasterio.mask` against the true polygon
-rather than a rectangular window) and the NDVI extraction pipeline were re-run against this
-corrected boundary, and the masking behavior was independently verified before proceeding.
+**District level (H2).** The same lags for all 72 district-years, tested with a two-way ANOVA
+(district and year) and a Friedman test.
+""")
+
+section_divider()
+
+st.header("Drought Anomaly Alarms (H4)")
+
+st.markdown("""
+A seasonal lag says when each index starts its *normal* decline, not when it departs from
+normal. So for each composite date I standardise each year's SIF and NDVI against the normal
+years at that date, leaving the year itself out: z = (x − normal-year mean) / normal-year s.d.
+
+An **alarm** is the first composite from 1 July at which z stays below a threshold (−0.5, −1,
+−1.5, −2, −3) for **two consecutive composites**. At regional scale, z < −3 is the only threshold
+at which neither index raises an alarm in any normal year, so it is the main alarm threshold.
+The same is done for the 72 district-years (15 drought, 57 normal against each district's own
+rainfall baseline; 17 and 55 against the regional one), with a date-by-date AUC
+summarising how well each index separates drought from normal district-years.
+""")
+
+section_divider()
+
+st.header("Rainfall Trigger and Declarations (RQ3)")
+
+st.markdown("""
+India's Manual for Drought Management (2016) starts drought assessment with a rainfall-based
+**Trigger-1**. I approximate it as the first day after 1 July on which cumulative rainfall since
+1 June is more than **25% below** the 2001–2020 normal for that date *and* a **dry spell of at
+least 21 days** (days below 2.5 mm, counted from 1 July to 30 September) has occurred. I also
+run variants (20% or 30% deficit, 1 mm dry day, deficit alone, dry spell alone, and dry spells
+counted to December as in an earlier version). The state applies the trigger at taluka level, so
+this region- and district-level version is an approximation. Satellite alarm dates are compared
+against this trigger and against the three declaration dates.
+""")
+
+section_divider()
+
+st.header("Method-Dependence Check")
+
+st.markdown("""
+To see which findings depend on which choices, I recompute the regional lag under **40
+combinations**: SIF cropland-weighted or unweighted; NDVI timed by observation date or by
+compositing window; raw or Savitzky–Golay-smoothed series; and lag metric (mean-threshold, 0.9,
+0.7, 0.5, or cross-correlation). For each, I record whether SIF leads in all nine years, whether
+drought years have a smaller lag than normal years, and whether 2018 has the smallest lag.
+All 40 use the season scale; the scaling check is reported separately. Results are on the
+**Lag Analysis** page.
 """)
 
 col1, col2 = st.columns([2, 1])
@@ -178,43 +180,12 @@ with col1:
     st.image("outputs/figures/boundary_overlay_check.png", use_container_width=True)
     styled_caption(
         "Verification: clipped SIF data (color) overlaid with the true Marathwada "
-        "boundary (blue outline) — data is confined exactly within the real district shapes."
+        "boundary (blue outline) — data is confined within the district shapes."
     )
-    col_b1, col_b2 = st.columns([0.94, 0.06])
-    with col_b2:
-        proof_popover("04_qgis_boundary_check.png", "QGIS — visual QA of the clipped GOSIF raster against the Marathwada boundary polygon, to independently sanity-check the rasterio.mask clipping (optional — only if you redo this check in QGIS).")
 with col2:
-    st.success("""
-    **Why this matters:** going back through this project later, I found that the
-    region-wide time series had actually kept building itself from the pre-fix rectangular
-    clip, due to a filename-matching bug in the aggregation script — not the corrected
-    polygon output the log at the time believed it was using (see **GA_Development_Log.md**,
-    Entry 11). Once that bug was fixed and the series regenerated from the correct boundary,
-    the core lag findings held up: the numbers shifted modestly but the qualitative
-    conclusion — SIF leads NDVI in most years, and drought years still show a *smaller*
-    lag than normal years — did not change. The same held true after the eight-year
-    expansion and its own "Bid" district fix: the numbers shifted again, and 2018 emerged
-    as a genuine exception rather than a leading example, but the group-level finding
-    (drought years smaller lag than normal years) replicated a second time.
+    st.info("""
+    **Corrections.** I fixed five data-handling errors from the first preprint (listed in the
+    Development Log), and every number here comes from the corrected pipeline.
     """)
-
-section_divider()
-
-col_lag1, col_lag2 = st.columns([0.94, 0.06])
-with col_lag1:
-    st.header("Quantitative Lag Calculation")
-with col_lag2:
-    st.markdown("<div style='margin-top: 2.2rem;'></div>", unsafe_allow_html=True)
-    proof_popover("03_cross_correlation_vscode.png", "cross_correlation_lag.py open in VS Code — the independent cross-correlation robustness check on the SIF-to-NDVI lag.")
-
-st.markdown("""
-For each year, the day-of-year at which SIF and NDVI (each normalized 0–1 within-year)
-crossed a set of decline thresholds — **90%, 80%, 70%, 60%, and 50%** of seasonal peak —
-was estimated via linear interpolation between observed dates. Lag at each threshold is
-defined as the NDVI crossing date minus the SIF crossing date. This replaced an earlier,
-purely visual comparison of the two seasonal curves, which had led to an overstated initial
-claim about drought years showing a larger lag — a claim withdrawn once tested numerically
-(see **Lag Analysis** page).
-""")
 
 styled_caption("GREEN ALIBI — Data & Methodology")

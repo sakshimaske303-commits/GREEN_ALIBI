@@ -8,8 +8,9 @@ import pandas as pd
 from scipy.stats import mannwhitneyu
 
 THRESHOLDS = [-0.5, -1.0, -1.5, -2.0, -3.0]
-MAIN_THR = -1.0
+MAIN_THR = -3.0  # the only threshold with no false alarm in any normal year at regional scale
 START_DOY = 182
+DECLARATION_2015 = 289
 DECLARATION_2018 = 304
 
 rain = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
@@ -30,8 +31,11 @@ for (d, y), g in sd.groupby(["district", "year"]):
     ndvi = np.interp(g["doy"].values + 3.5, n["mean_obs_doy"], n["mean_ndvi"], left=np.nan, right=np.nan)
     rows += [{"district": d, "year": y, "doy": a, "SIF": b, "NDVI": c} for a, b, c in zip(g["doy"], g["mean_sif"], ndvi)]
 dist = pd.DataFrame(rows)
-rd = pd.read_csv("data/processed/rainfall_anomaly_by_district.csv")[["district", "year", "anomaly_zscore"]]
-DROUGHT_D = {(r.district, r.year) for r in rd.itertuples() if r.anomaly_zscore < -0.5}
+# district-years are classified against each district's own 2001-2020 rainfall baseline (main),
+# and against the regional baseline as a sensitivity check
+rd = pd.read_csv("data/processed/district_climatology_anomaly_comparison.csv")
+DROUGHT_D = {(r.district, r.year) for r in rd.itertuples() if r.zscore_district_baseline < -0.5}
+DROUGHT_D_REGIONAL = {(r.district, r.year) for r in rd.itertuples() if r.zscore_region_baseline < -0.5}
 
 
 def anomaly(table, year, normal_years):
@@ -95,30 +99,50 @@ for dcl in decl.itertuples():
     print(" | ".join(parts))
 
 tabs = {v: dist.pivot_table(index=["district", "year"], columns="doy", values=v) for v in ["SIF", "NDVI"]}
-drows = []
-for (d, y) in tabs["SIF"].index:
-    nrm = [yy for yy in YEARS if (d, yy) not in DROUGHT_D]
-    r = {"district": d, "year": y, "is_drought": (d, y) in DROUGHT_D}
-    for v in ["SIF", "NDVI"]:
-        z = anomaly(tabs[v].loc[d], y, nrm)
-        r[f"{v}_z"] = z
-        for thr in THRESHOLDS:
-            r[f"{v}_alarm_{thr}"] = first_alarm(z, thr)
-    drows.append(r)
-D = pd.DataFrame(drows)
-D.drop(columns=["SIF_z", "NDVI_z"]).to_csv("data/processed/drought_signal_district.csv", index=False)
 
-nd_, nn_ = int(D["is_drought"].sum()), int((~D["is_drought"]).sum())
-print(f"\nDISTRICT -- {nd_} drought and {nn_} normal district-years")
-print(f"{'threshold':10s}{'hit SIF':>9s}{'hit NDVI':>10s}{'false SIF':>11s}{'false NDVI':>12s}   among drought hits: SIF earlier / same / NDVI earlier, median SIF lead")
-for thr in THRESHOLDS:
-    dd = D[D["is_drought"]]
-    both = dd.dropna(subset=[f"SIF_alarm_{thr}", f"NDVI_alarm_{thr}"])
-    lead = both[f"NDVI_alarm_{thr}"] - both[f"SIF_alarm_{thr}"]
-    print(f"z < {thr:<5}{dd[f'SIF_alarm_{thr}'].notna().sum():>6d}/{nd_}{dd[f'NDVI_alarm_{thr}'].notna().sum():>7d}/{nd_}"
-          f"{D.loc[~D['is_drought'], f'SIF_alarm_{thr}'].notna().sum():>8d}/{nn_}{D.loc[~D['is_drought'], f'NDVI_alarm_{thr}'].notna().sum():>8d}/{nn_}"
-          f"   {(lead > 0).sum()} / {(lead == 0).sum()} / {(lead < 0).sum()}, "
-          f"{'n/a' if lead.empty else f'{lead.median():+.0f} d'}")
+
+def district_alarms(drought_set):
+    rows_ = []
+    for (d, y) in tabs["SIF"].index:
+        nrm = [yy for yy in YEARS if (d, yy) not in drought_set]
+        r = {"district": d, "year": y, "is_drought": (d, y) in drought_set}
+        for v in ["SIF", "NDVI"]:
+            z = anomaly(tabs[v].loc[d], y, nrm)
+            r[f"{v}_z"] = z
+            for thr in THRESHOLDS:
+                r[f"{v}_alarm_{thr}"] = first_alarm(z, thr)
+        rows_.append(r)
+    return pd.DataFrame(rows_)
+
+
+def district_summary(D, label):
+    nd_, nn_ = int(D["is_drought"].sum()), int((~D["is_drought"]).sum())
+    print(f"\nDISTRICT ({label}) -- {nd_} drought and {nn_} normal district-years")
+    print(f"{'threshold':10s}{'hit SIF':>9s}{'hit NDVI':>10s}{'false SIF':>11s}{'false NDVI':>12s}   among drought hits: SIF earlier / same / NDVI earlier, median SIF lead")
+    out = []
+    for thr in THRESHOLDS:
+        dd = D[D["is_drought"]]
+        both = dd.dropna(subset=[f"SIF_alarm_{thr}", f"NDVI_alarm_{thr}"])
+        lead = both[f"NDVI_alarm_{thr}"] - both[f"SIF_alarm_{thr}"]
+        rec = {"baseline": label, "threshold": thr, "n_drought": nd_, "n_normal": nn_,
+               "hit_SIF": int(dd[f"SIF_alarm_{thr}"].notna().sum()), "hit_NDVI": int(dd[f"NDVI_alarm_{thr}"].notna().sum()),
+               "false_SIF": int(D.loc[~D["is_drought"], f"SIF_alarm_{thr}"].notna().sum()),
+               "false_NDVI": int(D.loc[~D["is_drought"], f"NDVI_alarm_{thr}"].notna().sum()),
+               "both_flagged": len(both), "SIF_earlier": int((lead > 0).sum()), "same": int((lead == 0).sum()),
+               "NDVI_earlier": int((lead < 0).sum()), "median_SIF_lead_days": lead.median() if len(lead) else np.nan}
+        out.append(rec)
+        print(f"z < {thr:<5}{rec['hit_SIF']:>6d}/{nd_}{rec['hit_NDVI']:>7d}/{nd_}{rec['false_SIF']:>8d}/{nn_}{rec['false_NDVI']:>8d}/{nn_}"
+              f"   {rec['SIF_earlier']} / {rec['same']} / {rec['NDVI_earlier']}, "
+              f"{'n/a' if lead.empty else f'{lead.median():+.0f} d'}")
+    return out
+
+
+D = district_alarms(DROUGHT_D)
+D.drop(columns=["SIF_z", "NDVI_z"]).to_csv("data/processed/drought_signal_district.csv", index=False)
+summ = district_summary(D, "own-district baseline (main)")
+D_reg = district_alarms(DROUGHT_D_REGIONAL)
+summ += district_summary(D_reg, "regional baseline (sensitivity)")
+pd.DataFrame(summ).to_csv("data/processed/drought_signal_district_summary.csv", index=False)
 
 auc_rows = []
 for i, doy in enumerate(DOYS):
@@ -152,8 +176,9 @@ for ax, v in zip(axes, ["SIF", "NDVI"]):
         col = {2015: "#b2182b", 2018: "#e08214"}.get(y, "#d6604d") if dr else "#9e9e9e"
         ax.plot(DOYS + 3.5, zreg[v][y], color=col, lw=2.2 if dr else 1,
                 alpha=1 if dr else 0.6, label=f"{y} (drought)" if dr else None, zorder=3 if dr else 2)
-    ax.axhline(MAIN_THR, color="black", ls="--", lw=1, label=f"z = {MAIN_THR}")
-    ax.axvline(DECLARATION_2018, color="#2166ac", ls=":", lw=1.5, label="31 Oct 2018 declaration")
+    ax.axhline(MAIN_THR, color="black", ls="--", lw=1, label=f"alarm threshold z = {MAIN_THR:g}")
+    ax.axvline(DECLARATION_2015, color="#b2182b", ls=":", lw=1.5, label="16 Oct 2015 declaration (reported)")
+    ax.axvline(DECLARATION_2018, color="#e08214", ls=":", lw=1.5, label="31 Oct 2018 final declaration")
     ax.set_title(f"{v}: anomaly vs normal years (grey = normal years)")
     ax.set_xlabel("Day of year")
     ax.set_xlim(180, 365)

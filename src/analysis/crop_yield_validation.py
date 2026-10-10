@@ -66,7 +66,10 @@ DROUGHT_YEARS = set(_rain.loc[_rain["anomaly_zscore"] < -0.5, "year"])
 region_year = district_year[district_year["study_year"].isin(STUDY_YEARS)].groupby("study_year")["yield_anomaly_index"].mean().reset_index()
 
 rain = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")[["year", "anomaly_zscore"]].rename(columns={"year": "study_year", "anomaly_zscore": "rainfall_anomaly_zscore"})
-sif = pd.read_csv("data/processed/sif_rainfall_district_merged.csv").groupby("year")["mean_sif"].mean().reset_index().rename(columns={"year": "study_year"})
+# season-mean (Jun-Dec), cropland-weighted district SIF, averaged over the 8 districts -- the same SIF
+# measure crop_yield_sensitivity.py uses, so the two scripts' correlations are comparable
+sif = (pd.read_csv("data/processed/sif_by_district_seasonal.csv").groupby("year")["season_jun_dec"].mean()
+       .reset_index().rename(columns={"year": "study_year", "season_jun_dec": "mean_sif"}))
 
 summary = region_year.merge(rain, on="study_year", how="outer").merge(sif, on="study_year", how="outer").sort_values("study_year")
 summary["is_drought_year"] = summary["study_year"].isin(DROUGHT_YEARS)
@@ -82,7 +85,7 @@ r_yield_rain, p_yield_rain = stats.pearsonr(valid["yield_anomaly_index"], valid[
 r_yield_sif, p_yield_sif = stats.pearsonr(valid["yield_anomaly_index"], valid["mean_sif"])
 print(f"\nn = {len(valid)} region-years with complete data (2023 excluded -- no yield data published yet)")
 print(f"corr(yield anomaly, rainfall anomaly)  = {r_yield_rain:.3f}  p={p_yield_rain:.4f}  (sanity check: expect positive)")
-print(f"corr(yield anomaly, mean regional SIF) = {r_yield_sif:.3f}  p={p_yield_sif:.4f}")
+print(f"corr(yield anomaly, season-mean regional SIF) = {r_yield_sif:.3f}  p={p_yield_sif:.4f}")
 
 d = valid.loc[valid["is_drought_year"], "yield_anomaly_index"]
 n = valid.loc[~valid["is_drought_year"], "yield_anomaly_index"]

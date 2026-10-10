@@ -1,0 +1,10 @@
+year,variable,morans_i,p_value_permutation
+2015,season_mean_sif,0.3442,0.0208
+2016,season_mean_sif,0.2909,0.0343
+2017,season_mean_sif,0.355,0.0149
+2018,season_mean_sif,0.538,0.0006
+2019,season_mean_sif,0.3731,0.0196
+2020,season_mean_sif,0.377,0.0064
+2021,season_mean_sif,0.4811,0.0033
+2022,season_mean_sif,0.3002,0.027
+2023,season_mean_sif,0.3868,0.014

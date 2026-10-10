@@ -1,4 +1,14 @@
-event,doy,date,days_before_official_declaration
-SIF crosses 90% of seasonal peak,251.4,2018-09-08,52.599999999999994
-NDVI crosses 90% of seasonal peak,246.6,2018-09-04,57.400000000000006
-Official Maharashtra govt drought declaration,304.0,2018-10-31,0.0
+year,event,kind,doy,date,days_before_final_declaration
+2015,SIF drought alarm (z < -3),alarm,236.5,2015-08-24,52.5
+2015,NDVI drought alarm (z < -3),alarm,236.5,2015-08-24,52.5
+2015,Rainfall Trigger-1 (region),trigger,,,
+2015,SIF seasonal 0.9 crossing,seasonal,267.2,2015-09-24,21.80000000000001
+2015,NDVI seasonal 0.9 crossing,seasonal,280.6,2015-10-07,8.399999999999977
+2015,Final declaration,declaration,289.0,2015-10-16,0.0
+2018,SIF drought alarm (z < -3),alarm,276.5,2018-10-03,27.5
+2018,NDVI drought alarm (z < -3),alarm,268.5,2018-09-25,35.5
+2018,Rainfall Trigger-1 (region),trigger,,,
+2018,SIF seasonal 0.9 crossing,seasonal,255.0,2018-09-12,49.0
+2018,NDVI seasonal 0.9 crossing,seasonal,261.4,2018-09-18,42.60000000000002
+2018,First-stage declaration,declaration,296.0,2018-10-23,8.0
+2018,Final declaration,declaration,304.0,2018-10-31,0.0

@@ -66,7 +66,7 @@ def yai(detrend, weighted, crops=None):
     return dy, ry, z["crop_name"].nunique()
 
 
-VARIANTS = {"Y0_current": (False, False, None), "Y1_area_weighted": (False, True, None),
+VARIANTS = {"Y0_cleaned": (False, False, None), "Y1_area_weighted": (False, True, None),
             "Y2_detrended": (True, False, None), "Y3_area_detrended": (True, True, None),
             "Y4_major_crops": (True, True, MAJOR)}
 

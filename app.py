@@ -15,7 +15,7 @@ apply_custom_style()
 st.markdown("""
 <h1 style='text-align:center; font-size:3.2rem; font-weight:800;'>🌿 GREEN ALIBI</h1>
 <h3 style='text-align:center; font-weight:500; color:#FF6EC7;'>
-Testing Whether Fluorescence Catches Drought Stress Before the Eye Can See It
+Testing the Fluorescence Advantage: Does SIF Signal Agricultural Drought Earlier than NDVI in Marathwada?
 </h3>
 """, unsafe_allow_html=True)
 
@@ -74,8 +74,8 @@ st.markdown(
 
 st.markdown("""
 <p style='text-align:center; font-size:1.1rem;'>
-<strong>NDVI shows a plant's alibi — it can still look green.<br>
-SIF shows what is physically happening inside it.</strong>
+<strong>SIF's seasonal decline starts before NDVI's every year I looked at.<br>
+But SIF did not flag drought earlier than NDVI.</strong>
 </p>
 """, unsafe_allow_html=True)
 
@@ -85,11 +85,21 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Districts Studied", "8", "Marathwada")
 with col2:
-    st.metric("Study Years", "9", "2015–2023")
+    st.metric("Kharif Seasons", "9", "2015–2023")
 with col3:
     st.metric("Drought Years", "2", "2015, 2018 (of 9)")
 with col4:
-    st.metric("Datasets Used", "4", "SIF · NDVI · Rainfall · Land Cover")
+    st.metric("SIF Products", "2", "GOSIF + TROPOMI check")
+
+col5, col6, col7, col8 = st.columns(4)
+with col5:
+    st.metric("SIF Decline First (decline-scaled)", "6 / 9 years", "−5.5 to +13.4 days", delta_color="off")
+with col6:
+    st.metric("Season-scaled Lead", "9 / 9 years", "8.0–34.2 days, mostly a scaling effect", delta_color="off")
+with col7:
+    st.metric("TROPOMI SIF First", "3 / 3 years", "2018–2020, both scalings", delta_color="off")
+with col8:
+    st.metric("Drought Alarm (z < −3), SIF First", "1 of 12", "same date 6, NDVI first 5", delta_color="inverse")
 
 section_divider()
 
@@ -101,14 +111,13 @@ st.markdown(
         <p style="color:{MAGENTA}; text-transform:uppercase; letter-spacing:1.5px;
                   font-weight:700; font-size:0.85rem; margin-bottom:8px;">Why This Matters</p>
         <p style="color:{TEXT_LIGHT}; font-size:1rem; line-height:1.6; margin:0;">
-            India's official drought-declaration process and the PMFBY crop-insurance payout mechanism
-            lean on NDVI — a signal that only moves once a plant's structure has already visibly
-            degraded. That means the farmers relying on that signal find out they're in trouble only
-            after damage is done. If SIF genuinely provides an earlier warning, that isn't an academic
-            curiosity — it's the difference between a relief payout that arrives in time and one that
-            arrives after the season is already lost. This project tests that premise directly, on real
-            satellite data over a real drought-prone Maharashtra region, and reports exactly what it
-            found — including the parts, like H3, that didn't hold up.
+            Drought declarations in India, and the PMFBY crop-insurance payouts tied to them, rest on
+            rainfall deficits and on vegetation indices like NDVI, which respond once crop damage is
+            visible. SIF is often proposed as an earlier signal because it is tied to photosynthesis.
+            If it really warned earlier, relief could arrive sooner. I tested that on nine Kharif seasons
+            in Marathwada. What I found is negative: SIF is not an earlier drought alarm than NDVI, and its
+            apparent head start in the normal seasonal decline is mostly a side-effect of how NDVI's
+            decline is measured. H2, H3 and H4 did not hold up, and I report them as they came out.
         </p>
     </div>
     """,
@@ -123,10 +132,15 @@ India's official drought-declaration process, and the crop-insurance payout mech
 records and the **Normalized Difference Vegetation Index (NDVI)** — a reflectance-based measure that only
 changes once a plant's internal structure has already begun to visibly degrade.
 
-**Solar-Induced Fluorescence (SIF)** is grounded in a more direct physical process: it captures a drop in
-photosynthetic efficiency *before* a plant's outward greenness changes. This project tests, using real
-satellite data over Marathwada, Maharashtra, whether that physical head-start actually shows up as a
-measurable, usable time lag — and whether drought conditions make that lag bigger.
+**Solar-Induced Fluorescence (SIF)** is tied more directly to photosynthesis, so it is expected to respond
+before a crop's greenness changes. I keep two questions apart:
+
+- Does SIF flag **drought** (a departure from normal years) before NDVI? This is the main question, and the answer
+  is no. At z < −3 both flagged 2015 on the same date and NDVI was 8 days earlier in 2018; across 15 drought
+  district-years the two coincided in 6, NDVI was first in 5 and SIF in 1.
+- Does SIF's **seasonal decline** start before NDVI's? Scaled over the whole season, yes in all 9 years. But NDVI
+  stays well above its pre-season level after the monsoon, which delays its crossings by construction. Scaled over
+  each curve's own decline, SIF is first in 6 of 9 years by at most about two weeks; cross-correlation agrees.
 """)
 
 section_divider()
@@ -134,23 +148,26 @@ section_divider()
 st.header("Research Questions")
 
 st.markdown("""
-1. **Does SIF decline measurably earlier than NDVI** during documented drought-onset periods?
-2. **Is the SIF–NDVI lag consistent** across the region, or does it vary by geography?
-3. **How does SIF-based stress timing relate to independently measured rainfall deficit**,
-   across drought and normal years?
+1. **In drought years, does SIF depart from its normal-year range before NDVI does?** (main question)
+   And does SIF's normal post-peak decline begin before NDVI's?
+2. **Does the SIF–NDVI lag differ between districts, and does drought widen it?**
+3. **How do satellite drought signals time against the rainfall-based Trigger-1** of India's drought-management
+   framework and against the official 2015 and 2018 drought declarations?
 """)
 
 section_divider()
 
 st.header("Hypotheses")
 
-h1, h2, h3 = st.columns(3)
+h1, h2, h3, h4 = st.columns(4)
 with h1:
-    st.info("**H1**\n\nSIF declines significantly before NDVI during a drought episode.")
+    st.info("**H1 — depends on scaling**\n\nSIF's seasonal decline begins before NDVI's. 9/9 years scaled over the season; 6/9 scaled over each curve's own decline.")
 with h2:
-    st.info("**H2**\n\nThe SIF–NDVI lag is not spatially uniform across the study region.")
+    st.warning("**H2 — not supported**\n\nThe lag differs between districts. Friedman p = 0.043 season-scaled, but p = 0.97 decline-scaled.")
 with h3:
-    st.info("**H3**\n\nDrought severity (measured via rainfall deficit) amplifies the lag.")
+    st.warning("**H3 — not supported**\n\nDrought widens the lag. Drought years 14.8 vs 22.6 days season-scaled; 6.5 vs 3.6 decline-scaled.")
+with h4:
+    st.warning("**H4 — not supported**\n\nSIF departs from its normal-year range before NDVI in drought years. They mostly coincided or NDVI was first.")
 
 section_divider()
 
@@ -162,9 +179,9 @@ Use the sidebar to move through the study in the order it was actually built:
 - **Study Area** — where and why Marathwada
 - **Fluorescence Physics** — the science behind SIF
 - **NDVI Physics** — the science behind NDVI, and a direct comparison
-- **Data & Methodology** — sources, processing, and a boundary-precision correction
+- **Data & Methodology** — sources, processing pipeline, and the checks I ran
 - **Seasonal Trajectories** — SIF vs NDVI across the growing season
-- **Lag Analysis** — the quantitative SIF-to-NDVI decline lag
+- **Lag Analysis** — threshold and cross-correlation lags, uncertainty, method dependence, TROPOMI check
 - **Spatial SIF Analysis** — where stress concentrated, static and interactive
 - **Rainfall Validation** — independently confirming the drought years
 - **Combined Comparison** — SIF and rainfall side by side
@@ -183,28 +200,38 @@ documents — including everything not shown here — are available to download 
 """)
 
 _all_docs = [
-    {"label": "Executive Summary", "filename": "GA_Executive_Summary.pdf"},
-    {"label": "Research Paper", "filename": "GA_Research_Paper.pdf"},
-    {"label": "Development Log", "filename": "GA_Development_Log.pdf"},
-    {"label": "Policy Brief", "filename": "Policy_Brief.pdf"},
+    {"label": "Executive Summary", "filename": "GA_Executive_Summary"},
+    {"label": "Research Paper", "filename": "GA_Research_Paper"},
+    {"label": "Development Log", "filename": "GA_Development_Log"},
+    {"label": "Policy Brief", "filename": "Policy_Brief"},
 ]
-_existing = [d for d in _all_docs if os.path.exists(os.path.join("static", d["filename"]))]
-_missing = [d for d in _all_docs if d not in _existing]
 
-if _existing:
-    _cols = st.columns(len(_existing))
-    for _col, _d in zip(_cols, _existing):
+
+def _doc_path(stem):
+    """prefer a PDF in static/, fall back to the Markdown source in the repo root"""
+    pdf = os.path.join("static", stem + ".pdf")
+    if os.path.exists(pdf):
+        return pdf, "application/pdf"
+    md = stem + ".md"
+    if os.path.exists(md):
+        return md, "text/markdown"
+    return None, None
+
+
+_available = [(d, *_doc_path(d["filename"])) for d in _all_docs]
+_available = [x for x in _available if x[1]]
+if _available:
+    _cols = st.columns(len(_available))
+    for _col, (_d, _path, _mime) in zip(_cols, _available):
         with _col:
-            with open(os.path.join("static", _d["filename"]), "rb") as _f:
+            with open(_path, "rb") as _f:
                 st.download_button(
                     label=f"⬇ {_d['label']}",
                     data=_f.read(),
-                    file_name=_d["filename"],
-                    mime="application/pdf",
+                    file_name=os.path.basename(_path),
+                    mime=_mime,
                     use_container_width=True,
                 )
-for d in _missing:
-    st.warning(f"{d['filename']} not found.")
 
 section_divider()
 

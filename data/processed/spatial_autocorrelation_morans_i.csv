@@ -1,19 +1,19 @@
 year,variable,morans_i,expected_i_under_null,p_value_permutation,z_score,interpretation
-2015,mean_sif,0.3138,-0.1429,0.0238,2.17,significant positive clustering
-2015,rainfall_anomaly_pct,0.4564,-0.1429,0.0019,2.865,significant positive clustering
-2016,mean_sif,0.2773,-0.1429,0.0487,1.88,significant positive clustering
-2016,rainfall_anomaly_pct,0.5296,-0.1429,0.0006,3.023,significant positive clustering
-2017,mean_sif,0.0824,-0.1429,0.1527,1.111,no significant spatial clustering
-2017,rainfall_anomaly_pct,0.4812,-0.1429,0.0008,2.986,significant positive clustering
-2018,mean_sif,0.2554,-0.1429,0.0389,1.973,significant positive clustering
-2018,rainfall_anomaly_pct,0.5501,-0.1429,0.0009,3.162,significant positive clustering
-2019,mean_sif,0.196,-0.1429,0.0895,1.521,no significant spatial clustering
-2019,rainfall_anomaly_pct,0.2577,-0.1429,0.0067,2.297,significant positive clustering
-2020,mean_sif,0.2894,-0.1429,0.0386,2.05,significant positive clustering
-2020,rainfall_anomaly_pct,0.3204,-0.1429,0.0218,2.239,significant positive clustering
-2021,mean_sif,0.2136,-0.1429,0.0554,1.792,no significant spatial clustering
-2021,rainfall_anomaly_pct,0.5597,-0.1429,0.0008,3.119,significant positive clustering
-2022,mean_sif,0.1719,-0.1429,0.0918,1.536,no significant spatial clustering
-2022,rainfall_anomaly_pct,0.5464,-0.1429,0.0013,3.096,significant positive clustering
-2023,mean_sif,0.0538,-0.1429,0.1978,0.875,no significant spatial clustering
-2023,rainfall_anomaly_pct,0.486,-0.1429,0.0044,2.794,significant positive clustering
+2015,mean_sif,0.3138,-0.1429,0.0228,2.214,significant positive clustering
+2015,rainfall_anomaly_pct,0.4565,-0.1429,0.0023,2.861,significant positive clustering
+2016,mean_sif,0.2773,-0.1429,0.0496,1.897,significant positive clustering
+2016,rainfall_anomaly_pct,0.5296,-0.1429,0.0013,3.023,significant positive clustering
+2017,mean_sif,0.0824,-0.1429,0.1571,1.096,no significant spatial clustering
+2017,rainfall_anomaly_pct,0.4811,-0.1429,0.0005,2.973,significant positive clustering
+2018,mean_sif,0.2554,-0.1429,0.0407,1.937,significant positive clustering
+2018,rainfall_anomaly_pct,0.5501,-0.1429,0.0003,3.104,significant positive clustering
+2019,mean_sif,0.196,-0.1429,0.0864,1.541,no significant spatial clustering
+2019,rainfall_anomaly_pct,0.2587,-0.1429,0.0062,2.29,significant positive clustering
+2020,mean_sif,0.2894,-0.1429,0.0418,2.02,significant positive clustering
+2020,rainfall_anomaly_pct,0.3204,-0.1429,0.0205,2.247,significant positive clustering
+2021,mean_sif,0.2249,-0.1429,0.0552,1.802,no significant spatial clustering
+2021,rainfall_anomaly_pct,0.5597,-0.1429,0.0007,3.138,significant positive clustering
+2022,mean_sif,0.165,-0.1429,0.0951,1.507,no significant spatial clustering
+2022,rainfall_anomaly_pct,0.5468,-0.1429,0.0011,3.13,significant positive clustering
+2023,mean_sif,0.0538,-0.1429,0.2047,0.854,no significant spatial clustering
+2023,rainfall_anomaly_pct,0.4845,-0.1429,0.004,2.816,significant positive clustering

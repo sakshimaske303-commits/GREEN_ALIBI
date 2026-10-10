@@ -1,0 +1,4 @@
+declaration,is_final,trigger1_doy,trigger1_days_before_declaration,SIF_alarm_days_before_declaration,SIF_alarm_minus_trigger1_days,NDVI_alarm_days_before_declaration,NDVI_alarm_minus_trigger1_days
+2015-10-16,True,,,52.5,,52.5,
+2018-10-23,False,,,19.5,,27.5,
+2018-10-31,True,,,27.5,,35.5,

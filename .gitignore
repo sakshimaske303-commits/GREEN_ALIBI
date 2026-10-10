@@ -20,3 +20,15 @@ venv/
 
 # os junk
 .DS_Store
+
+# Earth Engine per-year temp exports (combined files are kept)
+data/raw/_gee_tmp/
+
+# TROPOSIF raw downloads (hundreds of GB; tropomi_sif_crosscheck.py re-fetches)
+data/external/troposif_raw/
+
+# the pipeline run log (outputs/run_log.txt) is deliberately tracked: it is the
+# evidence that every number comes from one end-to-end run
+
+# local backups made during the October 2026 review
+_review_backup_*/

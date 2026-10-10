@@ -1,6 +1,6 @@
 # GREEN ALIBI: Testing the Fluorescence Advantage
 
-**Testing whether Solar-Induced Fluorescence catches agricultural drought stress in Marathwada, Maharashtra before NDVI can, and whether drought severity makes that head start bigger, across 9 growing seasons.**
+**Does Solar-Induced Fluorescence signal agricultural drought earlier than NDVI in Marathwada, India? A test across 8 districts and 9 Kharif seasons (2015–2023).**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg)](https://doi.org/10.5281/zenodo.21762501)
 
@@ -12,8 +12,8 @@
 
 | Document | What's Inside |
 |---|---|
-| [`GA_Executive_Summary.md`](./GA_Executive_Summary.md) / [`.pdf`](./GA_Executive_Summary.pdf) | 1 page snapshot: project overview, question, method, headline finding, robustness checklist, and links (start here) |
-| [`Policy_Brief.pdf`](./Policy_Brief.pdf) | Non technical brief for a policy audience: the drought declaration/PMFBY problem, what was found, and the policy implication |
+| [`GA_Executive_Summary.md`](./GA_Executive_Summary.md) | Short snapshot: project overview, questions, method, headline findings, robustness checklist, and links (start here) |
+| [`Policy_Brief.md`](./Policy_Brief.md) | Non technical brief for a policy audience: the drought declaration/PMFBY problem, what was found, and the policy implication |
 | [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper: physical basis, methodology, results, discussion, limitations |
 | [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log: every bug, boundary correction, and methodology iteration |
 
@@ -32,42 +32,45 @@ Interactive district level maps and headline charts are hosted via GitHub Pages:
 
 *(All 5 are also embedded together on the dedicated Interactive Maps & Plots page in the live dashboard; the 2 maps also show up on their own on the Spatial SIF Analysis and Rainfall Validation pages.)*
 
-GREEN ALIBI is a geospatial test of whether there's a measurable difference in how timely India's official drought designation is compared to signals captured from space, such as Solar-Induced Fluorescence (SIF), an indicator of photosynthetic activity. It also checks how those signals stack up against the drought designation that crop insurance payouts under the Pradhan Mantri Fasal Bima Yojana (PMFBY) currently depend on. SIF is grounded in the plant's internal process of energy partitioning for photosynthesis, which gives it a theoretical head start over NDVI: NDVI only registers a change once the plant's structure has already begun to visibly deteriorate, whereas SIF tracks the drop in photosynthetic efficiency directly. The premise gets tested with GOSIF v2 fluorescence data and MODIS NDVI, arranged by growing season, where only the 2015 and 2018 growing seasons are classified as drought years based on CHIRPS rainfall data independently. The plan first covered 3 years (2015, 2018, 2020); 5 additional years (2016, 2017, 2019, 2022, 2023) got added after an earlier pass of the documentation found sample size to be a limiting factor, and 2021 was added last, once its raw SIF data was tracked down and processed by hand.
+India's drought-management process, and the crop-insurance payouts under the Pradhan Mantri Fasal Bima Yojana (PMFBY) tied to it, rest on rainfall deficits and on vegetation indices such as NDVI, which respond once crop damage is visible. Solar-Induced Fluorescence (SIF) is tied to photosynthesis, so it is often expected to respond earlier. GREEN ALIBI is my test of that expectation for the eight districts of Marathwada, Maharashtra. I compare cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's observation date, check the result with TROPOMI SIF (a retrieval not built from MODIS reflectance), and keep two questions apart. The main one is whether SIF shows a drought-specific anomaly before NDVI does, which is what would make SIF a better drought alarm; the secondary one is whether SIF's normal seasonal decline starts before NDVI's. Only 2015 and 2018 qualify as drought years on CHIRPS rainfall.
 
-Every result here gets shown as it came out, including 1 hypothesis (H3: drought severity amplifies the SIF to NDVI lag) that the data does not support.
+Every result is reported as it came out, including the hypotheses the data do not support (H4: SIF departs from normal before NDVI in drought years; H2: the lag differs between districts; H3: drought widens the lag).
 
 ---
 
 ## What This Project Does
 
-- Works out the study region for Marathwada on its own, using precise district level boundaries (not a rectangular bounding box) from FAO GAUL 2015, with a diagnostic boundary overlay process.
-- Creates a GOSIF v2 SIF raster matched to exact district polygons, and pulls MODIS NDVI for the same clipped, cropland masked, cloud screened polygons using Google Earth Engine.
-- Works out a numeric SIF to NDVI decline lag (in days) at 5 seasonal decline thresholds every year, using a linear interpolation crossing date method, then compares that against a time lagged cross correlation method. Both come with bootstrap confidence intervals that show how precise the lag estimates are.
-- Independently checks the drought/normal year classification against 20 years of CHIRPS rainfall data (2001-2020) at both the regional and district level.
-- Tests spatial correlation between SIF stress and rainfall deficit at the district level using Pearson/Spearman correlation, instead of relying only on visual inspection.
-- Checks how accurate SIF based and NDVI based stress onset timing are against the one officially declared drought date available (Maharashtra, 2018), to test the policy angle on its own, separate from rainfall deficit data.
-- Shows all results on an 11 page Streamlit dashboard, including 2 pages that explain the physics of photosynthesis and reflectance, and a page that brings together both interactive maps.
+- Builds the Marathwada study region from FAO GAUL 2015 district polygons (not a bounding box) and checks the clipping with a boundary overlay.
+- Weights each GOSIF v2 cell by its cropland fraction (MODIS MCD12Q1 classes 12 and 14), and pulls quality- and cropland-masked MODIS MOD13Q1 NDVI in Google Earth Engine, dating each composite by its pixels' actual observation day.
+- Measures the SIF-to-NDVI decline lag at 5 thresholds by threshold-crossing, with each curve scaled over the whole season and over its own decline, plus a double-logistic fit and whole-curve cross-correlation, with bootstrap intervals, for the region and all 72 district-years.
+- Tests how much the lag depends on analysis choices across 40 method variants, and checks the direction with TROPOMI SIF for 2018–2020.
+- Classifies drought years from CHIRPS seasonal rainfall (1981–2023, baseline 2001–2020), checked against three alternative baselines and a range of cut-offs.
+- Tests for a drought-specific signal by standardising SIF and NDVI against normal years and comparing alarm dates and ROC AUC.
+- Times satellite alarms against an approximation of the rainfall-based Trigger-1 in India's Manual for Drought Management and against the official 2015 and 2018 drought declarations.
+- Checks district-level SIF against rainfall anomaly (with year-clustered and fixed-effects tests), spatial autocorrelation (Moran's I), and official district crop-yield statistics.
+- Presents everything in a multi-page Streamlit dashboard, including pages on the physics of fluorescence and reflectance.
 
 ## Key Findings
 
-SIF's post peak drop came before NDVI's post peak drop in 8 of the 9 years (2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023) under the threshold crossing method. This fits SIF's physical basis as a faster stress signal. A second, methodologically distinct cross correlation check gives a more mixed picture, and it only shows this properly after a bug fix: the cross correlation and bootstrap scripts originally searched only non negative lags, so neither one could ever report NDVI leading SIF, no matter what the data showed. Once that got fixed and rerun, cross correlation shows SIF ahead in 5 years, tied in 1 (2020), and NDVI ahead in 3 (2018, 2022, 2023). 2 of those (2022, 2023) are backed by a bootstrap where 99%+ of replicates land below zero. Every method agrees that 2018 breaks the SIF leads pattern: a marginally negative threshold crossing lag, a cross correlation lag that is negative too (−4 days), and 87.4% of bootstrap replicates landing below zero.
+**SIF is not an earlier drought alarm than NDVI (H4 not supported).** Standardised against normal years, at z < −3 (the only threshold with no regional false alarm), both indices flagged 2015 on 24 August; in 2018 NDVI flagged on 25 September and SIF on 3 October. Across the 15 drought district-years (each district against its own rainfall baseline), SIF flagged 12 and NDVI 13; where both did, they coincided in 6, NDVI was earlier in 5 and SIF in 1. At looser thresholds NDVI was earlier in most cases. SIF had slightly fewer false alarms (2 vs 4 in 57 normal district-years).
 
-Checking against the same 20 year CHIRPS baseline (2001-2020) through rainfall anomaly validation (§4.4), only 2 of the 9 years fall below the drought threshold: 2015 at −21.5% and 2018 at −18.3%. The 6 years added during the sample expansion all sit within roughly 1 standard deviation of normal, including 2021, which was folded in last, after its raw GOSIF files were tracked down and processed by hand. Looking back, the original 3 year sample, where 2/3 of the years were drought years, was much more drought heavy than Marathwada's actual 9 year climate record.
+**SIF's seasonal lead is mostly a normalisation effect.** Scaled over the whole season, SIF's decline came first in all 9 years (8.0–34.2 days) and all 72 district-years (median 17.7 days). But after the monsoon NDVI stays well above its pre-season level while SIF does not, which delays NDVI's threshold crossings by construction. Scaled from peak to post-peak minimum, the lag is 9.6, 13.4, 10.6, 3.5, −5.5, 8.8, −1.2, −1.0 and 0.4 days (2015–2023): SIF first in 6 years, NDVI first in 2019, 2021 and 2022. Cross-correlation, which does not depend on scaling (10, 12, 14, 4, 0, 9, 20, −1, −3 days), agrees more with the smaller estimate. TROPOMI SIF (2018–2020) put SIF first under both scalings.
 
-Just like the original 3 year study, the mean threshold crossing lag was smaller in the 2 drought years (7.6 days) than in the 7 normal years (15.1 days). This does not support H3. The exact year to year ranking is sensitive to the method used on its own, and for 2022/2023 even the direction changes (see Research Paper §4.6). The bootstrap check (§4.7) finds 32 of the 36 pairwise comparisons among the 9 years aren't statistically distinguishable from noise, but the remaining 4 cleanly separate the strongest SIF leads years from the strongest NDVI leads years.
+**No district differences once scaling is matched (H2 not supported).** Season-scaled, the district effect is significant (Friedman p = 0.043); decline-scaled it vanishes (p = 0.97; district means 2.9–5.6 days).
 
-The drought years are well established from independent rainfall data, and the shortfall is not spread evenly across the region either. Regional anomalies range from −21.5% (2015) to +36.8% (2022) against the 20 year normal. The 2018 deficit sat mostly in the western districts (Aurangabad −37.3% and Bid −38.0%), while eastern districts saw a surplus instead (Nanded +14.7%). This west to east gradient shows up on its own at the district level too. A Moran's I diagnostic (§4.8) finds significant spatial clustering of rainfall in all 9 years, while SIF's own spatial clustering is significant in only 4 of 9 years.
+**Drought does not widen the lag (H3 not supported).** Season-scaled, drought years averaged 14.8 days against 22.6; decline-scaled, 6.5 against 3.6. With two drought years neither difference is meaningful.
 
-The actual district level correlation between rainfall and SIF comes out to r = 0.531 (p < 0.0001) and Spearman ρ = 0.504 (p < 0.0001), across 72 district years (8 districts × 9 years). Both numbers are much weaker than the original 3 year sample's r = 0.837 (p < 0.0001). This drop matters because it goes against the original correlation instead of backing it up: it shows that the earlier figure was inflated by that smaller sample's makeup.
+**Rainfall trigger and declarations (RQ3).** The approximate rainfall Trigger-1 (dry spells counted 1 July – 30 September) never fired for the region and fired in 2 of 15 drought district-years (Aurangabad and Bid, 2018); in Aurangabad both satellite alarms came first, in Bid at the same time. Both alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but declarations follow field verification, so satellite signals precede them almost by construction.
 
-Both the SIF and NDVI thresholds are crossed roughly 7 to 8 weeks before the drought was officially declared by the Maharashtra government (31 October 2018), as the chart below shows. After fixing a district naming bug found during the sample expansion (§3.2), NDVI crosses its threshold about 5 days before SIF in 2018, the reverse of the original finding, and in line with 2018 being the one exception throughout (§4.9).
+**Supporting checks.** District SIF on day-of-year 273 correlates with rainfall anomaly (r = 0.53, p < 0.0001; year-clustered p = 0.001), but not once district and year fixed effects are included (p = 0.37). Rainfall and season-mean SIF are spatially clustered in all 9 years. The crop Yield Anomaly Index tracks rainfall (r = 0.93) and is lower in the drought years (−1.08 vs +0.07, p = 0.15). The lag direction is unchanged when NDVI composites with few clear pixels are excluded.
 
-Full methodology, physical basis, and limitations are documented in `GA_Research_Paper.md`.
+In short: SIF is not an earlier drought alarm than NDVI in this dataset, and its apparent seasonal head start is largely a property of how NDVI's decline is measured. Satellite vegetation anomalies, NDVI as much as SIF, may add lead time to a rainfall-led trigger. Full methodology, physical basis, and limitations are in `GA_Research_Paper.md`; `GA_Development_Log.md` records every correction and revision.
 
 ## Repository Structure
 
 ```text
 GREEN_ALIBI/
+├── run_all.py                          # Runs the full pipeline in order
 ├── app.py                              # Streamlit dashboard home page
 ├── pages/                              # 12 page dashboard (chronological order)
 │   ├── 01_Study_Area.py
@@ -83,15 +86,16 @@ GREEN_ALIBI/
 │   ├── 10_Crop_Yield_Validation.py
 │   └── 11_Findings_and_Conclusion.py
 ├── utils/
+│   ├── doc_viewer.py
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
 ├── src/
-│   ├── acquisition/                    # GEE + GOSIF data acquisition scripts (scripted and executed for all 9 study years)
-│   ├── analysis/                       # Clipping, zonal stats, lag calc, rainfall, bootstrap CI, Moran's I, RQ3
-│   └── visualization/                  # Static maps + Folium interactive maps
+│   ├── acquisition/                    # Earth Engine exports (cropland fraction, NDVI observation dates, CHIRPS) and GOSIF download
+│   ├── analysis/                       # All analysis scripts (listed below)
+│   └── visualization/                  # Static maps, Folium maps, Plotly charts
 ├── data/
-│   ├── raw/                             # GOSIF, NDVI, rainfall, boundary data (gitignored)
-│   ├── external/                        # Public record reference data (official drought declaration dates)
-│   └── processed/                       # District level SIF, rainfall, lag, and bootstrap/spatial diagnostic CSVs
+│   ├── raw/                             # GOSIF, NDVI, rainfall, boundary data
+│   ├── external/                        # Cropland fraction rasters, crop-yield statistics, official drought declaration dates
+│   └── processed/                       # Regional and district SIF, NDVI, rainfall, lag, and diagnostic CSVs
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
 │   └── interactive_maps/
@@ -102,21 +106,67 @@ GREEN_ALIBI/
 └── requirements.txt
 ```
 
+### Analysis scripts (`src/analysis/`)
+
+| Script | What it does |
+|---|---|
+| `clip_gosif.py` | Clips GOSIF files to Marathwada |
+| `aggregate_sif.py` | Cropland-weighted regional mean SIF per 8-day composite |
+| `zonal_stats_sif.py` | District zonal statistics for SIF |
+| `district_seasonal_sif.py` | District seasonal SIF series |
+| `compare_sif_ndvi.py` | SIF vs NDVI seasonal comparison (NDVI at observation date) |
+| `lag_analysis.py` | Threshold-crossing lag, per year |
+| `cross_correlation_lag.py` | Cross-correlation lag (searches both directions) |
+| `bootstrap_lag_uncertainty.py` | Bootstrap intervals for the cross-correlation lag |
+| `lag_uncertainty_check.py` | Residual bootstrap and jackknife for the threshold-crossing lag |
+| `final_summary.py` | Final summary table |
+| `h3_continuous_severity.py` | H3 as a continuous rainfall-severity test |
+| `district_lag_analysis.py` | District-level lag and H2 tests (ANOVA, Friedman) |
+| `drought_signal_analysis.py` | Drought-specific anomaly signal: SIF vs NDVI alarm dates and AUC (H4) |
+| `rainfall_trigger_comparison.py` | Satellite alarms vs approximate rainfall Trigger-1 (RQ3) |
+| `rq3_official_declaration_comparison.py` | Satellite alarms vs official 2015 and 2018 declarations (RQ3) |
+| `method_dependence.py` | 40 method variants: which findings depend on which choices |
+| `tropomi_sif_analysis.py` | TROPOMI SIF cross-check (regional) |
+| `tropomi_sif_crosscheck.py` | TROPOMI SIF cross-check (district level) |
+| `rainfall_analysis.py` | Regional seasonal rainfall anomaly (CHIRPS) |
+| `rainfall_by_district_analysis.py` | District seasonal rainfall anomaly |
+| `district_climatology_anomaly.py` | District rainfall climatology and own-baseline anomalies |
+| `baseline_sensitivity.py` | Drought classification under alternative baselines and cut-offs |
+| `rain_timing_analysis.py` | Within-season rainfall timing vs lag |
+| `sif_rainfall_correlation.py` | District SIF–rainfall correlation (clustered and fixed-effects) |
+| `spatial_autocorrelation.py` | Moran's I for SIF and rainfall |
+| `sensitivity_checks.py` | Robustness checks |
+| `cropmask_obsdate_sensitivity.py` | Cropland-weighting and NDVI observation-date sensitivity |
+| `gosif_grid_shift_check.py` | GOSIF grid-origin check for 2021–2022 |
+| `crop_yield_validation.py` | Crop Yield Anomaly Index vs rainfall and SIF |
+| `crop_yield_sensitivity.py` | Crop-yield check under weighting and cleaning variants |
+| `check_boundary_overlay.py` | Boundary overlay figure |
+| `normalisation_sensitivity.py` | Lag under season-range vs decline-range scaling and a double-logistic fit (region, districts, TROPOMI) |
+| `rainfall_window_sensitivity.py` | Drought classification by Jun–Dec, Jun–Sep and single-month rainfall |
+| `ndvi_coverage_check.py` | NDVI quality-pixel coverage per composite and lag with low-coverage composites dropped |
+| `tropomi_drought_signal.py` | H4 anomaly test with TROPOMI SIF (illustrative until more TROPOMI years are added) |
+| `vegetation_index_lag.py` | SIF vs NDVI, EVI and NIRv lags (needs `gee_vi_obsdate.py` output) |
+| `rainfall_trigger_pixel.py` | Trigger-1 per CHIRPS pixel, summarised by district (needs `gee_chirps_dryspell_area.py` output) |
+
 ## Tech Stack
 
-Python · Rasterio · GeoPandas · NumPy / Pandas · Matplotlib · Folium · Branca · Streamlit · Google Earth Engine
+Python · Rasterio · GeoPandas · NumPy / Pandas · SciPy · statsmodels · libpysal / esda · Matplotlib · Plotly · Folium · Branca · Streamlit · Google Earth Engine
 
 ## Data Sources
 
 | Dataset | Provider |
 |---|---|
-| Solar-Induced Fluorescence | GOSIF v2 (Global Ecology Group, University of New Hampshire) |
-| NDVI | MODIS MOD13Q1 (via Google Earth Engine) |
+| Solar-Induced Fluorescence (main) | GOSIF v2 (Global Ecology Group, University of New Hampshire) |
+| Solar-Induced Fluorescence (independent check) | TROPOSIF v2.1, Sentinel-5P TROPOMI (SRON) |
+| NDVI | MODIS MOD13Q1, including its DayOfYear band (via Google Earth Engine) |
 | Land Cover / Cropland Mask | MODIS MCD12Q1, IGBP classification (via Google Earth Engine) |
 | Precipitation | CHIRPS Daily (UCSB-CHG, via Google Earth Engine) |
 | Administrative Boundaries | FAO GAUL 2015, Level 2 (via Google Earth Engine) |
+| Crop yields | Ministry of Agriculture & Farmers Welfare, district Area/Production/Yield (India Data Portal) |
 
 ## Running Locally
+
+To view the dashboard:
 
 ```bash
 git clone https://github.com/sakshimaske303-commits/GREEN_ALIBI.git
@@ -125,11 +175,35 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+To rerun the analysis, the whole pipeline runs from one script:
+
+```bash
+python run_all.py                    # all analysis scripts, then all figures
+python run_all.py --acquire          # rerun the Earth Engine exports first (needs an authenticated Earth Engine account)
+python run_all.py --from lag_analysis   # restart from the first script whose name contains this text
+python run_all.py --no-figures       # analysis only, skip figures and maps
+```
+
+`run_all.py` checks that the required raw inputs exist before starting, stops at the first failing script, and writes a full log to `outputs/run_log.txt`. `tropomi_sif_analysis.py` re-extracts the TROPOSIF soundings only if the raw files are present and otherwise analyses the saved composites; `tropomi_sif_crosscheck.py` (district level) is run separately because it downloads the soundings. Exact package versions from the last full run are in `requirements-lock.txt`.
+
+### Optional extensions (need Earth Engine or a download)
+
+```bash
+python src/acquisition/gee_vi_obsdate.py                 # NDVI, EVI and NIRv at observation date -> vegetation_index_lag.py
+python src/acquisition/gee_chirps_dryspell_area.py       # Trigger-1 per CHIRPS pixel -> rainfall_trigger_pixel.py
+python src/acquisition/gee_india_states_for_locator.py   # state outlines for the Figure 3 locator inset
+python src/acquisition/download_gosif_new_years.py 2001 2014   # earlier GOSIF years (several GB)
+```
+
+The scripts that use these outputs skip quietly until the files exist. The raw GOSIF archives and decompressed GeoTIFFs take several GB; only the clipped files are needed after `clip_gosif.py` has run.
+
 ## Author
 
 **Sakshi D. Maske**
 
 Independent Geospatial Researcher
+
+ORCID: [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
 
 ## License
 

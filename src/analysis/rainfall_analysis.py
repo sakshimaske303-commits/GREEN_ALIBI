@@ -8,7 +8,7 @@ TOTALS_CSV = "data/raw/chirps_seasonal_totals_1981_2023.csv"
 BASELINE = (2001, 2020)
 STUDY_YEARS = list(range(2015, 2024))
 OUTPUT_CSV = "data/processed/rainfall_anomaly_summary.csv"
-OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2023_8years.png"
+OUTPUT_PLOT = "outputs/figures/rainfall_anomaly_2015_2023.png"
 
 tot = pd.read_csv(TOTALS_CSV)
 region = tot[tot["unit"] == "Marathwada"].rename(columns={"rainfall_mm": "total_rainfall_mm"})
@@ -35,13 +35,20 @@ print("\nRainfall anomaly summary for study years:")
 print(years_df[["year", "total_rainfall_mm", "anomaly_mm", "anomaly_pct", "anomaly_zscore"]].round(2))
 
 fig, ax = plt.subplots(figsize=(8, 6))
-colors = ["#a50026" if v < 0 else "#1a9850" for v in years_df["anomaly_pct"]]
+# dark red = drought year (z < -0.5); pale red = below the mean but not a drought year
+colors = ["#a50026" if z < -0.5 else ("#f4a582" if v < 0 else "#1a9850")
+          for v, z in zip(years_df["anomaly_pct"], years_df["anomaly_zscore"])]
 ax.bar(years_df["year"].astype(str), years_df["anomaly_pct"], color=colors)
+ax.axhline(-0.5 * clim_std / clim_mean * 100, color="#a50026", ls="--", lw=1,
+           label=f"drought criterion: z < -0.5 ({-0.5 * clim_std / clim_mean * 100:.1f}%)")
+ax.legend(loc="upper left", fontsize=9)
+lo, hi = years_df["anomaly_pct"].min(), years_df["anomaly_pct"].max()
+ax.set_ylim(lo - 0.25 * (hi - lo), hi + 0.22 * (hi - lo))
 ax.axhline(0, color="black", linewidth=1)
 ax.set_ylabel("Rainfall anomaly (% departure from 2001-2020 mean)")
-ax.set_title("Marathwada Jun-Dec rainfall anomaly, by year")
-for i, (y, v) in enumerate(zip(years_df["year"], years_df["anomaly_pct"])):
-    ax.text(i, v + (1 if v >= 0 else -1), f"{v:.1f}%", ha="center",
+ax.set_title("Marathwada CHIRPS rainfall anomaly, 1 Jun - 26 Dec, vs 2001-2020 mean")
+for i, (y, v, z) in enumerate(zip(years_df["year"], years_df["anomaly_pct"], years_df["anomaly_zscore"])):
+    ax.text(i, v + (1 if v >= 0 else -1), f"{v:.1f}%\n(z {z:+.2f})" if v < 0 else f"(z {z:+.2f})\n{v:.1f}%", ha="center",
             va="bottom" if v >= 0 else "top", fontsize=10)
 plt.tight_layout()
 plt.savefig(OUTPUT_PLOT, dpi=300)

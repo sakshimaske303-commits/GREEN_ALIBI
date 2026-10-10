@@ -1,2 +1,4 @@
-year,event,date,doy,source
-2018,"Official Kharif drought declared (Maharashtra govt, all 8 Marathwada districts among 151 talukas / 26 districts)",2018-10-31,304,"Zee News / EPW (see Research_Paper.md references)"
+year,event,date,doy,is_final_declaration,source
+2015,"Drought declared in 14,708 villages (paisewari/annewari below 50), Marathwada worst hit; exact decision date not found -- reported 16 Oct 2015, so declared on or before this date",2015-10-16,289,True,"India.com / ANI, 16 Oct 2015: https://www.india.com/news/india/maharashtra-drought-declared-in-14708-villages-state-government-waves-off-school-students-fees-637146/"
+2018,"Drought-like situation declared in 180 tehsils (first-stage, trigger-based)",2018-10-23,296,False,"Deccan Herald, 23 Oct 2018: https://www.deccanherald.com/india/drought-situation-declared-180-699467.html"
+2018,"Official Kharif drought declared in 151 talukas / 26 districts, all 8 Marathwada districts included",2018-10-31,304,True,"Zee News, 31 Oct 2018: https://zeenews.india.com/india/maharashtra-declares-drought-in-151-talukas-in-26-districts-2152281.html; EPW editorial 2018/48"

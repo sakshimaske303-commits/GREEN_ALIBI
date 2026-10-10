@@ -13,6 +13,7 @@ OUT_DIR = "outputs/figures"
 os.makedirs(OUT_DIR, exist_ok=True)
 
 SIF_COL = "mean_sif_crop1214"
+LOW_COVERAGE = 0.25
 
 _rain_anomaly = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")
 DROUGHT_YEARS = set(_rain_anomaly.loc[_rain_anomaly["anomaly_zscore"] < -0.5, "year"])
@@ -58,8 +59,11 @@ for ax, year in zip(axes, years):
     sub = merged[merged["year"] == year]
     n = ndvi[ndvi["year"] == year].sort_values("doy_start")
     ax.plot(sub["doy"], sub["sif_norm"], marker="o", label="SIF (cropland-weighted, normalized)", color="#2FA88C")
-    ax.plot(n["mean_obs_doy"], minmax(n["mean_ndvi"].values), marker="s", label="NDVI (at actual observation day)",
-            color="#D98E30")
+    nn = minmax(n["mean_ndvi"].values)
+    ax.plot(n["mean_obs_doy"], nn, marker="s", label="NDVI (at actual observation day)", color="#D98E30")
+    low = (n["valid_pixel_count"] / ndvi["valid_pixel_count"].max()).values < LOW_COVERAGE
+    ax.plot(n["mean_obs_doy"].values[low], nn[low], "s", mfc="white", mec="#D98E30",
+            label=f"NDVI composite with < {LOW_COVERAGE:.0%} of cropland pixels observed")
     ax.set_title(f"{year}" + (" — drought year" if year in DROUGHT_YEARS else " — normal monsoon year"))
     ax.set_xlabel("Day of Year")
     ax.grid(alpha=0.3)

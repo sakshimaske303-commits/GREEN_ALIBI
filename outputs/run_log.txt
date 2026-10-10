@@ -1,0 +1,1729 @@
+GREEN ALIBI pipeline run, 2026-10-10 19:17
+Python 3.12.9 on Windows-11-10.0.26300-SP0
+  numpy 2.4.6
+  pandas 3.0.3
+  scipy 1.18.0
+  statsmodels 0.14.6
+  rasterio 1.5.0
+  geopandas 1.1.3
+  shapely 2.1.2
+  affine 2.4.0
+  libpysal 4.15.0
+  esda 2.10.0
+  matplotlib 3.10.9
+  folium 0.20.0
+  branca 0.8.2
+  plotly 6.7.0
+  streamlit 1.58.0
+  earthengine-api 1.7.28
+  geemap 0.37.3
+
+[1/49] src/analysis/clip_gosif.py
+Found all 243 GOSIF 8-day files (9 years x 27 composites)
+Header origin corrected (-180.025 -> -180.0) for: [2021, 2022]
+Done -- 243 files clipped to the precise 8-district boundary into data/processed/clipped
+  ok (200s)
+
+[2/49] src/analysis/aggregate_sif.py
+Found 243 clipped files to aggregate.
+GOSIF_2015153_clipped.tif: mean_sif=0.0265, cropland-weighted=0.0263
+GOSIF_2015161_clipped.tif: mean_sif=0.0511, cropland-weighted=0.0506
+GOSIF_2015169_clipped.tif: mean_sif=0.0754, cropland-weighted=0.0749
+GOSIF_2015177_clipped.tif: mean_sif=0.0764, cropland-weighted=0.0762
+GOSIF_2015185_clipped.tif: mean_sif=0.0833, cropland-weighted=0.0830
+GOSIF_2015193_clipped.tif: mean_sif=0.0907, cropland-weighted=0.0904
+GOSIF_2015201_clipped.tif: mean_sif=0.1144, cropland-weighted=0.1141
+GOSIF_2015209_clipped.tif: mean_sif=0.1219, cropland-weighted=0.1216
+GOSIF_2015217_clipped.tif: mean_sif=0.2068, cropland-weighted=0.2074
+GOSIF_2015225_clipped.tif: mean_sif=0.2370, cropland-weighted=0.2378
+GOSIF_2015233_clipped.tif: mean_sif=0.2388, cropland-weighted=0.2396
+GOSIF_2015241_clipped.tif: mean_sif=0.2319, cropland-weighted=0.2329
+GOSIF_2015249_clipped.tif: mean_sif=0.2280, cropland-weighted=0.2290
+GOSIF_2015257_clipped.tif: mean_sif=0.2371, cropland-weighted=0.2381
+GOSIF_2015265_clipped.tif: mean_sif=0.2136, cropland-weighted=0.2146
+GOSIF_2015273_clipped.tif: mean_sif=0.1890, cropland-weighted=0.1898
+GOSIF_2015281_clipped.tif: mean_sif=0.1558, cropland-weighted=0.1565
+GOSIF_2015289_clipped.tif: mean_sif=0.1343, cropland-weighted=0.1350
+GOSIF_2015297_clipped.tif: mean_sif=0.1134, cropland-weighted=0.1140
+GOSIF_2015305_clipped.tif: mean_sif=0.0965, cropland-weighted=0.0970
+GOSIF_2015313_clipped.tif: mean_sif=0.0836, cropland-weighted=0.0841
+GOSIF_2015321_clipped.tif: mean_sif=0.0873, cropland-weighted=0.0878
+GOSIF_2015329_clipped.tif: mean_sif=0.0801, cropland-weighted=0.0806
+GOSIF_2015337_clipped.tif: mean_sif=0.0657, cropland-weighted=0.0661
+GOSIF_2015345_clipped.tif: mean_sif=0.0653, cropland-weighted=0.0656
+GOSIF_2015353_clipped.tif: mean_sif=0.0453, cropland-weighted=0.0455
+GOSIF_2015361_clipped.tif: mean_sif=0.0377, cropland-weighted=0.0380
+GOSIF_2016153_clipped.tif: mean_sif=0.0211, cropland-weighted=0.0210
+GOSIF_2016161_clipped.tif: mean_sif=0.0295, cropland-weighted=0.0294
+GOSIF_2016169_clipped.tif: mean_sif=0.0370, cropland-weighted=0.0368
+GOSIF_2016177_clipped.tif: mean_sif=0.0570, cropland-weighted=0.0567
+GOSIF_2016185_clipped.tif: mean_sif=0.0931, cropland-weighted=0.0929
+GOSIF_2016193_clipped.tif: mean_sif=0.1288, cropland-weighted=0.1287
+GOSIF_2016201_clipped.tif: mean_sif=0.1595, cropland-weighted=0.1595
+GOSIF_2016209_clipped.tif: mean_sif=0.2336, cropland-weighted=0.2337
+GOSIF_2016217_clipped.tif: mean_sif=0.3105, cropland-weighted=0.3107
+GOSIF_2016225_clipped.tif: mean_sif=0.3422, cropland-weighted=0.3427
+GOSIF_2016233_clipped.tif: mean_sif=0.3393, cropland-weighted=0.3398
+GOSIF_2016241_clipped.tif: mean_sif=0.3288, cropland-weighted=0.3294
+GOSIF_2016249_clipped.tif: mean_sif=0.3306, cropland-weighted=0.3314
+GOSIF_2016257_clipped.tif: mean_sif=0.3228, cropland-weighted=0.3234
+GOSIF_2016265_clipped.tif: mean_sif=0.2839, cropland-weighted=0.2854
+GOSIF_2016273_clipped.tif: mean_sif=0.2439, cropland-weighted=0.2452
+GOSIF_2016281_clipped.tif: mean_sif=0.2229, cropland-weighted=0.2243
+GOSIF_2016289_clipped.tif: mean_sif=0.1901, cropland-weighted=0.1915
+GOSIF_2016297_clipped.tif: mean_sif=0.1648, cropland-weighted=0.1660
+GOSIF_2016305_clipped.tif: mean_sif=0.1364, cropland-weighted=0.1374
+GOSIF_2016313_clipped.tif: mean_sif=0.1159, cropland-weighted=0.1168
+GOSIF_2016321_clipped.tif: mean_sif=0.1010, cropland-weighted=0.1019
+GOSIF_2016329_clipped.tif: mean_sif=0.0931, cropland-weighted=0.0940
+GOSIF_2016337_clipped.tif: mean_sif=0.0935, cropland-weighted=0.0943
+GOSIF_2016345_clipped.tif: mean_sif=0.0920, cropland-weighted=0.0928
+GOSIF_2016353_clipped.tif: mean_sif=0.0821, cropland-weighted=0.0829
+GOSIF_2016361_clipped.tif: mean_sif=0.0820, cropland-weighted=0.0827
+GOSIF_2017153_clipped.tif: mean_sif=0.0419, cropland-weighted=0.0417
+GOSIF_2017161_clipped.tif: mean_sif=0.0727, cropland-weighted=0.0723
+GOSIF_2017169_clipped.tif: mean_sif=0.0741, cropland-weighted=0.0737
+GOSIF_2017177_clipped.tif: mean_sif=0.0974, cropland-weighted=0.0969
+GOSIF_2017185_clipped.tif: mean_sif=0.1072, cropland-weighted=0.1067
+GOSIF_2017193_clipped.tif: mean_sif=0.1713, cropland-weighted=0.1707
+GOSIF_2017201_clipped.tif: mean_sif=0.2363, cropland-weighted=0.2357
+GOSIF_2017209_clipped.tif: mean_sif=0.2770, cropland-weighted=0.2768
+GOSIF_2017217_clipped.tif: mean_sif=0.3249, cropland-weighted=0.3255
+GOSIF_2017225_clipped.tif: mean_sif=0.3349, cropland-weighted=0.3356
+GOSIF_2017233_clipped.tif: mean_sif=0.3403, cropland-weighted=0.3416
+GOSIF_2017241_clipped.tif: mean_sif=0.3489, cropland-weighted=0.3503
+GOSIF_2017249_clipped.tif: mean_sif=0.3414, cropland-weighted=0.3426
+GOSIF_2017257_clipped.tif: mean_sif=0.3004, cropland-weighted=0.3016
+GOSIF_2017265_clipped.tif: mean_sif=0.2657, cropland-weighted=0.2669
+GOSIF_2017273_clipped.tif: mean_sif=0.2388, cropland-weighted=0.2401
+GOSIF_2017281_clipped.tif: mean_sif=0.2398, cropland-weighted=0.2410
+GOSIF_2017289_clipped.tif: mean_sif=0.2003, cropland-weighted=0.2015
+GOSIF_2017297_clipped.tif: mean_sif=0.1769, cropland-weighted=0.1781
+GOSIF_2017305_clipped.tif: mean_sif=0.1578, cropland-weighted=0.1589
+GOSIF_2017313_clipped.tif: mean_sif=0.1374, cropland-weighted=0.1384
+GOSIF_2017321_clipped.tif: mean_sif=0.1308, cropland-weighted=0.1317
+GOSIF_2017329_clipped.tif: mean_sif=0.1114, cropland-weighted=0.1123
+GOSIF_2017337_clipped.tif: mean_sif=0.1133, cropland-weighted=0.1141
+GOSIF_2017345_clipped.tif: mean_sif=0.1022, cropland-weighted=0.1029
+GOSIF_2017353_clipped.tif: mean_sif=0.0848, cropland-weighted=0.0854
+GOSIF_2017361_clipped.tif: mean_sif=0.0795, cropland-weighted=0.0801
+GOSIF_2018153_clipped.tif: mean_sif=0.0468, cropland-weighted=0.0465
+GOSIF_2018161_clipped.tif: mean_sif=0.0589, cropland-weighted=0.0583
+GOSIF_2018169_clipped.tif: mean_sif=0.0823, cropland-weighted=0.0816
+GOSIF_2018177_clipped.tif: mean_sif=0.1033, cropland-weighted=0.1027
+GOSIF_2018185_clipped.tif: mean_sif=0.1055, cropland-weighted=0.1047
+GOSIF_2018193_clipped.tif: mean_sif=0.1109, cropland-weighted=0.1101
+GOSIF_2018201_clipped.tif: mean_sif=0.1225, cropland-weighted=0.1216
+GOSIF_2018209_clipped.tif: mean_sif=0.1407, cropland-weighted=0.1398
+GOSIF_2018217_clipped.tif: mean_sif=0.3128, cropland-weighted=0.3136
+GOSIF_2018225_clipped.tif: mean_sif=0.3158, cropland-weighted=0.3165
+GOSIF_2018233_clipped.tif: mean_sif=0.3248, cropland-weighted=0.3257
+GOSIF_2018241_clipped.tif: mean_sif=0.3206, cropland-weighted=0.3217
+GOSIF_2018249_clipped.tif: mean_sif=0.3072, cropland-weighted=0.3086
+GOSIF_2018257_clipped.tif: mean_sif=0.2691, cropland-weighted=0.2702
+GOSIF_2018265_clipped.tif: mean_sif=0.2243, cropland-weighted=0.2252
+GOSIF_2018273_clipped.tif: mean_sif=0.1824, cropland-weighted=0.1831
+GOSIF_2018281_clipped.tif: mean_sif=0.1333, cropland-weighted=0.1338
+GOSIF_2018289_clipped.tif: mean_sif=0.1111, cropland-weighted=0.1114
+GOSIF_2018297_clipped.tif: mean_sif=0.0869, cropland-weighted=0.0872
+GOSIF_2018305_clipped.tif: mean_sif=0.0931, cropland-weighted=0.0934
+GOSIF_2018313_clipped.tif: mean_sif=0.0630, cropland-weighted=0.0632
+GOSIF_2018321_clipped.tif: mean_sif=0.0755, cropland-weighted=0.0757
+GOSIF_2018329_clipped.tif: mean_sif=0.0622, cropland-weighted=0.0623
+GOSIF_2018337_clipped.tif: mean_sif=0.0662, cropland-weighted=0.0663
+GOSIF_2018345_clipped.tif: mean_sif=0.0542, cropland-weighted=0.0543
+GOSIF_2018353_clipped.tif: mean_sif=0.0493, cropland-weighted=0.0493
+GOSIF_2018361_clipped.tif: mean_sif=0.0346, cropland-weighted=0.0346
+GOSIF_2019153_clipped.tif: mean_sif=0.0211, cropland-weighted=0.0210
+GOSIF_2019161_clipped.tif: mean_sif=0.0299, cropland-weighted=0.0297
+GOSIF_2019169_clipped.tif: mean_sif=0.0340, cropland-weighted=0.0338
+GOSIF_2019177_clipped.tif: mean_sif=0.0529, cropland-weighted=0.0525
+GOSIF_2019185_clipped.tif: mean_sif=0.0868, cropland-weighted=0.0863
+GOSIF_2019193_clipped.tif: mean_sif=0.1043, cropland-weighted=0.1042
+GOSIF_2019201_clipped.tif: mean_sif=0.1267, cropland-weighted=0.1267
+GOSIF_2019209_clipped.tif: mean_sif=0.1578, cropland-weighted=0.1578
+GOSIF_2019217_clipped.tif: mean_sif=0.2529, cropland-weighted=0.2530
+GOSIF_2019225_clipped.tif: mean_sif=0.3122, cropland-weighted=0.3124
+GOSIF_2019233_clipped.tif: mean_sif=0.3240, cropland-weighted=0.3244
+GOSIF_2019241_clipped.tif: mean_sif=0.3319, cropland-weighted=0.3324
+GOSIF_2019249_clipped.tif: mean_sif=0.3393, cropland-weighted=0.3398
+GOSIF_2019257_clipped.tif: mean_sif=0.3393, cropland-weighted=0.3403
+GOSIF_2019265_clipped.tif: mean_sif=0.3176, cropland-weighted=0.3186
+GOSIF_2019273_clipped.tif: mean_sif=0.2963, cropland-weighted=0.2974
+GOSIF_2019281_clipped.tif: mean_sif=0.2513, cropland-weighted=0.2522
+GOSIF_2019289_clipped.tif: mean_sif=0.2373, cropland-weighted=0.2382
+GOSIF_2019297_clipped.tif: mean_sif=0.2212, cropland-weighted=0.2221
+GOSIF_2019305_clipped.tif: mean_sif=0.2116, cropland-weighted=0.2126
+GOSIF_2019313_clipped.tif: mean_sif=0.1868, cropland-weighted=0.1877
+GOSIF_2019321_clipped.tif: mean_sif=0.1518, cropland-weighted=0.1526
+GOSIF_2019329_clipped.tif: mean_sif=0.1467, cropland-weighted=0.1475
+GOSIF_2019337_clipped.tif: mean_sif=0.1333, cropland-weighted=0.1340
+GOSIF_2019345_clipped.tif: mean_sif=0.1259, cropland-weighted=0.1265
+GOSIF_2019353_clipped.tif: mean_sif=0.1162, cropland-weighted=0.1168
+GOSIF_2019361_clipped.tif: mean_sif=0.1093, cropland-weighted=0.1098
+GOSIF_2020153_clipped.tif: mean_sif=0.0451, cropland-weighted=0.0449
+GOSIF_2020161_clipped.tif: mean_sif=0.0686, cropland-weighted=0.0683
+GOSIF_2020169_clipped.tif: mean_sif=0.1002, cropland-weighted=0.0997
+GOSIF_2020177_clipped.tif: mean_sif=0.1289, cropland-weighted=0.1283
+GOSIF_2020185_clipped.tif: mean_sif=0.1595, cropland-weighted=0.1587
+GOSIF_2020193_clipped.tif: mean_sif=0.2268, cropland-weighted=0.2265
+GOSIF_2020201_clipped.tif: mean_sif=0.3276, cropland-weighted=0.3278
+GOSIF_2020209_clipped.tif: mean_sif=0.3796, cropland-weighted=0.3803
+GOSIF_2020217_clipped.tif: mean_sif=0.3949, cropland-weighted=0.3956
+GOSIF_2020225_clipped.tif: mean_sif=0.3979, cropland-weighted=0.3989
+GOSIF_2020233_clipped.tif: mean_sif=0.3989, cropland-weighted=0.3999
+GOSIF_2020241_clipped.tif: mean_sif=0.3879, cropland-weighted=0.3892
+GOSIF_2020249_clipped.tif: mean_sif=0.3648, cropland-weighted=0.3663
+GOSIF_2020257_clipped.tif: mean_sif=0.3398, cropland-weighted=0.3409
+GOSIF_2020265_clipped.tif: mean_sif=0.2681, cropland-weighted=0.2691
+GOSIF_2020273_clipped.tif: mean_sif=0.2484, cropland-weighted=0.2496
+GOSIF_2020281_clipped.tif: mean_sif=0.2401, cropland-weighted=0.2412
+GOSIF_2020289_clipped.tif: mean_sif=0.2236, cropland-weighted=0.2244
+GOSIF_2020297_clipped.tif: mean_sif=0.1953, cropland-weighted=0.1963
+GOSIF_2020305_clipped.tif: mean_sif=0.1643, cropland-weighted=0.1653
+GOSIF_2020313_clipped.tif: mean_sif=0.1545, cropland-weighted=0.1555
+GOSIF_2020321_clipped.tif: mean_sif=0.1464, cropland-weighted=0.1473
+GOSIF_2020329_clipped.tif: mean_sif=0.1278, cropland-weighted=0.1286
+GOSIF_2020337_clipped.tif: mean_sif=0.1046, cropland-weighted=0.1054
+GOSIF_2020345_clipped.tif: mean_sif=0.1109, cropland-weighted=0.1117
+GOSIF_2020353_clipped.tif: mean_sif=0.0890, cropland-weighted=0.0896
+GOSIF_2020361_clipped.tif: mean_sif=0.0952, cropland-weighted=0.0958
+GOSIF_2021153_clipped.tif: mean_sif=0.0692, cropland-weighted=0.0687
+GOSIF_2021161_clipped.tif: mean_sif=0.0930, cropland-weighted=0.0924
+GOSIF_2021169_clipped.tif: mean_sif=0.1143, cropland-weighted=0.1139
+GOSIF_2021177_clipped.tif: mean_sif=0.1457, cropland-weighted=0.1451
+GOSIF_2021185_clipped.tif: mean_sif=0.1492, cropland-weighted=0.1485
+GOSIF_2021193_clipped.tif: mean_sif=0.1855, cropland-weighted=0.1849
+GOSIF_2021201_clipped.tif: mean_sif=0.2016, cropland-weighted=0.2009
+GOSIF_2021209_clipped.tif: mean_sif=0.2509, cropland-weighted=0.2508
+GOSIF_2021217_clipped.tif: mean_sif=0.3230, cropland-weighted=0.3236
+GOSIF_2021225_clipped.tif: mean_sif=0.3361, cropland-weighted=0.3370
+GOSIF_2021233_clipped.tif: mean_sif=0.3478, cropland-weighted=0.3488
+GOSIF_2021241_clipped.tif: mean_sif=0.3441, cropland-weighted=0.3452
+GOSIF_2021249_clipped.tif: mean_sif=0.3086, cropland-weighted=0.3097
+GOSIF_2021257_clipped.tif: mean_sif=0.2918, cropland-weighted=0.2929
+GOSIF_2021265_clipped.tif: mean_sif=0.2605, cropland-weighted=0.2615
+GOSIF_2021273_clipped.tif: mean_sif=0.2375, cropland-weighted=0.2386
+GOSIF_2021281_clipped.tif: mean_sif=0.2139, cropland-weighted=0.2149
+GOSIF_2021289_clipped.tif: mean_sif=0.1901, cropland-weighted=0.1911
+GOSIF_2021297_clipped.tif: mean_sif=0.1767, cropland-weighted=0.1776
+GOSIF_2021305_clipped.tif: mean_sif=0.1522, cropland-weighted=0.1529
+GOSIF_2021313_clipped.tif: mean_sif=0.1372, cropland-weighted=0.1377
+GOSIF_2021321_clipped.tif: mean_sif=0.1502, cropland-weighted=0.1509
+GOSIF_2021329_clipped.tif: mean_sif=0.1115, cropland-weighted=0.1121
+GOSIF_2021337_clipped.tif: mean_sif=0.1154, cropland-weighted=0.1160
+GOSIF_2021345_clipped.tif: mean_sif=0.1043, cropland-weighted=0.1048
+GOSIF_2021353_clipped.tif: mean_sif=0.0912, cropland-weighted=0.0917
+GOSIF_2021361_clipped.tif: mean_sif=0.1010, cropland-weighted=0.1014
+GOSIF_2022153_clipped.tif: mean_sif=0.0316, cropland-weighted=0.0314
+GOSIF_2022161_clipped.tif: mean_sif=0.0532, cropland-weighted=0.0530
+GOSIF_2022169_clipped.tif: mean_sif=0.0758, cropland-weighted=0.0755
+GOSIF_2022177_clipped.tif: mean_sif=0.0880, cropland-weighted=0.0877
+GOSIF_2022185_clipped.tif: mean_sif=0.0993, cropland-weighted=0.0987
+GOSIF_2022193_clipped.tif: mean_sif=0.1264, cropland-weighted=0.1259
+GOSIF_2022201_clipped.tif: mean_sif=0.1777, cropland-weighted=0.1777
+GOSIF_2022209_clipped.tif: mean_sif=0.2584, cropland-weighted=0.2592
+GOSIF_2022217_clipped.tif: mean_sif=0.2949, cropland-weighted=0.2961
+GOSIF_2022225_clipped.tif: mean_sif=0.3165, cropland-weighted=0.3176
+GOSIF_2022233_clipped.tif: mean_sif=0.3383, cropland-weighted=0.3398
+GOSIF_2022241_clipped.tif: mean_sif=0.3390, cropland-weighted=0.3406
+GOSIF_2022249_clipped.tif: mean_sif=0.3352, cropland-weighted=0.3367
+GOSIF_2022257_clipped.tif: mean_sif=0.3199, cropland-weighted=0.3213
+GOSIF_2022265_clipped.tif: mean_sif=0.2919, cropland-weighted=0.2934
+GOSIF_2022273_clipped.tif: mean_sif=0.2706, cropland-weighted=0.2719
+GOSIF_2022281_clipped.tif: mean_sif=0.2457, cropland-weighted=0.2470
+GOSIF_2022289_clipped.tif: mean_sif=0.2076, cropland-weighted=0.2089
+GOSIF_2022297_clipped.tif: mean_sif=0.1787, cropland-weighted=0.1799
+GOSIF_2022305_clipped.tif: mean_sif=0.1508, cropland-weighted=0.1518
+GOSIF_2022313_clipped.tif: mean_sif=0.1291, cropland-weighted=0.1299
+GOSIF_2022321_clipped.tif: mean_sif=0.1101, cropland-weighted=0.1108
+GOSIF_2022329_clipped.tif: mean_sif=0.0955, cropland-weighted=0.0961
+GOSIF_2022337_clipped.tif: mean_sif=0.0935, cropland-weighted=0.0943
+GOSIF_2022345_clipped.tif: mean_sif=0.1204, cropland-weighted=0.1214
+GOSIF_2022353_clipped.tif: mean_sif=0.0958, cropland-weighted=0.0966
+GOSIF_2022361_clipped.tif: mean_sif=0.0999, cropland-weighted=0.1007
+GOSIF_2023153_clipped.tif: mean_sif=0.0433, cropland-weighted=0.0430
+GOSIF_2023161_clipped.tif: mean_sif=0.0445, cropland-weighted=0.0441
+GOSIF_2023169_clipped.tif: mean_sif=0.0452, cropland-weighted=0.0449
+GOSIF_2023177_clipped.tif: mean_sif=0.0672, cropland-weighted=0.0669
+GOSIF_2023185_clipped.tif: mean_sif=0.0943, cropland-weighted=0.0938
+GOSIF_2023193_clipped.tif: mean_sif=0.0987, cropland-weighted=0.0982
+GOSIF_2023201_clipped.tif: mean_sif=0.1462, cropland-weighted=0.1463
+GOSIF_2023209_clipped.tif: mean_sif=0.2222, cropland-weighted=0.2226
+GOSIF_2023217_clipped.tif: mean_sif=0.2497, cropland-weighted=0.2502
+GOSIF_2023225_clipped.tif: mean_sif=0.2802, cropland-weighted=0.2808
+GOSIF_2023233_clipped.tif: mean_sif=0.3266, cropland-weighted=0.3278
+GOSIF_2023241_clipped.tif: mean_sif=0.3338, cropland-weighted=0.3351
+GOSIF_2023249_clipped.tif: mean_sif=0.3450, cropland-weighted=0.3462
+GOSIF_2023257_clipped.tif: mean_sif=0.3501, cropland-weighted=0.3515
+GOSIF_2023265_clipped.tif: mean_sif=0.3184, cropland-weighted=0.3196
+GOSIF_2023273_clipped.tif: mean_sif=0.2622, cropland-weighted=0.2636
+GOSIF_2023281_clipped.tif: mean_sif=0.2357, cropland-weighted=0.2371
+GOSIF_2023289_clipped.tif: mean_sif=0.1887, cropland-weighted=0.1897
+GOSIF_2023297_clipped.tif: mean_sif=0.1424, cropland-weighted=0.1432
+GOSIF_2023305_clipped.tif: mean_sif=0.1280, cropland-weighted=0.1287
+GOSIF_2023313_clipped.tif: mean_sif=0.1074, cropland-weighted=0.1079
+GOSIF_2023321_clipped.tif: mean_sif=0.1043, cropland-weighted=0.1049
+GOSIF_2023329_clipped.tif: mean_sif=0.1264, cropland-weighted=0.1271
+GOSIF_2023337_clipped.tif: mean_sif=0.1204, cropland-weighted=0.1210
+GOSIF_2023345_clipped.tif: mean_sif=0.1091, cropland-weighted=0.1097
+GOSIF_2023353_clipped.tif: mean_sif=0.1016, cropland-weighted=0.1023
+GOSIF_2023361_clipped.tif: mean_sif=0.1073, cropland-weighted=0.1080
+
+Done. Time-series saved to data/processed/marathwada_sif_timeseries.csv
+
+Quick sanity check:
+      mean_sif  mean_sif_crop1214
+year                             
+2015    0.1254             0.1258
+2016    0.1717             0.1723
+2017    0.1892             0.1897
+2018    0.1429             0.1430
+2019    0.1859             0.1863
+2020    0.2181             0.2187
+2021    0.1927             0.1931
+2022    0.1831             0.1838
+2023    0.1740             0.1746
+  ok (5s)
+
+[3/49] src/analysis/rainfall_analysis.py
+Climatology (2001-2020) years loaded: 20
+
+20-year climatological mean (Jun-Dec rainfall): 826.7 mm
+20-year climatological std dev: 158.9 mm
+
+Rainfall anomaly summary for study years:
+     year  total_rainfall_mm  anomaly_mm  anomaly_pct  anomaly_zscore
+249  2015             649.00     -177.75       -21.50           -1.12
+250  2016             904.67       77.92         9.42            0.49
+251  2017             817.42       -9.33        -1.13           -0.06
+252  2018             674.90     -151.85       -18.37           -0.96
+253  2019             936.32      109.57        13.25            0.69
+254  2020            1066.51      239.76        29.00            1.51
+255  2021             969.95      143.20        17.32            0.90
+256  2022            1130.31      303.56        36.72            1.91
+257  2023             795.34      -31.41        -3.80           -0.20
+
+Plot saved to outputs/figures/rainfall_anomaly_2015_2023.png
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\rainfall_analysis.py:56: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (2s)
+
+[4/49] src/analysis/rainfall_by_district_analysis.py
+Using regional 2001-2020 mean as baseline: 826.7 mm (std: 158.9 mm)
+
+District-level rainfall anomaly (relative to regional 20-year normal):
+year        2015  2016  2017  2018  2019  2020  2021  2022  2023
+district                                                        
+Aurangabad -23.9  -9.4 -12.4 -37.3   9.2  33.8  -0.6  12.1 -16.0
+Bid        -27.2  -1.5  -7.4 -38.0   8.9  13.7   8.1  22.4 -16.8
+Hingoli     -8.0  29.5   6.3  10.2  16.3  42.9  38.6  67.4  13.6
+Jalna      -24.8  -3.3  -6.7 -26.5  10.6  29.3   4.5  27.9 -15.7
+Latur      -23.9  16.6   2.1 -10.1  13.6  27.2  24.8  42.2   7.8
+Nanded      -7.1  40.3  13.2  14.6  29.5  39.0  42.3  70.5  23.3
+Osmanabad  -36.4  -7.5   1.0 -33.9   1.6  21.1   4.8  17.5 -18.8
+Parbhani   -17.0  20.3  -0.6 -10.0  15.0  33.0  27.4  50.1   0.3
+
+Saved to data/processed/rainfall_anomaly_by_district.csv
+  ok (1s)
+
+[5/49] src/analysis/compare_sif_ndvi.py
+     year    doy  mean_sif  mean_ndvi  sif_norm  ndvi_norm
+0    2015  156.5  0.026291        NaN  0.000000        NaN
+1    2015  164.5  0.050641   0.278041  0.114131   0.026843
+2    2015  172.5  0.074908   0.304688  0.227874   0.105555
+3    2015  180.5  0.076196   0.331335  0.233911   0.184268
+4    2015  188.5  0.083032   0.351532  0.265952   0.243928
+..    ...    ...       ...        ...       ...        ...
+238  2023  332.5  0.127109   0.524834  0.272766   0.513607
+239  2023  340.5  0.120991   0.550756  0.252937   0.569829
+240  2023  348.5  0.109698   0.560134  0.216337   0.590170
+241  2023  356.5  0.102259   0.552057  0.192227   0.572651
+242  2023  364.5  0.107961        NaN  0.210705        NaN
+
+[243 rows x 6 columns]
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\compare_sif_ndvi.py:77: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (3s)
+
+[6/49] src/analysis/lag_analysis.py
+Per-threshold crossing dates and lag (days):
+
+ year  is_drought_year  threshold  sif_crossing_doy  ndvi_crossing_doy  lag_days
+ 2015             True        0.9             267.2              280.6      13.4
+ 2015             True        0.8             274.2              288.3      14.1
+ 2015             True        0.7             279.9              297.6      17.7
+ 2015             True        0.6             285.3              311.2      25.8
+ 2015             True        0.5             293.3              330.7      37.5
+ 2016            False        0.9             263.2              284.8      21.6
+ 2016            False        0.8             269.9              295.3      25.4
+ 2016            False        0.7             276.3              309.6      33.3
+ 2016            False        0.6             287.0              343.7      56.7
+ 2016            False        0.5             295.5                NaN       NaN
+ 2017            False        0.9             257.0              269.3      12.3
+ 2017            False        0.8             263.5              279.9      16.4
+ 2017            False        0.7             271.2              304.6      33.4
+ 2017            False        0.6             287.4              320.5      33.1
+ 2017            False        0.5             294.4              341.6      47.2
+ 2018             True        0.9             255.0              261.4       6.4
+ 2018             True        0.8             261.0              268.2       7.2
+ 2018             True        0.7             266.2              273.7       7.6
+ 2018             True        0.6             271.5              279.8       8.3
+ 2018             True        0.5             277.0              287.4      10.4
+ 2019            False        0.9             272.4              271.0      -1.3
+ 2019            False        0.8             280.2              302.4      22.2
+ 2019            False        0.7             288.9              326.3      37.4
+ 2019            False        0.6             308.5              351.8      43.3
+ 2019            False        0.5             318.1                NaN       NaN
+ 2020            False        0.9             253.1              264.5      11.4
+ 2020            False        0.8             261.8              273.3      11.5
+ 2020            False        0.7             265.8              298.4      32.6
+ 2020            False        0.6             273.1              314.7      41.5
+ 2020            False        0.5             293.1              331.8      38.7
+ 2021            False        0.9             250.0              254.2       4.2
+ 2021            False        0.8             260.5              264.1       3.6
+ 2021            False        0.7             267.7              291.3      23.7
+ 2021            False        0.6             277.1              306.5      29.4
+ 2021            False        0.5             286.6              327.1      40.6
+ 2022            False        0.9             263.8              270.4       6.5
+ 2022            False        0.8             274.0              279.0       5.1
+ 2022            False        0.7             284.2              293.4       9.2
+ 2022            False        0.6             290.8              306.9      16.1
+ 2022            False        0.5             298.8              320.9      22.1
+ 2023            False        0.9             268.2              271.4       3.2
+ 2023            False        0.8             272.8              280.5       7.7
+ 2023            False        0.7             277.9              288.2      10.3
+ 2023            False        0.6             286.0              296.9      10.9
+ 2023            False        0.5             291.2              314.4      23.2
+
+Mean lag per year (across all thresholds that resolved):
+year
+2015    21.7
+2016    34.2
+2017    28.5
+2018     8.0
+2019    25.4
+2020    27.1
+2021    20.3
+2022    11.8
+2023    11.1
+Name: lag_days, dtype: float64
+
+Mean lag: drought years vs normal years (mean of each year's own mean):
+is_drought_year
+False    22.6
+True     14.8
+Name: lag_days, dtype: float64
+
+Plot saved to outputs/figures/sif_ndvi_lag_by_threshold.png
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\lag_analysis.py:86: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (2s)
+
+[7/49] src/analysis/cross_correlation_lag.py
+ year  is_drought_year  decline_window_days  max_lag_tested  cross_corr_lag_days  max_correlation  corr_at_zero_lag  peak_at_upper_boundary  peak_at_lower_boundary
+ 2015             True                  121              30                   10           0.9975            0.9822                   False                   False
+ 2016            False                  129              32                   12           0.9964            0.9753                   False                   False
+ 2017            False                  113              28                   14           0.9902            0.9797                   False                   False
+ 2018             True                  121              30                    4           0.9977            0.9932                   False                   False
+ 2019            False                   97              24                    0           0.9788            0.9788                   False                   False
+ 2020            False                  121              30                    9           0.9942            0.9837                   False                   False
+ 2021            False                  121              30                   20           0.9929            0.9904                   False                   False
+ 2022            False                  113              28                   -1           0.9971            0.9971                   False                   False
+ 2023            False                   97              24                   -3           0.9785            0.9767                   False                   False
+
+Plot saved to outputs/figures/cross_correlation_lag.png
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\cross_correlation_lag.py:98: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (3s)
+
+[8/49] src/analysis/bootstrap_lag_uncertainty.py
+ year  is_drought_year  n_observations  point_estimate_lag_days  point_estimate_r  bootstrap_n_valid  ci_2.5pct_days  ci_97.5pct_days  bootstrap_median_days  bootstrap_std_days  pct_replicates_lag_gt_0  pct_replicates_lag_geq_0  pct_replicates_lag_lt_0
+ 2015             True              16                       10            0.9975               2000            6.00             13.0                   10.0            1.788480                    100.0                     100.0                      0.0
+ 2016            False              17                       12            0.9964               2000            8.00             15.0                   12.0            1.749079                     99.9                     100.0                      0.1
+ 2017            False              15                       14            0.9902               1999          -20.05             28.0                   14.0            9.802702                     96.6                      96.7                      3.3
+ 2018             True              16                        4            0.9977               2000            0.00              6.0                    4.0            1.432829                     97.1                      99.8                      0.2
+ 2019            False              13                        0            0.9788               1990          -20.00             24.0                    0.0           11.530713                     42.3                      69.9                     30.1
+ 2020            False              16                        9            0.9942               2000          -28.00             28.0                    8.0           13.114054                     84.0                      87.4                     12.6
+ 2021            False              16                       20            0.9929               2000           -4.00             30.0                   18.0           11.062983                     86.5                      92.8                      7.2
+ 2022            False              15                       -1            0.9971               2000           -5.00              3.0                   -1.0            2.194183                     26.8                      40.3                     59.7
+ 2023            False              13                       -3            0.9785               1988          -10.00              0.0                   -4.0            2.634426                      0.8                       4.1                     95.9
+
+Pairwise CI overlap check (does the gap between years survive sampling uncertainty?):
+  2015 [6.0, 13.0] vs 2016 [8.0, 15.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2017 [-20.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2018 [0.0, 6.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2019 [-20.0, 24.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2020 [-28.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2015 [6.0, 13.0] vs 2022 [-5.0, 3.0] -> no overlap (distinguishable)
+  2015 [6.0, 13.0] vs 2023 [-10.0, 0.0] -> no overlap (distinguishable)
+  2016 [8.0, 15.0] vs 2017 [-20.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2016 [8.0, 15.0] vs 2018 [0.0, 6.0] -> no overlap (distinguishable)
+  2016 [8.0, 15.0] vs 2019 [-20.0, 24.0] -> OVERLAP (not statistically distinguishable)
+  2016 [8.0, 15.0] vs 2020 [-28.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2016 [8.0, 15.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2016 [8.0, 15.0] vs 2022 [-5.0, 3.0] -> no overlap (distinguishable)
+  2016 [8.0, 15.0] vs 2023 [-10.0, 0.0] -> no overlap (distinguishable)
+  2017 [-20.0, 28.0] vs 2018 [0.0, 6.0] -> OVERLAP (not statistically distinguishable)
+  2017 [-20.0, 28.0] vs 2019 [-20.0, 24.0] -> OVERLAP (not statistically distinguishable)
+  2017 [-20.0, 28.0] vs 2020 [-28.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2017 [-20.0, 28.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2017 [-20.0, 28.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
+  2017 [-20.0, 28.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  2018 [0.0, 6.0] vs 2019 [-20.0, 24.0] -> OVERLAP (not statistically distinguishable)
+  2018 [0.0, 6.0] vs 2020 [-28.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2018 [0.0, 6.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2018 [0.0, 6.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
+  2018 [0.0, 6.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  2019 [-20.0, 24.0] vs 2020 [-28.0, 28.0] -> OVERLAP (not statistically distinguishable)
+  2019 [-20.0, 24.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2019 [-20.0, 24.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
+  2019 [-20.0, 24.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  2020 [-28.0, 28.0] vs 2021 [-4.0, 30.0] -> OVERLAP (not statistically distinguishable)
+  2020 [-28.0, 28.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
+  2020 [-28.0, 28.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  2021 [-4.0, 30.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
+  2021 [-4.0, 30.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  2022 [-5.0, 3.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
+  ok (126s)
+
+[9/49] src/analysis/final_summary.py
+Final combined summary — rainfall anomaly vs SIF-NDVI lag:
+ year  total_rainfall_mm  anomaly_pct  anomaly_zscore  mean_lag_days
+ 2015             649.00       -21.50           -1.12          21.70
+ 2016             904.67         9.42            0.49          34.25
+ 2017             817.42        -1.13           -0.06          28.48
+ 2018             674.90       -18.37           -0.96           7.98
+ 2019             936.32        13.25            0.69          25.40
+ 2020            1066.51        29.00            1.51          27.14
+ 2021             969.95        17.32            0.90          20.30
+ 2022            1130.31        36.72            1.91          11.80
+ 2023             795.34        -3.80           -0.20          11.06
+  ok (2s)
+
+[10/49] src/analysis/h3_continuous_severity.py
+Rainfall anomaly (%) vs. mean SIF-to-NDVI lag (days), n = 9 years:
+
+ year  anomaly_pct  anomaly_zscore  is_drought_year  lag_days
+ 2015       -21.50           -1.12             True     21.70
+ 2016         9.42            0.49            False     34.25
+ 2017        -1.13           -0.06            False     28.48
+ 2018       -18.37           -0.96             True      7.98
+ 2019        13.25            0.69            False     25.40
+ 2020        29.00            1.51            False     27.14
+ 2021        17.32            0.90            False     20.30
+ 2022        36.72            1.91            False     11.80
+ 2023        -3.80           -0.20            False     11.06
+
+Pearson r  = 0.1901  (p = 0.6241)
+Spearman rho = 0.2000  (p = 0.6059)
+OLS slope  = 0.0858 days per percentage-point of anomaly  (p = 0.6241, se = 0.1674)
+
+H3 predicts anomaly_pct and lag_days move in OPPOSITE directions (r < 0).
+Observed direction: r is positive, opposite of H3.
+
+Saved to data/processed/h3_continuous_severity_correlation.csv
+Plot saved to outputs/figures/h3_continuous_severity_scatter.png
+  ok (7s)
+
+[11/49] src/analysis/zonal_stats_sif.py
+Loaded 8 districts: ['Latur', 'Nanded', 'Osmanabad', 'Aurangabad', 'Bid', 'Hingoli', 'Jalna', 'Parbhani']
+2015 | Latur: mean SIF = 0.1692 (valid frac: 55.5%)
+2015 | Nanded: mean SIF = 0.2332 (valid frac: 36.0%)
+2015 | Osmanabad: mean SIF = 0.1349 (valid frac: 37.4%)
+2015 | Aurangabad: mean SIF = 0.2045 (valid frac: 47.7%)
+2015 | Bid: mean SIF = 0.1646 (valid frac: 52.5%)
+2015 | Hingoli: mean SIF = 0.2159 (valid frac: 47.4%)
+2015 | Jalna: mean SIF = 0.1968 (valid frac: 47.5%)
+2015 | Parbhani: mean SIF = 0.1895 (valid frac: 48.0%)
+2016 | Latur: mean SIF = 0.1936 (valid frac: 55.5%)
+2016 | Nanded: mean SIF = 0.2691 (valid frac: 36.0%)
+2016 | Osmanabad: mean SIF = 0.1800 (valid frac: 37.4%)
+2016 | Aurangabad: mean SIF = 0.2941 (valid frac: 47.7%)
+2016 | Bid: mean SIF = 0.2184 (valid frac: 52.5%)
+2016 | Hingoli: mean SIF = 0.2390 (valid frac: 47.4%)
+2016 | Jalna: mean SIF = 0.2807 (valid frac: 47.5%)
+2016 | Parbhani: mean SIF = 0.2572 (valid frac: 48.0%)
+2017 | Latur: mean SIF = 0.2272 (valid frac: 55.5%)
+2017 | Nanded: mean SIF = 0.2615 (valid frac: 36.0%)
+2017 | Osmanabad: mean SIF = 0.1902 (valid frac: 37.4%)
+2017 | Aurangabad: mean SIF = 0.2734 (valid frac: 47.7%)
+2017 | Bid: mean SIF = 0.2210 (valid frac: 52.5%)
+2017 | Hingoli: mean SIF = 0.2253 (valid frac: 47.4%)
+2017 | Jalna: mean SIF = 0.2482 (valid frac: 47.5%)
+2017 | Parbhani: mean SIF = 0.2455 (valid frac: 48.0%)
+2018 | Latur: mean SIF = 0.1729 (valid frac: 55.5%)
+2018 | Nanded: mean SIF = 0.2370 (valid frac: 36.0%)
+2018 | Osmanabad: mean SIF = 0.1512 (valid frac: 37.4%)
+2018 | Aurangabad: mean SIF = 0.1808 (valid frac: 47.7%)
+2018 | Bid: mean SIF = 0.1427 (valid frac: 52.5%)
+2018 | Hingoli: mean SIF = 0.1881 (valid frac: 47.4%)
+2018 | Jalna: mean SIF = 0.1787 (valid frac: 47.5%)
+2018 | Parbhani: mean SIF = 0.2116 (valid frac: 48.0%)
+2019 | Latur: mean SIF = 0.2776 (valid frac: 55.5%)
+2019 | Nanded: mean SIF = 0.3267 (valid frac: 36.0%)
+2019 | Osmanabad: mean SIF = 0.2398 (valid frac: 37.4%)
+2019 | Aurangabad: mean SIF = 0.3254 (valid frac: 47.6%)
+2019 | Bid: mean SIF = 0.2521 (valid frac: 52.4%)
+2019 | Hingoli: mean SIF = 0.2932 (valid frac: 47.6%)
+2019 | Jalna: mean SIF = 0.3339 (valid frac: 47.5%)
+2019 | Parbhani: mean SIF = 0.3208 (valid frac: 48.0%)
+2020 | Latur: mean SIF = 0.2069 (valid frac: 55.5%)
+2020 | Nanded: mean SIF = 0.2651 (valid frac: 36.0%)
+2020 | Osmanabad: mean SIF = 0.1943 (valid frac: 37.4%)
+2020 | Aurangabad: mean SIF = 0.2802 (valid frac: 47.6%)
+2020 | Bid: mean SIF = 0.2458 (valid frac: 52.4%)
+2020 | Hingoli: mean SIF = 0.2449 (valid frac: 47.6%)
+2020 | Jalna: mean SIF = 0.2732 (valid frac: 47.5%)
+2020 | Parbhani: mean SIF = 0.2562 (valid frac: 48.0%)
+2021 | Latur: mean SIF = 0.2053 (valid frac: 55.5%)
+2021 | Nanded: mean SIF = 0.2608 (valid frac: 36.0%)
+2021 | Osmanabad: mean SIF = 0.1775 (valid frac: 37.4%)
+2021 | Aurangabad: mean SIF = 0.2765 (valid frac: 47.6%)
+2021 | Bid: mean SIF = 0.2266 (valid frac: 52.4%)
+2021 | Hingoli: mean SIF = 0.2337 (valid frac: 47.6%)
+2021 | Jalna: mean SIF = 0.2522 (valid frac: 47.5%)
+2021 | Parbhani: mean SIF = 0.2467 (valid frac: 48.0%)
+2022 | Latur: mean SIF = 0.2583 (valid frac: 55.5%)
+2022 | Nanded: mean SIF = 0.2821 (valid frac: 36.0%)
+2022 | Osmanabad: mean SIF = 0.2276 (valid frac: 37.4%)
+2022 | Aurangabad: mean SIF = 0.2948 (valid frac: 47.6%)
+2022 | Bid: mean SIF = 0.2560 (valid frac: 52.4%)
+2022 | Hingoli: mean SIF = 0.2569 (valid frac: 47.6%)
+2022 | Jalna: mean SIF = 0.2904 (valid frac: 47.5%)
+2022 | Parbhani: mean SIF = 0.2884 (valid frac: 48.0%)
+2023 | Latur: mean SIF = 0.2437 (valid frac: 55.5%)
+2023 | Nanded: mean SIF = 0.2909 (valid frac: 36.0%)
+2023 | Osmanabad: mean SIF = 0.2262 (valid frac: 37.4%)
+2023 | Aurangabad: mean SIF = 0.2792 (valid frac: 47.6%)
+2023 | Bid: mean SIF = 0.2269 (valid frac: 52.4%)
+2023 | Hingoli: mean SIF = 0.2458 (valid frac: 47.6%)
+2023 | Jalna: mean SIF = 0.2896 (valid frac: 47.5%)
+2023 | Parbhani: mean SIF = 0.2913 (valid frac: 48.0%)
+
+Saved district-level SIF stats to data/processed/sif_by_district.csv
+
+Sanity check (mean SIF by district and year):
+year          2015    2016    2017    2018  ...    2020    2021    2022    2023
+district                                    ...                                
+Aurangabad  0.2045  0.2941  0.2734  0.1808  ...  0.2802  0.2765  0.2948  0.2792
+Bid         0.1646  0.2184  0.2210  0.1427  ...  0.2458  0.2266  0.2560  0.2269
+Hingoli     0.2159  0.2390  0.2253  0.1881  ...  0.2449  0.2337  0.2569  0.2458
+Jalna       0.1968  0.2807  0.2482  0.1787  ...  0.2732  0.2522  0.2904  0.2896
+Latur       0.1692  0.1936  0.2272  0.1729  ...  0.2069  0.2053  0.2583  0.2437
+Nanded      0.2332  0.2691  0.2615  0.2370  ...  0.2651  0.2608  0.2821  0.2909
+Osmanabad   0.1349  0.1800  0.1902  0.1512  ...  0.1943  0.1775  0.2276  0.2262
+Parbhani    0.1895  0.2572  0.2455  0.2116  ...  0.2562  0.2467  0.2884  0.2913
+
+[8 rows x 9 columns]
+  ok (3s)
+
+[12/49] src/analysis/sif_rainfall_correlation.py
+Merged 72 district-year observations (expected: 8 districts x 9 years = 72)
+
+  district  year  mean_sif  anomaly_pct  anomaly_zscore
+Aurangabad  2015  0.204499   -23.911606       -1.243994
+       Bid  2015  0.164626   -27.201402       -1.415144
+   Hingoli  2015  0.215861    -7.957040       -0.413962
+     Jalna  2015  0.196762   -24.793437       -1.289870
+     Latur  2015  0.169230   -23.904346       -1.243616
+    Nanded  2015  0.233242    -7.098730       -0.369309
+ Osmanabad  2015  0.134871   -36.416918       -1.894578
+  Parbhani  2015  0.189479   -16.991754       -0.883990
+Aurangabad  2016  0.294075    -9.374721       -0.487717
+       Bid  2016  0.218361    -1.499633       -0.078018
+   Hingoli  2016  0.239041    29.469984        1.533166
+     Jalna  2016  0.280669    -3.307904       -0.172093
+     Latur  2016  0.193596    16.615572        0.864420
+    Nanded  2016  0.269083    40.314220        2.097334
+ Osmanabad  2016  0.180026    -7.483419       -0.389322
+  Parbhani  2016  0.257158    20.295867        1.055886
+Aurangabad  2017  0.273442   -12.422821       -0.646293
+       Bid  2017  0.221008    -7.387888       -0.384352
+   Hingoli  2017  0.225331     6.259623        0.325655
+     Jalna  2017  0.248175    -6.654175       -0.346181
+     Latur  2017  0.227205     2.096289        0.109059
+    Nanded  2017  0.261484    13.212482        0.687375
+ Osmanabad  2017  0.190241     0.983838        0.051184
+  Parbhani  2017  0.245465    -0.575533       -0.029942
+Aurangabad  2018  0.180820   -37.298035       -1.940418
+       Bid  2018  0.142670   -38.009910       -1.977453
+   Hingoli  2018  0.188146    10.185680        0.529907
+     Jalna  2018  0.178731   -26.478806       -1.377551
+     Latur  2018  0.172870   -10.092374       -0.525052
+    Nanded  2018  0.236983    14.604375        0.759788
+ Osmanabad  2018  0.151220   -33.859518       -1.761530
+  Parbhani  2018  0.211560    -9.991570       -0.519808
+Aurangabad  2019  0.325384     9.193316        0.478279
+       Bid  2019  0.252110     8.913407        0.463717
+   Hingoli  2019  0.293150    16.285613        0.847254
+     Jalna  2019  0.333883    10.578067        0.550321
+     Latur  2019  0.277554    13.567118        0.705825
+    Nanded  2019  0.326718    29.485724        1.533985
+ Osmanabad  2019  0.239833     1.593103        0.082881
+  Parbhani  2019  0.320848    14.966560        0.778630
+Aurangabad  2020  0.280197    33.805437        1.758717
+       Bid  2020  0.245810    13.671828        0.711272
+   Hingoli  2020  0.244867    42.881297        2.230886
+     Jalna  2020  0.273221    29.261927        1.522342
+     Latur  2020  0.206941    27.162356        1.413113
+    Nanded  2020  0.265114    39.016145        2.029802
+ Osmanabad  2020  0.194273    21.130045        1.099284
+  Parbhani  2020  0.256242    32.965697        1.715030
+Aurangabad  2021  0.276544    -0.630482       -0.032801
+       Bid  2021  0.226611     8.130367        0.422980
+   Hingoli  2021  0.233741    38.554336        2.005777
+     Jalna  2021  0.252189     4.482532        0.233202
+     Latur  2021  0.205330    24.779299        1.289135
+    Nanded  2021  0.260770    42.255866        2.198348
+ Osmanabad  2021  0.177536     4.772087        0.248266
+  Parbhani  2021  0.246745    27.442250        1.427674
+Aurangabad  2022  0.294835    12.099188        0.629456
+       Bid  2022  0.256018    22.419362        1.166360
+   Hingoli  2022  0.256943    67.438121        3.508446
+     Jalna  2022  0.290371    27.867969        1.449822
+     Latur  2022  0.258263    42.237175        2.197375
+    Nanded  2022  0.282099    70.503810        3.667938
+ Osmanabad  2022  0.227620    17.495567        0.910201
+  Parbhani  2022  0.288435    50.089349        2.605882
+Aurangabad  2023  0.279222   -16.031686       -0.834043
+       Bid  2023  0.226909   -16.839714       -0.876081
+   Hingoli  2023  0.245776    13.611377        0.708127
+     Jalna  2023  0.289566   -15.660267       -0.814720
+     Latur  2023  0.243740     7.779561        0.404729
+    Nanded  2023  0.290885    23.333073        1.213896
+ Osmanabad  2023  0.226154   -18.819863       -0.979097
+  Parbhani  2023  0.291268     0.295009        0.015348
+
+Pearson  (rainfall anomaly % vs mean SIF): r    = 0.529, p = 0.0000
+Spearman (rainfall anomaly % vs mean SIF): rho  = 0.505, p = 0.0000
+
+Saved merged district-year dataset to data/processed/sif_rainfall_district_merged.csv
+  ok (3s)
+
+[13/49] src/analysis/district_climatology_anomaly.py
+======================================================================
+Per-district climatology mean/std vs. the one pooled region-wide baseline
+======================================================================
+  district  climatology_mean_mm  climatology_std_mm
+Aurangabad           725.054857          167.254157
+       Bid           744.726622          154.113714
+   Hingoli           960.501402          185.058355
+     Jalna           781.219380          158.245679
+     Latur           857.649902          174.429486
+    Nanded          1008.991367          179.771547
+ Osmanabad           704.898320          166.757968
+  Parbhani           899.109305          172.890694
+
+Pooled region-wide baseline used everywhere else in this study: mean=826.7 mm, std=158.9 mm
+Each district's own baseline differs from the pooled one by up to 182 mm in its mean alone (Nanded and Hingoli sit well above the pooled mean, Osmanabad and Aurangabad well below it) -- so a district that's always wetter or drier than the regional average gets its rainfall compared against a baseline that isn't really its own normal.
+
+======================================================================
+DISTRICT-YEAR COMPARISON: region-wide baseline vs. district's own baseline
+======================================================================
+  district  year  rainfall_mm  zscore_region_baseline  zscore_district_baseline  classification_changes
+Aurangabad  2015   629.060740               -1.243994                 -0.573942                   False
+       Bid  2015   601.862354               -1.415144                 -0.927006                   False
+   Hingoli  2015   760.965107               -0.413962                 -1.078234                    True
+     Jalna  2015   621.770206               -1.289870                 -1.007605                   False
+     Latur  2015   629.120762               -1.243616                 -1.310152                   False
+    Nanded  2015   768.061184               -0.369309                 -1.340202                    True
+ Osmanabad  2015   525.673081               -1.894578                 -1.074763                   False
+  Parbhani  2015   686.270613               -0.883990                 -1.231059                   False
+Aurangabad  2016   749.244425               -0.487717                  0.144628                   False
+       Bid  2016   814.351711               -0.078018                  0.451777                   False
+   Hingoli  2016  1070.393001                1.533166                  0.593821                   False
+     Jalna  2016   799.401837               -0.172093                  0.114900                   False
+     Latur  2016   964.119153                0.864420                  0.610386                   False
+    Nanded  2016  1160.047711                2.097334                  0.840268                   False
+ Osmanabad  2016   764.880768               -0.389322                  0.359698                   False
+  Parbhani  2016   994.545994                1.055886                  0.552006                   False
+Aurangabad  2017   724.044262               -0.646293                 -0.006042                    True
+       Bid  2017   765.670568               -0.384352                  0.135899                   False
+   Hingoli  2017   878.501357                0.325655                 -0.443104                   False
+     Jalna  2017   771.736541               -0.346181                 -0.059925                   False
+     Latur  2017   844.080993                0.109059                 -0.077790                   False
+    Nanded  2017   935.984115                0.687375                 -0.406111                   False
+ Osmanabad  2017   834.883807                0.051184                  0.779486                   False
+  Parbhani  2017   821.991708               -0.029942                 -0.446048                   False
+Aurangabad  2018   518.388451               -1.940418                 -1.235643                   False
+       Bid  2018   512.503025               -1.977453                 -1.506833                   False
+   Hingoli  2018   910.960027                0.529907                 -0.267707                   False
+     Jalna  2018   607.836420               -1.377551                 -1.095657                   False
+     Latur  2018   743.311231               -0.525052                 -0.655501                   False
+    Nanded  2018   947.491584                0.759788                 -0.342100                   False
+ Osmanabad  2018   546.816387               -1.761530                 -0.947972                   False
+  Parbhani  2018   744.144632               -0.519808                 -0.896316                   False
+Aurangabad  2019   902.755658                0.478279                  1.062460                   False
+       Bid  2019   900.441515                0.463717                  1.010390                   False
+   Hingoli  2019   961.391218                0.847254                  0.004808                   False
+     Jalna  2019   914.204091                0.550321                  0.840369                   False
+     Latur  2019   938.916069                0.705825                  0.465897                   False
+    Nanded  2019  1070.523129                1.533985                  0.342278                   False
+ Osmanabad  2019   839.920909                0.082881                  0.809692                   False
+  Parbhani  2019   950.485947                0.778630                  0.297163                   False
+Aurangabad  2020  1106.236356                1.758717                  2.279055                   False
+       Bid  2020   939.781757                0.711272                  1.265657                   False
+   Hingoli  2020  1181.271022                2.230886                  1.192973                   False
+     Jalna  2020  1068.672886                1.522342                  1.816501                   False
+     Latur  2020  1051.314686                1.413113                  1.110275                   False
+    Nanded  2020  1149.315880                2.029802                  0.780571                   False
+ Osmanabad  2020  1001.442560                1.099284                  1.778291                   False
+  Parbhani  2020  1099.293806                1.715030                  1.157867                   False
+Aurangabad  2021   821.537417               -0.032801                  0.576862                   False
+       Bid  2021   893.967728                0.422980                  0.968383                   False
+   Hingoli  2021  1145.497870                2.005777                  0.999666                   False
+     Jalna  2021   863.809260                0.233202                  0.521909                   False
+     Latur  2021  1031.612762                1.289135                  0.997325                   False
+    Nanded  2021  1176.100271                2.198348                  0.929563                   False
+ Osmanabad  2021   866.203151                0.248266                  0.967299                   False
+  Parbhani  2021  1053.628707                1.427674                  0.893740                   False
+Aurangabad  2022   926.779952                0.629456                  1.206099                   False
+       Bid  2022  1012.101989                1.166360                  1.734923                   False
+   Hingoli  2022  1384.294546                3.508446                  2.290051                   False
+     Jalna  2022  1057.148341                1.449822                  1.743675                   False
+     Latur  2022  1175.945743                2.197375                  1.824782                   False
+    Nanded  2022  1409.640121                3.667938                  2.228655                   False
+ Osmanabad  2022   971.394516                0.910201                  1.598102                   False
+  Parbhani  2022  1240.863580                2.605882                  1.976707                   False
+Aurangabad  2023   694.207977               -0.834043                 -0.184431                    True
+       Bid  2023   687.527602               -0.876081                 -0.371148                    True
+   Hingoli  2023   939.281977                0.708127                 -0.114663                   False
+     Jalna  2023   697.278683               -0.814720                 -0.530445                   False
+     Latur  2023   891.067441                0.404729                  0.191582                   False
+    Nanded  2023  1019.656094                1.213896                  0.059324                   False
+ Osmanabad  2023   671.156727               -0.979097                 -0.202339                    True
+  Parbhani  2023   829.188914                0.015348                 -0.404420                   False
+
+6 of 72 district-year drought/normal classifications change depending on which baseline is used (region-wide vs. that district's own).
+Changed cases:
+  district  year  rainfall_mm  zscore_region_baseline  zscore_district_baseline  classification_changes
+   Hingoli  2015   760.965107               -0.413962                 -1.078234                    True
+    Nanded  2015   768.061184               -0.369309                 -1.340202                    True
+Aurangabad  2017   724.044262               -0.646293                 -0.006042                    True
+Aurangabad  2023   694.207977               -0.834043                 -0.184431                    True
+       Bid  2023   687.527602               -0.876081                 -0.371148                    True
+ Osmanabad  2023   671.156727               -0.979097                 -0.202339                    True
+
+Correlation between the two z-score series: r = 0.830
+A high correlation here means the district-baseline correction mostly re-scales rather than
+reorders which district-years look driest -- but any classification flips listed above are the
+concrete cases where the choice of baseline, not just the rainfall number itself, changes the
+conclusion, and are reported here rather than left as an unquantified caveat.
+
+Saved data/processed/district_climatology_anomaly_comparison.csv
+  ok (1s)
+
+[14/49] src/analysis/spatial_autocorrelation.py
+Spatial weights: 8 districts, mean neighbors per district = 3.25
+Islands (no neighbors): []
+
+ year             variable  morans_i  expected_i_under_null  p_value_permutation  z_score                    interpretation
+ 2015             mean_sif    0.3138                -0.1429               0.0228    2.214   significant positive clustering
+ 2015 rainfall_anomaly_pct    0.4565                -0.1429               0.0023    2.861   significant positive clustering
+ 2016             mean_sif    0.2773                -0.1429               0.0496    1.897   significant positive clustering
+ 2016 rainfall_anomaly_pct    0.5296                -0.1429               0.0013    3.023   significant positive clustering
+ 2017             mean_sif    0.0824                -0.1429               0.1571    1.096 no significant spatial clustering
+ 2017 rainfall_anomaly_pct    0.4811                -0.1429               0.0005    2.973   significant positive clustering
+ 2018             mean_sif    0.2554                -0.1429               0.0407    1.937   significant positive clustering
+ 2018 rainfall_anomaly_pct    0.5501                -0.1429               0.0003    3.104   significant positive clustering
+ 2019             mean_sif    0.1960                -0.1429               0.0864    1.541 no significant spatial clustering
+ 2019 rainfall_anomaly_pct    0.2587                -0.1429               0.0062    2.290   significant positive clustering
+ 2020             mean_sif    0.2894                -0.1429               0.0418    2.020   significant positive clustering
+ 2020 rainfall_anomaly_pct    0.3204                -0.1429               0.0205    2.247   significant positive clustering
+ 2021             mean_sif    0.2249                -0.1429               0.0552    1.802 no significant spatial clustering
+ 2021 rainfall_anomaly_pct    0.5597                -0.1429               0.0007    3.138   significant positive clustering
+ 2022             mean_sif    0.1650                -0.1429               0.0951    1.507 no significant spatial clustering
+ 2022 rainfall_anomaly_pct    0.5468                -0.1429               0.0011    3.130   significant positive clustering
+ 2023             mean_sif    0.0538                -0.1429               0.2047    0.854 no significant spatial clustering
+ 2023 rainfall_anomaly_pct    0.4845                -0.1429               0.0040    2.816   significant positive clustering
+
+13 of 18 year x variable combinations show significant (p<0.05) positive spatial clustering. This confirms, quantitatively, that district-year observations within a year are not spatially independent — consistent with the paper's existing caveat that the effective sample size behind the district-level correlation is closer to the number of years (n=9) than the number of district-year rows (n=72).
+  ok (15s)
+
+[15/49] src/analysis/sensitivity_checks.py
+======================================================================
+CHECK 1: Drought-threshold (z-score cutoff) sensitivity
+======================================================================
+z <  -0.3: drought years = [2015, 2018] (n=2), drought mean lag = 14.8d, normal mean lag = 22.6d -- drought < normal (H3 still not supported)
+z <  -0.4: drought years = [2015, 2018] (n=2), drought mean lag = 14.8d, normal mean lag = 22.6d -- drought < normal (H3 still not supported)
+z <  -0.5: drought years = [2015, 2018] (n=2), drought mean lag = 14.8d, normal mean lag = 22.6d -- drought < normal (H3 still not supported)
+z <  -0.6: drought years = [2015, 2018] (n=2), drought mean lag = 14.8d, normal mean lag = 22.6d -- drought < normal (H3 still not supported)
+z < -0.75: drought years = [2015, 2018] (n=2), drought mean lag = 14.8d, normal mean lag = 22.6d -- drought < normal (H3 still not supported)
+z <  -1.0: drought years = [2015] (n=1), drought mean lag = 21.7d, normal mean lag = 20.8d -- drought > normal (H3 direction FLIPS)
+
+At this study's z < -0.5 threshold and every less strict threshold tested (down to z < -0.3),
+the H3 conclusion is stable. At a stricter z < -1.0 cutoff, only 2015 still qualifies as a
+drought year (n=1) and the direction reverses -- expected instability given n=1, not evidence
+against the main z < -0.5 result, but disclosed here rather than left untested.
+
+======================================================================
+CHECK 2: Cluster-robust significance of the SIF-rainfall correlation
+======================================================================
+plain_ols_n72                   : coef=0.001003  se=0.000193  p=0.000002
+cluster_by_year_n9              : coef=0.001003  se=0.000311  p=0.001268
+cluster_by_district_n8          : coef=0.001003  se=0.000212  p=0.000002
+cluster_two_way_year_district   : coef=0.001003  se=0.000333  p=0.002609
+
+Even under the most conservative correction tested (two-way clustering by year AND
+district, 9 year-clusters and 8 district-clusters rather than n=72 independent points),
+the correlation remains significant at p<0.01. This directly quantifies -- rather than only
+caveats -- the Moran's I finding in Section 4.8, and shows the correlation survives it.
+Caveat: with only 8-9 clusters per dimension, cluster-robust SEs carry known small-sample
+downward bias (the usual guidance wants 20-50+ clusters for full asymptotic validity), so
+this should be read as a stronger check than the naive p-value, not a fully solved one.
+
+======================================================================
+CHECK 3: Temporal-matching sensitivity (actual observation dates vs 16-day window matching)
+======================================================================
+Year         obs-date   window-match    diff
+2015             21.7           24.2     2.6
+2016             34.2           31.6    -2.7
+2017             28.5           29.5     1.0
+2018              8.0            6.9    -1.1
+2019             25.4           25.1    -0.3
+2020             27.1           28.4     1.3
+2021             20.3           20.8     0.5
+2022             11.8           12.9     1.2
+2023             11.1           12.1     1.0
+
+drought mean: obs-date=14.8d, window-match=15.6d
+normal mean:  obs-date=22.6d, window-match=22.9d
+
+Positive diff = the older window-matching gives a larger lag than the main (actual
+observation date) pipeline for that year.
+
+Saved to data/processed/sensitivity_checks_summary.csv
+  ok (7s)
+
+[16/49] src/analysis/cropmask_obsdate_sensitivity.py
+Cropland-weighted SIF saved to data/processed/marathwada_sif_timeseries_cropland.csv
+Mean cropland fraction (12+14) over valid SIF pixels, by year:
+year
+2015    0.963
+2016    0.968
+2017    0.968
+2018    0.963
+2019    0.971
+2020    0.969
+2021    0.965
+2022    0.965
+2023    0.964
+
+NDVI actual observation day minus composite start day (days):
+count    117.00
+mean       6.83
+std        2.88
+min        0.77
+25%        4.83
+50%        6.65
+75%        8.55
+max       13.66
+Sanity check vs main NDVI file: 117 matched composites, max |NDVI difference| = 0.000000
+
+Mean threshold-crossing lag (days) by variant:
+variant  V0_all_window  V1_crop1214_window  V2_all_obsdate  V3_crop1214_obsdate  V4_crop12_obsdate
+year                                                                                              
+2015              24.3                24.2            21.8                 21.7               21.7
+2016              31.8                31.6            34.4                 34.2               34.2
+2017              29.6                29.5            28.5                 28.5               28.4
+2018               7.0                 6.9             8.1                  8.0                8.0
+2019              25.2                25.1            25.6                 25.4               25.4
+2020              28.5                28.4            27.3                 27.1               27.1
+2021              21.0                20.8            20.4                 20.3               20.3
+2022              13.0                12.9            11.8                 11.8               11.8
+2023              12.2                12.1            11.1                 11.1               11.0
+
+Cross-correlation lag (days) by variant (* = at search edge):
+variant V0_all_window V1_crop1214_window V2_all_obsdate V3_crop1214_obsdate V4_crop12_obsdate
+year                                                                                         
+2015               13                 13             10                  10                10
+2016               11                 10             12                  12                12
+2017               16                 16             14                  14                14
+2018                4                  4              4                   4                 4
+2019              26*                26*              0                   0                 0
+2020                7                  7              9                   9                 9
+2021               22                 22             20                  20                20
+2022               -1                 -1             -1                  -1                -1
+2023               -2                 -2             -3                  -3                -3
+
+Drought vs normal mean threshold lag:
+                     normal  drought
+variant                             
+V0_all_window          23.0     15.6
+V1_crop1214_window     22.9     15.6
+V2_all_obsdate         22.7     14.9
+V3_crop1214_obsdate    22.6     14.8
+V4_crop12_obsdate      22.6     14.8
+
+2018, 0.9 threshold crossing day (SIF / NDVI):
+            variant  sif_cross_0.9  ndvi_cross_0.9  lag_0.9
+      V0_all_window          251.4           254.6      3.2
+ V1_crop1214_window          251.5           254.6      3.1
+     V2_all_obsdate          254.9           261.4      6.5
+V3_crop1214_obsdate          255.0           261.4      6.4
+  V4_crop12_obsdate          255.0           261.4      6.4
+
+Saved data/processed/cropmask_obsdate_sensitivity.csv
+  ok (10s)
+
+[17/49] src/analysis/district_lag_analysis.py
+District SIF series: 1944 rows (8 districts x 9 years x 27 dates)
+District NDVI series: 936 rows, 2 empty composites
+
+Threshold-crossing lag (days), district x year:
+year        2015  2016  2017  2018  2019  2020  2021  2022  2023
+district                                                        
+Aurangabad  27.1  13.5  32.3   8.6  21.0  24.2  20.7  12.1   7.3
+Bid         29.2  22.8  25.6   5.7  40.6  21.2  16.2  11.7  13.1
+Hingoli     17.4  29.8  21.3   3.9  26.5  36.9  20.2  10.9  13.5
+Jalna       22.0  21.6  43.6   6.7  28.8  28.3  18.2  13.4  12.4
+Latur       20.2  27.9  19.4   6.1  17.1  15.0  13.1   9.2   5.7
+Nanded      11.6  26.2  25.6   3.7  32.7  37.3  13.8  11.3   8.4
+Osmanabad   25.1  29.0  18.1   4.9  13.4  13.5   7.1   2.4   7.6
+Parbhani    19.7  31.1  32.7   5.1  15.7  34.5  20.3  12.9   9.7
+
+District-years where SIF leads (threshold lag > 0): 72 of 72
+District-years where cross-correlation says SIF leads / tie / NDVI leads: 52 / 4 / 16  (5 at search edge)
+
+H2 -- two-way ANOVA (lag ~ district + year): district F = 2.13, p = 0.0552
+H2 -- Friedman test (years as blocks, n=9): chi2 = 14.52, p = 0.0427
+
+Mean lag by district (days):
+            mean   std  count
+district                     
+Osmanabad   13.4   9.1      9
+Latur       14.9   7.2      9
+Aurangabad  18.5   8.6      9
+Nanded      18.9  11.7      9
+Hingoli     20.0  10.1      9
+Parbhani    20.2  10.6      9
+Bid         20.7  10.5      9
+Jalna       21.7  11.0      9
+
+H3 at district level, rainfall z-score = zscore_region_baseline (n = 72 district-years):
+  Pearson r = 0.125 (p = 0.2971); Spearman rho = 0.148 (p = 0.2142)
+  within-year r = 0.085 (p = 0.4798); OLS slope clustered by year = 0.98 days per z (p = 0.6238)
+  drought district-years (z < -0.5): n = 17, mean lag 14.9 d; normal: n = 55, mean lag 19.7 d; Welch t = -1.80, p = 0.0829
+  (H3 predicts a NEGATIVE r: drier = bigger lag)
+
+H3 at district level, rainfall z-score = zscore_district_baseline (n = 72 district-years):
+  Pearson r = 0.105 (p = 0.3806); Spearman rho = 0.122 (p = 0.3072)
+  within-year r = -0.072 (p = 0.5487); OLS slope clustered by year = 1.05 days per z (p = 0.7040)
+  drought district-years (z < -0.5): n = 15, mean lag 14.8 d; normal: n = 57, mean lag 19.5 d; Welch t = -1.83, p = 0.0799
+  (H3 predicts a NEGATIVE r: drier = bigger lag)
+
+Saved data/processed/district_lag_by_year.csv and data/processed/district_lag_tests.csv
+Figure saved to outputs/figures/district_lag_by_year.png
+  ok (12s)
+
+[18/49] src/analysis/district_seasonal_sif.py
+Check: cropland-weighted DOY 273 vs old unweighted DOY 273, r = 0.9998 (max |diff| = 0.0037)
+Composites per district-year: 27-27
+
+SIF measure               pooled r    rho  within-yr r  within-dist r  clust(yr) p  2-way FE p
+doy273_old_unweighted        0.529  0.505    0.301*         0.605*          0.0013      0.9323
+doy273                       0.530  0.511    0.306*         0.605*          0.0011      0.9491
+season_jun_dec               0.744  0.760    0.660*         0.686*          0.0009      0.3657
+jas                          0.708  0.761    0.670*         0.597*          0.0019      0.4450
+aug_oct                      0.723  0.738    0.650*         0.658*          0.0006      0.5287
+peak                         0.618  0.645    0.626*         0.472*          0.0070      0.3884
+(* = p < 0.05)
+
+Lowest / highest SIF district per year:
+  doy273          lowest: {'Osmanabad': 8, 'Bid': 1}   highest: {'Aurangabad': 5, 'Nanded': 2, 'Jalna': 1, 'Parbhani': 1}
+  season_jun_dec  lowest: {'Osmanabad': 7, 'Bid': 2}   highest: {'Nanded': 6, 'Parbhani': 2, 'Hingoli': 1}
+
+District means over 9 years (seasonal SIF, rainfall anomaly % vs region-wide baseline):
+            season_jun_dec  anomaly_pct
+district                               
+Osmanabad            0.148       -5.623
+Bid                  0.157       -4.200
+Aurangabad           0.174       -4.952
+Latur                0.175       11.138
+Jalna                0.176       -0.523
+Parbhani             0.191       13.166
+Hingoli              0.197       24.081
+Nanded               0.203       29.514
+
+Moran's I, seasonal SIF:
+ year        variable  morans_i  p_value_permutation
+ 2015 season_mean_sif    0.3442               0.0208
+ 2016 season_mean_sif    0.2909               0.0343
+ 2017 season_mean_sif    0.3550               0.0149
+ 2018 season_mean_sif    0.5380               0.0006
+ 2019 season_mean_sif    0.3731               0.0196
+ 2020 season_mean_sif    0.3770               0.0064
+ 2021 season_mean_sif    0.4811               0.0033
+ 2022 season_mean_sif    0.3002               0.0270
+ 2023 season_mean_sif    0.3868               0.0140
+Significant (p < 0.05) in 9 of 9 years
+
+Saved data/processed/sif_by_district_seasonal.csv, data/processed/district_seasonal_sif_tests.csv, data/processed/spatial_autocorrelation_morans_i_seasonal_sif.csv
+  ok (9s)
+
+[19/49] src/analysis/rain_timing_analysis.py
+Check: daily sums vs the seasonal totals used everywhere else (mm):
+min   -0.18
+max   -0.06
+
+Rainfall timing, study years (z = vs 2001-2020 normal):
+ year  total_mm  jun_jul_mm  aug_mm  sep_mm  oct_dec_mm  centroid_doy  doy_50pct  doy_90pct  longest_dry_spell_jjas  dry_days_aug_sep
+ 2015     648.9       231.4   148.5   206.3        62.8         223.8        225        267                      12                26
+ 2016     904.5       515.7    98.9   212.3        77.6         218.7        208        269                      11                29
+ 2017     817.3       300.1   207.1   185.0       125.1         226.0        237        282                       8                22
+ 2018     674.7       386.5   192.7    63.2        32.3         207.0        196        264                      15                37
+ 2019     936.2       333.6   157.3   268.0       177.3         235.8        242        294                       5                20
+ 2020    1066.4       457.2   195.0   262.2       152.0         225.8        226        285                       5                12
+ 2021     969.8       406.2   166.4   292.7       104.5         226.3        231        274                       7                22
+ 2022    1130.1       534.6   190.4   238.2       166.9         222.0        216        283                       6                18
+ 2023     795.2       450.1    50.5   224.7        69.9         226.0        207        272                      18                35
+
+2001-2020 normal:  total_mm=826.6±158.9, jun_jul_mm=356.2±95.3, aug_mm=198.5±58.8, sep_mm=181.5±63.8, oct_dec_mm=90.4±44.0, centroid_doy=223.1±6.6, doy_50pct=220.6±11.8, doy_90pct=272.8±11.7, longest_dry_spell_jjas=11.1±5.0, dry_days_aug_sep=25.5±6.8
+
+2018 z-scores and rank among the 9 study years (1 = lowest):
+  total_mm                 2018 =   674.7   z = -0.96   rank 2/9
+  jun_jul_mm               2018 =   386.5   z = +0.32   rank 4/9
+  aug_mm                   2018 =   192.7   z = -0.10   rank 7/9
+  sep_mm                   2018 =    63.2   z = -1.86   rank 1/9
+  oct_dec_mm               2018 =    32.3   z = -1.32   rank 1/9
+  centroid_doy             2018 =   207.0   z = -2.44   rank 1/9
+  doy_50pct                2018 =   196.0   z = -2.08   rank 1/9
+  doy_90pct                2018 =   264.0   z = -0.75   rank 1/9
+  longest_dry_spell_jjas   2018 =    15.0   z = +0.78   rank 8/9
+  dry_days_aug_sep         2018 =    37.0   z = +1.70   rank 9/9
+
+Spearman correlation with the regional lag (n = 9 years, exploratory):
+  total_mm                 rho = +0.20  p = 0.606
+  jun_jul_mm               rho = -0.03  p = 0.932
+  aug_mm                   rho = +0.12  p = 0.765
+  sep_mm                   rho = +0.07  p = 0.865
+  oct_dec_mm               rho = +0.38  p = 0.308
+  centroid_doy             rho = +0.20  p = 0.606
+  doy_50pct                rho = +0.53  p = 0.139
+  doy_90pct                rho = +0.33  p = 0.381
+  longest_dry_spell_jjas   rho = -0.43  p = 0.252
+  dry_days_aug_sep         rho = -0.37  p = 0.330
+
+District-level (n = 72 district-years): within-year correlation and OLS clustered by year
+  total_mm                 within-year r = +0.08 (p = 0.480)   pooled slope p = 0.624
+  jun_jul_mm               within-year r = +0.14 (p = 0.245)   pooled slope p = 0.532
+  aug_mm                   within-year r = +0.16 (p = 0.181)   pooled slope p = 0.566
+  sep_mm                   within-year r = -0.21 (p = 0.079)   pooled slope p = 0.271
+  oct_dec_mm               within-year r = -0.22 (p = 0.059)   pooled slope p = 0.331
+  centroid_doy             within-year r = -0.17 (p = 0.152)   pooled slope p = 0.120
+  doy_50pct                within-year r = -0.18 (p = 0.129)   pooled slope p = 0.050
+  doy_90pct                within-year r = -0.12 (p = 0.333)   pooled slope p = 0.118
+  longest_dry_spell_jjas   within-year r = +0.07 (p = 0.535)   pooled slope p = 0.117
+  dry_days_aug_sep         within-year r = +0.06 (p = 0.639)   pooled slope p = 0.115
+
+Saved rain_timing_by_year.csv, rain_timing_by_district_year.csv, rain_timing_vs_lag.csv
+Note: 10 timing measures are tested here, so about one p < 0.05 would be expected by chance alone.
+  ok (3s)
+
+[20/49] src/analysis/crop_yield_validation.py
+======================================================================
+Loaded 3111 Kharif-season crop-district-year rows for the 8 Marathwada districts
+Years available: 1997 - 2022
+======================================================================
+
+16 crops retained (>= 10 years of district history each)
+127 district-crop series scored
+
+======================================================================
+MARATHWADA-REGION-YEAR SUMMARY (Kharif season)
+======================================================================
+ study_year  yield_anomaly_index  rainfall_anomaly_zscore  mean_sif  is_drought_year  has_yield_data
+       2015            -1.442503                -1.118521  0.126055             True            True
+       2016            -0.015207                 0.490308  0.173167            False            True
+       2017            -0.311877                -0.058734  0.191961            False            True
+       2018            -0.710359                -0.955570  0.145195             True            True
+       2019            -0.238616                 0.689491  0.187848            False            True
+       2020             0.646940                 1.508742  0.219523            False            True
+       2021            -0.129051                 0.901114  0.193974            False            True
+       2022             0.462525                 1.910228  0.183997            False            True
+       2023                  NaN                -0.197655  0.176043            False           False
+
+n = 8 region-years with complete data (2023 excluded -- no yield data published yet)
+corr(yield anomaly, rainfall anomaly)  = 0.928  p=0.0009  (sanity check: expect positive)
+corr(yield anomaly, season-mean regional SIF) = 0.875  p=0.0044
+
+Mean yield anomaly in this study's 2 drought years ([2015, 2018]): -1.076
+Mean yield anomaly in this study's 6 normal years:      0.069
+Welch's t-test (n=2 vs n=6, deliberately not treated as confirmatory given the tiny n):
+  t=-2.865  p=0.1514
+Drought years show LOWER actual crop yield than normal years.
+
+Saved region-year summary to data/processed/crop_yield_validation_summary.csv
+Saved district-year detail to data/processed/crop_yield_anomaly_by_district_year.csv
+  ok (6s)
+
+[21/49] src/analysis/crop_yield_sensitivity.py
+Sugarcane 'Kharif' rows: 14; years per district: {'Aurangabad': 2, 'Bid': 2, 'Jalna': 2, 'Latur': 2, 'Nanded': 2, 'Osmanabad': 2, 'Parbhani': 2} -> none pass the 10-year filter
+Dropped 34 zero yields and 30 extreme outliers (max dropped yield 3.3 t/ha)
+
+Region level (8 years with yield data; 2023 not yet published):
+          variant  n_crops  yai_drought  yai_normal  welch_p lowest_two_years  region_r_rain  region_p_rain  region_r_sif  region_p_sif
+       Y0_cleaned       16       -1.096       0.019    0.190        2015,2018          0.923          0.001         0.846         0.008
+ Y1_area_weighted       16       -0.920       0.345    0.218        2015,2018          0.873          0.005         0.816         0.014
+     Y2_detrended       16       -1.087       0.130    0.183        2015,2018          0.931          0.001         0.852         0.007
+Y3_area_detrended       16       -1.109       0.189    0.228        2015,2018          0.852          0.007         0.804         0.016
+   Y4_major_crops        8       -1.109       0.192    0.229        2015,2018          0.849          0.008         0.800         0.017
+
+District level (64 district-years), yield anomaly vs seasonal SIF and rainfall:
+          variant  n_district_years  district_r_sif  district_p_sif  district_r_rain  district_p_rain  district_within_year_r_sif  district_within_year_p_sif  twoway_fe_p_sif
+       Y0_cleaned                64           0.621             0.0            0.667              0.0                       0.070                       0.585            0.015
+ Y1_area_weighted                64           0.596             0.0            0.597              0.0                       0.175                       0.166            0.025
+     Y2_detrended                64           0.680             0.0            0.729              0.0                       0.248                       0.049            0.024
+Y3_area_detrended                64           0.618             0.0            0.631              0.0                       0.260                       0.038            0.039
+   Y4_major_crops                64           0.612             0.0            0.626              0.0                       0.252                       0.045            0.040
+
+Yield Anomaly Index by year and variant:
+variant  Y0_cleaned  Y1_area_weighted  Y2_detrended  Y3_area_detrended  Y4_major_crops
+year                                                                                  
+2015          -1.50             -1.45         -1.52              -1.67           -1.68
+2016          -0.01              0.48          0.07               0.43            0.44
+2017          -0.35             -0.36         -0.29              -0.52           -0.53
+2018          -0.69             -0.39         -0.66              -0.55           -0.54
+2019          -0.27              0.27         -0.17               0.10            0.10
+2020           0.46              1.07          0.61               0.93            0.93
+2021          -0.18             -0.03         -0.05              -0.23           -0.24
+2022           0.47              0.64          0.61               0.44            0.44
+
+Saved crop_yield_sensitivity_region.csv, _district.csv, _tests.csv
+  ok (9s)
+
+[22/49] src/analysis/baseline_sensitivity.py
+Check vs existing 2001-2020 climatology file: max |difference| = 1.31 mm (mean 826.7 vs 826.4)
+Trend 1981-2023: +47.6 mm/decade (p = 0.014); Kendall tau = +0.27 (p = 0.011)
+  B0_2001_2020: mean 826.7 mm, std 158.9 mm, n = 20
+  B1_2001_2014: mean 820.4 mm, std 163.8 mm, n = 14
+  B2_1981_2014: mean 775.1 mm, std 155.0 mm, n = 34
+  B3_1991_2020: mean 794.5 mm, std 149.9 mm, n = 30
+
+Regional z-score of each study year under each baseline (D = drought, z < -0.5):
+baseline B0_2001_2020 B1_2001_2014 B2_1981_2014 B3_1991_2020
+year                                                        
+2015          -1.12 D      -1.05 D      -0.81 D      -0.97 D
+2016             0.49         0.51         0.84         0.73
+2017            -0.06        -0.02         0.27         0.15
+2018          -0.96 D      -0.89 D      -0.65 D       -0.8 D
+2019             0.69         0.71         1.04         0.95
+2020             1.51          1.5         1.88         1.81
+2021              0.9         0.91         1.26         1.17
+2022             1.91         1.89         2.29         2.24
+2023             -0.2        -0.15         0.13         0.01
+
+Regional anomaly % under each baseline:
+baseline  B0_2001_2020  B1_2001_2014  B2_1981_2014  B3_1991_2020
+year                                                            
+2015             -21.5         -20.9         -16.3         -18.3
+2016               9.4          10.3          16.7          13.9
+2017              -1.1          -0.4           5.5           2.9
+2018             -18.4         -17.7         -12.9         -15.1
+2019              13.3          14.1          20.8          17.8
+2020              29.0          30.0          37.6          34.2
+2021              17.3          18.2          25.1          22.1
+2022              36.7          37.8          45.8          42.3
+2023              -3.8          -3.1           2.6           0.1
+
+Regional H3 (drought vs normal mean lag) and crop-yield check under each baseline:
+  B0_2001_2020: drought years [2015, 2018] | lag drought 14.8 vs normal 22.6 d | yield index drought -1.08 vs normal +0.07
+  B1_2001_2014: drought years [2015, 2018] | lag drought 14.8 vs normal 22.6 d | yield index drought -1.08 vs normal +0.07
+  B2_1981_2014: drought years [2015, 2018] | lag drought 14.8 vs normal 22.6 d | yield index drought -1.08 vs normal +0.07
+  B3_1991_2020: drought years [2015, 2018] | lag drought 14.8 vs normal 22.6 d | yield index drought -1.08 vs normal +0.07
+
+District level (72 district-years): drought district-years and H3 under each baseline
+  B0_2001_2020 z_region_baseline   : n drought = 17 ( 0 changed vs B0) | lag 14.9 vs 19.7 d, Welch t = -1.80, p = 0.083
+  B0_2001_2020 z_district_baseline : n drought = 15 ( 0 changed vs B0) | lag 14.8 vs 19.5 d, Welch t = -1.83, p = 0.080
+  B1_2001_2014 z_region_baseline   : n drought = 15 ( 2 changed vs B0) | lag 16.1 vs 19.2 d, Welch t = -1.10, p = 0.283
+  B1_2001_2014 z_district_baseline : n drought = 14 ( 1 changed vs B0) | lag 15.0 vs 19.4 d, Welch t = -1.63, p = 0.117
+  B2_1981_2014 z_region_baseline   : n drought = 14 ( 3 changed vs B0) | lag 15.0 vs 19.4 d, Welch t = -1.67, p = 0.110
+  B2_1981_2014 z_district_baseline : n drought = 12 ( 3 changed vs B0) | lag 14.7 vs 19.3 d, Welch t = -1.65, p = 0.117
+  B3_1991_2020 z_region_baseline   : n drought = 14 ( 3 changed vs B0) | lag 15.0 vs 19.4 d, Welch t = -1.67, p = 0.110
+  B3_1991_2020 z_district_baseline : n drought = 13 ( 2 changed vs B0) | lag 14.0 vs 19.5 d, Welch t = -2.03, p = 0.056
+District lag vs z_region_baseline: Pearson r across baselines = 0.125, 0.125, 0.125, 0.125
+District lag vs z_district_baseline: Pearson r across baselines = 0.105, 0.095, 0.105, 0.113
+
+Saved baseline_sensitivity_region.csv, baseline_sensitivity_district.csv, baseline_sensitivity_summary.csv
+  ok (3s)
+
+[23/49] src/analysis/lag_uncertainty_check.py
+PART A -- cross-correlation bootstrap
+How often the current bootstrap hits a problem (% of 2000 replicates):
+ year  point_lag  pct_at_search_edge  pct_replicates_extrapolated
+ 2015         10                 0.0                         60.6
+ 2016         12                 0.0                         60.0
+ 2017         14                22.8                         58.6
+ 2018          4                 0.0                         59.4
+ 2019          0                19.8                         61.7
+ 2020          9                 4.8                         58.7
+ 2021         20                 6.8                         61.2
+ 2022         -1                 0.0                         59.3
+ 2023         -3                 0.4                         58.4
+
+95% interval (days) under each variant:
+variant current (fixed range, N/4)      own range, N/2      own range, N/4
+year                                                                      
+2015               [6, 12]  <0: 0%     [6, 14]  <0: 0%     [6, 13]  <0: 0%
+2016               [8, 14]  <0: 0%     [8, 15]  <0: 0%     [8, 15]  <0: 0%
+2017               [2, 28]  <0: 1%   [-43, 52]  <0: 5%   [-20, 28]  <0: 3%
+2018                [1, 6]  <0: 0%     [1, 26]  <0: 0%      [0, 6]  <0: 0%
+2019              [-5, 24]  <0: 8%  [-44, 48]  <0: 32%  [-20, 24]  <0: 30%
+2020               [0, 30]  <0: 2%  [-31, 58]  <0: 10%  [-28, 28]  <0: 13%
+2021             [-4, 30]  <0: 14%  [-51, 35]  <0: 11%    [-4, 30]  <0: 7%
+2022              [-4, 2]  <0: 56%    [-5, 3]  <0: 60%    [-5, 3]  <0: 60%
+2023              [-9, 0]  <0: 95%   [-10, 0]  <0: 96%   [-10, 0]  <0: 96%
+
+PART B -- threshold-crossing lag (main method), moving-block residual bootstrap (centred on the estimate) + leave-one-out
+ year  point_lag thresholds_not_reached  sif_residual_sd_pct_of_range  ndvi_residual_sd_pct_of_range  smoothed_curve_lag  boot_ci_low  boot_ci_high  boot_pct_le_0  jackknife_min  jackknife_max
+ 2015       21.7                                                  2.7                            3.2                19.6         16.3          30.4            0.0           13.0           23.6
+ 2016       34.2                    0.5                           0.9                            5.1                33.7         12.5          39.6            0.0           25.7           36.1
+ 2017       28.5                                                  1.8                            3.6                38.2         17.5          32.5            0.0           13.2           39.4
+ 2018        8.0                                                  4.5                            4.5                10.0          2.8          16.1            0.0            3.8           10.8
+ 2019       25.4                    0.5                           1.5                            3.7                30.9          8.9          33.0            0.0           16.5           32.3
+ 2020       27.1                                                  1.4                            4.2                27.0         18.6          34.4            0.0           13.1           29.4
+ 2021       20.3                                                  2.4                            4.6                30.2          4.0          25.2            0.2            5.0           30.3
+ 2022       11.8                                                  1.4                            2.1                17.6          5.3          14.9            0.0            5.8           16.0
+ 2023       11.1                                                  1.7                            3.6                11.5          7.6          16.6            0.0            6.5           15.2
+
+Year pairs with non-overlapping threshold-lag intervals: 8 of 36: 2015-2018, 2015-2022, 2017-2018, 2017-2022, 2017-2023, 2018-2020, 2020-2022, 2020-2023
+
+Drought minus normal mean threshold lag: -7.8 days, 95% interval (measurement uncertainty only) [-9.9, +1.8]; 92.1% of draws negative
+  (this interval covers only how precisely each year's lag is measured -- NOT year-to-year variability; with 2 drought years that is still the binding limit)
+
+Saved lag_uncertainty_xcorr.csv, lag_uncertainty_threshold.csv, lag_uncertainty_summary.csv
+  ok (446s)
+
+[24/49] src/analysis/normalisation_sensitivity.py
+REGION (GOSIF) -- mean lag, days (> 0 = SIF first)
+ year  is_drought  lag_season  lag_decline  lag_dlogist  eos_sif  eos_ndvi  sif_postpeak_min_season_scaled  ndvi_postpeak_min_season_scaled
+ 2015        True       21.69         9.62        13.90   275.31    289.20                            0.05                             0.35
+ 2016       False       34.25        13.36        17.09   279.08    296.17                            0.19                             0.57
+ 2017       False       28.46        10.58        39.72   263.38    303.10                            0.12                             0.42
+ 2018        True        7.99         3.47        -0.30   274.26    273.97                            0.00                             0.23
+ 2019       False       25.40        -5.48       -30.13   277.51    247.38                            0.28                             0.59
+ 2020       False       27.14         8.76       -25.15   254.83    229.68                            0.13                             0.41
+ 2021       False       20.29        -1.17        40.77   252.01    292.78                            0.08                             0.42
+ 2022       False       11.78        -0.96        -2.22   287.19    284.97                            0.20                             0.46
+ 2023       False       11.05         0.43        -0.75   282.62    281.87                            0.19                             0.48
+
+REGION (TROPOMI)
+ year  lag_season  lag_decline  lag_dlogist
+ 2018        12.8         10.4          9.4
+ 2019        43.8         10.3        -27.2
+ 2020        45.3         27.7        -12.3
+
+SUMMARY
+                                                         0            1            2
+metric                                          lag_season  lag_decline  lag_dlogist
+region_years_sif_first                                   9            6            4
+region_years                                             9            9            9
+region_min                                           7.989       -5.476      -30.129
+region_max                                          34.248       13.359       40.771
+region_drought_mean                                  14.84        6.543        6.799
+region_normal_mean                                  22.624        3.647        5.619
+district_years_sif_first                                72           52           41
+district_years                                          72           72           72
+district_median                                     17.709        2.316        1.994
+district_min                                         2.435        -8.13        -42.0
+district_max                                        43.646       19.853       80.916
+district_friedman_chi2                              14.519        1.889        4.741
+district_friedman_p                                  0.043        0.966        0.692
+tropomi_years_sif_first                                  3            3            1
+district_drought_mean_zscore_region_baseline        14.892        4.854       -1.081
+district_normal_mean_zscore_region_baseline         19.671        3.596        6.622
+district_welch_p_zscore_region_baseline              0.083        0.425        0.145
+district_drought_mean_zscore_district_baseline      14.792        5.844       -4.218
+district_normal_mean_zscore_district_baseline        19.53         3.38        7.177
+district_welch_p_zscore_district_baseline             0.08        0.134        0.021
+
+Saved normalisation_sensitivity_*.csv and outputs/figures/normalisation_sensitivity.png
+  ok (16s)
+
+[25/49] src/analysis/ndvi_coverage_check.py
+Regional NDVI composites by cropland-pixel coverage (share of the best-covered composite):
+  < 10%: 10 of 117;  < 25%: 23;  < 50%: 35
+District composites < 10%: 102 of 936; < 25%: 181
+
+Coverage by composite start day and year (%):
+year       2015   2016   2017  2018   2019   2020  2021  2022  2023
+doy_start                                                          
+161        71.0   95.0   82.0  86.0  100.0   75.0  47.0  46.0  99.0
+177        92.0    2.0   23.0  71.0    8.0   57.0  95.0   7.0  14.0
+193        78.0   31.0    5.0   2.0   85.0   22.0  14.0   6.0   1.0
+209        28.0   14.0   13.0  16.0   14.0   22.0  23.0   9.0  19.0
+225        52.0   38.0   19.0   4.0   62.0   37.0  45.0  29.0  40.0
+241        83.0   68.0   75.0  88.0    7.0   64.0  21.0  74.0  73.0
+257        98.0   36.0   84.0  97.0   51.0   29.0  42.0  51.0  60.0
+273        99.0   99.0   97.0  99.0   97.0   98.0  99.0  96.0  99.0
+289        99.0  100.0  100.0  99.0   87.0  100.0  99.0  99.0  99.0
+305        99.0  100.0  100.0  99.0  100.0  100.0  99.0  99.0  99.0
+321        99.0  100.0  100.0  99.0  100.0  100.0  99.0  99.0  99.0
+337        99.0  100.0  100.0  99.0  100.0  100.0  99.0  99.0  99.0
+353        99.0  100.0  100.0  99.0   97.0  100.0  99.0  99.0  99.0
+
+Regional mean threshold lag (days) after dropping low-coverage NDVI composites:
+min_coverage  0.00  0.10  0.25  0.50
+year                                
+2015          21.7  21.7  21.7  21.7
+2016          34.2  34.2  34.2  34.2
+2017          28.5  28.5  28.5  28.5
+2018           8.0   8.0   8.0   8.0
+2019          25.4  32.3  32.3  32.3
+2020          27.1  27.1  28.3  27.8
+2021          20.3  20.3  30.3  41.4
+2022          11.8  11.8  11.8  -6.2
+2023          11.1  11.1  11.1  11.1
+  min coverage 0%: SIF first in 9/9; drought mean 14.8 vs normal 22.6 d
+  min coverage 10%: SIF first in 9/9; drought mean 14.8 vs normal 23.6 d
+  min coverage 25%: SIF first in 9/9; drought mean 14.8 vs normal 25.2 d
+  min coverage 50%: SIF first in 8/9; drought mean 14.8 vs normal 24.2 d
+
+Saved ndvi_coverage_lag_sensitivity.csv, ndvi_coverage_region.csv, outputs/figures/ndvi_coverage.png
+  ok (5s)
+
+[26/49] src/analysis/vegetation_index_lag.py
+data/raw/vi_obsdate_2015_2023.csv not found -- run src/acquisition/gee_vi_obsdate.py first (needs Earth Engine). Skipping.
+  ok (2s)
+
+[27/49] src/analysis/drought_signal_analysis.py
+REGION -- first date the anomaly stays below z = -3.0 for two composites (from 1 July)
+year            SIF alarm  NDVI alarm  SIF lead   min z SIF (date)   min z NDVI (date)
+2015  drought      24 Aug      24 Aug      +0 d   -6.47 (09 Sep)     -7.99 (11 Oct)
+2016  normal            -           -             -2.15 (14 Dec)     -1.81 (06 Dec)
+2017  normal            -           -             -2.01 (30 Dec)     -1.43 (03 Oct)
+2018  drought      03 Oct      25 Sep      -8 d   -7.92 (11 Oct)     -12.62 (11 Oct)
+2019  normal            -           -             -1.98 (31 Jul)     -1.70 (07 Jul)
+2020  normal            -           -             -0.88 (25 Sep)     -0.79 (22 Dec)
+2021  normal            -           -             -2.82 (09 Sep)     -3.36 (25 Sep)
+2022  normal            -           -             -1.46 (06 Dec)     -1.26 (28 Nov)
+2023  normal            -           -             -2.19 (27 Oct)     -2.42 (19 Oct)
+  z < -0.5: drought years flagged SIF 2/2, NDVI 2/2 | normal years flagged (false alarms) SIF 6/7, NDVI 7/7
+  z < -1.0: drought years flagged SIF 2/2, NDVI 2/2 | normal years flagged (false alarms) SIF 5/7, NDVI 5/7
+  z < -1.5: drought years flagged SIF 2/2, NDVI 2/2 | normal years flagged (false alarms) SIF 1/7, NDVI 4/7
+  z < -2.0: drought years flagged SIF 2/2, NDVI 2/2 | normal years flagged (false alarms) SIF 1/7, NDVI 2/7
+  z < -3.0: drought years flagged SIF 2/2, NDVI 2/2 | normal years flagged (false alarms) SIF 0/7, NDVI 0/7
+
+Days before each official declaration (seasonal 0.9 crossing vs drought-specific alarm, z < -3 = no false alarm in any normal year):
+  2015 2015-10-16 (final): | SIF 0.9 crossing 22 d | NDVI 0.9 crossing 8 d | SIF drought alarm 52 d | NDVI drought alarm 52 d
+  2018 2018-10-23 (first-stage): | SIF 0.9 crossing 41 d | NDVI 0.9 crossing 35 d | SIF drought alarm 20 d | NDVI drought alarm 28 d
+  2018 2018-10-31 (final): | SIF 0.9 crossing 49 d | NDVI 0.9 crossing 43 d | SIF drought alarm 28 d | NDVI drought alarm 36 d
+
+DISTRICT (own-district baseline (main)) -- 15 drought and 57 normal district-years
+threshold   hit SIF  hit NDVI  false SIF  false NDVI   among drought hits: SIF earlier / same / NDVI earlier, median SIF lead
+z < -0.5     15/15     15/15      50/57      50/57   4 / 7 / 4, +0 d
+z < -1.0     15/15     15/15      40/57      42/57   3 / 4 / 8, -8 d
+z < -1.5     15/15     15/15      22/57      24/57   1 / 1 / 13, -16 d
+z < -2.0     14/15     15/15      11/57      12/57   2 / 2 / 10, -8 d
+z < -3.0     12/15     13/15       2/57       4/57   1 / 6 / 5, +0 d
+
+DISTRICT (regional baseline (sensitivity)) -- 17 drought and 55 normal district-years
+threshold   hit SIF  hit NDVI  false SIF  false NDVI   among drought hits: SIF earlier / same / NDVI earlier, median SIF lead
+z < -0.5     17/17     17/17      48/55      47/55   5 / 6 / 6, +0 d
+z < -1.0     17/17     17/17      34/55      38/55   3 / 4 / 10, -8 d
+z < -1.5     14/17     17/17      22/55      24/55   1 / 1 / 12, -16 d
+z < -2.0     12/17     16/17      13/55      13/55   0 / 2 / 10, -16 d
+z < -3.0     12/17     12/17       1/55       5/55   1 / 4 / 7, -8 d
+
+How well each index separates drought from normal district-years, date by date (AUC: 0.5 = chance, 1.0 = perfect; uses only data up to that date):
+  doy   date  AUC_SIF  AUC_NDVI
+180.5 29 Jun     0.45      0.60
+188.5 07 Jul     0.56      0.65
+196.5 15 Jul     0.73      0.70
+204.5 23 Jul     0.80      0.76
+212.5 31 Jul     0.85      0.80
+220.5 08 Aug     0.78      0.77
+228.5 16 Aug     0.71      0.72
+236.5 24 Aug     0.76      0.78
+244.5 01 Sep     0.81      0.87
+252.5 09 Sep     0.85      0.91
+260.5 17 Sep     0.89      0.92
+268.5 25 Sep     0.92      0.93
+276.5 03 Oct     0.93      0.94
+284.5 11 Oct     0.93      0.96
+292.5 19 Oct     0.94      0.96
+300.5 27 Oct     0.96      0.96
+308.5 04 Nov     0.97      0.97
+316.5 12 Nov     0.98      0.97
+  SIF: first date with AUC >= 0.75: 23 Jul; peak AUC 0.98 on 12 Nov
+  NDVI: first date with AUC >= 0.75: 23 Jul; peak AUC 0.98 on 20 Nov
+  (district-years share each year's weather, so these 72 are not independent -- read the AUCs as descriptive)
+
+Saved drought_signal_region.csv, drought_signal_district.csv, drought_signal_auc_by_date.csv, outputs/figures/drought_signal_anomaly_curves.png
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\drought_signal_analysis.py:151: RuntimeWarning: Mean of empty slice
+  sc = np.array([np.nanmean(z[max(0, i - 1): i + 1]) for z in D[f"{v}_z"]])
+  ok (9s)
+
+[28/49] src/analysis/rainfall_trigger_comparison.py
+REGION -- Trigger-1 date (rainfall) vs satellite signals
+year   rain z  Trigger-1  SIF alarm  NDVI alarm  SIF 0.9  NDVI 0.9
+2015    -1.12          -     24 Aug      24 Aug   24 Sep    07 Oct
+2016     0.49          -          -           -   20 Sep    11 Oct
+2017    -0.06          -          -           -   14 Sep    26 Sep
+2018    -0.96          -     03 Oct      25 Sep   12 Sep    18 Sep
+2019     0.69          -          -           -   29 Sep    28 Sep
+2020     1.51          -          -           -   10 Sep    21 Sep
+2021     0.90          -          -           -   07 Sep    11 Sep
+2022     1.91          -          -           -   20 Sep    27 Sep
+2023    -0.20          -          -           -   25 Sep    28 Sep
+
+Trigger-1 date under each rule (region):
+variant deficit>20% & spell>=21d deficit>25% only deficit>30% & spell>=21d dry day <1mm main: deficit>25% & spell>=21d old: spell counted to Dec spell>=21d only
+year                                                                                                                                                            
+2015                           -           16 Jul                        -            -                              -                         -               -
+2016                           -                -                        -            -                              -                         -               -
+2017                           -           06 Aug                        -            -                              -                         -               -
+2018                           -                -                        -            -                              -                         -               -
+2019                           -           23 Jul                        -            -                              -                         -               -
+2020                           -                -                        -            -                              -                         -               -
+2021                           -                -                        -            -                              -                         -               -
+2022                           -                -                        -            -                              -                         -               -
+2023                           -           01 Jul                        -            -                              -                         -               -
+
+Days before each declaration, and satellite alarm relative to the rainfall Trigger-1 (+ = satellite later):
+declaration  is_final  trigger1_doy  trigger1_days_before_declaration  SIF_alarm_days_before_declaration  SIF_alarm_minus_trigger1_days  NDVI_alarm_days_before_declaration  NDVI_alarm_minus_trigger1_days
+ 2015-10-16      True           NaN                               NaN                               52.0                            NaN                                52.0                             NaN
+ 2018-10-23     False           NaN                               NaN                               20.0                            NaN                                28.0                             NaN
+ 2018-10-31      True           NaN                               NaN                               28.0                            NaN                                36.0                             NaN
+
+DISTRICT (main rule), 15 drought and 57 normal district-years:
+  Trigger-1 fired: drought 2/15, normal 1/57
+  SIF alarm (z<-3) vs Trigger-1, drought district-years with both: n=2, satellite earlier 1, later 1, median -8 d
+  NDVI alarm (z<-3) vs Trigger-1, drought district-years with both: n=2, satellite earlier 1, later 1, median -12 d
+
+Saved rainfall_trigger_dates.csv, rainfall_trigger_vs_satellite.csv
+Note: Trigger-1 is applied by the state at taluka level; this region/district version applies a dry-spell rule
+to spatially averaged rainfall, which smooths out local dry spells. See gee_chirps_dryspell_area.py for the
+pixel-level version.
+  ok (3s)
+
+[29/49] src/analysis/rainfall_window_sensitivity.py
+Regional rainfall z-score by window (baseline 2001-2020; * = z < -0.5)
+window Jun-Dec Jun-Sep (JJAS)    June    July  August September
+year                                                           
+2015    -1.12*         -1.09*    0.46  -1.65*  -0.85*      0.39
+2016      0.49           0.66    0.34     1.6   -1.7*      0.48
+2017     -0.06          -0.32    0.86   -1.1*    0.15      0.05
+2018    -0.96*         -0.68*     1.1   -0.26    -0.1    -1.86*
+2019      0.69           0.17   -0.31   -0.08   -0.7*      1.36
+2020      1.51            1.3    1.73    0.18   -0.06      1.27
+2021       0.9           0.94    0.72    0.17  -0.55*      1.74
+2022      1.91           1.65    0.41    1.77   -0.14      0.89
+2023      -0.2          -0.08  -1.63*    1.94  -2.52*      0.68
+  drought years by Jun-Dec: [2015, 2018]
+  drought years by Jun-Sep (JJAS): [2015, 2018]
+  August 2023: 51 mm (-75%, z = -2.52), the driest August of the 2001-2023 record: True
+
+Saved data/processed/rainfall_window_sensitivity.csv
+  ok (2s)
+
+[30/49] src/analysis/rainfall_trigger_pixel.py
+No files in data/external/chirps_trigger -- run src/acquisition/gee_chirps_dryspell_area.py first (needs Earth Engine). Skipping.
+  ok (3s)
+
+[31/49] src/analysis/rq3_official_declaration_comparison.py
+ year                       event        kind   doy       date  days_before_final_declaration
+ 2015  SIF drought alarm (z < -3)       alarm 236.5 2015-08-24                           52.5
+ 2015 NDVI drought alarm (z < -3)       alarm 236.5 2015-08-24                           52.5
+ 2015 Rainfall Trigger-1 (region)     trigger   NaN                                       NaN
+ 2015   SIF seasonal 0.9 crossing    seasonal 267.2 2015-09-24                           21.8
+ 2015  NDVI seasonal 0.9 crossing    seasonal 280.6 2015-10-07                            8.4
+ 2015           Final declaration declaration 289.0 2015-10-16                            0.0
+ 2018  SIF drought alarm (z < -3)       alarm 276.5 2018-10-03                           27.5
+ 2018 NDVI drought alarm (z < -3)       alarm 268.5 2018-09-25                           35.5
+ 2018 Rainfall Trigger-1 (region)     trigger   NaN                                       NaN
+ 2018   SIF seasonal 0.9 crossing    seasonal 255.0 2018-09-12                           49.0
+ 2018  NDVI seasonal 0.9 crossing    seasonal 261.4 2018-09-18                           42.6
+ 2018     First-stage declaration declaration 296.0 2018-10-23                            8.0
+ 2018           Final declaration declaration 304.0 2018-10-31                            0.0
+
+Saved data/processed/rq3_official_declaration_comparison.csv and outputs/figures/rq3_declaration_timeline.png
+  ok (4s)
+
+[32/49] src/analysis/method_dependence.py
+Main-method lags reproduced: {2015: 21.7, 2016: 34.2, 2017: 28.5, 2018: 8.0, 2019: 25.4, 2020: 27.1, 2021: 20.3, 2022: 11.8, 2023: 11.1}
+
+Every variant (lags in days; C2 < 0 means drought years have the smaller lag):
+                    variant metric  C1_years_SIF_leads  C1_years_tie  C1_years_NDVI_leads  C1_years_not_measurable  C2_drought_minus_normal_z<-0.5  C2_drought_minus_normal_z<-1.0  C3_2018_rank_smallest  C4_spearman_vs_main
+      crop|obsdate|raw|mean   mean                   9             0                    0                        0                           -7.78                            0.90                      1                 1.00
+       crop|obsdate|raw|0.9    0.9                   8             0                    1                        0                            1.61                            5.33                      4                 0.58
+       crop|obsdate|raw|0.7    0.7                   9             0                    0                        0                          -13.06                           -5.74                      1                 0.85
+       crop|obsdate|raw|0.5    0.5                   7             0                    0                        2                          -10.38                            7.13                      1                 0.86
+     crop|obsdate|raw|xcorr  xcorr                   6             1                    2                        0                           -0.29                            3.12                      4                 0.55
+   crop|obsdate|smooth|mean   mean                   9             0                    0                        0                          -12.26                           -5.34                      1                 0.90
+    crop|obsdate|smooth|0.9    0.9                   9             0                    0                        0                           -2.14                           -0.88                      3                 0.62
+    crop|obsdate|smooth|0.7    0.7                   9             0                    0                        0                          -15.88                           -9.04                      1                 0.87
+    crop|obsdate|smooth|0.5    0.5                   6             0                    0                        3                          -24.80                           -7.82                      1                 0.54
+  crop|obsdate|smooth|xcorr  xcorr                   7             1                    1                        0                           -1.43                           -0.12                      4                 0.57
+       crop|window|raw|mean   mean                   9             0                    0                        0                           -7.35                            3.33                      1                 1.00
+        crop|window|raw|0.9    0.9                   8             0                    1                        0                            2.80                           11.27                      2                 0.53
+        crop|window|raw|0.7    0.7                   9             0                    0                        0                          -10.39                           -0.24                      2                 0.78
+        crop|window|raw|0.5    0.5                   7             0                    0                        2                           -8.43                           10.55                      1                 0.96
+      crop|window|raw|xcorr  xcorr                   7             0                    2                        0                           -2.64                            2.75                      3                 0.52
+    crop|window|smooth|mean   mean                   9             0                    0                        0                          -11.26                           -3.39                      1                 0.73
+     crop|window|smooth|0.9    0.9                   9             0                    0                        0                           -2.49                           -0.34                      3                 0.32
+     crop|window|smooth|0.7    0.7                   9             0                    0                        0                          -14.66                           -4.51                      1                 0.73
+     crop|window|smooth|0.5    0.5                   6             0                    0                        3                          -23.95                           -3.21                      1                 0.66
+   crop|window|smooth|xcorr  xcorr                   8             1                    0                        0                            1.79                            5.50                      5                 0.60
+    allpix|obsdate|raw|mean   mean                   9             0                    0                        0                           -7.83                            0.87                      1                 1.00
+     allpix|obsdate|raw|0.9    0.9                   8             0                    1                        0                            1.66                            5.36                      4                 0.58
+     allpix|obsdate|raw|0.7    0.7                   9             0                    0                        0                          -13.12                           -5.80                      1                 0.87
+     allpix|obsdate|raw|0.5    0.5                   7             0                    0                        2                          -10.46                            7.10                      1                 0.86
+   allpix|obsdate|raw|xcorr  xcorr                   6             1                    2                        0                           -0.29                            3.12                      4                 0.55
+ allpix|obsdate|smooth|mean   mean                   9             0                    0                        0                          -12.31                           -5.37                      1                 0.90
+  allpix|obsdate|smooth|0.9    0.9                   9             0                    0                        0                           -2.10                           -0.85                      3                 0.62
+  allpix|obsdate|smooth|0.7    0.7                   9             0                    0                        0                          -15.96                           -9.11                      1                 0.87
+  allpix|obsdate|smooth|0.5    0.5                   6             0                    0                        3                          -24.91                           -7.86                      1                 0.54
+allpix|obsdate|smooth|xcorr  xcorr                   8             1                    0                        0                           -1.71                           -0.38                      4                 0.55
+     allpix|window|raw|mean   mean                   9             0                    0                        0                           -7.39                            3.30                      1                 1.00
+      allpix|window|raw|0.9    0.9                   8             0                    1                        0                            2.86                           11.30                      2                 0.53
+      allpix|window|raw|0.7    0.7                   9             0                    0                        0                          -10.45                           -0.29                      2                 0.78
+      allpix|window|raw|0.5    0.5                   7             0                    0                        2                           -8.51                           10.52                      1                 0.96
+    allpix|window|raw|xcorr  xcorr                   7             0                    2                        0                           -2.79                            2.62                      3                 0.52
+  allpix|window|smooth|mean   mean                   9             0                    0                        0                          -11.31                           -3.43                      1                 0.73
+   allpix|window|smooth|0.9    0.9                   9             0                    0                        0                           -2.44                           -0.30                      3                 0.32
+   allpix|window|smooth|0.7    0.7                   9             0                    0                        0                          -14.74                           -4.58                      1                 0.73
+   allpix|window|smooth|0.5    0.5                   6             0                    0                        3                          -24.05                           -3.24                      1                 0.66
+ allpix|window|smooth|xcorr  xcorr                   8             1                    0                        0                            1.79                            5.50                      5                 0.60
+
+SUMMARY over 40 variants (32 threshold-based, 8 cross-correlation):
+  C1 no year where NDVI leads (among measurable years): 31/40; variants with unmeasurable years (a threshold never reached): 8
+  C1 SIF leads in all 9 years:     threshold 20/32, cross-corr 0/8; fewest SIF-lead years in any variant: 6; variants where NDVI leads in some year: 9
+  C2 drought lag < normal (z<-0.5): 34/40 (range -24.9 to +2.9 d)
+  C2 drought lag < normal (z<-1.0): 22/40 (range -9.1 to +11.3 d)
+  C3 2018 smallest lead:           22/40; 2018 in the smallest two: 26/40
+  C4 ranking vs main: median rho threshold 0.76, cross-corr 0.55; min 0.32
+  Years where some variant has NDVI leading: {2019: 4, 2022: 4, 2023: 5}
+
+Saved method_dependence_lags.csv, method_dependence_claims.csv
+  ok (9s)
+
+[33/49] src/analysis/gosif_grid_shift_check.py
+Step 1: header origin 2020 = -180.0, 2022 = -180.025
+  water          mask: pixels that differ from 2020 -- same index: 74 | moved one column east: 128,388 | one column west: 128,390
+  non-vegetated  mask: pixels that differ from 2020 -- same index: 0 | moved one column east: 32,542 | one column west: 32,542
+  -> masks match by array index: the data are on the standard grid; only the header origin (-180.025) is wrong.
+
+Step 2 skipped: the 2021/2022 clipped rasters are already on the standard grid (clip_gosif.py corrects the header). The before/after comparison made while they were still shifted is kept in data/processed/gosif_grid_shift_check.csv.
+  ok (5s)
+
+[34/49] src/analysis/tropomi_sif_analysis.py
+Step 1: 564 TROPOSIF files on disk, 540 dates already extracted, 24 to read
+  24/24 files read
+
+Step 2: 630,091 soundings inside Marathwada on 540 days (2018-06-01 to 2020-12-27)
+  cloud fraction < 0.2: 53% | cropland (LC 12/14): 99% | SZA < 70: 100%
+
+Step 3: TROPOMI vs GOSIF, per year (lag = NDVI crossing minus SIF crossing, days; > 0 = SIF leads)
+                          variant  year  n_composites  r_with_gosif  peak_doy_tropomi  peak_doy_gosif  lag_tropomi_vs_ndvi  lag_gosif_vs_ndvi
+main (cf<0.2, cropland, SIF_Corr)  2018            26          0.91             244.5           236.5                12.81               7.98
+main (cf<0.2, cropland, SIF_Corr)  2019            26          0.97             252.5           260.5                43.79              25.40
+main (cf<0.2, cropland, SIF_Corr)  2020            26          0.97             212.5           236.5                45.34              27.14
+                           cf<0.5  2018            27          0.91             244.5           236.5                10.83               7.98
+                           cf<0.5  2019            27          0.98             244.5           260.5                38.73              25.40
+                           cf<0.5  2020            26          0.98             212.5           236.5                43.98              27.14
+                   all land cover  2018            26          0.91             244.5           236.5                12.82               7.98
+                   all land cover  2019            26          0.97             252.5           260.5                43.84              25.40
+                   all land cover  2020            26          0.97             212.5           236.5                45.52              27.14
+              uncorrected SIF_743  2018            26          0.91             244.5           236.5                12.61               7.98
+              uncorrected SIF_743  2019            26          0.97             252.5           260.5                45.85              25.40
+              uncorrected SIF_743  2020            26          0.98             212.5           236.5                40.07              27.14
+
+2018 vs mean of [2019, 2020] (ratio, Aug-Oct composites), TROPOMI and GOSIF side by side:
+ start_doy  tropomi_2018_ratio  gosif_2018_ratio
+       217                 NaN              0.97
+       225                0.78              0.89
+       233                0.88              0.90
+       241                0.92              0.89
+       249                0.80              0.87
+       257                0.73              0.79
+       265                0.70              0.77
+       273                0.61              0.67
+       281                0.59              0.54
+       289                0.60              0.48
+       297                0.57              0.42
+  r between the two ratio series = 0.91
+
+Saved data/processed/tropomi_8day_composites.csv and data/processed/tropomi_vs_gosif.csv
+  ok (26s)
+
+[35/49] src/analysis/tropomi_drought_signal.py
+WARNING: only 2 normal year(s) with TROPOMI data ([2019, 2020]); the anomaly reference needs at least 4. Results below are illustrative only.
+
+ year  is_drought  n_reference_years  TROPOMI_alarm_-1.0  TROPOMI_alarm_-1.5  TROPOMI_alarm_-2.0  TROPOMI_alarm_-3.0  GOSIF_alarm_-1.0  GOSIF_alarm_-1.5  GOSIF_alarm_-2.0  GOSIF_alarm_-3.0  NDVI_alarm_-1.0  NDVI_alarm_-1.5  NDVI_alarm_-2.0  NDVI_alarm_-3.0
+ 2018        True                  2               260.5               260.5               284.5               284.5             252.5             252.5             252.5             284.5            236.5            244.5            244.5            244.5
+
+Saved data/processed/tropomi_drought_signal.csv
+  ok (2s)
+
+[36/49] src/analysis/check_boundary_overlay.py
+Total pixels: 4774
+Valid (non-NaN) pixels: 2248
+Valid fraction: 47.09%
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\check_boundary_overlay.py:34: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (5s)
+
+[37/49] src/visualization/map_sif_spatial.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_sif_spatial.py:58: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (15s)
+
+[38/49] src/visualization/map_sif_by_district_static.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_sif_by_district_static.py:58: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (14s)
+
+[39/49] src/visualization/map_rainfall_spatial_static.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_rainfall_spatial_static.py:60: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (14s)
+
+[40/49] src/visualization/map_combined_sif_rainfall.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_combined_sif_rainfall.py:82: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (28s)
+
+[41/49] src/visualization/plot_sif_rainfall_correlation.py
+Saved scatter plot to outputs/figures/sif_rainfall_correlation_scatter.png
+  ok (7s)
+
+[42/49] src/visualization/plot_spatial_autocorrelation.py
+Saved to outputs/figures/spatial_autocorrelation_morans_i.png
+  ok (4s)
+
+[43/49] src/visualization/plot_bootstrap_lag_ci.py
+Saved to outputs/figures/cross_correlation_lag_bootstrap_ci.png
+  ok (4s)
+
+[44/49] src/visualization/plot_crop_yield_validation.py
+Saved to outputs/figures/crop_yield_anomaly_by_year.png
+  ok (7s)
+
+[45/49] src/visualization/build_folium_map.py
+Interactive map saved to outputs/interactive_maps/maps/marathwada_sif_by_district.html
+  ok (6s)
+
+[46/49] src/visualization/build_folium_rainfall_map.py
+Interactive rainfall map saved to outputs/interactive_maps/maps/marathwada_rainfall_by_district.html
+  ok (5s)
+
+[47/49] src/visualization/build_interactive_plots.py
+Saved: outputs/interactive_maps/plots/seasonal_trajectories.html
+Saved: outputs/interactive_maps/plots/lag_by_threshold.html
+Saved: outputs/interactive_maps/plots/bootstrap_lag_ci.html
+  ok (7s)
+
+[48/49] src/visualization/make_graphical_abstract.py
+saved GREEN_ALIBI_graphical_abstract.png/.svg/.pdf
+  ok (6s)
+
+[49/49] fig3_study_area_map.py
+Locator inset skipped: data/external/india_states_gaul_l1.geojson not found (run src/acquisition/gee_india_states_for_locator.py)
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\fig3_study_area_map.py:251: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (6s)
+
+All 49 steps finished in 18.2 min. Full output: outputs/run_log.txt
