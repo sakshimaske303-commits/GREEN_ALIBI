@@ -20,8 +20,14 @@ with col_b:
     st.image("outputs/figures/fluorescence_physics_diagram.png", use_container_width=True)
     styled_caption(
         "Energy partitioning of absorbed sunlight in photosynthesis, and its shift under "
-        "drought stress — the physical basis of Solar-Induced Fluorescence. "
-        "Illustration generated with an AI image tool, used only as a visual aid; it is not data or a result of this study."
+        "drought stress — the physical basis of Solar-Induced Fluorescence."
+    )
+    st.markdown(
+        "<p style='text-align:center; font-size:0.85rem; color:#FBBF24; border:1px solid rgba(251,191,36,0.45); "
+        "border-radius:8px; padding:6px 12px; margin:4px auto 0 auto; max-width:720px;'>"
+        "&#9432; Visual aid only: this illustration was generated with an AI image tool. "
+        "It is not data or a result of this study.</p>",
+        unsafe_allow_html=True,
     )
 
 section_divider()

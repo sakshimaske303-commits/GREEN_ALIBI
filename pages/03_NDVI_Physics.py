@@ -20,8 +20,14 @@ with col_b:
     styled_caption(
         "The physical basis of NDVI: red light absorption by chlorophyll in the palisade "
         "mesophyll versus multiple scattering and reflection of near-infrared light in "
-        "the spongy mesophyll. "
-        "Illustration generated with an AI image tool, used only as a visual aid; it is not data or a result of this study."
+        "the spongy mesophyll."
+    )
+    st.markdown(
+        "<p style='text-align:center; font-size:0.85rem; color:#FBBF24; border:1px solid rgba(251,191,36,0.45); "
+        "border-radius:8px; padding:6px 12px; margin:4px auto 0 auto; max-width:720px;'>"
+        "&#9432; Visual aid only: this illustration was generated with an AI image tool. "
+        "It is not data or a result of this study.</p>",
+        unsafe_allow_html=True,
     )
 
 section_divider()
