@@ -113,7 +113,7 @@ The study boundary comes from the FAO GAUL 2015 level-2 dataset, filtered to the
 
 **SIF.** GOSIF GeoTIFFs were clipped to the study boundary, scaled by GOSIF's 0.0001 factor, and masked for fill values (32767 water, 32766 snow/ice or barren). Each 0.05° cell was weighted by its cropland fraction — the share of MCD12Q1 pixels in classes 12 or 14 within that cell, computed in Earth Engine on the GOSIF grid. Each 8-day composite is dated at its centre (start day + 3.5).
 
-**NDVI.** MOD13Q1 pixels were kept only where `SummaryQA` marks good or marginal quality and where MCD12Q1 classifies the pixel as cropland. Because a 16-day MOD13Q1 value can come from any day in its window, each composite was dated by the mean of its pixels' `DayOfYear` values rather than by its start date. Each year's NDVI series was normalised on its own observations and then linearly interpolated onto the SIF composite dates. During the monsoon many NDVI composites rest on few clear pixels (23 of 117 regional composites have under 25% of cropland pixels passing the quality screen); excluding such composites does not change the direction of any year's lag (Supplementary Figure S1).
+**NDVI.** MOD13Q1 pixels were kept only where `SummaryQA` marks good or marginal quality and where MCD12Q1 classifies the pixel as cropland. Because a 16-day MOD13Q1 value can come from any day in its window, each composite was dated by the mean of its pixels' `DayOfYear` values rather than by its start date. Each year's NDVI series was normalised on its own observations and then linearly interpolated onto the SIF composite dates. During the monsoon many NDVI composites rest on few clear pixels (23 of 117 regional composites have under 25% of cropland pixels passing the quality screen); excluding such composites does not change the direction of any year's lag, although with a stricter 50% cut-off the 2022 lag turns negative (−6.2 days; Supplementary Figure S1).
 
 ### 3.4 Seasonal Lag Calculation
 
@@ -128,7 +128,7 @@ To test whether any lead that remains is a property of NDVI rather than of fluor
 
 ### 3.5 Rainfall Anomaly and Drought Classification
 
-Seasonal (June–December) CHIRPS totals for each year were compared against a 2001–2020 mean and standard deviation, giving a percentage anomaly and z-score. A year is a drought year when its z-score is below −0.5. June–September totals give the same two drought years. District-years were classified against each district's own 2001–2020 baseline (main) and, as a check, against the regional baseline. Because the 2001–2020 baseline contains six study years, the regional classification was repeated with three other baselines (2001–2014, 1981–2014, 1991–2020).
+Seasonal CHIRPS totals for each year (1 June – 26 December) were compared against a 2001–2020 mean and standard deviation, giving a percentage anomaly and z-score. A year is a drought year when its z-score is below −0.5. June–September totals give the same two drought years. District-years were classified against each district's own 2001–2020 baseline (main) and, as a check, against the regional baseline. Because the 2001–2020 baseline contains six study years, the regional classification was repeated with three other baselines (2001–2014, 1981–2014, 1991–2020).
 
 ### 3.6 Cross-Correlation Lag
 
@@ -186,7 +186,7 @@ The deficit was not spatially uniform. In 2018, Bid (−38.0%), Aurangabad (−3
 
 ![Figure 7](outputs/figures/drought_signal_anomaly_curves.png)
 
-**Figure 7.** Standardised SIF and NDVI anomalies relative to normal years, by composite date; 2015 red, 2018 orange, normal years grey. The dashed line marks the alarm threshold z = −3 and the vertical line the 2015 declaration.
+**Figure 7.** Standardised SIF and NDVI anomalies relative to normal years, by composite date; 2015 red, 2018 orange, normal years grey. The dashed line marks the alarm threshold z = −3; the dotted vertical lines mark the 2015 declaration and the 2018 final declaration.
 
 At the regional scale, at z < −3, SIF and NDVI both raised the 2015 alarm on 24 August; in 2018 NDVI did so on 25 September and SIF on 3 October, eight days later. At z < −1, SIF came first in both drought years (by 8 days in 2015 and 32 in 2018), but at that threshold each index also raised alarms in five of the seven normal years, so it does not separate drought from normal seasons. Both indices reached their deepest anomaly in 2018 on the same composite (11 October), NDVI more strongly (z = −12.6 vs −7.9).
 
@@ -371,7 +371,7 @@ For policy, the relevant comparison is with the rainfall trigger, not the declar
 - **Few drought years.** Only 2015 and 2018 meet the regional drought criterion in 2015–2023. The 2001–2014 test adds five more, but their vegetation anomalies were weaker, so at the strict alarm threshold it adds only two flagged drought years. Regional drought-versus-normal comparisons still rest on few seasons, and district-years within one season are not independent.
 - **Normalisation dependence.** The seasonal lead depends on how each series is scaled (Section 4.4). The double-logistic fits that could provide a third, model-based estimate are unstable with the available sampling.
 - **Lag size and sampling.** GOSIF is 8-day and MOD13Q1 16-day; decline-range leads are mostly smaller than the NDVI sampling interval.
-- **NDVI coverage.** Many monsoon NDVI composites rest on few clear pixels. The lag direction is robust to excluding them (Supplementary Figure S1), but the timing of individual composites is uncertain.
+- **NDVI coverage.** Many monsoon NDVI composites rest on few clear pixels. The lag direction does not change when composites under 25% coverage are excluded, but with a 50% cut-off it reverses in 2022 (Supplementary Figure S1), and the timing of individual composites is uncertain.
 - **Post-hoc thresholds.** The decline thresholds, the drought cut-off (z < −0.5) and the alarm threshold (z < −3) were chosen in the course of this study. Sensitivity checks are reported, and the 2001–2014 test applies them unchanged as a guard against tuning, but the analysis is exploratory.
 - **Retrospective measures.** Both lag measures need the whole season, and the anomaly alarms use a normal-year reference that includes later years; they are retrospective timing comparisons, not an operational early-warning procedure.
 - **GOSIF–MODIS dependence.** GOSIF uses MODIS reflectance as a predictor. TROPOMI removes this only for 2018–2020, with one drought year and two normal years. For 2001–2014, GOSIF is predicted outside the OCO-2 period it was trained on.

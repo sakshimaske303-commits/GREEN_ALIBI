@@ -74,8 +74,8 @@ st.markdown(
 
 st.markdown("""
 <p style='text-align:center; font-size:1.1rem;'>
-<strong>SIF's seasonal decline starts before NDVI's every year I looked at.<br>
-But SIF did not flag drought earlier than NDVI.</strong>
+<strong>SIF did not flag drought earlier than NDVI, in 2015–2023 or in the 2001–2014 test.<br>
+Its apparent seasonal head start comes from how NDVI's decline is measured, not from fluorescence.</strong>
 </p>
 """, unsafe_allow_html=True)
 
@@ -117,7 +117,8 @@ st.markdown(
             If it really warned earlier, relief could arrive sooner. I tested that on nine Kharif seasons
             in Marathwada. What I found is negative: SIF is not an earlier drought alarm than NDVI, and its
             apparent head start in the normal seasonal decline is mostly a side-effect of how NDVI's
-            decline is measured. H2, H3 and H4 did not hold up, and I report them as they came out.
+            decline is measured. Applied unchanged to 2001–2014, which adds five drought years, the
+            district-level answer was the same. H2, H3 and H4 did not hold up, and I report them as they came out.
         </p>
     </div>
     """,

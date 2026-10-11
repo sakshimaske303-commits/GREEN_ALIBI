@@ -11,7 +11,7 @@ st.markdown("""
 I needed a measured definition of a drought year rather than one carried in from general
 knowledge about Marathwada. This page builds it from CHIRPS daily rainfall alone,
 independently of the SIF and NDVI data. Every rainfall anomaly in this study comes from the
-same CHIRPS seasonal-total series (1 June – 27 December), compared against a 2001–2020
+same CHIRPS seasonal-total series (1 June – 26 December), compared against a 2001–2020
 baseline.
 """)
 

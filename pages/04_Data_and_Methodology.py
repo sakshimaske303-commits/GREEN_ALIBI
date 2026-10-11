@@ -79,12 +79,13 @@ with tab2:
     - Each year's NDVI series is normalised on its own observations and linearly interpolated
       onto the SIF composite centre dates.
     - During the monsoon many composites rest on few clear pixels (23 of 117 regional composites
-      under 25% coverage); dropping them does not change the direction of any year's lag.
+      under 25% coverage); dropping them does not change the direction of any year's lag
+      (with a stricter 50% cut-off, 2022 reverses).
     """)
 
 with tab3:
     st.markdown("""
-    - One rainfall source throughout: **CHIRPS** seasonal totals (1 June – 27 December) for
+    - One rainfall source throughout: **CHIRPS** seasonal totals (1 June – 26 December) for
       1981–2023, at region and district level, plus daily series for the rainfall trigger.
     - A year is a **drought year** when its seasonal total has z < −0.5 against the 2001–2020
       mean (826.8 mm, σ = 158.9 mm). Only **2015** and **2018** qualify.

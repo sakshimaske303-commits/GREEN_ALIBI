@@ -225,7 +225,7 @@ st.markdown("""
 - **Lag size and sampling.** GOSIF is 8-day and MOD13Q1 16-day; decline-scaled leads are
   mostly shorter than the NDVI sampling interval.
 - **NDVI coverage.** Many monsoon NDVI composites rest on few clear pixels; the lag direction
-  does not change when they are dropped.
+  does not change when composites under 25% coverage are dropped, but 2022 reverses at a 50% cut-off.
 - **Post-hoc thresholds.** The decline thresholds, the drought cut-off (z < −0.5) and the
   alarm threshold (z < −3) were chosen during the study. The 2001–2014 test applies them
   unchanged, but the analysis is exploratory.

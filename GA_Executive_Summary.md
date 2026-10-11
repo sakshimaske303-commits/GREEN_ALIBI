@@ -66,7 +66,7 @@ Cross-correlation, which does not depend on scaling, agrees more with the declin
 
 ✓ Drought classification stable across four rainfall baselines and cut-offs −0.3 to −0.75
 
-✓ NDVI quality-coverage check: lag direction unchanged when low-coverage composites are dropped
+✓ NDVI quality-coverage check: lag direction unchanged when composites under 25% clear-pixel coverage are dropped (2022 reverses at a 50% cut-off)
 
 ✓ Moran's I and year-clustered / fixed-effects tests for district non-independence
 
