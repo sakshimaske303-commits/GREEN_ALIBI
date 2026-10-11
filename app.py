@@ -118,7 +118,7 @@ st.markdown(
             in Marathwada. What I found is negative: SIF is not an earlier drought alarm than NDVI, and its
             apparent head start in the normal seasonal decline is mostly a side-effect of how NDVI's
             decline is measured. Applied unchanged to 2001–2014, which adds five drought years, the
-            district-level answer was the same. H2, H3 and H4 did not hold up, and I report them as they came out.
+            district-level answer was the same. H2, H3 and H4 did not hold up.
         </p>
     </div>
     """,

@@ -34,7 +34,7 @@ Interactive district level maps and headline charts are hosted via GitHub Pages:
 
 India's drought-management process, and the crop-insurance payouts under the Pradhan Mantri Fasal Bima Yojana (PMFBY) tied to it, rest on rainfall deficits and on vegetation indices such as NDVI, which respond once crop damage is visible. Solar-Induced Fluorescence (SIF) is tied to photosynthesis, so it is often expected to respond earlier. GREEN ALIBI is my test of that expectation for the eight districts of Marathwada, Maharashtra. I compare cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's observation date, check the result with TROPOMI SIF (a retrieval not built from MODIS reflectance), and keep two questions apart. The main one is whether SIF shows a drought-specific anomaly before NDVI does, which is what would make SIF a better drought alarm; the secondary one is whether SIF's normal seasonal decline starts before NDVI's. Only 2015 and 2018 qualify as drought years on CHIRPS rainfall, so I also ran every test, unchanged, on 2001–2014 (five more drought years) as an out-of-sample check.
 
-Every result is reported as it came out, including the hypotheses the data do not support (H4: SIF departs from normal before NDVI in drought years; H2: the lag differs between districts; H3: drought widens the lag).
+The hypotheses the data do not support are reported alongside the rest (H4: SIF departs from normal before NDVI in drought years; H2: the lag differs between districts; H3: drought widens the lag).
 
 ---
 
