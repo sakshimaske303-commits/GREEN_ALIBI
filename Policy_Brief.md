@@ -16,7 +16,7 @@ Solar-Induced Fluorescence (SIF) is a faint glow that plants emit during photosy
 
 I asked two separate questions:
 
-1. In a drought year, does SIF move away from its normal-year range before NDVI does? This is the question that tells us whether SIF is a better drought alarm.
+1. In a drought year, does SIF move away from its normal-year range before NDVI does? This is the question that decides whether SIF is a better drought alarm.
 2. Does SIF's normal end-of-season decline start before NDVI's?
 
 ## What Was Found
