@@ -1,4 +1,4 @@
-GREEN ALIBI pipeline run, 2026-10-10 19:17
+GREEN ALIBI pipeline run, 2026-10-11 08:29
 Python 3.12.9 on Windows-11-10.0.26300-SP0
   numpy 2.4.6
   pandas 3.0.3
@@ -18,13 +18,13 @@ Python 3.12.9 on Windows-11-10.0.26300-SP0
   earthengine-api 1.7.28
   geemap 0.37.3
 
-[1/49] src/analysis/clip_gosif.py
+[1/50] src/analysis/clip_gosif.py
 Found all 243 GOSIF 8-day files (9 years x 27 composites)
 Header origin corrected (-180.025 -> -180.0) for: [2021, 2022]
 Done -- 243 files clipped to the precise 8-district boundary into data/processed/clipped
-  ok (200s)
+  ok (206s)
 
-[2/49] src/analysis/aggregate_sif.py
+[2/50] src/analysis/aggregate_sif.py
 Found 243 clipped files to aggregate.
 GOSIF_2015153_clipped.tif: mean_sif=0.0265, cropland-weighted=0.0263
 GOSIF_2015161_clipped.tif: mean_sif=0.0511, cropland-weighted=0.0506
@@ -284,9 +284,9 @@ year
 2021    0.1927             0.1931
 2022    0.1831             0.1838
 2023    0.1740             0.1746
-  ok (5s)
+  ok (6s)
 
-[3/49] src/analysis/rainfall_analysis.py
+[3/50] src/analysis/rainfall_analysis.py
 Climatology (2001-2020) years loaded: 20
 
 20-year climatological mean (Jun-Dec rainfall): 826.7 mm
@@ -307,9 +307,9 @@ Rainfall anomaly summary for study years:
 Plot saved to outputs/figures/rainfall_anomaly_2015_2023.png
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\rainfall_analysis.py:56: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
-  ok (2s)
+  ok (3s)
 
-[4/49] src/analysis/rainfall_by_district_analysis.py
+[4/50] src/analysis/rainfall_by_district_analysis.py
 Using regional 2001-2020 mean as baseline: 826.7 mm (std: 158.9 mm)
 
 District-level rainfall anomaly (relative to regional 20-year normal):
@@ -327,7 +327,7 @@ Parbhani   -17.0  20.3  -0.6 -10.0  15.0  33.0  27.4  50.1   0.3
 Saved to data/processed/rainfall_anomaly_by_district.csv
   ok (1s)
 
-[5/49] src/analysis/compare_sif_ndvi.py
+[5/50] src/analysis/compare_sif_ndvi.py
      year    doy  mean_sif  mean_ndvi  sif_norm  ndvi_norm
 0    2015  156.5  0.026291        NaN  0.000000        NaN
 1    2015  164.5  0.050641   0.278041  0.114131   0.026843
@@ -342,11 +342,11 @@ Saved to data/processed/rainfall_anomaly_by_district.csv
 242  2023  364.5  0.107961        NaN  0.210705        NaN
 
 [243 rows x 6 columns]
-D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\compare_sif_ndvi.py:77: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\compare_sif_ndvi.py:86: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
   ok (3s)
 
-[6/49] src/analysis/lag_analysis.py
+[6/50] src/analysis/lag_analysis.py
 Per-threshold crossing dates and lag (days):
 
  year  is_drought_year  threshold  sif_crossing_doy  ndvi_crossing_doy  lag_days
@@ -420,7 +420,7 @@ D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\lag_analysis.py:86: 
   plt.show()
   ok (2s)
 
-[7/49] src/analysis/cross_correlation_lag.py
+[7/50] src/analysis/cross_correlation_lag.py
  year  is_drought_year  decline_window_days  max_lag_tested  cross_corr_lag_days  max_correlation  corr_at_zero_lag  peak_at_upper_boundary  peak_at_lower_boundary
  2015             True                  121              30                   10           0.9975            0.9822                   False                   False
  2016            False                  129              32                   12           0.9964            0.9753                   False                   False
@@ -437,7 +437,7 @@ D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\cross_correlation_la
   plt.show()
   ok (3s)
 
-[8/49] src/analysis/bootstrap_lag_uncertainty.py
+[8/50] src/analysis/bootstrap_lag_uncertainty.py
  year  is_drought_year  n_observations  point_estimate_lag_days  point_estimate_r  bootstrap_n_valid  ci_2.5pct_days  ci_97.5pct_days  bootstrap_median_days  bootstrap_std_days  pct_replicates_lag_gt_0  pct_replicates_lag_geq_0  pct_replicates_lag_lt_0
  2015             True              16                       10            0.9975               2000            6.00             13.0                   10.0            1.788480                    100.0                     100.0                      0.0
  2016            False              17                       12            0.9964               2000            8.00             15.0                   12.0            1.749079                     99.9                     100.0                      0.1
@@ -486,9 +486,9 @@ Pairwise CI overlap check (does the gap between years survive sampling uncertain
   2021 [-4.0, 30.0] vs 2022 [-5.0, 3.0] -> OVERLAP (not statistically distinguishable)
   2021 [-4.0, 30.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
   2022 [-5.0, 3.0] vs 2023 [-10.0, 0.0] -> OVERLAP (not statistically distinguishable)
-  ok (126s)
+  ok (92s)
 
-[9/49] src/analysis/final_summary.py
+[9/50] src/analysis/final_summary.py
 Final combined summary — rainfall anomaly vs SIF-NDVI lag:
  year  total_rainfall_mm  anomaly_pct  anomaly_zscore  mean_lag_days
  2015             649.00       -21.50           -1.12          21.70
@@ -500,9 +500,9 @@ Final combined summary — rainfall anomaly vs SIF-NDVI lag:
  2021             969.95        17.32            0.90          20.30
  2022            1130.31        36.72            1.91          11.80
  2023             795.34        -3.80           -0.20          11.06
-  ok (2s)
+  ok (1s)
 
-[10/49] src/analysis/h3_continuous_severity.py
+[10/50] src/analysis/h3_continuous_severity.py
 Rainfall anomaly (%) vs. mean SIF-to-NDVI lag (days), n = 9 years:
 
  year  anomaly_pct  anomaly_zscore  is_drought_year  lag_days
@@ -525,9 +525,9 @@ Observed direction: r is positive, opposite of H3.
 
 Saved to data/processed/h3_continuous_severity_correlation.csv
 Plot saved to outputs/figures/h3_continuous_severity_scatter.png
-  ok (7s)
+  ok (10s)
 
-[11/49] src/analysis/zonal_stats_sif.py
+[11/50] src/analysis/zonal_stats_sif.py
 Loaded 8 districts: ['Latur', 'Nanded', 'Osmanabad', 'Aurangabad', 'Bid', 'Hingoli', 'Jalna', 'Parbhani']
 2015 | Latur: mean SIF = 0.1692 (valid frac: 55.5%)
 2015 | Nanded: mean SIF = 0.2332 (valid frac: 36.0%)
@@ -617,9 +617,9 @@ Osmanabad   0.1349  0.1800  0.1902  0.1512  ...  0.1943  0.1775  0.2276  0.2262
 Parbhani    0.1895  0.2572  0.2455  0.2116  ...  0.2562  0.2467  0.2884  0.2913
 
 [8 rows x 9 columns]
-  ok (3s)
+  ok (2s)
 
-[12/49] src/analysis/sif_rainfall_correlation.py
+[12/50] src/analysis/sif_rainfall_correlation.py
 Merged 72 district-year observations (expected: 8 districts x 9 years = 72)
 
   district  year  mean_sif  anomaly_pct  anomaly_zscore
@@ -700,9 +700,9 @@ Pearson  (rainfall anomaly % vs mean SIF): r    = 0.529, p = 0.0000
 Spearman (rainfall anomaly % vs mean SIF): rho  = 0.505, p = 0.0000
 
 Saved merged district-year dataset to data/processed/sif_rainfall_district_merged.csv
-  ok (3s)
+  ok (2s)
 
-[13/49] src/analysis/district_climatology_anomaly.py
+[13/50] src/analysis/district_climatology_anomaly.py
 ======================================================================
 Per-district climatology mean/std vs. the one pooled region-wide baseline
 ======================================================================
@@ -815,7 +815,7 @@ conclusion, and are reported here rather than left as an unquantified caveat.
 Saved data/processed/district_climatology_anomaly_comparison.csv
   ok (1s)
 
-[14/49] src/analysis/spatial_autocorrelation.py
+[14/50] src/analysis/spatial_autocorrelation.py
 Spatial weights: 8 districts, mean neighbors per district = 3.25
 Islands (no neighbors): []
 
@@ -840,9 +840,9 @@ Islands (no neighbors): []
  2023 rainfall_anomaly_pct    0.4845                -0.1429               0.0040    2.816   significant positive clustering
 
 13 of 18 year x variable combinations show significant (p<0.05) positive spatial clustering. This confirms, quantitatively, that district-year observations within a year are not spatially independent — consistent with the paper's existing caveat that the effective sample size behind the district-level correlation is closer to the number of years (n=9) than the number of district-year rows (n=72).
-  ok (15s)
+  ok (10s)
 
-[15/49] src/analysis/sensitivity_checks.py
+[15/50] src/analysis/sensitivity_checks.py
 ======================================================================
 CHECK 1: Drought-threshold (z-score cutoff) sensitivity
 ======================================================================
@@ -897,7 +897,7 @@ observation date) pipeline for that year.
 Saved to data/processed/sensitivity_checks_summary.csv
   ok (7s)
 
-[16/49] src/analysis/cropmask_obsdate_sensitivity.py
+[16/50] src/analysis/cropmask_obsdate_sensitivity.py
 Cropland-weighted SIF saved to data/processed/marathwada_sif_timeseries_cropland.csv
 Mean cropland fraction (12+14) over valid SIF pixels, by year:
 year
@@ -966,9 +966,9 @@ V3_crop1214_obsdate          255.0           261.4      6.4
   V4_crop12_obsdate          255.0           261.4      6.4
 
 Saved data/processed/cropmask_obsdate_sensitivity.csv
-  ok (10s)
+  ok (4s)
 
-[17/49] src/analysis/district_lag_analysis.py
+[17/50] src/analysis/district_lag_analysis.py
 District SIF series: 1944 rows (8 districts x 9 years x 27 dates)
 District NDVI series: 936 rows, 2 empty composites
 
@@ -1016,9 +1016,9 @@ H3 at district level, rainfall z-score = zscore_district_baseline (n = 72 distri
 
 Saved data/processed/district_lag_by_year.csv and data/processed/district_lag_tests.csv
 Figure saved to outputs/figures/district_lag_by_year.png
-  ok (12s)
+  ok (8s)
 
-[18/49] src/analysis/district_seasonal_sif.py
+[18/50] src/analysis/district_seasonal_sif.py
 Check: cropland-weighted DOY 273 vs old unweighted DOY 273, r = 0.9998 (max |diff| = 0.0037)
 Composites per district-year: 27-27
 
@@ -1061,9 +1061,9 @@ Moran's I, seasonal SIF:
 Significant (p < 0.05) in 9 of 9 years
 
 Saved data/processed/sif_by_district_seasonal.csv, data/processed/district_seasonal_sif_tests.csv, data/processed/spatial_autocorrelation_morans_i_seasonal_sif.csv
-  ok (9s)
+  ok (7s)
 
-[19/49] src/analysis/rain_timing_analysis.py
+[19/50] src/analysis/rain_timing_analysis.py
 Check: daily sums vs the seasonal totals used everywhere else (mm):
 min   -0.18
 max   -0.06
@@ -1120,9 +1120,9 @@ District-level (n = 72 district-years): within-year correlation and OLS clustere
 
 Saved rain_timing_by_year.csv, rain_timing_by_district_year.csv, rain_timing_vs_lag.csv
 Note: 10 timing measures are tested here, so about one p < 0.05 would be expected by chance alone.
-  ok (3s)
+  ok (6s)
 
-[20/49] src/analysis/crop_yield_validation.py
+[20/50] src/analysis/crop_yield_validation.py
 ======================================================================
 Loaded 3111 Kharif-season crop-district-year rows for the 8 Marathwada districts
 Years available: 1997 - 2022
@@ -1157,9 +1157,9 @@ Drought years show LOWER actual crop yield than normal years.
 
 Saved region-year summary to data/processed/crop_yield_validation_summary.csv
 Saved district-year detail to data/processed/crop_yield_anomaly_by_district_year.csv
-  ok (6s)
+  ok (17s)
 
-[21/49] src/analysis/crop_yield_sensitivity.py
+[21/50] src/analysis/crop_yield_sensitivity.py
 Sugarcane 'Kharif' rows: 14; years per district: {'Aurangabad': 2, 'Bid': 2, 'Jalna': 2, 'Latur': 2, 'Nanded': 2, 'Osmanabad': 2, 'Parbhani': 2} -> none pass the 10-year filter
 Dropped 34 zero yields and 30 extreme outliers (max dropped yield 3.3 t/ha)
 
@@ -1192,9 +1192,9 @@ year
 2022           0.47              0.64          0.61               0.44            0.44
 
 Saved crop_yield_sensitivity_region.csv, _district.csv, _tests.csv
-  ok (9s)
+  ok (15s)
 
-[22/49] src/analysis/baseline_sensitivity.py
+[22/50] src/analysis/baseline_sensitivity.py
 Check vs existing 2001-2020 climatology file: max |difference| = 1.31 mm (mean 826.7 vs 826.4)
 Trend 1981-2023: +47.6 mm/decade (p = 0.014); Kendall tau = +0.27 (p = 0.011)
   B0_2001_2020: mean 826.7 mm, std 158.9 mm, n = 20
@@ -1247,9 +1247,9 @@ District lag vs z_region_baseline: Pearson r across baselines = 0.125, 0.125, 0.
 District lag vs z_district_baseline: Pearson r across baselines = 0.105, 0.095, 0.105, 0.113
 
 Saved baseline_sensitivity_region.csv, baseline_sensitivity_district.csv, baseline_sensitivity_summary.csv
-  ok (3s)
+  ok (4s)
 
-[23/49] src/analysis/lag_uncertainty_check.py
+[23/50] src/analysis/lag_uncertainty_check.py
 PART A -- cross-correlation bootstrap
 How often the current bootstrap hits a problem (% of 2000 replicates):
  year  point_lag  pct_at_search_edge  pct_replicates_extrapolated
@@ -1294,9 +1294,9 @@ Drought minus normal mean threshold lag: -7.8 days, 95% interval (measurement un
   (this interval covers only how precisely each year's lag is measured -- NOT year-to-year variability; with 2 drought years that is still the binding limit)
 
 Saved lag_uncertainty_xcorr.csv, lag_uncertainty_threshold.csv, lag_uncertainty_summary.csv
-  ok (446s)
+  ok (460s)
 
-[24/49] src/analysis/normalisation_sensitivity.py
+[24/50] src/analysis/normalisation_sensitivity.py
 REGION (GOSIF) -- mean lag, days (> 0 = SIF first)
  year  is_drought  lag_season  lag_decline  lag_dlogist  eos_sif  eos_ndvi  sif_postpeak_min_season_scaled  ndvi_postpeak_min_season_scaled
  2015        True       21.69         9.62        13.90   275.31    289.20                            0.05                             0.35
@@ -1340,9 +1340,9 @@ district_normal_mean_zscore_district_baseline        19.53         3.38        7
 district_welch_p_zscore_district_baseline             0.08        0.134        0.021
 
 Saved normalisation_sensitivity_*.csv and outputs/figures/normalisation_sensitivity.png
-  ok (16s)
+  ok (9s)
 
-[25/49] src/analysis/ndvi_coverage_check.py
+[25/50] src/analysis/ndvi_coverage_check.py
 Regional NDVI composites by cropland-pixel coverage (share of the best-covered composite):
   < 10%: 10 of 117;  < 25%: 23;  < 50%: 35
 District composites < 10%: 102 of 936; < 25%: 181
@@ -1382,13 +1382,41 @@ year
   min coverage 50%: SIF first in 8/9; drought mean 14.8 vs normal 24.2 d
 
 Saved ndvi_coverage_lag_sensitivity.csv, ndvi_coverage_region.csv, outputs/figures/ndvi_coverage.png
-  ok (5s)
-
-[26/49] src/analysis/vegetation_index_lag.py
-data/raw/vi_obsdate_2015_2023.csv not found -- run src/acquisition/gee_vi_obsdate.py first (needs Earth Engine). Skipping.
   ok (2s)
 
-[27/49] src/analysis/drought_signal_analysis.py
+[26/50] src/analysis/vegetation_index_lag.py
+NDVI check against ndvi_obsdate_2015_2023.csv: max |difference| = 0.0000 over 117 composites
+
+Mean threshold lag, days (> 0 = the first-named series declines first):
+ year  is_drought  SIF_vs_NDVI_season  SIF_vs_EVI_season  SIF_vs_NIRv_season  EVI_vs_NDVI_season  NIRv_vs_NDVI_season  SIF_vs_NDVI_decline  SIF_vs_EVI_decline  SIF_vs_NIRv_decline  EVI_vs_NDVI_decline  NIRv_vs_NDVI_decline
+ 2015        True                21.7               12.1                 5.4                 9.6                 16.2                  9.6                 0.4                 -2.2                  9.6                  12.2
+ 2016       False                34.2                6.8                -1.5                30.7                 37.0                 13.4                -5.1                 -8.1                 18.4                  21.4
+ 2017       False                28.5                9.4                 3.5                19.2                 25.1                 10.6                 0.5                 -2.3                 10.5                  13.3
+ 2018        True                 8.0                4.9                 0.6                 3.0                  7.2                  3.5                 1.4                 -2.3                  1.9                   5.6
+ 2019       False                25.4               -3.4               -12.9                31.6                 39.2                 -5.5               -12.7                -14.5                  7.2                   9.0
+ 2020       False                27.1                2.6                -5.1                24.8                 32.6                  8.8                -4.1                 -6.4                 13.1                  15.5
+ 2021       False                20.3               -0.4                -5.4                20.3                 25.2                 -1.2                -6.6                 -8.7                  5.2                   7.2
+ 2022       False                11.8                5.3                 0.7                 6.5                 11.3                 -1.0                 0.2                 -6.4                 -0.6                   0.5
+ 2023       False                11.1                2.8                -1.3                 7.8                 11.7                  0.4                -3.1                 -4.0                  3.7                   4.6
+
+Years with a lead (> 0):
+  SIF_vs_NDVI_season           9/9   mean +20.9 d
+  SIF_vs_EVI_season            7/9   mean +4.4 d
+  SIF_vs_NIRv_season           4/9   mean -1.8 d
+  EVI_vs_NDVI_season           9/9   mean +17.1 d
+  NIRv_vs_NDVI_season          9/9   mean +22.8 d
+  SIF_vs_NDVI_decline          6/9   mean +4.3 d
+  SIF_vs_EVI_decline           4/9   mean -3.2 d
+  SIF_vs_NIRv_decline          0/9   mean -6.1 d
+  EVI_vs_NDVI_decline          8/9   mean +7.7 d
+  NIRv_vs_NDVI_decline         9/9   mean +9.9 d
+
+Read: if EVI_vs_NDVI and NIRv_vs_NDVI are about as large as SIF_vs_NDVI, the 'SIF lead' is mostly an NDVI property;
+if SIF_vs_EVI / SIF_vs_NIRv stay clearly positive, SIF declines earlier than reflectance-based greenness as well.
+Saved data/processed/vegetation_index_lag.csv
+  ok (1s)
+
+[27/50] src/analysis/drought_signal_analysis.py
 REGION -- first date the anomaly stays below z = -3.0 for two composites (from 1 July)
 year            SIF alarm  NDVI alarm  SIF lead   min z SIF (date)   min z NDVI (date)
 2015  drought      24 Aug      24 Aug      +0 d   -6.47 (09 Sep)     -7.99 (11 Oct)
@@ -1454,9 +1482,9 @@ How well each index separates drought from normal district-years, date by date (
 Saved drought_signal_region.csv, drought_signal_district.csv, drought_signal_auc_by_date.csv, outputs/figures/drought_signal_anomaly_curves.png
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\drought_signal_analysis.py:151: RuntimeWarning: Mean of empty slice
   sc = np.array([np.nanmean(z[max(0, i - 1): i + 1]) for z in D[f"{v}_z"]])
-  ok (9s)
+  ok (4s)
 
-[28/49] src/analysis/rainfall_trigger_comparison.py
+[28/50] src/analysis/rainfall_trigger_comparison.py
 REGION -- Trigger-1 date (rainfall) vs satellite signals
 year   rain z  Trigger-1  SIF alarm  NDVI alarm  SIF 0.9  NDVI 0.9
 2015    -1.12          -     24 Aug      24 Aug   24 Sep    07 Oct
@@ -1497,9 +1525,9 @@ Saved rainfall_trigger_dates.csv, rainfall_trigger_vs_satellite.csv
 Note: Trigger-1 is applied by the state at taluka level; this region/district version applies a dry-spell rule
 to spatially averaged rainfall, which smooths out local dry spells. See gee_chirps_dryspell_area.py for the
 pixel-level version.
-  ok (3s)
+  ok (2s)
 
-[29/49] src/analysis/rainfall_window_sensitivity.py
+[29/50] src/analysis/rainfall_window_sensitivity.py
 Regional rainfall z-score by window (baseline 2001-2020; * = z < -0.5)
 window Jun-Dec Jun-Sep (JJAS)    June    July  August September
 year                                                           
@@ -1517,13 +1545,31 @@ year
   August 2023: 51 mm (-75%, z = -2.52), the driest August of the 2001-2023 record: True
 
 Saved data/processed/rainfall_window_sensitivity.csv
-  ok (2s)
+  ok (1s)
 
-[30/49] src/analysis/rainfall_trigger_pixel.py
-No files in data/external/chirps_trigger -- run src/acquisition/gee_chirps_dryspell_area.py first (needs Earth Engine). Skipping.
-  ok (3s)
+[30/50] src/analysis/rainfall_trigger_pixel.py
+Share of each district's pixels where Trigger-1 fired (1 Jul - 30 Sep):
+year        2015  2016  2017  2018  2019  2020  2021  2022  2023
+district                                                        
+Aurangabad   1.0   0.0  20.0  40.0   0.0   0.0   5.0   0.0  11.0
+Bid          2.0   0.0  72.0  35.0   3.0   0.0   0.0   0.0   7.0
+Hingoli      0.0   0.0   0.0   0.0   0.0   0.0   0.0   0.0   0.0
+Jalna        0.0   0.0  10.0   3.0   0.0   0.0   1.0   0.0   0.0
+Latur        0.0   0.0  16.0   0.0   0.0   0.0   0.0   0.0   0.0
+Nanded       0.0   0.0   3.0   0.0   0.0   0.0   0.0   0.0   0.0
+Osmanabad    7.0   0.0  11.0   5.0   0.0   0.0   0.0   0.0   0.0
+Parbhani     0.0   0.0  21.0   0.0   0.0   0.0   0.0   0.0   0.0
 
-[31/49] src/analysis/rq3_official_declaration_comparison.py
+Trigger reached 25% of district area: drought 2/15, normal 1/57 district-years
+  SIF alarm minus trigger date: n = 2, satellite earlier in 1, median +0 d
+  NDVI alarm minus trigger date: n = 2, satellite earlier in 1, median -4 d
+
+Trigger reached 50% of district area: drought 0/15, normal 1/57 district-years
+
+Saved data/processed/rainfall_trigger_pixel_by_district.csv
+  ok (5s)
+
+[31/50] src/analysis/rq3_official_declaration_comparison.py
  year                       event        kind   doy       date  days_before_final_declaration
  2015  SIF drought alarm (z < -3)       alarm 236.5 2015-08-24                           52.5
  2015 NDVI drought alarm (z < -3)       alarm 236.5 2015-08-24                           52.5
@@ -1540,9 +1586,9 @@ No files in data/external/chirps_trigger -- run src/acquisition/gee_chirps_drysp
  2018           Final declaration declaration 304.0 2018-10-31                            0.0
 
 Saved data/processed/rq3_official_declaration_comparison.csv and outputs/figures/rq3_declaration_timeline.png
-  ok (4s)
+  ok (2s)
 
-[32/49] src/analysis/method_dependence.py
+[32/50] src/analysis/method_dependence.py
 Main-method lags reproduced: {2015: 21.7, 2016: 34.2, 2017: 28.5, 2018: 8.0, 2019: 25.4, 2020: 27.1, 2021: 20.3, 2022: 11.8, 2023: 11.1}
 
 Every variant (lags in days; C2 < 0 means drought years have the smaller lag):
@@ -1598,18 +1644,18 @@ SUMMARY over 40 variants (32 threshold-based, 8 cross-correlation):
   Years where some variant has NDVI leading: {2019: 4, 2022: 4, 2023: 5}
 
 Saved method_dependence_lags.csv, method_dependence_claims.csv
-  ok (9s)
+  ok (5s)
 
-[33/49] src/analysis/gosif_grid_shift_check.py
+[33/50] src/analysis/gosif_grid_shift_check.py
 Step 1: header origin 2020 = -180.0, 2022 = -180.025
   water          mask: pixels that differ from 2020 -- same index: 74 | moved one column east: 128,388 | one column west: 128,390
   non-vegetated  mask: pixels that differ from 2020 -- same index: 0 | moved one column east: 32,542 | one column west: 32,542
   -> masks match by array index: the data are on the standard grid; only the header origin (-180.025) is wrong.
 
 Step 2 skipped: the 2021/2022 clipped rasters are already on the standard grid (clip_gosif.py corrects the header). The before/after comparison made while they were still shifted is kept in data/processed/gosif_grid_shift_check.csv.
-  ok (5s)
+  ok (3s)
 
-[34/49] src/analysis/tropomi_sif_analysis.py
+[34/50] src/analysis/tropomi_sif_analysis.py
 Step 1: 564 TROPOSIF files on disk, 540 dates already extracted, 24 to read
   24/24 files read
 
@@ -1647,83 +1693,131 @@ main (cf<0.2, cropland, SIF_Corr)  2020            26          0.97             
   r between the two ratio series = 0.91
 
 Saved data/processed/tropomi_8day_composites.csv and data/processed/tropomi_vs_gosif.csv
-  ok (26s)
+  ok (16s)
 
-[35/49] src/analysis/tropomi_drought_signal.py
+[35/50] src/analysis/tropomi_drought_signal.py
 WARNING: only 2 normal year(s) with TROPOMI data ([2019, 2020]); the anomaly reference needs at least 4. Results below are illustrative only.
 
  year  is_drought  n_reference_years  TROPOMI_alarm_-1.0  TROPOMI_alarm_-1.5  TROPOMI_alarm_-2.0  TROPOMI_alarm_-3.0  GOSIF_alarm_-1.0  GOSIF_alarm_-1.5  GOSIF_alarm_-2.0  GOSIF_alarm_-3.0  NDVI_alarm_-1.0  NDVI_alarm_-1.5  NDVI_alarm_-2.0  NDVI_alarm_-3.0
  2018        True                  2               260.5               260.5               284.5               284.5             252.5             252.5             252.5             284.5            236.5            244.5            244.5            244.5
 
 Saved data/processed/tropomi_drought_signal.csv
+  ok (1s)
+
+[36/50] src/analysis/out_of_sample_2001_2014.py
+
+=== OUT-OF-SAMPLE 2001-2014: 14 years, drought years (CHIRPS z < -0.5): [2001, 2002, 2003, 2004, 2014]
+    rainfall z: 2001 -0.52, 2002 -1.27, 2003 -1.01, 2004 -1.35, 2005 +1.44, 2006 +1.21, 2007 +0.79, 2008 -0.32, 2009 -0.41, 2010 +1.74, 2011 -0.17, 2012 -0.16, 2013 +0.61, 2014 -1.12
+
+  REGION, drought alarms (day of year of the composite centre; '-' = none):
+    z < -1.0  drought flagged SIF 5/5, NDVI 5/5 | first: SIF 3, same 1, NDVI 1 | false alarms SIF 5/9, NDVI 6/9
+    z < -1.5  drought flagged SIF 5/5, NDVI 4/5 | first: SIF 4, same 1, NDVI 0 | false alarms SIF 2/9, NDVI 3/9
+    z < -2.0  drought flagged SIF 2/5, NDVI 3/5 | first: SIF 2, same 0, NDVI 1 | false alarms SIF 2/9, NDVI 1/9
+    z < -3.0  drought flagged SIF 2/5, NDVI 1/5 | first: SIF 1, same 1, NDVI 0 | false alarms SIF 0/9, NDVI 0/9
+    2001: SIF 260.5, NDVI nan
+    2002: SIF 268.5, NDVI 268.5
+    2003: SIF nan, NDVI nan
+    2004: SIF nan, NDVI nan
+    2014: SIF nan, NDVI nan
+
+  DISTRICTS (own rainfall baseline): 40 drought, 72 normal district-years
+    z < -1.0  flagged SIF 38, NDVI 38 of 40 | false alarms SIF 40, NDVI 42 of 72 | both 37: SIF earlier 10, same 5, NDVI earlier 22
+    z < -1.5  flagged SIF 25, NDVI 25 of 40 | false alarms SIF 16, NDVI 25 of 72 | both 22: SIF earlier 1, same 4, NDVI earlier 17
+    z < -2.0  flagged SIF 14, NDVI 21 of 40 | false alarms SIF 7, NDVI 12 of 72 | both 13: SIF earlier 0, same 0, NDVI earlier 13
+    z < -3.0  flagged SIF 3, NDVI 6 of 40 | false alarms SIF 0, NDVI 1 of 72 | both 2: SIF earlier 0, same 0, NDVI earlier 2
+
+  REGION, seasonal lag in days (> 0 = first-named series declines first):
+ year  is_drought  SIF_vs_NDVI_season  SIF_vs_NIRv_season  NIRv_vs_NDVI_season  SIF_vs_NDVI_decline  SIF_vs_NIRv_decline  NIRv_vs_NDVI_decline
+ 2001        True                38.9                 1.0                 43.9                 15.3                -27.5                  32.9
+ 2002        True                26.1                 5.5                 19.9                  2.1                 -3.7                   5.7
+ 2003        True                37.6                -2.9                 40.0                 14.4                -10.5                  23.8
+ 2004        True                27.0                -3.5                 29.8                  5.6                -17.3                  23.0
+ 2005       False                31.1                11.6                 24.6                 14.2                  1.0                  13.1
+ 2006       False                30.2                 5.6                 24.5                 11.4                 -0.4                  11.8
+ 2007       False                21.2                 1.4                 19.8                  8.1                 -3.0                  11.1
+ 2008       False                26.6                12.7                 15.4                  7.2                  5.0                   2.0
+ 2009       False                16.0                 7.6                  8.6                  2.5                  0.7                   1.8
+ 2010       False                34.9                -8.5                 39.3                 -0.7                 -8.4                   7.4
+ 2011       False                19.3                -8.6                 27.9                  8.9                -14.0                  23.0
+ 2012       False                25.3                 2.0                 23.7                  6.0                 -1.9                   7.6
+ 2013       False                37.3                 2.4                 43.8                 19.8                 -5.9                  25.7
+ 2014        True                12.0                 1.0                 11.1                  0.8                 -3.0                   3.8
+    SIF_vs_NDVI_season     first in 14/14 years, mean +27.4 d (drought +28.3, normal +26.9)
+    SIF_vs_NIRv_season     first in 10/14 years, mean +1.9 d (drought +0.2, normal +2.9)
+    NIRv_vs_NDVI_season    first in 14/14 years, mean +26.6 d (drought +28.9, normal +25.3)
+    SIF_vs_NDVI_decline    first in 13/14 years, mean +8.3 d (drought +7.6, normal +8.6)
+    SIF_vs_NIRv_decline    first in 3/14 years, mean -6.4 d (drought -12.4, normal -3.0)
+    NIRv_vs_NDVI_decline   first in 14/14 years, mean +13.8 d (drought +17.8, normal +11.5)
+
+Saved data/processed/oos_*.csv
   ok (2s)
 
-[36/49] src/analysis/check_boundary_overlay.py
+[37/50] src/analysis/check_boundary_overlay.py
 Total pixels: 4774
 Valid (non-NaN) pixels: 2248
 Valid fraction: 47.09%
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\analysis\check_boundary_overlay.py:34: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
-  ok (5s)
+  ok (3s)
 
-[37/49] src/visualization/map_sif_spatial.py
+[38/50] src/visualization/map_sif_spatial.py
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_sif_spatial.py:58: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
-  ok (15s)
+  ok (7s)
 
-[38/49] src/visualization/map_sif_by_district_static.py
+[39/50] src/visualization/map_sif_by_district_static.py
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_sif_by_district_static.py:58: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
-  ok (14s)
-
-[39/49] src/visualization/map_rainfall_spatial_static.py
-D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_rainfall_spatial_static.py:60: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
-  plt.show()
-  ok (14s)
-
-[40/49] src/visualization/map_combined_sif_rainfall.py
-D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_combined_sif_rainfall.py:82: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
-  plt.show()
-  ok (28s)
-
-[41/49] src/visualization/plot_sif_rainfall_correlation.py
-Saved scatter plot to outputs/figures/sif_rainfall_correlation_scatter.png
-  ok (7s)
-
-[42/49] src/visualization/plot_spatial_autocorrelation.py
-Saved to outputs/figures/spatial_autocorrelation_morans_i.png
-  ok (4s)
-
-[43/49] src/visualization/plot_bootstrap_lag_ci.py
-Saved to outputs/figures/cross_correlation_lag_bootstrap_ci.png
-  ok (4s)
-
-[44/49] src/visualization/plot_crop_yield_validation.py
-Saved to outputs/figures/crop_yield_anomaly_by_year.png
-  ok (7s)
-
-[45/49] src/visualization/build_folium_map.py
-Interactive map saved to outputs/interactive_maps/maps/marathwada_sif_by_district.html
   ok (6s)
 
-[46/49] src/visualization/build_folium_rainfall_map.py
-Interactive rainfall map saved to outputs/interactive_maps/maps/marathwada_rainfall_by_district.html
-  ok (5s)
+[40/50] src/visualization/map_rainfall_spatial_static.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_rainfall_spatial_static.py:60: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (6s)
 
-[47/49] src/visualization/build_interactive_plots.py
+[41/50] src/visualization/map_combined_sif_rainfall.py
+D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\src\visualization\map_combined_sif_rainfall.py:82: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+  ok (13s)
+
+[42/50] src/visualization/plot_sif_rainfall_correlation.py
+Saved scatter plot to outputs/figures/sif_rainfall_correlation_scatter.png
+  ok (4s)
+
+[43/50] src/visualization/plot_spatial_autocorrelation.py
+Saved to outputs/figures/spatial_autocorrelation_morans_i.png
+  ok (2s)
+
+[44/50] src/visualization/plot_bootstrap_lag_ci.py
+Saved to outputs/figures/cross_correlation_lag_bootstrap_ci.png
+  ok (2s)
+
+[45/50] src/visualization/plot_crop_yield_validation.py
+Saved to outputs/figures/crop_yield_anomaly_by_year.png
+  ok (3s)
+
+[46/50] src/visualization/build_folium_map.py
+Interactive map saved to outputs/interactive_maps/maps/marathwada_sif_by_district.html
+  ok (3s)
+
+[47/50] src/visualization/build_folium_rainfall_map.py
+Interactive rainfall map saved to outputs/interactive_maps/maps/marathwada_rainfall_by_district.html
+  ok (2s)
+
+[48/50] src/visualization/build_interactive_plots.py
 Saved: outputs/interactive_maps/plots/seasonal_trajectories.html
 Saved: outputs/interactive_maps/plots/lag_by_threshold.html
 Saved: outputs/interactive_maps/plots/bootstrap_lag_ci.html
-  ok (7s)
+  ok (3s)
 
-[48/49] src/visualization/make_graphical_abstract.py
+[49/50] src/visualization/make_graphical_abstract.py
 saved GREEN_ALIBI_graphical_abstract.png/.svg/.pdf
-  ok (6s)
+  ok (3s)
 
-[49/49] fig3_study_area_map.py
+[50/50] fig3_study_area_map.py
 Locator inset skipped: data/external/india_states_gaul_l1.geojson not found (run src/acquisition/gee_india_states_for_locator.py)
 D:\SAKSHI_RESEARCH\SAKSHI_RESEARCH\GREEN_ALIBI\fig3_study_area_map.py:251: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
   plt.show()
-  ok (6s)
+  ok (3s)
 
-All 49 steps finished in 18.2 min. Full output: outputs/run_log.txt
+All 50 steps finished in 16.4 min. Full output: outputs/run_log.txt

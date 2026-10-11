@@ -29,7 +29,11 @@ abstract: >-
   p = 0.97). TROPOMI SIF (2018-2020) put SIF first under both scalings;
   MODIS NIRv and EVI lead NDVI as much as SIF does and SIF does not lead
   NIRv, so the remaining lead is a property of NDVI. Only
-  2015 and 2018 met the CHIRPS rainfall drought criterion. An approximation of
+  2015 and 2018 met the CHIRPS rainfall drought criterion; applied unchanged
+  to 2001-2014 (five more drought years) as an out-of-sample test, the methods
+  gave the same district-level answer (NDVI earlier in 17 of 22 drought
+  district-years flagged by both at z < -1.5, SIF in 1), while regionally SIF
+  flagged two of five drought years at z < -3 and NDVI one. An approximation of
   the rainfall-based Trigger-1 never fired at the regional scale and fired in
   2 of 15 drought district-years, also when evaluated per pixel. In this dataset SIF is not an earlier
   drought alarm than NDVI, and its seasonal lead is largely a property of how

@@ -91,6 +91,9 @@ with tab3:
     - This holds under three other baselines (2001–2014, 1981–2014, 1991–2020) and every cut-off
       from −0.3 to −0.75. District-years are classified against each district's own 2001–2020
       baseline: 15 of 72 are drought district-years (17 against the regional baseline).
+    - **Out-of-sample test:** every method applied unchanged to 2001–2014, where 2001, 2002,
+      2003, 2004 and 2014 are drought years, with anomalies standardised against the normal
+      years of 2001–2014 only.
     """)
 
 with tab4:

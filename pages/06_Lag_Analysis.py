@@ -153,7 +153,9 @@ st.warning(f"""
 averaged a *smaller* lag ({g[True]:.1f} days) than the seven normal years ({g[False]:.1f} days);
 decline-scaled, 6.5 against 3.6 days. At district level (own rainfall baseline) drought
 district-years average 14.8 vs 19.5 days season-scaled (p = 0.080) and 5.8 vs 3.4 decline-scaled
-(p = 0.13). With two drought years, none of these differences is interpretable.
+(p = 0.13). With two drought years, none of these differences is interpretable. In the
+2001–2014 out-of-sample test, with five drought years, the lead was again not larger in drought
+(+28.3 against +26.9 days season-scaled; see Findings & Conclusion).
 """)
 
 section_divider()

@@ -1,6 +1,9 @@
 # large / regenerable data
 data/raw/*.tif
 data/raw/*.tiff
+# GOSIF archives (about 10 MB each; download_gosif_new_years.py re-fetches them).
+# The 2001-2014 SIF series extracted from them is kept in data/processed/oos_sif_*.csv
+data/raw/*.tif.gz
 data/processed/clipped/*.tif
 data/processed/clipped/*.tiff
 

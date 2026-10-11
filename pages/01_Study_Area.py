@@ -55,11 +55,13 @@ that only 2015 (−21.5%, z = −1.12) and 2018 (−18.4%, z = −0.96) meet my 
 (z < −0.5 against the 2001–2020 mean). That holds under four baselines and every cut-off
 from −0.3 to −0.75. The other seven years range from slightly dry (2023, z = −0.20) to clearly
 wet (2022, z = +1.91). Two drought years is the main constraint on everything that compares
-drought with normal years.
+drought with normal years, so I also ran the main tests, unchanged, on 2001–2014, where 2001,
+2002, 2003, 2004 and 2014 meet the same criterion (see Findings & Conclusion).
 
 The deficit was not even across districts. In 2018, Bid (−38.0%), Aurangabad (−37.3%) and
 Osmanabad (−33.9%) had the largest deficits while Hingoli and Nanded had surpluses. Across
-the 72 district-years, 17 count as drought district-years. I'm from Vidarbha, next door, so
+the 72 district-years, 15 count as drought district-years against each district's own rainfall
+record (17 against the regional mean). I'm from Vidarbha, next door, so
 I had a rough local sense of which districts are usually hit hardest, which helped me
 sanity-check the spatial results (see Spatial SIF Analysis).
 """)

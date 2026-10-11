@@ -53,6 +53,7 @@ ANALYSIS = [
     "src/analysis/gosif_grid_shift_check.py",
     "src/analysis/tropomi_sif_analysis.py",          # uses the extracted soundings; raw TROPOSIF only if present
     "src/analysis/tropomi_drought_signal.py",
+    "src/analysis/out_of_sample_2001_2014.py",       # skips itself until the 2001-2014 inputs exist
 ]
 FIGURES = [
     "src/analysis/check_boundary_overlay.py",

@@ -1,3 +1,6 @@
+import os
+
+import pandas as pd
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption
 
@@ -46,6 +49,58 @@ st.warning("""
 SIF's only edge is slightly fewer false alarms; it does not give an earlier drought alarm.
 """)
 
+st.subheader("Out-of-Sample Check, 2001–2014")
+
+st.markdown("""
+Two drought years is a thin base, so I ran the same test on 2001–2014 **without changing
+anything**: same drought rule, same alarm rule and thresholds, same cropland weighting and NDVI
+dating. The anomalies are standardised against the normal years of 2001–2014 only. Five of those
+years are drought years (2001, 2002, 2003, 2004, 2014), and 40 of the 112 district-years.
+""")
+
+_REG = "data/processed/oos_drought_signal_region.csv"
+_DIS = "data/processed/oos_drought_signal_district_summary.csv"
+if os.path.exists(_REG) and os.path.exists(_DIS):
+    reg = pd.read_csv(_REG)
+    dis = pd.read_csv(_DIS).set_index("threshold")
+    rows = []
+    for thr in [-1.0, -1.5, -2.0, -3.0]:
+        s_col, n_col = f"SIF_alarm_{thr}", f"NDVI_alarm_{thr}"
+        d, n = reg[reg["is_drought"]], reg[~reg["is_drought"]]
+        s_first = int(((d[s_col] < d[n_col]) | (d[s_col].notna() & d[n_col].isna())).sum())
+        n_first = int(((d[n_col] < d[s_col]) | (d[n_col].notna() & d[s_col].isna())).sum())
+        same = int((d[s_col] == d[n_col]).sum())
+        r = dis.loc[thr]
+        rows.append({
+            "Threshold": f"z < {thr:g}".replace("-", "−"),
+            "Region: drought flagged (SIF / NDVI, of 5)": f"{d[s_col].notna().sum()} / {d[n_col].notna().sum()}",
+            "Region: first (SIF / same / NDVI)": f"{s_first} / {same} / {n_first}",
+            "Region: false alarms (SIF / NDVI, of 9)": f"{n[s_col].notna().sum()} / {n[n_col].notna().sum()}",
+            "Districts: drought flagged (SIF / NDVI, of 40)": f"{int(r.hit_SIF)} / {int(r.hit_NDVI)}",
+            "Districts: false alarms (SIF / NDVI, of 72)": f"{int(r.false_SIF)} / {int(r.false_NDVI)}",
+            "Districts, both flagged: SIF earlier / same / NDVI earlier":
+                f"{int(r.SIF_earlier)} / {int(r.same)} / {int(r.NDVI_earlier)}",
+        })
+    st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+    styled_caption("Out-of-sample drought alarms, 2001–2014, all methods unchanged. "
+                   "'First' counts a year in which only one index raised the alarm as that index being first.")
+else:
+    st.info("The out-of-sample tables appear here once `out_of_sample_2001_2014.py` has been run.")
+
+st.warning("""
+**Districts: the same answer.** Where both indices flagged a drought district-year, NDVI was
+earlier in 17 of 22 at z < −1.5 and in all 13 at z < −2; SIF was earlier in 1 and 0. SIF again
+had fewer false alarms.
+
+**Region: slightly towards SIF.** The vegetation anomalies were weaker than in 2015 and 2018.
+At z < −3 SIF flagged 2001 (17 September) and 2002 (25 September), NDVI only 2002, on the same
+date; no normal year was flagged. At z < −1.5 SIF was first in four drought years and NDVI in none.
+
+**Both periods together:** at z < −3 SIF flagged four of seven drought years and NDVI three;
+where both did, they coincided twice and NDVI was earlier once. H4 stays not supported, though
+the regional evidence is less one-sided than in 2015–2023.
+""")
+
 section_divider()
 
 st.header("(b) Seasonal Decline: Mostly a Scaling Effect")
@@ -77,6 +132,9 @@ also decline before NDVI: NIRv in 9 of 9 years (+22.8 days season-scaled, +9.9 d
 EVI in 9 and 8 (+17.1 and +7.7), as much as SIF (+20.9 and +4.3). Compared directly, SIF is not
 ahead of NIRv: first in 4 of 9 years season-scaled and in none decline-scaled. The lead comes
 from NDVI's late decline, not from fluorescence.
+
+**The same in 2001–2014:** season-scaled, SIF led NDVI in all 14 years (+27.4 days) and NIRv by
+almost as much (+26.6); decline-scaled, NIRv declined before SIF in 11 of 14 years.
 """)
 
 st.image("outputs/figures/district_lag_by_year.png", use_container_width=True)
@@ -91,7 +149,8 @@ apparent district differences come from how far NDVI stays up after the season.
 st.warning("""
 **H3 (exploratory) — not supported.** Drought did not widen the lag: drought years averaged
 14.8 days against 22.6 for normal years season-scaled, and 6.5 against 3.6 decline-scaled.
-With two drought years neither difference means much.
+With two drought years neither difference means much. In 2001–2014, with five drought years,
+the lead was again not larger in drought (+28.3 against +26.9 days season-scaled).
 """)
 
 section_divider()
@@ -141,7 +200,7 @@ with c2:
 with c3:
     st.metric("SIF first, season-scaled", "9 / 9 years")
 with c4:
-    st.metric("Rainfall-defined drought years", "2 / 9")
+    st.metric("Drought years (2015–23 / 2001–14)", "2 / 5")
 
 c5, c6, c7, c8 = st.columns(4)
 with c5:
@@ -158,9 +217,9 @@ section_divider()
 st.header("Limitations")
 
 st.markdown("""
-- **Two drought years.** Only 2015 and 2018 meet the regional drought criterion, under every
-  baseline and cut-off from −0.3 to −0.75. Extending the record to 2001–2014 would add at
-  least five drought years.
+- **Few drought years.** Only 2015 and 2018 meet the regional drought criterion in 2015–2023,
+  under every baseline and cut-off from −0.3 to −0.75. The 2001–2014 test adds five, but their
+  vegetation anomalies were weaker, so few seasons reach the strict alarm threshold.
 - **Normalisation dependence.** The seasonal lead depends on how each curve is scaled; the
   double-logistic fits that could give a third estimate are unstable at 8- and 16-day sampling.
 - **Lag size and sampling.** GOSIF is 8-day and MOD13Q1 16-day; decline-scaled leads are
@@ -168,9 +227,11 @@ st.markdown("""
 - **NDVI coverage.** Many monsoon NDVI composites rest on few clear pixels; the lag direction
   does not change when they are dropped.
 - **Post-hoc thresholds.** The decline thresholds, the drought cut-off (z < −0.5) and the
-  alarm threshold (z < −3) were chosen during the study. The analysis is exploratory.
+  alarm threshold (z < −3) were chosen during the study. The 2001–2014 test applies them
+  unchanged, but the analysis is exploratory.
 - **GOSIF–MODIS dependence.** GOSIF uses MODIS reflectance as a predictor. TROPOMI removes
-  this only for 2018–2020, with one drought year.
+  this only for 2018–2020, with one drought year. For 2001–2014, GOSIF is predicted outside
+  the OCO-2 period it was trained on.
 - **Spatial scale.** All results are regional or district averages at about 5 km over a mixed
   cropland mask; they do not describe individual crops or fields.
 - **District non-independence.** District observations are spatially clustered. With
@@ -184,7 +245,8 @@ st.markdown("""
 
 This version corrects five data-handling errors in the first preprint and adds the
 normalisation check, own-district drought baselines, a monsoon-only dry-spell window for the
-trigger and a block bootstrap; the full pipeline reruns from `run_all.py`.
+trigger, a block bootstrap, the EVI/NIRv comparison, a per-pixel trigger and the 2001–2014
+out-of-sample test; the full pipeline reruns from `run_all.py`.
 """)
 
 section_divider()
@@ -195,7 +257,9 @@ st.markdown("""
 Across nine Kharif seasons in Marathwada, GOSIF SIF did not flag agricultural drought earlier
 than NDVI. Compared with their own normal-year behaviour, the two raised the alarm on the
 same date in 2015, NDVI was first in 2018, and across drought district-years they most often
-coincided, with NDVI earlier at looser thresholds.
+coincided, with NDVI earlier at looser thresholds. Applied unchanged to 2001–2014, the same
+tests gave the same district-level answer and the same NIRv-shared seasonal lead; only the
+regional alarms leaned slightly towards SIF.
 
 SIF's normal seasonal decline appears to start well before NDVI's when each curve is scaled
 over the whole season, but most of that lead comes from NDVI not returning to its pre-season
@@ -206,8 +270,7 @@ as much as SIF does, so what remains is a property of NDVI, not of fluorescence.
 So my conclusion is negative on the question I started from. In this region and dataset,
 SIF is not an earlier drought alarm than NDVI. Satellite vegetation anomalies may add lead
 time to a rainfall-led trigger, but I found no evidence that SIF would add more than NDVI
-already does. Testing that properly would need more drought years and direct SIF retrievals over
-more seasons.
+already does. Testing that properly would need direct SIF retrievals over more drought seasons.
 """)
 
 st.markdown("""
