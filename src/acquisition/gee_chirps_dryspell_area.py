@@ -1,22 +1,5 @@
-# GEE: rainfall Trigger-1 computed per CHIRPS pixel (0.05 deg), not on averaged rainfall
-#
-# rainfall_trigger_comparison.py applies the dry-spell rule to region- or district-
-# averaged daily rain. Averaging over hundreds of pixels almost never leaves a
-# 21-day run below 2.5 mm during the monsoon, so the trigger hardly fires. Here the
-# rule is evaluated in every CHIRPS pixel, inside the monsoon only:
-#   - cumulative rain since 1 June vs the pixel's own 2001-2020 normal for that date
-#   - dry day = rain < 2.5 mm, counted from 1 July to 30 September
-#   - spell_doy   = day the first run of >= 21 dry days is completed
-#   - trigger_doy = first day on which a spell has occurred AND the deficit is > 25%
-# Output per year: a 2-band GeoTIFF on the GOSIF/CHIRPS 0.05 deg grid,
-#   data/external/chirps_trigger/trigger_{year}.tif  (band 1 spell_doy, band 2 trigger_doy; 0 = never)
-# then run: python src/analysis/rainfall_trigger_pixel.py
-#
-# Usage (needs an authenticated Earth Engine account):
-#   python src/acquisition/gee_chirps_dryspell_area.py            # 2015-2023
-#   python src/acquisition/gee_chirps_dryspell_area.py 2001 2014  # any range
-# NOTE: not run yet; check the first year's output map before
-# trusting the rest (e.g. 2018 should show triggered pixels in Aurangabad/Bid).
+# GEE: rainfall Trigger-1 in every CHIRPS pixel (monsoon dry spells, 25% deficit) -> data/external/chirps_trigger/
+#   python src/acquisition/gee_chirps_dryspell_area.py [first_year last_year]
 
 import os
 import sys

@@ -1,9 +1,4 @@
-# how many cropland pixels stand behind each NDVI composite, and does it matter?
-#
-# MOD13Q1 pixels are kept only where SummaryQA is good/marginal, so during the
-# monsoon many 16-day composites rest on a small, shifting share of the cropland
-# pixels. This script reports that share and recomputes the regional lag after
-# dropping composites below 10%, 25% and 50% coverage.
+# NDVI clear-pixel coverage per composite, and the lag with low-coverage composites dropped
 
 import os
 

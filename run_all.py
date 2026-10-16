@@ -53,7 +53,9 @@ ANALYSIS = [
     "src/analysis/gosif_grid_shift_check.py",
     "src/analysis/tropomi_sif_analysis.py",          # uses the extracted soundings; raw TROPOSIF only if present
     "src/analysis/tropomi_drought_signal.py",
+    "src/analysis/tropomi_vs_reflectance.py",        # TROPOMI against MODIS NDVI, EVI and NIRv
     "src/analysis/out_of_sample_2001_2014.py",       # skips itself until the 2001-2014 inputs exist
+    "src/analysis/alarm_dating_sensitivity.py",      # alarm comparison with NDVI interpolated vs as available
 ]
 FIGURES = [
     "src/analysis/check_boundary_overlay.py",

@@ -87,20 +87,23 @@ n_sif_nirv = int((vi["SIF_vs_NIRv_decline"] > 0).sum())
 n_decl_first = int((ns["lag_decline"] > 0).sum())
 dsum = pd.read_csv(P + "drought_signal_district_summary.csv")
 d3 = dsum[(dsum["baseline"].str.startswith("own")) & (dsum["threshold"] == -3.0)].iloc[0]
+tr = pd.read_csv(P + "tropomi_vs_reflectance_lag.csv")
+tr = tr[tr["variant"].str.startswith("main")]
+n_trop_nirv = int((tr["TROPOMI_vs_NIRv_decline"] > 0).sum())
 
 cards = [
-    ("NOT AN EARLIER ALARM", 16.5,
+    ("NO RESOLVABLE ALARM LEAD", 16.5,
      f"Drought anomaly (z < −3): 2015 {'same day' if same_2015 else 'different days'},\n"
-     f"2018 NDVI {ndvi_ahead_2018:.0f} days before SIF\n"
-     f"Districts: same {int(d3.same)} | NDVI first {int(d3.NDVI_earlier)} | SIF first {int(d3.SIF_earlier)}"),
+     f"2018 NDVI {ndvi_ahead_2018:.0f} days (1 composite) before SIF\n"
+     f"Districts: SIF first {int(d3.SIF_earlier)} | same {int(d3.same)} | NDVI first {int(d3.NDVI_earlier)}"),
     ("SCALING-DEPENDENT LEAD", 16.5,
      f"Season-scaled: SIF first {n_sif_first}/{n_years} years\n"
      f"Decline-scaled: SIF first {n_decl_first}/{n_years} years\n"
      f"Cross-corr.: {xc_pos} SIF | {xc_tie} tie | {xc_neg} NDVI"),
-    ("AN NDVI EFFECT", 16.5,
-     f"NIRv and EVI lead NDVI as much as SIF\n"
-     f"SIF does not lead NIRv ({n_sif_nirv}/{len(vi)}, decline-scaled)\n"
-     f"No district differences once scaled"),
+    ("MOSTLY AN NDVI EFFECT", 16.5,
+     f"NIRv and EVI lead NDVI as much as GOSIF\n"
+     f"GOSIF before NIRv: {n_sif_nirv}/{len(vi)} years (decline-scaled)\n"
+     f"TROPOMI before NIRv: {n_trop_nirv}/{len(tr)} years (2018–2020)"),
 ]
 cw, ch, cy = 4.1, 1.72, 1.8
 cx0 = 1.0
@@ -126,8 +129,8 @@ for lab, doy, col, side in pts:
     ax.text(px, cy + 0.5 + side * 0.3, f"{lab}\n{date(doy)}", ha="center", va="center", fontsize=9.5,
             color=INK, linespacing=1.1)
 
-ax.text(10, 0.85, "CONCLUSION  •  SIF is not an earlier drought alarm than NDVI; "
-        "its seasonal lead comes from NDVI, not fluorescence.", ha="center", va="center", fontsize=16.5,
+ax.text(10, 0.85, "CONCLUSION  •  SIF and NDVI alarms fall within one composite; "
+        "GOSIF's seasonal lead is mostly an NDVI effect.", ha="center", va="center", fontsize=16.5,
         fontweight="bold", color=INK)
 
 for ext in ["png", "svg", "pdf"]:

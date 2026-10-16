@@ -1,9 +1,4 @@
-# does the drought-year classification depend on the rainfall window?
-#
-# The main classification uses CHIRPS totals for 1 June - 27 December. Kharif crops depend mostly on
-# the June-September monsoon, and a season can be normal in total but have a damaging dry month.
-# This script classifies the study years by the Jun-Dec total, the Jun-Sep (JJAS) total and each
-# monsoon month, all against the same 2001-2020 baseline, from the daily regional CHIRPS series.
+# drought years by Jun-Dec, Jun-Sep and single-month rainfall
 
 import pandas as pd
 

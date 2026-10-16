@@ -4,8 +4,8 @@ Sakshi D. Maske
 
 ## Highlights
 
-- Against normal years, GOSIF SIF did not flag drought earlier than NDVI in Marathwada.
-- In drought districts they mostly coincided or NDVI came first, also in 2001–2014.
+- Against normal years, GOSIF SIF and NDVI flagged drought within one 8-day composite.
+- Neither index was consistently earlier, in 2015–2023 or in 2001–2014.
 - SIF's "seasonal lead" over NDVI depends on how each curve is normalised.
-- MODIS NIRv and EVI lead NDVI as much as SIF does, and SIF does not lead NIRv.
+- MODIS NIRv leads NDVI as much as GOSIF does; TROPOMI SIF led NIRv slightly in 2018–2020.
 - India's rainfall Trigger-1, even applied per pixel, rarely fired in the drought years.

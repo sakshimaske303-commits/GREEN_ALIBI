@@ -98,7 +98,7 @@ comparison_df = pd.DataFrame({
         "Days to weeks",
         "Simple reflectance-band ratio",
         "Cloud/cloud-shadow contamination, saturation at high biomass",
-        "Stays well above its pre-season level after the monsoon, which makes its decline look late on a season scale. As a drought anomaly (z < −3) it coincided with SIF in 6 of 12 district-years flagged by both and was earlier in 5 (SIF in 1)"
+        "Stays well above its pre-season level after the monsoon, which makes its decline look late on a season scale. As a drought anomaly (z < −3) it was within one composite of SIF in 11 of 12 district-years flagged by both (SIF earlier in 7, same date in 2, NDVI earlier in 3)"
     ]
 })
 
@@ -116,7 +116,7 @@ mostly because NDVI does not return to its pre-season level, and small or absent
 curve is scaled over its own decline. H2 predicts the lag varies between districts; it does
 not once the scaling is matched (Friedman p = 0.97). H3 predicts drought widens the lag; it
 does not. H4 predicts SIF departs from its normal-year range before NDVI in drought years; it
-does not — the two mostly coincided, and NDVI was otherwise usually first. So
+does not — the two alarms came within one composite of each other, with no consistent winner. So
 the physics explains why SIF might lead, but in this dataset it did not translate into an
 earlier drought signal.
 """)

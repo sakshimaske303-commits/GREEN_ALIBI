@@ -98,7 +98,10 @@ for dcl in decl.itertuples():
         parts.append(f"{v} drought alarm {'none' if np.isnan(a) else f'{dcl.doy - a:.0f} d'}")
     print(" | ".join(parts))
 
-tabs = {v: dist.pivot_table(index=["district", "year"], columns="doy", values=v) for v in ["SIF", "NDVI"]}
+# keep all composite dates, so NDVI alarms are not shifted one composite early
+tabs = {v: dist.pivot_table(index=["district", "year"], columns="doy", values=v, dropna=False).reindex(columns=DOYS)
+        for v in ["SIF", "NDVI"]}
+assert all(list(t.columns) == list(DOYS) for t in tabs.values())
 
 
 def district_alarms(drought_set):
@@ -160,7 +163,8 @@ for i, doy in enumerate(DOYS):
 A = pd.DataFrame(auc_rows)
 A.to_csv("data/processed/drought_signal_auc_by_date.csv", index=False)
 print("\nHow well each index separates drought from normal district-years, date by date "
-      "(AUC: 0.5 = chance, 1.0 = perfect; uses only data up to that date):")
+      "(AUC: 0.5 = chance, 1.0 = perfect; mean z of that composite and the one before; NDVI is "
+      "interpolated onto the SIF dates, so its value at a date can include the next NDVI observation):")
 print(A[(A["doy"] >= 180) & (A["doy"] <= 320)].round(2).to_string(index=False))
 for v in ["SIF", "NDVI"]:
     hit = A.loc[(A["doy"] >= START_DOY) & (A[f"AUC_{v}"] >= 0.75), "date"]

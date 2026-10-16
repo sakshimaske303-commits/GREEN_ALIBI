@@ -17,9 +17,7 @@ DOWNLOAD_DIR = "data/external/troposif_raw"
 BOUNDARY_PATH = "data/raw/marathwada_boundary_polygon.geojson"
 OUT_CSV = "data/processed/tropomi_sif_marathwada_daily.csv"
 
-# default 2018-2020; pass a range to download more years, e.g.
-#   python src/analysis/tropomi_sif_crosscheck.py 2018 2023
-# (check first which years exist under BASE_URL; each year is tens of GB)
+# default 2018-2020; e.g. python src/analysis/tropomi_sif_crosscheck.py 2018 2023 (tens of GB per year)
 import sys as _sys
 STUDY_YEARS = (list(range(int(_sys.argv[1]), int(_sys.argv[2]) + 1)) if len(_sys.argv) == 3
                else [2018, 2019, 2020])

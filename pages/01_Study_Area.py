@@ -52,8 +52,8 @@ recent history of drought years, including 2015 and 2018, alongside normal and w
 years, which gives me nine Kharif seasons (2015–2023) within one region instead of across
 regions with different baseline climates. CHIRPS rainfall (see Rainfall Validation) shows
 that only 2015 (−21.5%, z = −1.12) and 2018 (−18.4%, z = −0.96) meet my drought criterion
-(z < −0.5 against the 2001–2020 mean). That holds under four baselines and every cut-off
-from −0.3 to −0.75. The other seven years range from slightly dry (2023, z = −0.20) to clearly
+(z < −0.5 against the 2001–2020 mean). That holds under four baselines, and with the 2001–2020
+baseline for every cut-off from −0.3 to −0.75. The other seven years range from slightly dry (2023, z = −0.20) to clearly
 wet (2022, z = +1.91). Two drought years is the main constraint on everything that compares
 drought with normal years, so I also ran the main tests, unchanged, on 2001–2014, where 2001,
 2002, 2003, 2004 and 2014 meet the same criterion (see Findings & Conclusion).

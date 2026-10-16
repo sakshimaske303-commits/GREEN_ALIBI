@@ -89,8 +89,8 @@ with tab3:
       1981–2023, at region and district level, plus daily series for the rainfall trigger.
     - A year is a **drought year** when its seasonal total has z < −0.5 against the 2001–2020
       mean (826.8 mm, σ = 158.9 mm). Only **2015** and **2018** qualify.
-    - This holds under three other baselines (2001–2014, 1981–2014, 1991–2020) and every cut-off
-      from −0.3 to −0.75. District-years are classified against each district's own 2001–2020
+    - This holds under three other baselines (2001–2014, 1981–2014, 1991–2020), and with the main
+      baseline for every cut-off from −0.3 to −0.75. District-years are classified against each district's own 2001–2020
       baseline: 15 of 72 are drought district-years (17 against the regional baseline).
     - **Out-of-sample test:** every method applied unchanged to 2001–2014, where 2001, 2002,
       2003, 2004 and 2014 are drought years, with anomalies standardised against the normal
@@ -148,6 +148,11 @@ at which neither index raises an alarm in any normal year, so it is the main ala
 The same is done for the 72 district-years (15 drought, 57 normal against each district's own
 rainfall baseline; 17 and 55 against the regional one), with a date-by-date AUC
 summarising how well each index separates drought from normal district-years.
+
+NDVI (16-day) is interpolated onto the 8-day SIF dates, so its value on a date already contains
+part of the next NDVI observation. I therefore repeat the alarm test with NDVI taken as observed
+(the last value observed by the end of each SIF composite), and count differences of 8 days or
+less as within one composite.
 """)
 
 section_divider()

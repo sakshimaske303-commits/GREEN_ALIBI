@@ -1,10 +1,4 @@
-# rainfall Trigger-1 at pixel level, summarised per district, vs satellite drought alarms
-#
-# Input: data/external/chirps_trigger/trigger_<year>.tif from src/acquisition/gee_chirps_dryspell_area.py
-# For every district-year: the share of the district's 0.05 deg pixels in which Trigger-1 fired
-# (within 1 Jul - 30 Sep), and the first day on which that share reached 25% and 50%. These
-# dates are then compared with the SIF and NDVI drought alarms (z < -3) from
-# drought_signal_analysis.py. Exits quietly if the GEE export has not been run.
+# pixel-level Trigger-1 summarised per district, against the SIF and NDVI alarms
 
 import glob
 import os

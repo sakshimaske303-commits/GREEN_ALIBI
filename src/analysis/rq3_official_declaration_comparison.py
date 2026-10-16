@@ -1,12 +1,4 @@
-# satellite drought alarms vs rainfall trigger vs official drought declarations (RQ3)
-#
-# For each declaration year (2015, 2018) the figure shows, on one time axis:
-#   - the drought-specific alarms (first date z < -3 for two composites, region)
-#   - the regional rainfall Trigger-1 date (if it fired)
-#   - the official declarations
-#   - the seasonal 0.9-threshold crossings, drawn faintly, because they happen at a
-#     similar time in every year and mark the normal start of the decline, not drought
-# Needs drought_signal_analysis.py and rainfall_trigger_comparison.py to have run first.
+# satellite alarms vs rainfall trigger vs official declarations, 2015 and 2018 (RQ3)
 
 from datetime import datetime, timedelta
 

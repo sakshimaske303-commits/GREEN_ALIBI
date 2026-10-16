@@ -48,8 +48,8 @@ with col2:
     The two drought years (2015, 2018) do not show a wider gap than the seven normal years. By
     season-scaled threshold-crossing they average **14.8 days** against **22.6 days** for normal
     years, the opposite of H3. And a lead in the *timing of the normal decline* is not the same as an earlier
-    *drought* signal: when I compare each index with its own normal-year behaviour, SIF does not
-    depart from normal before NDVI does (see **Findings**).
+    *drought* signal: when I compare each index with its own normal-year behaviour, SIF and NDVI
+    depart from normal within one composite of each other (see **Findings**).
     """)
 
 st.info("""

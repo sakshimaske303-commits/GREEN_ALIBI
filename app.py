@@ -74,8 +74,8 @@ st.markdown(
 
 st.markdown("""
 <p style='text-align:center; font-size:1.1rem;'>
-<strong>SIF did not flag drought earlier than NDVI, in 2015–2023 or in the 2001–2014 test.<br>
-Its apparent seasonal head start comes from how NDVI's decline is measured, not from fluorescence.</strong>
+<strong>SIF and NDVI flagged drought within one 8-day composite of each other, with no consistent winner,<br>
+in 2015–2023 and in the 2001–2014 test. GOSIF's seasonal head start comes mostly from how NDVI's decline is measured.</strong>
 </p>
 """, unsafe_allow_html=True)
 
@@ -99,7 +99,7 @@ with col6:
 with col7:
     st.metric("TROPOMI SIF First", "3 / 3 years", "2018–2020, both scalings", delta_color="off")
 with col8:
-    st.metric("Drought Alarm (z < −3), SIF First", "1 of 12", "same date 6, NDVI first 5", delta_color="inverse")
+    st.metric("Drought Alarm (z < −3), Districts", "SIF 7 · same 2 · NDVI 3", "11 of 12 within one composite", delta_color="off")
 
 section_divider()
 
@@ -115,10 +115,11 @@ st.markdown(
             rainfall deficits and on vegetation indices like NDVI, which respond once crop damage is
             visible. SIF is often proposed as an earlier signal because it is tied to photosynthesis.
             If it really warned earlier, relief could arrive sooner. I tested that on nine Kharif seasons
-            in Marathwada. What I found is negative: SIF is not an earlier drought alarm than NDVI, and its
-            apparent head start in the normal seasonal decline is mostly a side-effect of how NDVI's
-            decline is measured. Applied unchanged to 2001–2014, which adds five drought years, the
-            district-level answer was the same. H2, H3 and H4 did not hold up.
+            in Marathwada. What I found is negative: SIF is not a resolvably earlier drought alarm than NDVI (the two
+            alarms came within about one 8-day composite of each other), and its apparent head start in the normal
+            seasonal decline is mostly a side-effect of how NDVI's decline is measured. Applied unchanged
+            to 2001–2014, which adds five drought years, the district-level picture was the same. H2, H3
+            and H4 did not hold up.
         </p>
     </div>
     """,
@@ -130,15 +131,16 @@ st.header("What This Project Tests")
 st.markdown("""
 India's official drought-declaration process, and the crop-insurance payout mechanism under the
 **Pradhan Mantri Fasal Bima Yojana (PMFBY)** that depends on it, relies substantially on rainfall-deficit
-records and the **Normalized Difference Vegetation Index (NDVI)** — a reflectance-based measure that only
-changes once a plant's internal structure has already begun to visibly degrade.
+records and the **Normalized Difference Vegetation Index (NDVI)** — a reflectance-based measure that tracks
+canopy greenness and structure, which usually change only after stress has lasted for some time.
 
 **Solar-Induced Fluorescence (SIF)** is tied more directly to photosynthesis, so it is expected to respond
 before a crop's greenness changes. I keep two questions apart:
 
 - Does SIF flag **drought** (a departure from normal years) before NDVI? This is the main question, and the answer
-  is no. At z < −3 both flagged 2015 on the same date and NDVI was 8 days earlier in 2018; across 15 drought
-  district-years the two coincided in 6, NDVI was first in 5 and SIF in 1.
+  is no. At z < −3 both flagged 2015 on the same date and NDVI was 8 days (one composite) earlier in 2018; across
+  the drought district-years flagged by both, SIF was first in 7, they coincided in 2 and NDVI was first in 3,
+  almost always by one composite, which NDVI's 16-day sampling cannot resolve.
 - Does SIF's **seasonal decline** start before NDVI's? Scaled over the whole season, yes in all 9 years. But NDVI
   stays well above its pre-season level after the monsoon, which delays its crossings by construction. Scaled over
   each curve's own decline, SIF is first in 6 of 9 years by at most about two weeks; cross-correlation agrees.
@@ -168,7 +170,7 @@ with h2:
 with h3:
     st.warning("**H3 — not supported**\n\nDrought widens the lag. Drought years 14.8 vs 22.6 days season-scaled; 6.5 vs 3.6 decline-scaled.")
 with h4:
-    st.warning("**H4 — not supported**\n\nSIF departs from its normal-year range before NDVI in drought years. They mostly coincided or NDVI was first.")
+    st.warning("**H4 — not supported**\n\nSIF departs from its normal-year range before NDVI in drought years. The alarms came within one composite, with no consistent winner.")
 
 section_divider()
 
@@ -184,7 +186,7 @@ Use the sidebar to move through the study in the order it was actually built:
 - **Seasonal Trajectories** — SIF vs NDVI across the growing season
 - **Lag Analysis** — threshold and cross-correlation lags, uncertainty, method dependence, TROPOMI check
 - **Spatial SIF Analysis** — where stress concentrated, static and interactive
-- **Rainfall Validation** — independently confirming the drought years
+- **Rainfall Validation** — how the drought years were defined from CHIRPS rainfall
 - **Combined Comparison** — SIF and rainfall side by side
 - **Interactive Maps & Plots** — both district-level maps and the three headline charts in one place, hoverable, zoomable, and toggleable
 - **Crop-Yield Validation** — checking this study's drought classification against official government harvest statistics

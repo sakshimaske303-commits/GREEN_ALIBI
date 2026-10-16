@@ -1,11 +1,11 @@
 baseline,threshold,n_drought,n_normal,hit_SIF,hit_NDVI,false_SIF,false_NDVI,both_flagged,SIF_earlier,same,NDVI_earlier,median_SIF_lead_days
-own-district baseline (main),-0.5,15,57,15,15,50,50,15,4,7,4,0.0
-own-district baseline (main),-1.0,15,57,15,15,40,42,15,3,4,8,-8.0
-own-district baseline (main),-1.5,15,57,15,15,22,24,15,1,1,13,-16.0
-own-district baseline (main),-2.0,15,57,14,15,11,12,14,2,2,10,-8.0
-own-district baseline (main),-3.0,15,57,12,13,2,4,12,1,6,5,0.0
-regional baseline (sensitivity),-0.5,17,55,17,17,48,47,17,5,6,6,0.0
-regional baseline (sensitivity),-1.0,17,55,17,17,34,38,17,3,4,10,-8.0
-regional baseline (sensitivity),-1.5,17,55,14,17,22,24,14,1,1,12,-16.0
-regional baseline (sensitivity),-2.0,17,55,12,16,13,13,12,0,2,10,-16.0
-regional baseline (sensitivity),-3.0,17,55,12,12,1,5,12,1,4,7,-8.0
+own-district baseline (main),-0.5,15,57,15,15,50,50,15,6,6,3,0.0
+own-district baseline (main),-1.0,15,57,15,15,40,42,15,4,7,4,0.0
+own-district baseline (main),-1.5,15,57,15,15,22,24,15,2,4,9,-8.0
+own-district baseline (main),-2.0,15,57,14,15,11,12,14,4,4,6,0.0
+own-district baseline (main),-3.0,15,57,12,13,2,4,12,7,2,3,8.0
+regional baseline (sensitivity),-0.5,17,55,17,17,48,47,17,6,6,5,0.0
+regional baseline (sensitivity),-1.0,17,55,17,17,34,38,17,4,5,8,0.0
+regional baseline (sensitivity),-1.5,17,55,14,17,22,24,14,2,3,9,-8.0
+regional baseline (sensitivity),-2.0,17,55,12,16,13,13,12,2,3,7,-8.0
+regional baseline (sensitivity),-3.0,17,55,12,12,1,5,12,5,4,3,0.0

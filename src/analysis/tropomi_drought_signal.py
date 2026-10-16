@@ -1,14 +1,4 @@
-# H4 with a direct SIF retrieval: does TROPOMI SIF leave its normal-year range before NDVI?
-#
-# drought_signal_analysis.py tests H4 with GOSIF, which is predicted from MODIS EVI and
-# reanalysis weather and so cannot carry a fluorescence signal independent of greenness.
-# This repeats the same anomaly-alarm logic with TROPOMI (TROPOSIF) 8-day composites for
-# whatever years are available in data/processed/tropomi_8day_composites.csv.
-#
-# With only 2018-2020 the normal-year reference is two years (2019, 2020), so the z-scores
-# are not meaningful yet; the script prints a warning until at least four normal years are
-# present. Extend the TROPOMI years (tropomi_sif_crosscheck.py / tropomi_sif_analysis.py)
-# before interpreting the output.
+# H4 alarm test with TROPOMI SIF (only illustrative until there are more normal years)
 
 import numpy as np
 import pandas as pd

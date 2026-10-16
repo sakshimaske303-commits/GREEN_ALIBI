@@ -319,8 +319,25 @@ for key, label in vi_cols.items():
 st.dataframe(pd.DataFrame(vi_rows), use_container_width=True, hide_index=True)
 
 st.warning("""
-NIRv and EVI lead NDVI by as much as SIF does, and SIF does not lead NIRv. The lead SIF shows over
-NDVI is a property of NDVI's late decline, not an early fluorescence response.
+NIRv and EVI lead NDVI by as much as GOSIF does, and GOSIF does not lead NIRv. For GOSIF, the lead
+over NDVI is a property of NDVI's late decline. GOSIF is predicted from MODIS reflectance, though,
+so this agreement is partly built in; the fairer test is TROPOMI, below.
+""")
+
+_TR = os.path.join(DATA_DIR, "tropomi_vs_reflectance_lag.csv")
+if os.path.exists(_TR):
+    trr = pd.read_csv(_TR)
+    trr = trr[trr["variant"].str.startswith("main")]
+    st.dataframe(pd.DataFrame({
+        "Year": trr["year"],
+        "TROPOMI before NIRv, season-scaled (days)": trr["TROPOMI_vs_NIRv_season"].round(1),
+        "TROPOMI before NIRv, decline-scaled (days)": trr["TROPOMI_vs_NIRv_decline"].round(1),
+        "TROPOMI before EVI, decline-scaled (days)": trr["TROPOMI_vs_EVI_decline"].round(1),
+    }), use_container_width=True, hide_index=True)
+    st.info("""
+TROPOMI, which is not built from MODIS reflectance, declined before NIRv in all three years
+(by 1–13 days) and in 23 of 24 year-and-scaling cases across its four variants. Three years,
+one of them a drought year, cannot establish a fluorescence-specific lead, but they keep it open.
 """)
 
 styled_caption("GREEN ALIBI — Quantitative Lag Analysis")

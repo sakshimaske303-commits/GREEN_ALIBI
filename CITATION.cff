@@ -11,33 +11,37 @@ url: "https://github.com/sakshimaske303-commits/GREEN_ALIBI"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.21762501"
-    description: "Zenodo archive of GREEN ALIBI v1.1.0"
+    description: "Zenodo archive of GREEN ALIBI"
 doi: "10.5281/zenodo.21762501"
 abstract: >-
   A satellite remote-sensing study testing whether Solar-Induced Fluorescence
   (SIF) signals agricultural drought earlier than NDVI in the eight districts
   of Marathwada, Maharashtra, over nine Kharif seasons (2015-2023), comparing
   cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's
-  observation date. Standardised against normal years, SIF did not flag
-  drought before NDVI: both crossed z < -3 on the same date in 2015 and NDVI
-  was eight days earlier in 2018; across 15 drought district-years the two
-  coincided in 6, NDVI was earlier in 5 and SIF in 1. Scaled over the whole
+  observation date. Standardised against normal years, the SIF and NDVI
+  drought alarms fell within one 8-day composite of each other: both crossed
+  z < -3 on the same date in 2015 and NDVI was eight days earlier in 2018;
+  across 15 drought district-years SIF was earlier in 7, the same in 2 and
+  NDVI earlier in 3, and the direction of these one-composite differences
+  changes with how NDVI is dated. Scaled over the whole
   season, SIF's normal decline came before NDVI's in all nine years (8.0-34.2
   days), but NDVI does not return to its pre-season level after the monsoon;
   scaled from peak to post-peak minimum the lead falls to -5.5 to +13.4 days,
   is absent in three years, and district differences disappear (Friedman
-  p = 0.97). TROPOMI SIF (2018-2020) put SIF first under both scalings;
-  MODIS NIRv and EVI lead NDVI as much as SIF does and SIF does not lead
-  NIRv, so the remaining lead is a property of NDVI. Only
+  p = 0.97). MODIS NIRv and EVI lead NDVI as much as GOSIF does and GOSIF
+  does not lead NIRv, so for GOSIF the remaining lead is a property of NDVI;
+  TROPOMI SIF (2018-2020), not built from MODIS reflectance, declined first
+  against NDVI and also slightly before NIRv. Only
   2015 and 2018 met the CHIRPS rainfall drought criterion; applied unchanged
   to 2001-2014 (five more drought years) as an out-of-sample test, the methods
-  gave the same district-level answer (NDVI earlier in 17 of 22 drought
-  district-years flagged by both at z < -1.5, SIF in 1), while regionally SIF
+  gave the same district-level picture (at z < -1.5, SIF earlier in 5 of 22
+  drought district-years flagged by both, the same in 11, NDVI earlier in 6),
+  while regionally SIF
   flagged two of five drought years at z < -3 and NDVI one. An approximation of
   the rainfall-based Trigger-1 never fired at the regional scale and fired in
-  2 of 15 drought district-years, also when evaluated per pixel. In this dataset SIF is not an earlier
-  drought alarm than NDVI, and its seasonal lead is largely a property of how
-  NDVI's decline is measured.
+  2 of 15 drought district-years, also when evaluated per pixel. In this dataset SIF is not a resolvably
+  earlier drought alarm than NDVI, and GOSIF's seasonal lead is largely a
+  property of how NDVI's decline is measured.
 keywords:
   - solar-induced fluorescence
   - GOSIF

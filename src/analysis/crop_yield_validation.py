@@ -66,8 +66,7 @@ DROUGHT_YEARS = set(_rain.loc[_rain["anomaly_zscore"] < -0.5, "year"])
 region_year = district_year[district_year["study_year"].isin(STUDY_YEARS)].groupby("study_year")["yield_anomaly_index"].mean().reset_index()
 
 rain = pd.read_csv("data/processed/rainfall_anomaly_summary.csv")[["year", "anomaly_zscore"]].rename(columns={"year": "study_year", "anomaly_zscore": "rainfall_anomaly_zscore"})
-# season-mean (Jun-Dec), cropland-weighted district SIF, averaged over the 8 districts -- the same SIF
-# measure crop_yield_sensitivity.py uses, so the two scripts' correlations are comparable
+# season-mean (Jun-Dec) cropland-weighted SIF, the same measure as crop_yield_sensitivity.py
 sif = (pd.read_csv("data/processed/sif_by_district_seasonal.csv").groupby("year")["season_jun_dec"].mean()
        .reset_index().rename(columns={"year": "study_year", "season_jun_dec": "mean_sif"}))
 

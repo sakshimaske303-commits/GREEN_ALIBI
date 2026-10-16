@@ -120,9 +120,7 @@ def render_doc_viewer(docs, colors, height=70):
       URL.revokeObjectURL(currentBlobUrl);
       currentBlobUrl = null;
     }}
-    // Edge (and some Chrome builds) block navigating an iframe straight to
-    // a data: URI as a phishing precaution. A blob: URL built from the
-    // same bytes isn't subject to that block, so convert before assigning.
+    // some browsers block data: URIs in iframes, so I use a blob: URL
     currentBlobUrl = dataUrlToBlobUrl(dataUrl);
     var frame = pd.createElement('iframe');
     frame.src = currentBlobUrl;

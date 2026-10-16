@@ -1,13 +1,4 @@
-# is the "SIF leads NDVI" result a property of NDVI?
-#
-# GOSIF is predicted from MODIS EVI (plus reanalysis weather). If MODIS EVI or NIRv
-# also "lead" NDVI by about as much as GOSIF does, the seasonal lead says more about
-# NDVI (saturation over dense canopy, slow return to its pre-season level) than about
-# fluorescence. Every pair is run with the same threshold-crossing code under both
-# normalisations used in normalisation_sensitivity.py.
-#
-# Input: data/raw/vi_obsdate_2015_2023.csv from src/acquisition/gee_vi_obsdate.py
-# (needs Earth Engine). The script exits quietly if that file has not been made yet.
+# SIF vs NDVI, EVI and NIRv seasonal lags (needs gee_vi_obsdate.py output)
 
 import os
 import sys

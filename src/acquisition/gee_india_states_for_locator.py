@@ -1,10 +1,5 @@
-# GEE: India state outlines (FAO GAUL 2015 level 1) for the locator inset of Figure 3
-#
-# Usage (needs an authenticated Earth Engine account):
+# GEE: India state outlines (FAO GAUL level 1) for the Figure 3 locator inset
 #   python src/acquisition/gee_india_states_for_locator.py
-# Writes data/external/india_states_gaul_l1.geojson; fig3_study_area_map.py then draws the inset.
-# Note: GAUL boundaries are FAO's and differ from the official boundaries of India in
-# disputed areas; the inset is only a locator.
 
 import os
 import sys

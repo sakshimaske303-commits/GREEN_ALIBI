@@ -39,8 +39,8 @@ Against a 2001–2020 mean of **826.8 mm** (σ = 158.9 mm), only **2015** (z = �
 **2018** (z = −0.96) fall below my drought cut-off of z < −0.5. The other seven years are
 normal; 2017 and 2023 are slightly below the mean, and 2022 is the wettest year in the
 record (+36.7%). The same two years come out as drought years under all four baselines I
-tested (2001–2020, 2001–2014, 1981–2014, 1991–2020) and for every cut-off from −0.3 to
-−0.75. Under z < −1.0 only 2015 remains. So every drought-versus-normal comparison in this
+tested (2001–2020, 2001–2014, 1981–2014, 1991–2020), and with the 2001–2020 baseline for
+every cut-off from −0.3 to −0.75 (with 1981–2014, 2018 drops out at −0.7). Under z < −1.0 only 2015 remains. So every drought-versus-normal comparison in this
 study rests on two years out of nine.
 """)
 

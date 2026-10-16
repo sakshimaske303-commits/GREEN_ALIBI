@@ -1,17 +1,5 @@
-// GEE Code Editor version of the cropland-fraction part of gee_cropland_fraction_and_ndvi_obsdates.py
-//
-// I weight every 0.05 deg GOSIF cell by the share of its 500 m MCD12Q1 pixels that are cropland,
-// so that my regional and district SIF series describe mainly farmland, as my NDVI series does.
-// Band 1 crop_12_14 = share of IGBP classes 12 and 14 (cropland, cropland/natural mosaic)
-// Band 2 crop_12    = share of class 12 only (used in the class-12-only sensitivity check)
-// The grid is exactly the GOSIF/CHIRPS 0.05 deg grid.
-//
-// How I run it:
-//   1. Set FIRST_YEAR and LAST_YEAR (2001-2014 for the out-of-sample extension), paste into
-//      https://code.earthengine.google.com and press Run.
-//   2. Open the Tasks tab and run the exports cropland_fraction_YYYY (to Google Drive, folder GREEN_ALIBI).
-//   3. Download the .tif files into data/external/cropland_fraction/ with the names
-//      cropland_fraction_YYYY.tif
+// GEE Code Editor version of the cropland-fraction export (share of MCD12Q1 classes 12/14 per GOSIF cell)
+// I export cropland_fraction_YYYY.tif to Drive and save them in data/external/cropland_fraction/
 
 var FIRST_YEAR = 2001;
 var LAST_YEAR = 2014;

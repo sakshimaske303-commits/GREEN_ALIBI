@@ -1,22 +1,5 @@
-// GEE Code Editor version of gee_chirps_dryspell_area.py
-//
-// I compute the rainfall Trigger-1 in every CHIRPS pixel (0.05 deg) instead of on
-// district-averaged rain. Averaging over hundreds of pixels almost never leaves a 21-day
-// run below 2.5 mm, so on averaged rain the trigger hardly fires. The rule per pixel:
-//   - cumulative rain since 1 June compared with the pixel's own 2001-2020 normal for that date
-//   - dry day = rain < 2.5 mm, counted only from 1 July to 30 September (the monsoon)
-//   - spell_doy   = day the first run of >= 21 dry days is completed
-//   - trigger_doy = first day on which a spell has occurred AND the deficit is > 25%
-// Output per year: a 2-band GeoTIFF on the GOSIF/CHIRPS 0.05 deg grid
-//   (band 1 spell_doy, band 2 trigger_doy; 0 = never)
-//
-// How I run it:
-//   1. Paste this whole file into https://code.earthengine.google.com and press Run.
-//   2. Open the Tasks tab and run the nine exports trigger_2015 ... trigger_2023
-//      (they go to my Google Drive, folder GREEN_ALIBI).
-//   3. Download the nine .tif files and put them in data/external/chirps_trigger/
-//      with these exact names: trigger_2015.tif ... trigger_2023.tif
-//   4. Run: python src/analysis/rainfall_trigger_pixel.py
+// GEE Code Editor version of gee_chirps_dryspell_area.py: Trigger-1 in every CHIRPS pixel
+// I run it in the Code Editor, export trigger_YYYY.tif to Drive and save them in data/external/chirps_trigger/
 
 var FIRST_YEAR = 2015;
 var LAST_YEAR = 2023;

@@ -1,16 +1,4 @@
-# how much of the SIF-NDVI lag is timing and how much is amplitude?
-#
-# The main lag (lag_analysis.py) scales each year's series between its seasonal
-# minimum (always the June pre-season value) and its peak. NDVI does not fall back
-# to that June level by 27 December, but SIF does, so a fixed threshold such as 0.5
-# sits much deeper into NDVI's own decline than into SIF's. This script recomputes
-# the lag three ways on the same data:
-#   season  -- the main method (min-max over 1 Jun - 27 Dec)
-#   decline -- each series scaled between its peak and its own post-peak minimum,
-#              so 0.5 means "halfway through that index's own decline"
-#   dlogist -- an amplitude-free end-of-season date: the decline inflection point of
-#              a double-logistic curve fitted to each index separately
-# for the region (GOSIF and TROPOMI) and for the 72 district-years.
+# SIF-NDVI lag under season-range and decline-range scaling, plus a double-logistic end of season
 
 import os
 

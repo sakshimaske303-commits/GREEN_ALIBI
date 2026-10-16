@@ -1,23 +1,5 @@
-# out-of-sample test on 2001-2014 with the 2015-2023 methods frozen
-#
-# Nothing is re-tuned here. The drought rule (CHIRPS Jun-Dec z < -0.5 against 2001-2020), the
-# alarm rule (two consecutive composites below z = -3 from 1 July, z against the normal years
-# of the same period, leaving the year itself out), the cropland weighting, the NDVI dating and
-# the lag metrics are exactly the ones used for 2015-2023. The 2001-2014 years are standardised
-# against the normal years of 2001-2014 only, so nothing from 2015-2023 enters the test.
-#
-# Inputs (2001-2014):
-#   data/raw/GOSIF_YYYYDDD.tif.gz               python src/acquisition/download_gosif_new_years.py 2001 2014
-#   data/raw/vi_obsdate_2001_2014.csv           Code Editor: gee_vi_obsdate_CODE_EDITOR.js with 2001-2014
-#   data/raw/vi_obsdate_by_district_2001_2014.csv
-#   data/external/cropland_fraction/cropland_fraction_YYYY.tif   gee_cropland_fraction_CODE_EDITOR.js
-#
-# Usage:
-#   python src/analysis/out_of_sample_2001_2014.py           # extract SIF (once) and run the test
-#   python src/analysis/out_of_sample_2001_2014.py --check   # run the same code on 2015-2023 and
-#                                                            # compare with the main results
-# The SIF extraction repeats clip_gosif.py + aggregate_sif.py + district_lag_analysis.py in memory;
-# on the first run it also re-extracts 2015 and checks that it matches the main pipeline exactly.
+# out-of-sample test on 2001-2014 with every 2015-2023 method frozen
+#   python src/analysis/out_of_sample_2001_2014.py [--check]   (--check reruns it on 2015-2023)
 
 import gzip
 import os
@@ -223,8 +205,10 @@ def analyse(sif_reg, sif_dis, vi_reg, vi_dis, years, sif_col, label):
         nd = np.interp(g["doy"].values + 3.5, n["mean_obs_doy"], n["mean_ndvi"], left=np.nan, right=np.nan)
         drows += [{"district": d, "year": y, "doy": a, "SIF": b, "NDVI": c} for a, b, c in zip(g["doy"], g["mean_sif"], nd)]
     dist = pd.DataFrame(drows)
-    dtabs = {v: dist.pivot_table(index=["district", "year"], columns="doy", values=v) for v in ["SIF", "NDVI"]}
-    ddoys = dtabs["SIF"].columns.values
+    # keep all composite dates, so NDVI alarms are not shifted one composite early
+    ddoys = np.array(sorted(dist["doy"].unique()))
+    dtabs = {v: dist.pivot_table(index=["district", "year"], columns="doy", values=v, dropna=False).reindex(columns=ddoys)
+             for v in ["SIF", "NDVI"]}
     D = []
     for (d, y) in dtabs["SIF"].index:
         nrm = [yy for yy in years if (d, yy) not in drought_d]

@@ -6,9 +6,7 @@ import pandas as pd
 BASELINE = (2001, 2020)
 START_DOY = 182
 MONSOON_END_DOY = 273  # 30 Sep: dry spells are counted only inside the monsoon (1 Jul - 30 Sep)
-# (deficit %, dry-day mm, spell days, rule, last DOY on which a dry day can count towards a spell)
-# Earlier versions counted dry days to 26 Dec, so the natural post-monsoon dry season (Oct-Dec)
-# satisfied the spell criterion every year; that variant is kept as "old: spell counted to Dec".
+# (deficit %, dry-day mm, spell days, rule, last DOY a dry day counts); "old" = my earlier spell window to Dec
 VARIANTS = {
     "main: deficit>25% & spell>=21d": (25, 2.5, 21, "both", MONSOON_END_DOY),
     "deficit>20% & spell>=21d": (20, 2.5, 21, "both", MONSOON_END_DOY),

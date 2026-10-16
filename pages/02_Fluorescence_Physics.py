@@ -84,8 +84,8 @@ the state of the photosynthetic machinery**, which changes quickly. NDVI depends
 and pigment properties of the canopy — leaf area, chlorophyll content, cell structure — which
 change only once stress has lasted long enough to cause visible damage, over days to weeks.
 
-That is the prediction. In my data it does not hold: SIF does not depart from its normal-year
-range earlier than NDVI in drought years. SIF's normal seasonal decline appears to start first,
+That is the prediction. In my data it does not show: SIF's drought alarms came within one
+composite of NDVI's, with no consistent winner. SIF's normal seasonal decline appears to start first,
 but mostly because NDVI does not return to its pre-season level after the monsoon; measured over
 each curve's own decline, the lead is small and absent in three of nine years. One reason may be
 that canopy SIF largely follows absorbed light (APAR, below) and canopy structure rather than

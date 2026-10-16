@@ -1,19 +1,5 @@
-// GEE Code Editor version of gee_vi_obsdate.py
-//
-// I use this to test whether the small SIF lead that is left after matching the scaling is a
-// property of NDVI. GOSIF is itself predicted from MODIS EVI, so I compare SIF not only with
-// NDVI but also with EVI and NIRv (NDVI x NIR reflectance), all from the same MOD13Q1
-// composites, with the same masking and dating as my NDVI series:
-//   - pixels kept only where SummaryQA <= 1 (good or marginal) and MCD12Q1 is cropland (12, 14)
-//   - each composite dated by the mean of its pixels' DayOfYear (the day each pixel was observed)
-//
-// How I run it:
-//   1. Paste this whole file into https://code.earthengine.google.com and press Run.
-//   2. Open the Tasks tab and run the two exports (they go to my Google Drive, folder GREEN_ALIBI).
-//   3. Download both CSV files from Drive and put them in data/raw/ with these exact names:
-//        vi_obsdate_2015_2023.csv
-//        vi_obsdate_by_district_2015_2023.csv
-//   4. Run: python src/analysis/vegetation_index_lag.py
+// GEE Code Editor version of gee_vi_obsdate.py: NDVI, EVI and NIRv at observation day
+// I export both CSVs to Drive and save them in data/raw/ as vi_obsdate_<years>.csv
 
 var FIRST_YEAR = 2015;
 var LAST_YEAR = 2023;

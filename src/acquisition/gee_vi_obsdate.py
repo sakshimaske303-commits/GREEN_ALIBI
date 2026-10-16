@@ -1,15 +1,5 @@
-# GEE: NDVI, EVI and NIRv from MOD13Q1 with per-pixel observation dates (region + districts)
-#
-# Same masking and dating as gee_cropland_fraction_and_ndvi_obsdates.py (SummaryQA <= 1,
-# MCD12Q1 classes 12/14, mean DayOfYear), but also exports EVI and NIRv = NDVI x NIR
-# reflectance, so that src/analysis/vegetation_index_lag.py can test whether the
-# "SIF leads NDVI" result is really a property of NDVI (saturation, slow return to
-# baseline) rather than of fluorescence: GOSIF is itself predicted from MODIS EVI.
-#
-# Usage (needs an authenticated Earth Engine account):
-#   python src/acquisition/gee_vi_obsdate.py                 # 2015-2023
-#   python src/acquisition/gee_vi_obsdate.py 2001 2014       # any year range, for the extension
-# Writes data/raw/vi_obsdate_<first>_<last>.csv and data/raw/vi_obsdate_by_district_<first>_<last>.csv
+# GEE: NDVI, EVI and NIRv from MOD13Q1 at each pixel's observation day (region + districts)
+#   python src/acquisition/gee_vi_obsdate.py [first_year last_year]
 
 import os
 import sys
