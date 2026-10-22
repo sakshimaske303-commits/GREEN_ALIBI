@@ -8,11 +8,6 @@ authors:
     orcid: "https://orcid.org/0009-0002-5683-5966"
 repository-code: "https://github.com/sakshimaske303-commits/GREEN_ALIBI"
 url: "https://github.com/sakshimaske303-commits/GREEN_ALIBI"
-identifiers:
-  - type: doi
-    value: "10.5281/zenodo.21762501"
-    description: "Zenodo archive of GREEN ALIBI"
-doi: "10.5281/zenodo.21762501"
 abstract: >-
   A satellite remote-sensing study testing whether Solar-Induced Fluorescence
   (SIF) signals agricultural drought earlier than NDVI in the eight districts

@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Data & Methodology — GREEN ALIBI", page_icon="🛰️", layout="wide")
+st.set_page_config(page_title="Data & Methodology — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🛰️ Data & Methodology")
+st.title("Data & Methodology")
 
 st.markdown("""
 This page describes the datasets I used, how each is processed, and the checks I ran on the

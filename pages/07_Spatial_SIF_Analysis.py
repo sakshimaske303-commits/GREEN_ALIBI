@@ -2,10 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Spatial SIF Analysis — GREEN ALIBI", page_icon="🗺️", layout="wide")
+st.set_page_config(page_title="Spatial SIF Analysis — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🗺️ Spatial SIF Analysis")
+st.title("Spatial SIF Analysis")
 
 st.markdown("""
 The temporal analysis (previous pages) treats Marathwada as a single averaged region. This

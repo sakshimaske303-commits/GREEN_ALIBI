@@ -2,8 +2,6 @@
 
 **Does Solar-Induced Fluorescence signal agricultural drought earlier than NDVI in Marathwada, India? A test across 8 districts and 9 Kharif seasons (2015–2023).**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21762501.svg)](https://doi.org/10.5281/zenodo.21762501)
-
 ## Live Dashboard
 
 **[View the interactive dashboard →](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app/)**

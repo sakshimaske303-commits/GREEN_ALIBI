@@ -1,10 +1,10 @@
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Seasonal Trajectories — GREEN ALIBI", page_icon="📈", layout="wide")
+st.set_page_config(page_title="Seasonal Trajectories — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("📈 Seasonal SIF vs. NDVI Trajectories")
+st.title("Seasonal SIF vs. NDVI Trajectories")
 
 st.markdown("""
 The first look at the data: both indices, normalised to their own seasonal peak, side by side

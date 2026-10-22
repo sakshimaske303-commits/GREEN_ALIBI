@@ -1,10 +1,10 @@
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Crop-Yield Validation — GREEN ALIBI", page_icon="🌾", layout="wide")
+st.set_page_config(page_title="Crop-Yield Validation — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🌾 Crop-Yield Check Against Official Statistics")
+st.title("Crop-Yield Check Against Official Statistics")
 
 st.markdown("""
 Every other check in this study compares one remote-sensing or rainfall product with

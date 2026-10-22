@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="NDVI Physics — GREEN ALIBI", page_icon="🔬", layout="wide")
+st.set_page_config(page_title="NDVI Physics — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🔬 NDVI Physics: Reflectance, Radiative Transfer, and a Direct Comparison to SIF")
+st.title("NDVI Physics: Reflectance, Radiative Transfer, and a Direct Comparison to SIF")
 
 st.markdown("""
 Part 1 covered SIF's physical basis. This page covers the physics behind NDVI, the index I

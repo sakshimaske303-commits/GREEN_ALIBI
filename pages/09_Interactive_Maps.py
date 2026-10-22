@@ -2,10 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Interactive Maps — GREEN ALIBI", page_icon="🗺️", layout="wide")
+st.set_page_config(page_title="Interactive Maps — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🗺️ Interactive Maps & Plots")
+st.title("Interactive Maps & Plots")
 
 st.markdown("""
 Every map and headline chart from this study in one place — hover or click any district

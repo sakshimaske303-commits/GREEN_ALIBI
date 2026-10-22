@@ -4,10 +4,10 @@ import pandas as pd
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Findings & Conclusion — GREEN ALIBI", page_icon="📝", layout="wide")
+st.set_page_config(page_title="Findings & Conclusion — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("📝 Key Findings, Limitations & Conclusion")
+st.title("Key Findings, Limitations & Conclusion")
 
 st.markdown("""
 I kept two questions apart that are often treated as one. **(a)** In a drought year, does

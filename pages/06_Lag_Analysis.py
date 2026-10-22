@@ -3,10 +3,10 @@ import streamlit as st
 import pandas as pd
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Lag Analysis — GREEN ALIBI", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Lag Analysis — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("📊 Quantitative SIF-to-NDVI Lag Analysis")
+st.title("Quantitative SIF-to-NDVI Lag Analysis")
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "processed")
 

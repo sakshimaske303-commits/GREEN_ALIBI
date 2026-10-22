@@ -1,36 +1,36 @@
 # GREEN ALIBI
 ### Testing Whether Fluorescence Signals Agricultural Drought Earlier than NDVI
 
-Executive Summary · DOI: 10.5281/zenodo.21762501 · Sakshi D. Maske
+Executive Summary · Sakshi D. Maske
 
-## Project Overview
+## About the Project
 
-I built GREEN ALIBI to turn a physical hunch into a testable claim. Solar-Induced Fluorescence (SIF) is tied to photosynthesis, so it is often expected to register crop stress before NDVI, which responds once canopy damage is visible. India's drought-management process, and the PMFBY crop-insurance payouts tied to it, lean on rainfall deficits and NDVI. If SIF really gave earlier warning, that could matter for how quickly relief reaches farmers. I tested the idea over the eight districts of Marathwada, Maharashtra, across nine Kharif seasons (2015–2023), and kept two questions apart that are often treated as one. The main question: does SIF depart from its normal-year range before NDVI does in a drought year? The secondary one: does SIF's normal seasonal decline start before NDVI's? The answer to the first is no: the two alarms came within one composite of each other, with no consistent winner. The answer to the second depends mostly on how the decline is measured. I then applied every method unchanged to 2001–2014 as an out-of-sample test.
+Solar-Induced Fluorescence (SIF) is linked to photosynthesis, so many people expect it to show crop stress before NDVI, which changes only when the canopy is already damaged. In India, drought declarations and PMFBY crop-insurance payouts depend mainly on rainfall deficits and NDVI. If SIF gave an earlier warning, relief could reach farmers sooner. I tested this idea in the eight districts of Marathwada, Maharashtra, over nine Kharif seasons (2015–2023). I asked two separate questions. The main one: in a drought year, does SIF move away from its normal-year range before NDVI does? The second one: does SIF's normal end-of-season decline start before NDVI's? For the first question the answer is no. The two drought alarms came within one 8-day composite of each other, and neither index was first every time. For the second question, the answer depends mostly on how the decline is measured. I then ran every method again, without changes, on 2001–2014 as an out-of-sample test.
 
-## The Questions
+## Questions
 
-- **RQ1 (main):** In drought years, does SIF depart from its normal-year range before NDVI does? (H4)
-- **RQ1b:** Does SIF's post-peak seasonal decline begin before NDVI's? (H1)
+- **RQ1 (main):** In drought years, does SIF move away from its normal-year range before NDVI does? (H4)
+- **RQ1b:** Does SIF's decline after the seasonal peak start before NDVI's? (H1)
 - **RQ2:** Does the SIF–NDVI lag differ between districts, and does drought widen it? (H2, H3)
 - **RQ3:** How do satellite drought signals time against an approximation of India's rainfall-based Trigger-1 and the official 2015 and 2018 declarations?
 
-## The Method
+## Method
 
-- **Data:** GOSIF v2 SIF (0.05°, 8-day), weighted by each cell's cropland fraction (MODIS MCD12Q1 classes 12 and 14); MODIS MOD13Q1 NDVI (250 m), quality- and cropland-masked, each composite dated by its pixels' observation day; CHIRPS rainfall as the single rainfall source (1981–2023, baseline 2001–2020). Window: 1 June – 27 December.
-- **Drought years:** rainfall z-score below −0.5. Only 2015 and 2018 qualify regionally, under four baselines (and, with the main 2001–2020 baseline, for every cut-off from −0.3 to −0.75). Against each district's own baseline, 15 of 72 district-years are drought years.
-- **Drought signal (main test):** each year's SIF and NDVI standardised against normal years; an alarm is two consecutive composites below a z threshold from 1 July. z < −3 is the only threshold with no false alarm in any normal year at regional scale. Repeated with NDVI taken as observed instead of interpolated onto the SIF dates.
-- **Seasonal lead:** threshold-crossing lag at five decline thresholds, with each curve scaled two ways (over the whole season, and from peak to post-peak minimum), plus a double-logistic fit and cross-correlation over the post-peak decline; moving-block bootstrap intervals; region and all 72 district-years.
-- **Independent check:** TROPOMI SIF (TROPOSIF v2.1, 2018–2020), a direct retrieval not built from MODIS reflectance, compared with NDVI, EVI and NIRv.
-- **Out-of-sample test:** the same methods, unchanged, on 2001–2014 (five more drought years: 2001, 2002, 2003, 2004, 2014), with anomalies standardised against the normal years of 2001–2014 only.
-- **Policy timing:** alarms compared with an approximate rainfall Trigger-1 (deficit > 25% plus a dry spell of at least 21 days between 1 July and 30 September) and with the declaration dates.
+- **Data:** GOSIF v2 SIF (0.05°, 8-day), weighted by how much of each cell is cropland (MODIS MCD12Q1 classes 12 and 14). MODIS MOD13Q1 NDVI (250 m), with bad-quality and non-cropland pixels removed, and each composite dated by the day its pixels were observed. CHIRPS as the only rainfall source (1981–2023, baseline 2001–2020). Time window: 1 June – 27 December.
+- **Drought years:** rainfall z-score below −0.5. For the whole region only 2015 and 2018 qualify. This is true under four baselines, and with the main 2001–2020 baseline it holds for every cut-off from −0.3 to −0.75. Against each district's own baseline, 15 of 72 district-years are drought years.
+- **Drought alarm (main test):** I compared each year's SIF and NDVI with the normal years. An alarm is two composites in a row below a z threshold, starting from 1 July. For the region, z < −3 is the only threshold with no alarm in any normal year. I also repeated the test using the observed NDVI values in place of NDVI interpolated onto the SIF dates.
+- **Seasonal lead:** the lag between SIF and NDVI crossing five decline thresholds. Each curve was scaled in two ways: over the whole season, and from the peak to the low point after the peak. I also used a double-logistic fit, cross-correlation over the post-peak decline, and moving-block bootstrap intervals, for the region and all 72 district-years.
+- **Independent check:** TROPOMI SIF (TROPOSIF v2.1, 2018–2020), which is measured directly and does not use MODIS reflectance, compared with NDVI, EVI and NIRv.
+- **Out-of-sample test:** the same methods with no changes on 2001–2014, which has five more drought years (2001, 2002, 2003, 2004, 2014). Anomalies here are compared only with the normal years of 2001–2014.
+- **Policy timing:** I compared the alarms with my approximation of the rainfall Trigger-1 (deficit > 25% plus a dry spell of at least 21 days between 1 July and 30 September) and with the official declaration dates.
 
-## The Findings
+## Findings
 
-**SIF is not a resolvably earlier drought alarm than NDVI (H4 not supported).** At z < −3, SIF and NDVI both flagged 2015 on 24 August; in 2018 NDVI flagged on 25 September and SIF on 3 October, one composite later. Across the 15 drought district-years, SIF flagged 12 and NDVI 13; where both did, SIF was earlier in 7, they coincided in 2 and NDVI was earlier in 3, in 11 of the 12 by at most one composite. At looser thresholds NDVI was earlier more often (9 against 2 at z < −1.5). These one-composite differences are below NDVI's 16-day sampling, and they flip with how NDVI is dated: using only the NDVI already observed on each date, SIF was first in both regional drought years and in 8 of 12 district-years. SIF had slightly fewer false alarms (2 vs 4 among 57 normal district-years).
+**Main question (H4): not supported.** SIF did not give a clearly earlier drought alarm than NDVI. At z < −3, both flagged 2015 on 24 August. In 2018 NDVI flagged on 25 September and SIF on 3 October, eight days later. There were 15 drought district-years. SIF flagged 12 and NDVI 13. Where both flagged, SIF was earlier in 7, they were on the same date in 2, and NDVI was earlier in 3. In 11 of these 12, the gap was eight days or less. At looser thresholds NDVI was earlier more often (9 against 2 at z < −1.5). NDVI comes only every 16 days, so a gap of eight days is too small to trust. The order also changes with how NDVI is dated. When I used only the NDVI already observed on each date, SIF came first in both regional drought years and in 8 of 12 district-years. SIF gave slightly fewer false alarms (2 against 4, out of 57 normal district-years).
 
-**The same answer out of sample (2001–2014).** With the methods frozen, the 40 drought district-years of 2001–2014 gave the same district picture: where both indices flagged one at z < −1.5, SIF was earlier in 5 of 22, NDVI in 6, and 11 coincided; at z < −2, 0, 6 and 7 of 13. Regionally the vegetation anomalies were weaker, and the result leaned slightly towards SIF: at z < −3 SIF flagged 2001 and 2002, NDVI only 2002 (same date). Over both periods SIF flagged four of seven drought years at z < −3 and NDVI three, and where both did they coincided twice and NDVI was earlier once.
+**2001–2014 gives the same answer.** I kept every method the same. Across the 40 drought district-years of 2001–2014, the picture was the same as before. Where both indices flagged a district-year at z < −1.5, SIF was earlier in 5 of 22, NDVI in 6, and 11 were on the same date. At z < −2 the numbers were 0, 6 and 7 of 13. For the whole region the vegetation anomalies were weaker, and the result leaned a little towards SIF. At z < −3 SIF flagged 2001 and 2002, and NDVI flagged only 2002, on the same date. Over both periods together, SIF flagged four of seven drought years at z < −3 and NDVI three. Where both flagged, they were on the same date twice and NDVI was earlier once.
 
-**SIF's apparent seasonal lead depends on normalisation.** Scaled over the whole season, SIF crossed every decline threshold first in all nine years and all 72 district-years. But after the monsoon NDVI stays well above its pre-season level while SIF does not, so this scaling delays NDVI's crossings by construction. Scaled from peak to post-peak minimum, the lead shrinks and disappears in three years:
+**The seasonal lead (H1) depends on scaling.** When each curve is scaled over the whole season, SIF crossed every decline threshold first in all nine years and all 72 district-years. But after the monsoon NDVI stays well above its pre-season level and SIF does not. This makes NDVI cross the thresholds later, just because of the scaling. When each curve is scaled from its peak to its low point after the peak, the lead gets smaller and is gone in three years:
 
 | Year | Rainfall anomaly | Drought? | Season-scaled lag (days) | Decline-scaled lag (days) | Cross-corr. lag (days) |
 |---|---|---|---|---|---|
@@ -44,52 +44,54 @@ I built GREEN ALIBI to turn a physical hunch into a testable claim. Solar-Induce
 | 2022 | +36.7% | No | +11.8 | −1.0 | −1 |
 | 2023 | −3.8% | No | +11.1 | +0.4 | −3 |
 
-Cross-correlation, which does not depend on scaling, agrees more with the decline-scaled lag. MODIS NIRv and EVI, from the same composites, also lead NDVI by as much as GOSIF does (NIRv: 9/9 years, +22.8 days season-scaled, +9.9 decline-scaled), and GOSIF does not lead NIRv (decline-scaled, first in 0 of 9 years), so for GOSIF the remaining lead is a property of NDVI. GOSIF is predicted from MODIS reflectance, though, so this is partly expected. TROPOMI, which is not, put SIF first against NDVI in all three of its years under both scalings, and also before NIRv (by 1–13 days); three years are too few to call that a fluorescence lead, but it keeps the question open. In 2001–2014 the same holds: SIF led NDVI in all 14 years season-scaled (+27.4 days) and NIRv by almost as much (+26.6), and decline-scaled NIRv declined before SIF in 11 of 14 years.
+Cross-correlation does not depend on scaling, and it agrees more with the second scaling. MODIS NIRv and EVI, from the same composites, also come before NDVI by about as much as GOSIF does (NIRv: 9 of 9 years, +22.8 days season-scaled, +9.9 decline-scaled). GOSIF does not come before NIRv (decline-scaled, first in 0 of 9 years). For GOSIF, then, the remaining lead comes from NDVI. This is partly expected, because GOSIF is built from MODIS reflectance. TROPOMI does not use MODIS data. It put SIF before NDVI in all three of its years under both scalings, and also before NIRv (by 1–13 days). Three years are not enough to call this a fluorescence lead, so the question stays open. 2001–2014 shows the same thing. Season-scaled, SIF came before NDVI in all 14 years (+27.4 days) and NIRv by almost the same (+26.6). Decline-scaled, NIRv declined before SIF in 11 of 14 years.
 
-**No district differences once scaling is matched (H2 not supported).** Season-scaled, the lag differs between districts (Friedman p = 0.043); decline-scaled, it does not (p = 0.97; district means 2.9–5.6 days). **Drought does not widen the lag (H3 not supported):** season-scaled, drought years averaged 14.8 days against 22.6; decline-scaled, 6.5 against 3.6 — with two drought years, neither difference means much. In 2001–2014, with five drought years, the lead was again not larger in drought (+28.3 against +26.9 days season-scaled).
+**Districts (H2): not supported.** Season-scaled, the lag differs between districts (Friedman p = 0.043). Decline-scaled, it does not (p = 0.97; district means 2.9–5.6 days).
 
-## Validation & Robustness Checklist
+**Drought and the lag (H3): not supported.** Season-scaled, drought years averaged 14.8 days against 22.6 in normal years. Decline-scaled, it was 6.5 against 3.6. With only two drought years, these differences do not tell us much. In 2001–2014, with five drought years, the lead was again not larger in drought years (+28.3 against +26.9 days season-scaled).
 
-✓ Out-of-sample test on 2001–2014 with every method unchanged
+## Checks I Ran
 
-✓ Independent SIF retrieval (TROPOMI, 2018–2020), including against NIRv and EVI
+✓ Ran every method again on 2001–2014 with no changes
 
-✓ Alarm comparison repeated with NDVI taken as observed rather than interpolated
+✓ Compared with a second SIF product (TROPOMI, 2018–2020), also against NIRv and EVI
 
-✓ Comparison with MODIS EVI and NIRv from the same composites
+✓ Repeated the alarm test with observed NDVI in place of interpolated NDVI
 
-✓ Rainfall trigger evaluated per CHIRPS pixel as well as on averaged rainfall
+✓ Compared with MODIS EVI and NIRv from the same composites
 
-✓ Two normalisations, a double-logistic fit and cross-correlation for the seasonal lag
+✓ Ran the rainfall trigger in every CHIRPS pixel as well as on district-average rainfall
 
-✓ Moving-block bootstrap intervals for threshold-crossing lags; case bootstrap for cross-correlation
+✓ Measured the seasonal lag in four ways: two scalings, a double-logistic fit and cross-correlation
 
-✓ District-level replication across 72 district-years, drought classified against each district's own baseline
+✓ Bootstrap intervals for all lags (moving-block for threshold crossing, case resampling for cross-correlation)
 
-✓ Drought classification stable across four rainfall baselines (and cut-offs −0.3 to −0.75 with the main baseline)
+✓ Repeated the analysis for all 72 district-years, with drought judged against each district's own rainfall
 
-✓ NDVI quality-coverage check: lag direction unchanged when composites under 25% clear-pixel coverage are dropped (2022 reverses at a 50% cut-off)
+✓ Checked the drought years with four rainfall baselines (and cut-offs from −0.3 to −0.75 with the main baseline)
 
-✓ Moran's I and year-clustered / fixed-effects tests for district non-independence
+✓ Checked NDVI cloud cover: the lag direction stays the same when composites with under 25% clear pixels are removed (2022 flips with a 50% cut-off)
 
-✓ Crop-yield check against official district statistics (drought years −1.08 vs normal +0.07; p = 0.15)
+✓ Moran's I, plus year-clustered and fixed-effects tests, because nearby districts are not independent
 
-✓ Full pipeline reruns from one script (`run_all.py`)
+✓ Checked against official district crop yields (drought years −1.08 vs normal +0.07; p = 0.15)
 
-! SIF is not a resolvably earlier drought alarm than NDVI (H4); the alarms differ by at most about one composite
+✓ The whole pipeline runs from one script (`run_all.py`)
 
-! GOSIF's seasonal lead is largely a normalisation and NDVI effect; no district differences (H2) and no drought widening (H3)
+! SIF was not a clearly earlier drought alarm than NDVI (H4); the alarms were mostly eight days apart or less
 
-## Limitation
+! GOSIF's seasonal lead comes mostly from the scaling and from NDVI itself; there were no district differences (H2) and drought did not make the lag bigger (H3)
 
-Only two drought years regionally in 2015–2023 (2015, 2018); the 2001–2014 test adds five, but with weaker vegetation anomalies, so few seasons reach the strict alarm threshold. Decline-scaled leads and the SIF–NDVI alarm differences are mostly shorter than the 16-day NDVI sampling interval. The thresholds were chosen during the study, so the analysis is exploratory. GOSIF uses MODIS reflectance as a predictor; TROPOMI removes that dependence but covers only 2018–2020, and for 2001–2014 GOSIF is predicted outside its OCO-2 training period. Results are regional or district averages at about 5 km over a mixed cropland mask, and districts are spatially clustered. Trigger-1 is approximated on district-averaged rainfall and per CHIRPS pixel, not per taluka. Several data-handling errors in the first preprint are corrected and documented in the Development Log.
+## Limitations
 
-## Real World Relevance
+For the whole region there were only two drought years in 2015–2023 (2015, 2018). The 2001–2014 test adds five, but their vegetation anomalies were weaker, so few seasons reach the strict alarm threshold. Most decline-scaled leads and most gaps between the SIF and NDVI alarms are shorter than NDVI's 16-day sampling. I chose the thresholds during the study, so the analysis is exploratory. GOSIF uses MODIS reflectance as an input. TROPOMI does not, but it covers only 2018–2020, and for 2001–2014 GOSIF is predicted outside its OCO-2 training period. All results are regional or district averages at about 5 km over a mixed cropland mask, and nearby districts are similar to each other. I approximated Trigger-1 on district-average rainfall and per CHIRPS pixel, while the state applies it per taluka. The first preprint had several data-handling errors. They are fixed here and listed in the Development Log.
 
-The rainfall trigger, as approximated here, never fired for the region and fired in only 2 of 15 drought district-years (Aurangabad and Bid, 2018). Evaluated per CHIRPS pixel, it reached 25% of a district's area only in Aurangabad and Bid 2018 and Bid 2017 (a normal year), and in 2015 it fired in at most 7% of any district. Its deficit component alone fired in 18 of 57 normal district-years against 10 of 15 drought ones, and missed the 2018 drought regionally. Where it fired, the SIF and NDVI alarms came on the same date (Aurangabad) or SIF's one composite earlier (Bid). Both alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but a declaration follows field verification, so a satellite signal precedes it almost by construction. Satellite vegetation anomalies could add lead time to a rainfall-led trigger; this study gives no reason to prefer GOSIF SIF over the NDVI already in use.
+## What This Means for Drought Policy
+
+My approximation of the rainfall trigger never fired for the whole region. It fired in only 2 of 15 drought district-years (Aurangabad and Bid, 2018). When I ran it in each CHIRPS pixel, it covered 25% of a district's area only in Aurangabad and Bid 2018 and in Bid 2017 (a normal year). In 2015 it fired in at most 7% of any district. The deficit rule alone fired in 18 of 57 normal district-years and in 10 of 15 drought ones, and it missed the 2018 drought for the region. Where the trigger did fire, the SIF and NDVI alarms came on the same date (Aurangabad), or SIF came eight days before NDVI (Bid). Both alarms came 52.5 days before the 2015 declaration. Before the 2018 final declaration, SIF came 27.5 days and NDVI 35.5 days earlier. A declaration is made only after field checks, though, so a satellite signal will nearly always come first. Satellite vegetation data could give earlier warning than a rainfall-based trigger. But this study gives no reason to choose GOSIF SIF over the NDVI that is already used.
 
 ---
 
-GitHub: [github.com/sakshimaske303-commits/GREEN_ALIBI](https://github.com/sakshimaske303-commits/GREEN_ALIBI) | Live Dashboard: [greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app) | Zenodo DOI: [10.5281/zenodo.21762501](https://doi.org/10.5281/zenodo.21762501)
+GitHub: [github.com/sakshimaske303-commits/GREEN_ALIBI](https://github.com/sakshimaske303-commits/GREEN_ALIBI) | Live Dashboard: [greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app)
 
 **Sakshi D. Maske**, Independent Geospatial Researcher

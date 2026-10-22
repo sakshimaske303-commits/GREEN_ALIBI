@@ -2,10 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Rainfall Validation — GREEN ALIBI", page_icon="🌧️", layout="wide")
+st.set_page_config(page_title="Rainfall Validation — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🌧️ Rainfall Validation")
+st.title("Rainfall Validation")
 
 st.markdown("""
 I needed a measured definition of a drought year rather than one carried in from general

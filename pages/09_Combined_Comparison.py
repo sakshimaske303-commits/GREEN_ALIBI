@@ -1,10 +1,10 @@
 import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Combined Comparison — GREEN ALIBI", page_icon="🔗", layout="wide")
+st.set_page_config(page_title="Combined Comparison — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🔗 SIF vs. Rainfall: A Combined Spatial View")
+st.title("SIF vs. Rainfall: A Combined Spatial View")
 
 st.markdown("""
 The previous two pages show SIF and rainfall anomaly separately. Here I put them side by

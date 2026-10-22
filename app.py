@@ -6,14 +6,13 @@ from utils.style import apply_custom_style, section_divider, styled_caption, pag
 
 st.set_page_config(
     page_title="GREEN ALIBI — Marathwada Drought Study",
-    page_icon="🌿",
     layout="wide"
 )
 
 apply_custom_style()
 
 st.markdown("""
-<h1 style='text-align:center; font-size:3.2rem; font-weight:800;'>🌿 GREEN ALIBI</h1>
+<h1 style='text-align:center; font-size:3.2rem; font-weight:800;'>GREEN ALIBI</h1>
 <h3 style='text-align:center; font-weight:500; color:#FF6EC7;'>
 Testing the Fluorescence Advantage: Does SIF Signal Agricultural Drought Earlier than NDVI in Marathwada?
 </h3>
@@ -43,26 +42,6 @@ st.markdown(
                     </div>
                     <div style="color:{TEXT_LIGHT}; font-family:'Poppins',sans-serif; font-weight:900; font-size:1.35rem; margin-top:2px;">
                         Read the preprint
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="https://doi.org/10.5281/zenodo.21762501" target="_blank" class="doi-badge-link" style="text-decoration:none;">
-            <div class="doi-badge-card" style="
-                display:flex; align-items:center; gap:18px;
-                background: linear-gradient(145deg, {NAVY_MED}, {NAVY_DARK});
-                border: 2px solid {MAGENTA};
-                border-radius: 14px;
-                padding: 16px 32px;
-                box-shadow: 0 4px 20px rgba(233, 30, 140, 0.35);
-            ">
-                <div style="text-align:left;">
-                    <div style="color:{TEAL}; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:0.4px; display:flex; align-items:center; gap:8px;">
-                        <span>ARCHIVED &amp; CITABLE ON ZENODO</span>
-                        <span style="opacity:0.8; font-size:0.95rem;">↗</span>
-                    </div>
-                    <div style="color:{TEXT_LIGHT}; font-family:'Poppins',sans-serif; font-weight:900; font-size:1.35rem; margin-top:2px;">
-                        DOI: 10.5281/zenodo.21762501
                     </div>
                 </div>
             </div>
@@ -229,7 +208,7 @@ if _available:
         with _col:
             with open(_path, "rb") as _f:
                 st.download_button(
-                    label=f"⬇ {_d['label']}",
+                    label=f"{_d['label']}",
                     data=_f.read(),
                     file_name=os.path.basename(_path),
                     mime=_mime,

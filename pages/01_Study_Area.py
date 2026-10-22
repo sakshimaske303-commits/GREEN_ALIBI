@@ -3,10 +3,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 from utils.style import apply_custom_style, section_divider, styled_caption
 
-st.set_page_config(page_title="Study Area — GREEN ALIBI", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="Study Area — GREEN ALIBI", layout="wide")
 apply_custom_style()
 
-st.title("🌍 Study Area: Marathwada, Maharashtra")
+st.title("Study Area: Marathwada, Maharashtra")
 
 st.markdown("""
 The study region comprises the eight districts constituting **Marathwada**, a division of
