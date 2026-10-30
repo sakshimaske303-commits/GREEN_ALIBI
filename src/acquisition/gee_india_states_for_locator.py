@@ -19,4 +19,4 @@ states = (ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level1")
 if __name__ == "__main__":
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     geemap.ee_export_vector(states, filename=OUT)
-    print(f"Saved {OUT}. Next: python fig3_study_area_map.py")
+    print(f"Saved {OUT}. Next: python src/visualization/fig3_study_area_map.py")

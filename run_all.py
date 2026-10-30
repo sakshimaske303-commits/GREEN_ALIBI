@@ -71,7 +71,7 @@ FIGURES = [
     "src/visualization/build_folium_rainfall_map.py",
     "src/visualization/build_interactive_plots.py",
     "src/visualization/make_graphical_abstract.py",
-    "fig3_study_area_map.py",
+    "src/visualization/fig3_study_area_map.py",
 ]
 REQUIRED_INPUTS = [
     "data/raw/marathwada_boundary_polygon.geojson",

@@ -156,18 +156,14 @@ section_divider()
 st.header("How to Explore This Dashboard")
 
 st.markdown("""
-Use the sidebar to move through the study in the order it was actually built:
+Use the sidebar to move through the study:
 
-- **Study Area** — where and why Marathwada
-- **Fluorescence Physics** — the science behind SIF
-- **NDVI Physics** — the science behind NDVI, and a direct comparison
+- **Study Area and Interactive Maps** — where and why Marathwada, and every map and headline chart in hoverable form
+- **Signal Physics** — the science behind SIF and NDVI, and a direct comparison
 - **Data & Methodology** — sources, processing pipeline, and the checks I ran
-- **Seasonal Trajectories** — SIF vs NDVI across the growing season
-- **Lag Analysis** — threshold and cross-correlation lags, uncertainty, method dependence, TROPOMI check
-- **Spatial SIF Analysis** — where stress concentrated, static and interactive
-- **Rainfall Validation** — how the drought years were defined from CHIRPS rainfall
-- **Combined Comparison** — SIF and rainfall side by side
-- **Interactive Maps & Plots** — both district-level maps and the three headline charts in one place, hoverable, zoomable, and toggleable
+- **Drought Alarms and Policy Triggers** — SIF, NDVI and the rainfall trigger scored on missed droughts, false alarms and timing
+- **Seasonal Lead** — SIF vs NDVI across the growing season; threshold and cross-correlation lags, uncertainty, method dependence, TROPOMI check
+- **Spatial Patterns** — where stress concentrated, how the drought years were defined from CHIRPS rainfall, and SIF and rainfall side by side
 - **Crop-Yield Validation** — checking this study's drought classification against official government harvest statistics
 - **Findings & Conclusion** — what this project did and did not find
 """)
@@ -186,21 +182,26 @@ _all_docs = [
     {"label": "Research Paper", "filename": "GA_Research_Paper"},
     {"label": "Development Log", "filename": "GA_Development_Log"},
     {"label": "Policy Brief", "filename": "Policy_Brief"},
+    {"label": "Declarations", "filename": "GA_Declarations", "prefer_pdf": True},
 ]
 
 
-def _doc_path(stem):
-    """prefer a PDF in static/, fall back to the Markdown source in the repo root"""
+def _doc_path(stem, prefer_pdf=False):
+    """prefer a PDF in static/ (or in docs/ when prefer_pdf is set), fall back to the Markdown source in docs/"""
+    if prefer_pdf:
+        docs_pdf = os.path.join("docs", stem + ".pdf")
+        if os.path.exists(docs_pdf):
+            return docs_pdf, "application/pdf"
     pdf = os.path.join("static", stem + ".pdf")
     if os.path.exists(pdf):
         return pdf, "application/pdf"
-    md = stem + ".md"
+    md = os.path.join("docs", stem + ".md")
     if os.path.exists(md):
         return md, "text/markdown"
     return None, None
 
 
-_available = [(d, *_doc_path(d["filename"])) for d in _all_docs]
+_available = [(d, *_doc_path(d["filename"], d.get("prefer_pdf", False))) for d in _all_docs]
 _available = [x for x in _available if x[1]]
 if _available:
     _cols = st.columns(len(_available))

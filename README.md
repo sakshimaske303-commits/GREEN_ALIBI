@@ -10,10 +10,12 @@
 
 | Document | What's Inside |
 |---|---|
-| [`GA_Executive_Summary.md`](./GA_Executive_Summary.md) | Short snapshot: project overview, questions, method, headline findings, robustness checklist, and links (start here) |
-| [`Policy_Brief.md`](./Policy_Brief.md) | Non technical brief for a policy audience: the drought declaration/PMFBY problem, what was found, and the policy implication |
-| [`GA_Research_Paper.md`](./GA_Research_Paper.md) | Formal academic paper: physical basis, methodology, results, discussion, limitations |
-| [`GA_Development_Log.md`](./GA_Development_Log.md) | Full technical development log: every bug, boundary correction, and methodology iteration |
+| [`GA_Executive_Summary.md`](./docs/GA_Executive_Summary.md) | Short snapshot: project overview, questions, method, headline findings, robustness checklist, and links (start here) |
+| [`Policy_Brief.md`](./docs/Policy_Brief.md) | Non technical brief for a policy audience: the drought declaration/PMFBY problem, what was found, and the policy implication |
+| [`GA_Research_Paper.md`](./docs/GA_Research_Paper.md) | Formal academic paper: physical basis, methodology, results, discussion, limitations |
+| [`GA_Development_Log.md`](./docs/GA_Development_Log.md) | Full technical development log: every bug, boundary correction, and methodology iteration |
+| [`GA_Declarations.pdf`](./docs/GA_Declarations.pdf) | Declarations: highlights, author contributions, funding, competing interests, data and code availability, corrections, use of AI tools |
+| [`GREEN_ALIBI_graphical_abstract.png`](./docs/GREEN_ALIBI_graphical_abstract.png) | One-figure overview of the question, the two tests and the answer (also as `.svg` and `.pdf`) |
 
 ## Interactive Maps & Plots
 
@@ -28,7 +30,7 @@ Interactive district level maps and headline charts are hosted via GitHub Pages:
 - [SIF to NDVI Lag by Threshold](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/plots/lag_by_threshold.html)
 - [Bootstrap Confidence Intervals on Lag](https://sakshimaske303-commits.github.io/GREEN_ALIBI/outputs/interactive_maps/plots/bootstrap_lag_ci.html)
 
-*(All 5 are also embedded together on the dedicated Interactive Maps & Plots page in the live dashboard; the 2 maps also show up on their own on the Spatial SIF Analysis and Rainfall Validation pages.)*
+*(All 5 are also embedded together on the Study Area and Interactive Maps page in the live dashboard; the 2 maps also show up on their own on the Spatial Patterns page.)*
 
 India's drought-management process, and the crop-insurance payouts under the Pradhan Mantri Fasal Bima Yojana (PMFBY) tied to it, rest on rainfall deficits and on vegetation indices such as NDVI, which respond once crop damage is visible. Solar-Induced Fluorescence (SIF) is tied to photosynthesis, so it is often expected to respond earlier. GREEN ALIBI is my test of that expectation for the eight districts of Marathwada, Maharashtra. I compare cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's observation date, check the result with TROPOMI SIF (a retrieval not built from MODIS reflectance), and keep two questions apart. The main one is whether SIF shows a drought-specific anomaly before NDVI does, which is what would make SIF a better drought alarm; the secondary one is whether SIF's normal seasonal decline starts before NDVI's. Only 2015 and 2018 qualify as drought years on CHIRPS rainfall, so I also ran every test, unchanged, on 2001–2014 (five more drought years) as an out-of-sample check.
 
@@ -47,7 +49,7 @@ The hypotheses the data do not support are reported alongside the rest (H4: SIF 
 - Repeats the drought-alarm and seasonal-lag tests on 2001–2014 with every method frozen, as an out-of-sample test.
 - Times satellite alarms against an approximation of the rainfall-based Trigger-1 in India's Manual for Drought Management and against the official 2015 and 2018 drought declarations.
 - Checks district-level SIF against rainfall anomaly (with year-clustered and fixed-effects tests), spatial autocorrelation (Moran's I), and official district crop-yield statistics.
-- Presents everything in a multi-page Streamlit dashboard, including pages on the physics of fluorescence and reflectance.
+- Presents everything in a multi-page Streamlit dashboard, including a page on the physics of fluorescence and reflectance and a page that scores SIF, NDVI and the rainfall trigger as drought-policy triggers.
 
 ## Key Findings
 
@@ -73,38 +75,43 @@ In short: SIF is not a resolvably earlier drought alarm than NDVI in this datase
 GREEN_ALIBI/
 ├── run_all.py                          # Runs the full pipeline in order
 ├── app.py                              # Streamlit dashboard home page
-├── pages/                              # 12 page dashboard (chronological order)
-│   ├── 01_Study_Area.py
-│   ├── 02_Fluorescence_Physics.py
-│   ├── 03_NDVI_Physics.py
-│   ├── 04_Data_and_Methodology.py
-│   ├── 05_Seasonal_Trajectories.py
-│   ├── 06_Lag_Analysis.py
-│   ├── 07_Spatial_SIF_Analysis.py
-│   ├── 08_Rainfall_Validation.py
-│   ├── 09_Combined_Comparison.py
-│   ├── 09_Interactive_Maps.py
-│   ├── 10_Crop_Yield_Validation.py
-│   └── 11_Findings_and_Conclusion.py
+├── pages/                              # 8 dashboard pages after the home page
+│   ├── 01_Study_Area_and_Interactive_Maps.py
+│   ├── 02_Signal_Physics.py               # SIF and NDVI physics, and a direct comparison
+│   ├── 03_Data_and_Methodology.py
+│   ├── 04_Drought_Alarms_and_Policy_Triggers.py  # SIF, NDVI and the rainfall trigger scored as policy triggers
+│   ├── 05_Seasonal_Lead.py                # Seasonal trajectories and lag analysis
+│   ├── 06_Spatial_Patterns.py             # Spatial SIF, rainfall validation, SIF vs. rainfall
+│   ├── 07_Crop_Yield_Validation.py
+│   └── 08_Findings_and_Conclusion.py
 ├── utils/
 │   ├── doc_viewer.py
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
 ├── src/
 │   ├── acquisition/                    # Earth Engine exports (cropland fraction, NDVI observation dates, CHIRPS) and GOSIF download
 │   ├── analysis/                       # All analysis scripts (listed below)
-│   └── visualization/                  # Static maps, Folium maps, Plotly charts
+│   └── visualization/                  # Static maps (incl. the Figure 3 study area map), Folium maps, Plotly charts, graphical abstract
 ├── data/
 │   ├── raw/                             # GOSIF, NDVI, rainfall, boundary data
 │   ├── external/                        # Cropland fraction rasters, crop-yield statistics, official drought declaration dates
 │   └── processed/                       # Regional and district SIF, NDVI, rainfall, lag, and diagnostic CSVs
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
-│   └── interactive_maps/
-│       ├── maps/                          # Folium HTML maps (SIF + rainfall by district)
-│       └── plots/                         # Plotly HTML charts (seasonal trajectories, lag analysis)
-├── GA_Research_Paper.md                 # Formal academic research paper
-├── GA_Development_Log.md                # Full technical development log
-└── requirements.txt
+│   ├── interactive_maps/
+│   │   ├── maps/                          # Folium HTML maps (SIF + rainfall by district)
+│   │   └── plots/                         # Plotly HTML charts (seasonal trajectories, lag analysis)
+│   └── run_log.txt                       # Log of the last full pipeline run
+├── docs/
+│   ├── GA_Research_Paper.md / .pdf        # Formal academic research paper
+│   ├── GA_Executive_Summary.md / .pdf     # Short snapshot (start here)
+│   ├── Policy_Brief.md                    # Non-technical brief for a policy audience
+│   ├── GA_Development_Log.md / .pdf       # Full technical development log
+│   ├── GA_Declarations.md / .pdf          # Authorship, funding, data, corrections, AI use
+│   └── GREEN_ALIBI_graphical_abstract.*   # One-figure overview (.png, .svg, .pdf)
+├── CITATION.cff                          # Citation metadata
+├── LICENSE                               # CC BY 4.0
+├── requirements.txt
+└── requirements-lock.txt                 # Exact package versions from the last full run
 ```
 
 ### Analysis scripts (`src/analysis/`)
@@ -202,6 +209,17 @@ python src/acquisition/download_gosif_new_years.py 2001 2014   # earlier GOSIF y
 
 The scripts that use these outputs skip quietly until the files exist. The raw GOSIF archives and decompressed GeoTIFFs take several GB; only the clipped files are needed after `clip_gosif.py` has run.
 
+## Declarations
+
+The full statement is in [`GA_Declarations.pdf`](./docs/GA_Declarations.pdf) (source: [`GA_Declarations.md`](./docs/GA_Declarations.md)).
+
+- **Author contributions:** single-author study; Sakshi D. Maske did the conceptualization, methodology, software, analysis, data curation, writing and visualization.
+- **Funding:** none. I covered all costs myself.
+- **Competing interests:** none.
+- **Ethics:** not applicable; no human participants, animals or personal data.
+- **Analysis transparency:** the decline thresholds, the drought cut-off and the alarm threshold were chosen during the study, so the analysis is exploratory. Every method was applied unchanged to 2001–2014 as an out-of-sample test.
+- **Use of AI tools:** I used Claude (Anthropic), an AI assistant, at several points in this project. Most of that help was checking: whether the numbers quoted in the paper, executive summary, policy brief, README and dashboard matched my output files, from the seasonal lags and the drought-alarm counts to the 2001–2014 out-of-sample test and the TROPOMI comparison. When a script failed or returned something I could not explain, I sometimes used it to help trace the problem in my Python code. I wrote the paper and the other documents myself; I used it to point out sentences that were unclear or too technical, places where something seemed to be missing, and punctuation errors, and I decided what to change. I also used it for the layout of the project pages. It did not download or process the GOSIF, MODIS, CHIRPS or TROPOMI data, run the analysis or produce the results. The research questions, the study design, the decision to separate the seasonal lead from the drought alarm and to make the alarm the main question, and the interpretation are my own. I checked every suggestion before using it and take full responsibility for the content. The two explanatory illustrations in Sections 1.3 and 1.4 of the paper were made with an AI image-generation tool and are visual aids only.
+
 ## Author
 
 **Sakshi D. Maske**
@@ -216,4 +234,4 @@ It's licensed under [CC BY 4.0](LICENSE). See `CITATION.cff` for citation metada
 
 ---
 
-*The full development process, including every boundary correction, debugging session, and methodology iteration, is written up in `GA_Development_Log.md` so the whole thing can be checked and rebuilt from scratch.*
+*The full development process, including every boundary correction, debugging session, and methodology iteration, is written up in [`docs/GA_Development_Log.md`](./docs/GA_Development_Log.md) so the whole thing can be checked and rebuilt from scratch.*

@@ -1,5 +1,7 @@
 # graphical abstract, numbers read from data/processed
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -133,6 +135,7 @@ ax.text(10, 0.85, "CONCLUSION  •  SIF and NDVI alarms fall within one composit
         "GOSIF's seasonal lead is mostly an NDVI effect.", ha="center", va="center", fontsize=16.5,
         fontweight="bold", color=INK)
 
+os.makedirs("docs", exist_ok=True)
 for ext in ["png", "svg", "pdf"]:
-    fig.savefig(f"GREEN_ALIBI_graphical_abstract.{ext}", dpi=243, facecolor="white")
-print("saved GREEN_ALIBI_graphical_abstract.png/.svg/.pdf")
+    fig.savefig(f"docs/GREEN_ALIBI_graphical_abstract.{ext}", dpi=243, facecolor="white")
+print("saved docs/GREEN_ALIBI_graphical_abstract.png/.svg/.pdf")

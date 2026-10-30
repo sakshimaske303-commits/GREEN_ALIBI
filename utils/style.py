@@ -218,7 +218,7 @@ def page_footer():
             Sakshi D. Maske
         </p>
         <p style='font-size:1.05rem; color:{TEXT_LIGHT}; margin-top:0; margin-bottom:18px;'>
-            Independent Geospatial Researcher
+            Satellite data and policy, self-directed research
         </p>
         <a href='https://github.com/sakshimaske303-commits/GREEN_ALIBI' target='_blank' style='
             display:inline-block;
