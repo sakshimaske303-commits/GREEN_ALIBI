@@ -46,6 +46,26 @@ st.markdown(
                 </div>
             </div>
         </a>
+        <a href="https://doi.org/10.5281/zenodo.21762500" target="_blank" class="doi-badge-link" style="text-decoration:none;">
+            <div class="doi-badge-card" style="
+                display:flex; align-items:center; gap:18px;
+                background: linear-gradient(145deg, {NAVY_MED}, {NAVY_DARK});
+                border: 2px solid {MAGENTA};
+                border-radius: 14px;
+                padding: 16px 32px;
+                box-shadow: 0 4px 20px rgba(233, 30, 140, 0.35);
+            ">
+                <div style="text-align:left;">
+                    <div style="color:{TEAL}; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:0.4px; display:flex; align-items:center; gap:8px;">
+                        <span>CODE AND DATA ON ZENODO</span>
+                        <span style="opacity:0.8; font-size:0.95rem;">↗</span>
+                    </div>
+                    <div style="color:{TEXT_LIGHT}; font-family:'Poppins',sans-serif; font-weight:900; font-size:1.35rem; margin-top:2px;">
+                        Get the archive
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
     """,
     unsafe_allow_html=True,

@@ -6,6 +6,11 @@
 
 **[View the interactive dashboard →](https://greenalibi-bzs2wvod5fflqh7dfe2cf4.streamlit.app/)**
 
+## Preprint and Archive
+
+- **Preprint (EarthArXiv):** DOI [10.31223/X5CN58](https://doi.org/10.31223/X5CN58)
+- **Code and data (Zenodo):** DOI [10.5281/zenodo.21762500](https://doi.org/10.5281/zenodo.21762500) (always resolves to the latest archived version)
+
 ## Project Documentation
 
 | Document | What's Inside |

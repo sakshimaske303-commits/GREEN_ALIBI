@@ -5,7 +5,7 @@
 Sakshi D. Maske · Independent Geospatial Researcher · ORCID [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
 
 Version 1.2.0  
-Preprint: EarthArXiv, DOI [10.31223/X5CN58](https://doi.org/10.31223/X5CN58) · Code and data: [github.com/sakshimaske303-commits/GREEN_ALIBI](https://github.com/sakshimaske303-commits/GREEN_ALIBI)
+Preprint: EarthArXiv, DOI [10.31223/X5CN58](https://doi.org/10.31223/X5CN58) · Archive: Zenodo, DOI [10.5281/zenodo.21762500](https://doi.org/10.5281/zenodo.21762500) · Code and data: [github.com/sakshimaske303-commits/GREEN_ALIBI](https://github.com/sakshimaske303-commits/GREEN_ALIBI)
 
 ## Highlights
 
