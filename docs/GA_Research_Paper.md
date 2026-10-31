@@ -413,7 +413,7 @@ In this region and with this data, SIF is not an earlier drought alarm than NDVI
 
 ## Revision Note
 
-This version fixes five data-handling errors in the first preprint. NDVI dates were one day early and were matched to the nearest date, which made every lag about eight days shorter. The cross-correlation search could not return negative lags. The 2021 and 2022 GOSIF files had a half-pixel longitude offset. One district name did not match ("Beed" vs "Bid"). Two different rainfall sources were used for different anomalies. Compared with the previous version, this version also makes the drought-anomaly test (H4) the main question; adds the decline-range normalisation and double-logistic checks (Section 4.4), which change how the seasonal lead and H2 are read; classifies district drought against each district's own rainfall baseline; counts Trigger-1 dry spells only during the monsoon; uses a moving-block bootstrap centred on the reported lag; adds the NDVI coverage check; compares SIF with MODIS EVI and NIRv; runs Trigger-1 per CHIRPS pixel; and runs all methods unchanged on 2001–2014 as an out-of-sample test. A final check found an alignment error in the district alarm comparison that dated every district NDVI alarm one composite (8 days) too early. I fixed it and added the NDVI-dating check (Section 3.9) and the TROPOMI–NIRv comparison (Section 4.6). GA_Development_Log.md records every change.
+This version fixes five data-handling errors in the first preprint. NDVI dates were one day early and were matched to the nearest date, which made every lag about eight days shorter. The cross-correlation search could not return negative lags. The 2021 and 2022 GOSIF files had a half-pixel longitude offset. One district name did not match ("Beed" vs "Bid"). Two different rainfall sources were used for different anomalies. Compared with the previous version, this version also makes the drought-anomaly test (H4) the main question; adds the decline-range normalisation and double-logistic checks (Section 4.4), which change how the seasonal lead and H2 are read; classifies district drought against each district's own rainfall baseline; counts Trigger-1 dry spells only during the monsoon; uses a moving-block bootstrap centred on the reported lag; adds the NDVI coverage check; compares SIF with MODIS EVI and NIRv; runs Trigger-1 per CHIRPS pixel; and runs all methods unchanged on 2001–2014 as an out-of-sample test. A final check found an alignment error in the district alarm comparison that dated every district NDVI alarm one composite (8 days) too early. I fixed it and added the NDVI-dating check (Section 3.9) and the TROPOMI–NIRv comparison (Section 4.6). GA_Development_Log.md records every change. Appendix A, added after the preprint, scores combined drought-trigger rules on the same district-years, values their errors in rupees of relief, compares the Indian trigger design with four other systems and classifies the proposed changes by order of policy change; it does not change any result in the main text.
 
 ## Supplementary Figures
 
@@ -425,9 +425,152 @@ This version fixes five data-handling errors in the first preprint. NDVI dates w
 
 **Figure S2.** Asymmetric double-logistic fits to the regional SIF and NDVI series, by year, with the fitted end-of-season dates.
 
+## Appendix A. Policy Extension: Combined Trigger Rules, the Cost of Their Errors and Other Drought Systems
+
+*Added after the EarthArXiv preprint. This appendix uses only alarm and trigger dates already produced in this study. It does not change any result in the main text.*
+
+### A.1 Why combine signals
+
+The main text scores each signal on its own: the rainfall trigger, the NDVI anomaly and the SIF anomaly. The Manual for Drought Management does not use them on their own. It uses them in a sequence (Ministry of Agriculture & Farmers Welfare, 2016a). Trigger-1 is based on rainfall deviation, SPI and dry spells. Only if it is set off do states look at impact indicators (Trigger-2) in four groups: crop area sown, remote sensing (VCI or NDVI deviation), soil moisture and hydrology. States choose three of the four, and the drought is moderate or severe depending on how many of them are in the moderate or severe class. Field verification (Trigger-3) follows in a random 10% of affected villages, where an estimated crop loss of 33% or more counts as drought and more than 50% as severe drought. The state then declares drought by notification, for Kharif by 30 October.
+
+In this design the satellite vegetation index can only confirm a drought that rainfall has already flagged. My results suggest that the rainfall step is the weak one. So I asked a policy-design question that the data can answer directly: which combination of the three signals catches the most drought district-years with the fewest false alarms, and how early?
+
+### A.2 Method
+
+I used the same 72 district-years as in Sections 4.2 and 4.9 (15 drought and 57 normal, each district against its own rainfall record), the same satellite alarms (z < −3 for two composites in a row) and the same rainfall trigger dates. Every rule fires on a date:
+
+- **Single signals:** Trigger-1 on district-average rainfall; Trigger-1 when it has fired in 25% of a district's CHIRPS pixels; the rainfall deficit (> 25%) alone; the NDVI anomaly; the SIF anomaly.
+- **AND rules** fire when the last of their signals has fired (deficit AND NDVI, deficit AND SIF, NDVI AND SIF).
+- **A sequence rule** fires when the NDVI alarm comes on or after the rainfall deficit, which is the order the Manual uses (deficit, then NDVI confirms).
+- **OR rules** fire with the first signal (NDVI OR SIF, Trigger-1 OR NDVI).
+- **A 2-of-3 rule** fires on the date the second of deficit, NDVI and SIF fires.
+
+For each rule I counted the drought district-years flagged, the false alarms in normal district-years, how many drought district-years were flagged by 30 September (the end of the monsoon window used for the dry-spell rule), and the median alarm date. I repeated the scoring with NDVI taken as observed instead of interpolated (Section 3.9), and for the satellite-only rules on the 2001–2014 district-years (Section 3.14). No rainfall rule can be scored for 2001–2014, because district daily CHIRPS was only extracted for 2015–2023. The script is `src/analysis/trigger_rule_comparison.py`, and the figure is made by `src/visualization/plot_trigger_rules.py`.
+
+### A.3 Results
+
+**Table A1.** Trigger rules scored on 72 district-years, 2015–2023 (satellite alarms at z < −3, own-district rainfall baseline).
+
+| Rule | Drought flagged (of 15) | False alarms (of 57) | Flagged by 30 Sep | Median alarm date |
+|---|---|---|---|---|
+| Rainfall Trigger-1 (district average) | 2 | 1 | 1 | 25 Sep |
+| Rainfall Trigger-1 (25% of pixels) | 2 | 1 | 2 | 17 Sep |
+| Rainfall deficit > 25% alone | 10 | 18 | 9 | 16 Jul |
+| NDVI anomaly | 13 | 4 | 9 | 17 Sep |
+| SIF anomaly | 12 | 2 | 9 | 13 Sep |
+| Deficit AND NDVI | 8 | 2 | 6 | 5 Sep |
+| Deficit AND SIF | 7 | 0 | 6 | 24 Aug |
+| Deficit, then NDVI confirms | 7 | 2 | 6 | 24 Aug |
+| NDVI AND SIF | 12 | 2 | 9 | 17 Sep |
+| NDVI OR SIF | 13 | 4 | 9 | 17 Sep |
+| Trigger-1 OR NDVI | 13 | 5 | 9 | 17 Sep |
+| 2 of 3: deficit, NDVI, SIF | 13 | 4 | 9 | 17 Sep |
+
+![Figure A1](../outputs/figures/trigger_rule_comparison.png)
+*Figure A1. Drought district-years flagged (left; dark part = flagged by 30 September) and false alarms in normal district-years (right) for each rule, 2015–2023.*
+
+Four things stand out.
+
+First, no combination flagged more drought district-years than the NDVI anomaly on its own (13 of 15). Every rule that uses a satellite signal missed Hingoli 2015 and Jalna 2023; the deficit alone flagged both, but with 18 false alarms. The OR rules flagged no more droughts than NDVI, and Trigger-1 OR NDVI added one false alarm.
+
+Second, putting rainfall first cost about half the droughts. Rules that need the deficit (deficit AND NDVI, deficit AND SIF, deficit then NDVI) flagged 7 or 8 of 15. The deficit rule missed Aurangabad 2015 and four of the six drought district-years of 2018 (Jalna, Latur, Osmanabad, Parbhani), so any rule that waits for it misses them too. The rules that did fire fired earlier (median 24 August to 5 September), and deficit AND SIF had no false alarm. In this data, the order the Manual uses, rainfall first and vegetation as confirmation, limits detection to what the rainfall step can see.
+
+Third, asking SIF to confirm NDVI halved the false alarms (from 4 to 2) without losing any drought flagged by 30 September (9 in both). The one extra miss, Nanded 2015, was flagged by NDVI only on 6 December. This does not hold up, though. With NDVI taken as observed, NDVI alone has 3 false alarms against 2 for NDVI AND SIF. In 2001–2014, requiring both indices flagged 2 of 40 drought district-years against 6 for NDVI alone, while NDVI alone had a single false alarm (Table A2). Where droughts are mild, confirmation costs detections.
+
+Fourth, even the best rules flagged only 9 of the 15 drought district-years by 30 September, and the strict z < −3 threshold caught at most 7 of the 40 milder drought district-years of 2001–2014. The alarm threshold is itself a policy choice between missed droughts and false alarms, and these data only describe its consequences at one level.
+
+**Table A2.** Sensitivity of the satellite rules.
+
+| Rule | 2015–2023, NDVI as observed: drought (of 15) / false (of 57) | 2001–2014: drought (of 40) / false (of 72) |
+|---|---|---|
+| NDVI anomaly | 13 / 3 | 6 / 1 |
+| SIF anomaly | 12 / 2 | 3 / 0 |
+| NDVI AND SIF | 12 / 2 | 2 / 0 |
+| NDVI OR SIF | 13 / 3 | 7 / 1 |
+
+### A.4 What the errors cost
+
+Counting errors treats a missed drought in a large district like one in a small district, and it leaves open how a missed drought should weigh against a false alarm. To put both errors in one unit, I valued them in rupees, as the relief they move.
+
+For relief I used the SDRF/NDRF input subsidy for rainfed crops with a crop loss of 33% or more, ₹8,500 per hectare (norms for 2022–23 to 2025–26; Ministry of Home Affairs, 2022), on each district's mean Kharif sown area for 2015–2022 (Ministry of Agriculture & Farmers Welfare, 2024). In a drought district-year that a rule misses, this is relief withheld; in a normal district-year in which the rule fires, it is relief paid where there was no drought. Both are upper bounds, because relief goes only to farmers with a verified loss of 33% or more and to at most 2 ha per farmer. For scale I also valued the crop loss in each drought district-year: the shortfall of each Kharif crop's yield below its mean in that district's normal years of 2015–2022, times the area sown, at the 2022–23 Minimum Support Prices (Directorate of Economics & Statistics, 2025). The nine priced crops cover 98.9% of the Kharif area. Cotton is reported in bales of lint, which I converted at about 5 quintals of seed cotton per bale. District yields for 2023 are not yet published, so the loss for Jalna 2023 is imputed from the mean loss per hectare of the other drought district-years.
+
+A rule's weighted cost is w × relief withheld + relief paid in normal years. The weight w says how much a rupee that fails to reach a drought-hit district counts against a rupee paid where there was no drought: at w = 1 only the budget counts, and w > 1 gives priority to drought-hit farmers. This is the logic of the cost–loss model for weather warnings (Murphy, 1977), with relief in place of protective action. Rather than choose w, I report the range of w over which each rule has the lowest cost. I scored the rules of Table A1, and the NDVI, SIF and NDVI AND SIF rules at z < −1.5, −2 and −3, counting a drought as flagged at any date and, separately, only if flagged by 30 September. The script is `src/analysis/trigger_cost_analysis.py`, and Figure A2 is made by `src/visualization/plot_trigger_costs.py`.
+
+**Table A4.** The cost of each rule's errors, 2015–2023 (₹ crore; relief at ₹8,500/ha; drought flagged at any date). Selected rules; all are in `data/processed/trigger_cost_comparison.csv`.
+
+| Rule | Drought flagged (of 15) / false alarms (of 57) | Relief withheld in missed droughts | Relief paid in normal years | Crop loss in missed droughts |
+|---|---|---|---|---|
+| Rainfall Trigger-1 (district average) | 2 / 1 | 6,593 | 689 | 22,141 |
+| Rainfall deficit > 25% alone | 10 / 18 | 2,435 | 9,757 | 5,989 |
+| NDVI anomaly, z < −1.5 | 15 / 24 | 0 | 12,725 | 0 |
+| NDVI anomaly, z < −2 | 15 / 12 | 0 | 6,492 | 0 |
+| NDVI AND SIF, z < −2 | 14 / 7 | 526 | 3,811 | 1,707 |
+| NDVI anomaly, z < −3 | 13 / 4 | 889 | 2,336 | 2,904 |
+| SIF anomaly, z < −3 (same as NDVI AND SIF) | 12 / 2 | 1,595 | 1,068 | 5,110 |
+| Deficit, then NDVI confirms | 7 / 2 | 3,886 | 1,268 | 9,687 |
+| Deficit AND SIF | 7 / 0 | 4,030 | 0 | 11,100 |
+
+**Table A5.** The rule with the lowest weighted cost, by the weight w on relief withheld from drought-hit districts.
+
+| w | Drought flagged at any date | w | Drought flagged by 30 September |
+|---|---|---|---|
+| below 0.44 | Deficit AND SIF | below 0.65 | Deficit AND SIF |
+| 0.44–1.79 | SIF anomaly, z < −3 | 0.65–4.02 | SIF anomaly, z < −3 |
+| 1.80–4.06 | NDVI anomaly, z < −3 | 4.03–5.83 | NDVI anomaly, z < −2 |
+| 4.07–5.09 | NDVI AND SIF, z < −2 | 5.84 and above | NDVI anomaly, z < −1.5 |
+| 5.10 and above | NDVI anomaly, z < −2 | | |
+
+![Figure A2](../outputs/figures/trigger_cost_frontier.png)
+*Figure A2. Relief withheld in missed drought district-years against relief paid in normal district-years, for each rule, 2015–2023 (left: drought flagged at any date; right: only by 30 September). The dashed line joins the rules with the lowest weighted cost for some weight w.*
+
+First, the scale. The 15 drought district-years lost about ₹25,450 crore of Kharif output at 2022–23 prices. Relief at the SDRF rate would have covered ₹7,843 crore of it (31%). The approximated rainfall Trigger-1 missed 13 of them: it would have withheld ₹6,593 crore of relief, and 87% of the crop loss (₹22,141 crore) fell in district-years in which it did not fire.
+
+Second, a rainfall gate is the cheapest design only when a rupee that fails to reach a drought-hit district counts for less than half of a rupee paid in a normal year (w below 0.44, or 0.65 by 30 September). For any weight above that, a satellite rule without a rainfall gate costs less.
+
+Third, which satellite rule is cheapest depends on w, so it is a value choice, not a technical one. For w between about 0.4 and 1.8, SIF at z < −3 is cheapest, because of its two fewer false alarms; between 1.8 and 4, NDVI at z < −3; above about 4 to 5, the looser z < −2. SIF's advantage rests on few events: in the checks of Table A2 it kept one false alarm fewer than NDVI, but in 2001–2014 it flagged half as many drought district-years (3 against 6 of 40).
+
+Fourth, moving the threshold changes the cost more than changing the index. Going from NDVI at z < −3 to z < −2 cuts relief withheld from ₹889 crore to nothing and raises relief paid in normal years from ₹2,336 to ₹6,492 crore. Swapping NDVI for SIF at z < −3 moves the two by ₹706 and ₹1,268 crore. The threshold is a setting of the instrument, the index is the instrument itself (A.6).
+
+### A.5 How other systems use vegetation signals
+
+To put the Indian design in context, I compared it with four systems that use satellite vegetation or drought information in drought decisions, one of them in an EU member state. They differ in what the signal is allowed to decide, which is what matters for who carries each kind of error.
+
+**Table A3.** Drought triggers in India and four other systems.
+
+| | India: Manual for Drought Management | EU: European Drought Observatory, Combined Drought Indicator | USA: U.S. Drought Monitor and the Livestock Forage Disaster Program | Kenya: Kenya Livestock Insurance Program | Spain: river-basin drought plans and pasture-loss insurance |
+|---|---|---|---|---|---|
+| Signals | Rainfall deviation, SPI and dry spells; then three of crop sown area, VCI or NDVI deviation, soil moisture and hydrology; then field verification | SPI-1 and SPI-3, modelled soil moisture anomaly, fAPAR anomaly | Weekly county drought ratings from D0 to D4 | NDVI-based index of forage availability over the season, against its historical average | Plans: a prolonged-drought index from precipitation or natural flows, and a scarcity index from reservoir storage, flows and groundwater. Insurance: NDVI per homogeneous pasture zone, for each ten-day period, against its historical mean |
+| Logic | Sequence: rainfall gate, then impact indicators, then field check | Sequence: Watch (rainfall deficit), Warning (plus soil moisture), Alert (plus vegetation) | Fixed schedule: 4 weeks of D2 gives one monthly payment, more severe or longer drought gives up to five | Vegetation index alone triggers the payout | Plans: index thresholds move each unit from normal to pre-alert, alert and emergency, each stage with set measures. Insurance: NDVI alone; payment below the mean minus 0.7 or 1.5 standard deviations (standard option) |
+| What it decides | State declaration and relief (SDRF/NDRF) | Monitoring and early warning only; no payments | Payments to livestock producers | Insurance payouts to pastoralists | Plans: water-allocation measures, and less demanding ecological flows in a prolonged drought. Insurance: payouts to livestock farmers, premiums subsidised by ENESA |
+| Unit | Village, block, taluka or district, as notified | 5 km grid | County | Insurance unit within a county | Plans: territorial unit within a river basin. Insurance: homogeneous pasture zone |
+| Who carries a missed drought | Farmers, until field verification catches up | No direct payment at stake | Producers in counties rated below the threshold | Pastoralists whose forage loss the index does not see | Plans: water users in the unit. Insurance: livestock farmers whose pasture loss the zone index does not see |
+| Source | Ministry of Agriculture & Farmers Welfare (2016a) | Sepulcre-Canto et al. (2012); Copernicus European Drought Observatory (n.d.) | USDA Farm Service Agency (n.d.) | WOCAT (n.d.) | Estrela (2017); Ministerio de Agricultura, Pesca y Alimentación (2020) |
+
+The EU indicator uses the same order as India, rainfall first and vegetation last, but it decides nothing about money. The U.S. and Kenyan programmes, and Spain's pasture insurance, tie payments to a satellite or expert rating directly, with no field verification step, which makes them fast but means that the index error falls on the farmer or herder whose field the index does not represent (basis risk). My results do not show which design is better; they show that in Marathwada a rainfall gate in front of the vegetation index would have hidden roughly half of the drought district-years that the vegetation index alone flagged.
+
+Spain, an EU member state, uses both designs side by side, for different goals. Its river-basin drought plans follow a sequence of indices, like the EU indicator, and the measures they trigger concern water: in a prolonged drought, less demanding ecological flows and a justified temporary deterioration of water bodies; under scarcity, the measures set for each stage from pre-alert to emergency (Estrela, 2017). For livestock farmers, the pasture-loss insurance pays out on NDVI alone, starting below the zone's historical mean minus 0.7 standard deviations in the standard option (Ministerio de Agricultura, Pesca y Alimentación, 2020). That threshold is far looser than the z < −3 used here. In Marathwada, NDVI at z < −1.5 flagged all 15 drought district-years but also 24 of 57 normal ones (Table A4), a trade that is never the cheapest when a flag at any date counts, and is the cheapest only at a weight on missed droughts of about 6 or more when only flags by 30 September count. The two thresholds are not strictly comparable, since my baseline uses only normal years and needs two composites in a row.
+
+In the classification of policy tools by Hood (1983), India's drought response uses all four types: information (nodality) in the satellite and rainfall monitoring, authority in the Manual's trigger rules and the state notification, treasure in SDRF/NDRF relief and PMFBY payouts, and organisation in the district drought contingency cells and the field verification teams. The satellite signals in this study enter only through nodality. Whether they should also gain authority, by triggering a decision as in the U.S., Kenyan and Spanish insurance programmes, is the policy question this study can inform but not settle.
+
+### A.6 Three orders of policy change
+
+Hall (1993) distinguishes three orders of policy change: the settings of existing instruments (first order), the instruments themselves (second order), and the goals behind them (third order). The proposals in and around this study fall into all three.
+
+- **First order: settings.** The alarm threshold (z < −3 or −2), the rainfall deficit (25%) and dry-spell length (21 days), and whether the trigger is computed on district averages or per pixel. In this data, first-order changes move the cost of errors most (A.4), while no setting of the rainfall rule both catches droughts and stays quiet in normal years (Section 4.9).
+- **Second order: instruments and how they are combined.** Adding SIF, or replacing the rainfall gate with an OR or 2-of-3 rule. The evidence is against adding SIF for earlier warning (Section 4.2) and against a rainfall gate in front of the vegetation index (A.3, A.4).
+- **Third order: the goal.** India's drought response aims to compensate verified loss: the satellite index informs and field verification decides. The U.S., Kenyan and Spanish insurance programmes aim to pay quickly against an index, and accept that some will be paid without a loss and others not paid despite one. Giving a satellite index authority in India would be a third-order change.
+
+This study can inform the third-order question with how often and how early an index would have been right, and what its errors would have cost. It cannot settle it. In Hall's account, a change of goals does not follow from technical evidence alone; it comes out of a contest over the goals themselves.
+
+### A.7 Limitations of this extension
+
+The rules are scored on the same 72 district-years, in which only two drought seasons (2015 and 2018) supply 14 of the 15 drought cases, and district-years within one season are not independent. The satellite alarms are retrospective, because their normal years include later years (Section 6). The rainfall trigger is approximated on district-average rainfall and per CHIRPS pixel, not per taluka with field inputs, and SPI and the Trigger-2 categories other than vegetation are not modelled. The costs in A.4 apply a flat relief rate to each district's whole Kharif area, which overstates both errors, since relief goes only to farmers with a verified loss of 33% or more and to at most 2 ha each. They leave out PMFBY payouts, which scale with the insured loss, and the cost of field verification. Crop losses are valued at one year's support prices, cotton through an approximate conversion, and the 2023 loss is imputed. The weight w is left open on purpose; the results show where the choice of rule changes, not which weight is right. The comparison in A.5 describes the published design of each system, not how well each performs.
+
 ## References
 
 Badgley, G., Field, C. B., & Berry, J. A. (2017). Canopy near-infrared reflectance and terrestrial photosynthesis. *Science Advances*, 3(3), e1602244. [https://doi.org/10.1126/sciadv.1602244](https://doi.org/10.1126/sciadv.1602244)
+
+Copernicus European Drought Observatory. (n.d.). *Combined Drought Indicator (CDI)* [Factsheet]. European Commission, Joint Research Centre. [https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator.pdf](https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator.pdf)
 
 Deccan Herald. (2018, October 23). *Drought-like situation declared in 180 tehsils*. [https://www.deccanherald.com/india/drought-situation-declared-180-699467.html](https://www.deccanherald.com/india/drought-situation-declared-180-699467.html)
 
@@ -435,9 +578,13 @@ Dechant, B., Ryu, Y., Badgley, G., Zeng, Y., Berry, J. A., Zhang, Y., Goulas, Y.
 
 Didan, K. (2021). *MODIS/Terra Vegetation Indices 16-Day L3 Global 250m SIN Grid V061* [Data set]. NASA EOSDIS Land Processes Distributed Active Archive Center. [https://doi.org/10.5067/MODIS/MOD13Q1.061](https://doi.org/10.5067/MODIS/MOD13Q1.061)
 
+Directorate of Economics & Statistics, Ministry of Agriculture & Farmers Welfare, Government of India. (2025). *Minimum Support Prices (MSP) statement* [As on 12.12.2025]. [https://desagri.gov.in/wp-content/uploads/2025/12/MSP-Statement_English_As-on-12.12.2025.pdf](https://desagri.gov.in/wp-content/uploads/2025/12/MSP-Statement_English_As-on-12.12.2025.pdf)
+
 Down To Earth. (2025). *When crop insurance fails farmers: Why India's PMFBY scheme needs urgent reform*. [https://www.downtoearth.org.in/agriculture/when-crop-insurance-fails-farmers-pmfby-needs-a-rethink](https://www.downtoearth.org.in/agriculture/when-crop-insurance-fails-farmers-pmfby-needs-a-rethink)
 
 Economic and Political Weekly. (2018). Drought in Maharashtra [Editorial]. *Economic and Political Weekly*, 53(48). [https://www.epw.in/journal/2018/48/editorials/drought-maharashtra.html](https://www.epw.in/journal/2018/48/editorials/drought-maharashtra.html)
+
+Estrela, T. (2017). *Aspectos básicos de los Planes Especiales de Sequía* [Presentation]. Confederación Hidrográfica del Júcar. [https://www.chj.es/es-es/ciudadano/participacion_publica/Documents/PES%202017/Teodoro_Estrela_Presentacion_Aspectos_Basicos_PES.pdf](https://www.chj.es/es-es/ciudadano/participacion_publica/Documents/PES%202017/Teodoro_Estrela_Presentacion_Aspectos_Basicos_PES.pdf)
 
 Food and Agriculture Organization of the United Nations (FAO). (2015). *FAO GAUL (Global Administrative Unit Layers): Global Administrative Unit Layers 2015, Level 2* [Data set]. Google Earth Engine Data Catalog. [https://developers.google.com/earth-engine/datasets/catalog/FAO_GAUL_2015_level2](https://developers.google.com/earth-engine/datasets/catalog/FAO_GAUL_2015_level2)
 
@@ -447,6 +594,10 @@ Funk, C., Peterson, P., Landsfeld, M., Pedreros, D., Verdin, J., Shukla, S., Hus
 
 Guanter, L., Bacour, C., Schneider, A., Aben, I., van Kempen, T. A., Maignan, F., Retscher, C., Köhler, P., Frankenberg, C., Joiner, J., & Zhang, Y. (2021). The TROPOSIF global sun-induced fluorescence dataset from the Sentinel-5P TROPOMI mission. *Earth System Science Data*, 13, 5423–5440. [https://doi.org/10.5194/essd-13-5423-2021](https://doi.org/10.5194/essd-13-5423-2021)
 
+Hall, P. A. (1993). Policy paradigms, social learning, and the state: The case of economic policymaking in Britain. *Comparative Politics*, 25(3), 275–296. [https://doi.org/10.2307/422246](https://doi.org/10.2307/422246)
+
+Hood, C. (1983). *The Tools of Government*. Macmillan.
+
 Huete, A., Didan, K., Miura, T., Rodriguez, E. P., Gao, X., & Ferreira, L. G. (2002). Overview of the radiometric and biophysical performance of the MODIS vegetation indices. *Remote Sensing of Environment*, 83(1–2), 195–213. [https://doi.org/10.1016/S0034-4257(02)00096-2](https://doi.org/10.1016/S0034-4257(02)00096-2)
 
 India.com / ANI. (2015, October 16). *Maharashtra: Drought declared in 14,708 villages*. [https://www.india.com/news/india/maharashtra-drought-declared-in-14708-villages-state-government-waves-off-school-students-fees-637146/](https://www.india.com/news/india/maharashtra-drought-declared-in-14708-villages-state-government-waves-off-school-students-fees-637146/)
@@ -455,21 +606,33 @@ Jönsson, P., & Eklundh, L. (2004). TIMESAT—a program for analyzing time-serie
 
 Li, X., & Xiao, J. (2019). A global, 0.05-degree product of solar-induced chlorophyll fluorescence derived from OCO-2, MODIS, and reanalysis data. *Remote Sensing*, 11(5), 517. [https://doi.org/10.3390/rs11050517](https://doi.org/10.3390/rs11050517)
 
+Ministerio de Agricultura, Pesca y Alimentación, Entidad Estatal de Seguros Agrarios (ENESA). (2020). *Seguro de compensación por pérdida de pastos* [Information note]. [https://servicio.mapa.gob.es/en/enesa/publicaciones/notapastos-mapa2020_je_tcm38-542028.pdf](https://servicio.mapa.gob.es/en/enesa/publicaciones/notapastos-mapa2020_je_tcm38-542028.pdf)
+
 Ministry of Agriculture & Farmers Welfare, Government of India. (2016a). *Manual for Drought Management*. Department of Agriculture, Cooperation & Farmers Welfare, New Delhi.
 
 Ministry of Agriculture & Farmers Welfare, Government of India. (2016b). *Pradhan Mantri Fasal Bima Yojana (PMFBY)*. Retrieved from [https://pmfby.gov.in](https://pmfby.gov.in)
 
 Ministry of Agriculture & Farmers Welfare, Government of India. (2024). *Crop Wise Area Production Yield* [Data set]. India Data Portal. [https://indiadataportal.com/p/area-production-yield-apy](https://indiadataportal.com/p/area-production-yield-apy)
 
+Ministry of Home Affairs, Government of India. (2022). *Items and norms of assistance from the State Disaster Response Fund (SDRF) and National Disaster Response Fund (NDRF), 2022-23 to 2025-26*. [https://kokrajhar.assam.gov.in/sites/default/files/public_utility/Revised%20SDRF%20Norms%20%26%20Assistance.pdf](https://kokrajhar.assam.gov.in/sites/default/files/public_utility/Revised%20SDRF%20Norms%20%26%20Assistance.pdf)
+
 Mohammed, G. H., Colombo, R., Middleton, E. M., Rascher, U., van der Tol, C., Nedbal, L., Goulas, Y., Pérez-Priego, O., Damm, A., Meroni, M., Joiner, J., Cogliati, S., Verhoef, W., Malenovský, Z., Gastellu-Etchegorry, J.-P., Miller, J. R., Guanter, L., Moreno, J., Moya, I., … Zarco-Tejada, P. J. (2019). Remote sensing of solar-induced chlorophyll fluorescence (SIF) in vegetation: 50 years of progress. *Remote Sensing of Environment*, 231, 111177. [https://doi.org/10.1016/j.rse.2019.04.030](https://doi.org/10.1016/j.rse.2019.04.030)
 
 Morung Express / IANS. (2023, October 31). *Maharashtra declares drought in 40 talukas*.
 
+Murphy, A. H. (1977). The value of climatological, categorical and probabilistic forecasts in the cost-loss ratio situation. *Monthly Weather Review*, 105(7), 803–816. [https://doi.org/10.1175/1520-0493(1977)105<0803:TVOCCA>2.0.CO;2](https://doi.org/10.1175/1520-0493(1977)105<0803:TVOCCA>2.0.CO;2)
+
 Porcar-Castell, A., Tyystjärvi, E., Atherton, J., van der Tol, C., Flexas, J., Pfündel, E. E., Moreno, J., Frankenberg, C., & Berry, J. A. (2014). Linking chlorophyll a fluorescence to photosynthesis for remote sensing applications: mechanisms and challenges. *Journal of Experimental Botany*, 65(15), 4065–4095. [https://doi.org/10.1093/jxb/eru191](https://doi.org/10.1093/jxb/eru191)
+
+Sepulcre-Canto, G., Horion, S., Singleton, A., Carrao, H., & Vogt, J. (2012). Development of a Combined Drought Indicator to detect agricultural drought in Europe. *Natural Hazards and Earth System Sciences*, 12(11), 3519–3531. [https://doi.org/10.5194/nhess-12-3519-2012](https://doi.org/10.5194/nhess-12-3519-2012)
 
 Song, L., Guanter, L., Guan, K., You, L., Huete, A., Ju, W., & Zhang, Y. (2018). Satellite sun-induced chlorophyll fluorescence detects early response of winter wheat to heat stress in the Indian Indo-Gangetic Plains. *Global Change Biology*, 24(9), 4023–4037. [https://doi.org/10.1111/gcb.14302](https://doi.org/10.1111/gcb.14302)
 
 Sun, Y., Fu, R., Dickinson, R., Joiner, J., Frankenberg, C., Gu, L., Xia, Y., & Fernando, N. (2015). Drought onset mechanisms revealed by satellite solar-induced chlorophyll fluorescence: Insights from two contrasting extreme events. *Journal of Geophysical Research: Biogeosciences*, 120(11), 2427–2440. [https://doi.org/10.1002/2015JG003150](https://doi.org/10.1002/2015JG003150)
+
+USDA Farm Service Agency. (n.d.). *Livestock Forage Disaster Program (LFP)*. [https://www.fsa.usda.gov/resources/disaster-recovery/livestock-forage-disaster-program-lfp](https://www.fsa.usda.gov/resources/disaster-recovery/livestock-forage-disaster-program-lfp)
+
+WOCAT. (n.d.). *Kenya Livestock Insurance Program (KLIP)* [Approach]. WOCAT Global SLM Database. [https://qcat.wocat.net/wocat/approaches/view/approaches_3283](https://qcat.wocat.net/wocat/approaches/view/approaches_3283)
 
 Yoshida, Y., Joiner, J., Tucker, C., Berry, J., Lee, J.-E., Walker, G., Reichle, R., Koster, R., Lyapustin, A., & Wang, Y. (2015). The 2010 Russian drought impact on satellite measurements of solar-induced chlorophyll fluorescence: Insights from modeling and comparisons with parameters derived from satellite reflectances. *Remote Sensing of Environment*, 166, 163–177. [https://doi.org/10.1016/j.rse.2015.06.008](https://doi.org/10.1016/j.rse.2015.06.008)
 

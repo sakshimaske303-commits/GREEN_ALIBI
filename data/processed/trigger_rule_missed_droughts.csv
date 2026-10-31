@@ -1,0 +1,279 @@
+setting,rule,district,year
+2015-2023 (main),Rainfall Trigger-1 (district average),Aurangabad,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Bid,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Hingoli,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Jalna,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Jalna,2018
+2015-2023 (main),Rainfall Trigger-1 (district average),Jalna,2023
+2015-2023 (main),Rainfall Trigger-1 (district average),Latur,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Latur,2018
+2015-2023 (main),Rainfall Trigger-1 (district average),Nanded,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Osmanabad,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Osmanabad,2018
+2015-2023 (main),Rainfall Trigger-1 (district average),Parbhani,2015
+2015-2023 (main),Rainfall Trigger-1 (district average),Parbhani,2018
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Aurangabad,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Bid,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Hingoli,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Jalna,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Jalna,2018
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Jalna,2023
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Latur,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Latur,2018
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Nanded,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Osmanabad,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Osmanabad,2018
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Parbhani,2015
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),Parbhani,2018
+2015-2023 (main),Rainfall deficit > 25% alone,Aurangabad,2015
+2015-2023 (main),Rainfall deficit > 25% alone,Jalna,2018
+2015-2023 (main),Rainfall deficit > 25% alone,Latur,2018
+2015-2023 (main),Rainfall deficit > 25% alone,Osmanabad,2018
+2015-2023 (main),Rainfall deficit > 25% alone,Parbhani,2018
+2015-2023 (main),NDVI anomaly (z < -3),Hingoli,2015
+2015-2023 (main),NDVI anomaly (z < -3),Jalna,2023
+2015-2023 (main),SIF anomaly (z < -3),Hingoli,2015
+2015-2023 (main),SIF anomaly (z < -3),Jalna,2023
+2015-2023 (main),SIF anomaly (z < -3),Nanded,2015
+2015-2023 (main),Deficit AND NDVI,Aurangabad,2015
+2015-2023 (main),Deficit AND NDVI,Hingoli,2015
+2015-2023 (main),Deficit AND NDVI,Jalna,2018
+2015-2023 (main),Deficit AND NDVI,Jalna,2023
+2015-2023 (main),Deficit AND NDVI,Latur,2018
+2015-2023 (main),Deficit AND NDVI,Osmanabad,2018
+2015-2023 (main),Deficit AND NDVI,Parbhani,2018
+2015-2023 (main),Deficit AND SIF,Aurangabad,2015
+2015-2023 (main),Deficit AND SIF,Hingoli,2015
+2015-2023 (main),Deficit AND SIF,Jalna,2018
+2015-2023 (main),Deficit AND SIF,Jalna,2023
+2015-2023 (main),Deficit AND SIF,Latur,2018
+2015-2023 (main),Deficit AND SIF,Nanded,2015
+2015-2023 (main),Deficit AND SIF,Osmanabad,2018
+2015-2023 (main),Deficit AND SIF,Parbhani,2018
+2015-2023 (main),"Deficit, then NDVI confirms",Aurangabad,2015
+2015-2023 (main),"Deficit, then NDVI confirms",Aurangabad,2018
+2015-2023 (main),"Deficit, then NDVI confirms",Hingoli,2015
+2015-2023 (main),"Deficit, then NDVI confirms",Jalna,2018
+2015-2023 (main),"Deficit, then NDVI confirms",Jalna,2023
+2015-2023 (main),"Deficit, then NDVI confirms",Latur,2018
+2015-2023 (main),"Deficit, then NDVI confirms",Osmanabad,2018
+2015-2023 (main),"Deficit, then NDVI confirms",Parbhani,2018
+2015-2023 (main),NDVI AND SIF,Hingoli,2015
+2015-2023 (main),NDVI AND SIF,Jalna,2023
+2015-2023 (main),NDVI AND SIF,Nanded,2015
+2015-2023 (main),NDVI OR SIF,Hingoli,2015
+2015-2023 (main),NDVI OR SIF,Jalna,2023
+2015-2023 (main),Trigger-1 OR NDVI,Hingoli,2015
+2015-2023 (main),Trigger-1 OR NDVI,Jalna,2023
+2015-2023 (main),"2 of 3: deficit, NDVI, SIF",Hingoli,2015
+2015-2023 (main),"2 of 3: deficit, NDVI, SIF",Jalna,2023
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Aurangabad,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Bid,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Hingoli,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Jalna,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Jalna,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Jalna,2023
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Latur,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Latur,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Nanded,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Osmanabad,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Osmanabad,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Parbhani,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),Parbhani,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Aurangabad,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Bid,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Hingoli,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Jalna,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Jalna,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Jalna,2023
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Latur,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Latur,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Nanded,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Osmanabad,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Osmanabad,2018
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Parbhani,2015
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),Parbhani,2018
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,Aurangabad,2015
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,Jalna,2018
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,Latur,2018
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,Osmanabad,2018
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,Parbhani,2018
+"2015-2023, NDVI as observed",NDVI anomaly (z < -3),Hingoli,2015
+"2015-2023, NDVI as observed",NDVI anomaly (z < -3),Jalna,2023
+"2015-2023, NDVI as observed",SIF anomaly (z < -3),Hingoli,2015
+"2015-2023, NDVI as observed",SIF anomaly (z < -3),Jalna,2023
+"2015-2023, NDVI as observed",SIF anomaly (z < -3),Nanded,2015
+"2015-2023, NDVI as observed",Deficit AND NDVI,Aurangabad,2015
+"2015-2023, NDVI as observed",Deficit AND NDVI,Hingoli,2015
+"2015-2023, NDVI as observed",Deficit AND NDVI,Jalna,2018
+"2015-2023, NDVI as observed",Deficit AND NDVI,Jalna,2023
+"2015-2023, NDVI as observed",Deficit AND NDVI,Latur,2018
+"2015-2023, NDVI as observed",Deficit AND NDVI,Osmanabad,2018
+"2015-2023, NDVI as observed",Deficit AND NDVI,Parbhani,2018
+"2015-2023, NDVI as observed",Deficit AND SIF,Aurangabad,2015
+"2015-2023, NDVI as observed",Deficit AND SIF,Hingoli,2015
+"2015-2023, NDVI as observed",Deficit AND SIF,Jalna,2018
+"2015-2023, NDVI as observed",Deficit AND SIF,Jalna,2023
+"2015-2023, NDVI as observed",Deficit AND SIF,Latur,2018
+"2015-2023, NDVI as observed",Deficit AND SIF,Nanded,2015
+"2015-2023, NDVI as observed",Deficit AND SIF,Osmanabad,2018
+"2015-2023, NDVI as observed",Deficit AND SIF,Parbhani,2018
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Aurangabad,2015
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Aurangabad,2018
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Hingoli,2015
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Jalna,2018
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Jalna,2023
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Latur,2018
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Osmanabad,2018
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",Parbhani,2018
+"2015-2023, NDVI as observed",NDVI AND SIF,Hingoli,2015
+"2015-2023, NDVI as observed",NDVI AND SIF,Jalna,2023
+"2015-2023, NDVI as observed",NDVI AND SIF,Nanded,2015
+"2015-2023, NDVI as observed",NDVI OR SIF,Hingoli,2015
+"2015-2023, NDVI as observed",NDVI OR SIF,Jalna,2023
+"2015-2023, NDVI as observed",Trigger-1 OR NDVI,Hingoli,2015
+"2015-2023, NDVI as observed",Trigger-1 OR NDVI,Jalna,2023
+"2015-2023, NDVI as observed","2 of 3: deficit, NDVI, SIF",Hingoli,2015
+"2015-2023, NDVI as observed","2 of 3: deficit, NDVI, SIF",Jalna,2023
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Aurangabad,2001
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Aurangabad,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Aurangabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Aurangabad,2009
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Aurangabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Bid,2001
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Bid,2002
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Bid,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Bid,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Bid,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Hingoli,2002
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Hingoli,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Hingoli,2008
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Hingoli,2009
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Hingoli,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Jalna,2001
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Jalna,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Jalna,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Jalna,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Latur,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Latur,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Nanded,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Nanded,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Nanded,2008
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Nanded,2009
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Nanded,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Osmanabad,2002
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Osmanabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Osmanabad,2012
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Osmanabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Parbhani,2002
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Parbhani,2003
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Parbhani,2004
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),Parbhani,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Aurangabad,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Aurangabad,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Aurangabad,2009
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Aurangabad,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Bid,2001
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Bid,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Bid,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Bid,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Bid,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Hingoli,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Hingoli,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Hingoli,2008
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Hingoli,2009
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Hingoli,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Jalna,2001
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Jalna,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Jalna,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Jalna,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Jalna,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Latur,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Latur,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Latur,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Latur,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2008
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2009
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Nanded,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Osmanabad,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Osmanabad,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Osmanabad,2012
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Osmanabad,2014
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Parbhani,2002
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Parbhani,2003
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Parbhani,2004
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),Parbhani,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Aurangabad,2001
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Aurangabad,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Aurangabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Aurangabad,2009
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Aurangabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Bid,2001
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Bid,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Bid,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Bid,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Bid,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Hingoli,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Hingoli,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Hingoli,2008
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Hingoli,2009
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Hingoli,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Jalna,2001
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Jalna,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Jalna,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Jalna,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Jalna,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Latur,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Latur,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Latur,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Latur,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2008
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2009
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Nanded,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Osmanabad,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Osmanabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Osmanabad,2012
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Osmanabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Parbhani,2002
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Parbhani,2003
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Parbhani,2004
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,Parbhani,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Aurangabad,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Aurangabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Aurangabad,2009
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Aurangabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Bid,2001
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Bid,2002
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Bid,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Bid,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Bid,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Hingoli,2002
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Hingoli,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Hingoli,2008
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Hingoli,2009
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Hingoli,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Jalna,2001
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Jalna,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Jalna,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Jalna,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Latur,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Latur,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Nanded,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Nanded,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Nanded,2008
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Nanded,2009
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Nanded,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Osmanabad,2002
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Osmanabad,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Osmanabad,2012
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Osmanabad,2014
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Parbhani,2002
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Parbhani,2003
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Parbhani,2004
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,Parbhani,2014

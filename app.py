@@ -182,6 +182,7 @@ Use the sidebar to move through the study:
 - **Signal Physics** — the science behind SIF and NDVI, and a direct comparison
 - **Data & Methodology** — sources, processing pipeline, and the checks I ran
 - **Drought Alarms and Policy Triggers** — SIF, NDVI and the rainfall trigger scored on missed droughts, false alarms and timing
+- **Policy Design Lab** — combined trigger rules, the cost of each error in rupees of relief, five drought systems compared (India, EU, Spain, USA, Kenya) and Hall's orders of policy change
 - **Seasonal Lead** — SIF vs NDVI across the growing season; threshold and cross-correlation lags, uncertainty, method dependence, TROPOMI check
 - **Spatial Patterns** — where stress concentrated, how the drought years were defined from CHIRPS rainfall, and SIF and rainfall side by side
 - **Crop-Yield Validation** — checking this study's drought classification against official government harvest statistics

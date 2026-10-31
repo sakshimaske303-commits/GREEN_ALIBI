@@ -85,10 +85,11 @@ GREEN_ALIBI/
 │   ├── 02_Signal_Physics.py               # SIF and NDVI physics, and a direct comparison
 │   ├── 03_Data_and_Methodology.py
 │   ├── 04_Drought_Alarms_and_Policy_Triggers.py  # SIF, NDVI and the rainfall trigger scored as policy triggers
-│   ├── 05_Seasonal_Lead.py                # Seasonal trajectories and lag analysis
-│   ├── 06_Spatial_Patterns.py             # Spatial SIF, rainfall validation, SIF vs. rainfall
-│   ├── 07_Crop_Yield_Validation.py
-│   └── 08_Findings_and_Conclusion.py
+│   ├── 05_Policy_Design_Lab.py            # Combined trigger rules, cost of errors, five systems compared, Hall's orders of change
+│   ├── 06_Seasonal_Lead.py                # Seasonal trajectories and lag analysis
+│   ├── 07_Spatial_Patterns.py             # Spatial SIF, rainfall validation, SIF vs. rainfall
+│   ├── 08_Crop_Yield_Validation.py
+│   └── 09_Findings_and_Conclusion.py
 ├── utils/
 │   ├── doc_viewer.py
 │   └── style.py                        # Shared dashboard theme (navy/magenta/pink/teal)
@@ -163,6 +164,8 @@ GREEN_ALIBI/
 | `vegetation_index_lag.py` | SIF vs NDVI, EVI and NIRv lags (needs `gee_vi_obsdate.py` output) |
 | `out_of_sample_2001_2014.py` | Out-of-sample test on 2001–2014 with all 2015–2023 methods frozen (`--check` reruns it on 2015–2023). The extracted 2001–2014 SIF series are kept in `data/processed/oos_sif_*.csv`, so the test reruns without the GOSIF download |
 | `rainfall_trigger_pixel.py` | Trigger-1 per CHIRPS pixel, summarised by district (needs `gee_chirps_dryspell_area.py` output) |
+| `trigger_rule_comparison.py` | Policy extension (paper Appendix A): rainfall, NDVI and SIF combined into AND, OR, sequence and 2-of-3 trigger rules, scored on droughts flagged, false alarms and timing. Figure: `src/visualization/plot_trigger_rules.py` → `trigger_rule_comparison.png` |
+| `trigger_cost_analysis.py` | Policy extension (paper Appendix A.4): each rule's errors valued as SDRF relief withheld in missed droughts and paid in normal years, with crop loss at 2022–23 MSP for scale, and the cheapest rule for each weight on missed droughts. Figure: `src/visualization/plot_trigger_costs.py` → `trigger_cost_frontier.png` |
 
 ## Tech Stack
 

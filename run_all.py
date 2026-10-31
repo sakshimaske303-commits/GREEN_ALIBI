@@ -56,6 +56,8 @@ ANALYSIS = [
     "src/analysis/tropomi_vs_reflectance.py",        # TROPOMI against MODIS NDVI, EVI and NIRv
     "src/analysis/out_of_sample_2001_2014.py",       # skips itself until the 2001-2014 inputs exist
     "src/analysis/alarm_dating_sensitivity.py",      # alarm comparison with NDVI interpolated vs as available
+    "src/analysis/trigger_rule_comparison.py",       # combined trigger rules (policy extension, Appendix A)
+    "src/analysis/trigger_cost_analysis.py",         # errors of each rule valued as relief withheld or paid (Appendix A)
 ]
 FIGURES = [
     "src/analysis/check_boundary_overlay.py",
@@ -72,6 +74,8 @@ FIGURES = [
     "src/visualization/build_interactive_plots.py",
     "src/visualization/make_graphical_abstract.py",
     "src/visualization/fig3_study_area_map.py",
+    "src/visualization/plot_trigger_rules.py",
+    "src/visualization/plot_trigger_costs.py",
 ]
 REQUIRED_INPUTS = [
     "data/raw/marathwada_boundary_polygon.geojson",

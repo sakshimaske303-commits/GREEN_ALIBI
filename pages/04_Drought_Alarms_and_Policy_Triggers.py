@@ -149,6 +149,13 @@ normal years but misses most droughts. The deficit alone catches 10 of the 15, b
 2018 and fires in three normal years (2017, 2019, 2023).
 """)
 
+st.info("""
+**How should the signals be combined, and what do the errors cost?** The **Policy Design Lab** page scores
+combined rules (rainfall first, vegetation as confirmation), prices each rule's errors in rupees of relief,
+compares India's design with the EU, Spain, the USA and Kenya, and classifies the proposals by order of
+policy change.
+""")
+
 section_divider()
 
 st.header("Is a Hit Early Enough to Matter?")
@@ -212,6 +219,8 @@ with s1:
       droughts: they flagged 12–13 of 15 drought district-years where the rainfall rule flagged 2.
     - Keeping NDVI, which is already in the system, as that vegetation signal.
     - Scoring any proposed trigger on misses, false alarms and timing together, not on lead time alone.
+    - Setting the alarm threshold openly, as a choice about how much a missed drought weighs against a
+      false alarm: it moves the cost of errors more than the choice of index.
     """)
 with s2:
     st.warning("""
@@ -222,6 +231,7 @@ with s2:
       same district-level picture.
     - Reading the lead over official declarations as satellites beating the system.
     - Paying out at field or village level from these 5 km district averages.
+    - A rainfall gate in front of the vegetation index, unless missed droughts count for little.
     """)
 
 st.markdown("""

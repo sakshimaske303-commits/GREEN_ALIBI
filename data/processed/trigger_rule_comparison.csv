@@ -1,0 +1,29 @@
+setting,rule,drought_flagged,drought_n,false_alarms,normal_n,flagged_by_30_sep,median_alarm_doy,median_alarm_date
+2015-2023 (main),Rainfall Trigger-1 (district average),2,15,1,57,1,268.0,25 Sep
+2015-2023 (main),Rainfall Trigger-1 (25% of pixels),2,15,1,57,2,260.5,17 Sep
+2015-2023 (main),Rainfall deficit > 25% alone,10,15,18,57,9,197.5,16 Jul
+2015-2023 (main),NDVI anomaly (z < -3),13,15,4,57,9,260.5,17 Sep
+2015-2023 (main),SIF anomaly (z < -3),12,15,2,57,9,256.5,13 Sep
+2015-2023 (main),Deficit AND NDVI,8,15,2,57,6,248.5,05 Sep
+2015-2023 (main),Deficit AND SIF,7,15,0,57,6,236.5,24 Aug
+2015-2023 (main),"Deficit, then NDVI confirms",7,15,2,57,6,236.5,24 Aug
+2015-2023 (main),NDVI AND SIF,12,15,2,57,9,260.5,17 Sep
+2015-2023 (main),NDVI OR SIF,13,15,4,57,9,260.5,17 Sep
+2015-2023 (main),Trigger-1 OR NDVI,13,15,5,57,9,260.5,17 Sep
+2015-2023 (main),"2 of 3: deficit, NDVI, SIF",13,15,4,57,9,260.5,17 Sep
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (district average),2,15,1,57,1,268.0,25 Sep
+"2015-2023, NDVI as observed",Rainfall Trigger-1 (25% of pixels),2,15,1,57,2,260.5,17 Sep
+"2015-2023, NDVI as observed",Rainfall deficit > 25% alone,10,15,18,57,9,197.5,16 Jul
+"2015-2023, NDVI as observed",NDVI anomaly (z < -3),13,15,3,57,8,268.5,25 Sep
+"2015-2023, NDVI as observed",SIF anomaly (z < -3),12,15,2,57,9,256.5,13 Sep
+"2015-2023, NDVI as observed",Deficit AND NDVI,8,15,1,57,6,240.5,28 Aug
+"2015-2023, NDVI as observed",Deficit AND SIF,7,15,0,57,6,236.5,24 Aug
+"2015-2023, NDVI as observed","Deficit, then NDVI confirms",7,15,1,57,6,236.5,24 Aug
+"2015-2023, NDVI as observed",NDVI AND SIF,12,15,2,57,8,268.5,25 Sep
+"2015-2023, NDVI as observed",NDVI OR SIF,13,15,3,57,9,260.5,17 Sep
+"2015-2023, NDVI as observed",Trigger-1 OR NDVI,13,15,4,57,8,268.5,25 Sep
+"2015-2023, NDVI as observed","2 of 3: deficit, NDVI, SIF",13,15,3,57,8,268.5,25 Sep
+2001-2014 out-of-sample (satellite rules only),NDVI anomaly (z < -3),6,40,1,72,0,276.5,03 Oct
+2001-2014 out-of-sample (satellite rules only),SIF anomaly (z < -3),3,40,0,72,1,276.5,03 Oct
+2001-2014 out-of-sample (satellite rules only),NDVI AND SIF,2,40,0,72,0,312.5,08 Nov
+2001-2014 out-of-sample (satellite rules only),NDVI OR SIF,7,40,1,72,1,276.5,03 Oct
