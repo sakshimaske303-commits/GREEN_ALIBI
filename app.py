@@ -110,7 +110,7 @@ st.markdown(
         <p style="color:{MAGENTA}; text-transform:uppercase; letter-spacing:1.5px;
                   font-weight:700; font-size:0.85rem; margin-bottom:8px;">Why This Matters</p>
         <p style="color:{TEXT_LIGHT}; font-size:1rem; line-height:1.6; margin:0;">
-            Drought declarations in India, and the PMFBY crop-insurance payouts tied to them, rest on
+            Drought declarations in India rest on
             rainfall deficits and on vegetation indices like NDVI, which respond once crop damage is
             visible. SIF is often proposed as an earlier signal because it is tied to photosynthesis.
             If it really warned earlier, relief could arrive sooner. I tested that on nine Kharif seasons
@@ -128,8 +128,7 @@ st.markdown(
 st.header("What This Project Tests")
 
 st.markdown("""
-India's official drought-declaration process, and the crop-insurance payout mechanism under the
-**Pradhan Mantri Fasal Bima Yojana (PMFBY)** that depends on it, relies substantially on rainfall-deficit
+India's official drought-declaration process relies substantially on rainfall-deficit
 records and the **Normalized Difference Vegetation Index (NDVI)** — a reflectance-based measure that tracks
 canopy greenness and structure, which usually change only after stress has lasted for some time.
 

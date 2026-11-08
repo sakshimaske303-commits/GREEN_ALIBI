@@ -32,13 +32,17 @@ policy change would each proposal be? Everything here reuses the alarm and trigg
 (paper, Appendix A); no main result changes.
 """)
 
+st.warning("""
+**Correction in progress: Trigger-1 and the rainfall-gate comparison.** A check of my code showed that my Trigger-1 approximation (rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall). Every Trigger-1 result in this project describes my approximation, not the Manual's rule. The comparison of rainfall-gated rules also scores them against drought district-years that are themselves defined by rainfall, so it shows how far the indicators disagree, not droughts that the Manual would miss. I am re-specifying the trigger and will rerun RQ3 and Appendix A. The SIF–NDVI comparison, the main result, does not use the trigger and is not affected.
+""")
+
 k1, k2, k3, k4 = st.columns(4)
 with k1:
     st.metric("Most droughts flagged (z < −3)", "13 of 15", "NDVI alone; no combination did better", delta_color="off")
 with k2:
-    st.metric("Rules gated by rainfall", "7–8 of 15", "a rainfall gate hides about half the droughts", delta_color="off")
+    st.metric("Rules gated by rainfall", "7–8 of 15", "vs 13 for NDVI alone; rainfall-defined droughts", delta_color="off")
 with k3:
-    st.metric("Relief withheld by the rainfall trigger", "₹6,593 cr", "13 of 15 drought district-years missed", delta_color="off")
+    st.metric("Relief withheld by my strict trigger", "₹6,593 cr", "13 of 15 missed; to be recomputed", delta_color="off")
 with k4:
     st.metric("Systems compared", "5", "India, EU, Spain, USA, Kenya", delta_color="off")
 
@@ -84,10 +88,11 @@ with t1:
     c1, c2 = st.columns(2)
     with c1:
         st.warning("""
-        **A rainfall gate hides about half the droughts.** Every rule that needs the rainfall deficit
+        **Rainfall-gated rules flagged fewer droughts, but the test is lopsided.** Every rule that needs the rainfall deficit
         flagged only 7 or 8 of 15, mainly because the deficit missed Aurangabad 2015 and four of the six drought
         district-years of 2018. No combination flagged more droughts than NDVI on its own (13 of 15).
-        Even the best rules flagged only 9 of 15 by 30 September.
+        Even the best rules flagged only 9 of 15 by 30 September. These droughts are themselves defined by
+        rainfall, so this shows how far the indicators disagree, not droughts the Manual would miss.
         """)
     with c2:
         st.info("""
@@ -179,7 +184,7 @@ with t3:
     | **EU**: Combined Drought Indicator | Watch (rainfall) → Warning (+ soil moisture) → Alert (+ fAPAR), 5 km grid | Early warning only | No payment at stake |
     | **Spain**: river-basin drought plans | Index thresholds move each unit from normal to pre-alert, alert and emergency | Water measures; less demanding ecological flows in a prolonged drought | Water users in the unit |
     | **Spain**: pasture-loss insurance | NDVI alone, per pasture zone and ten-day period; pays below the mean − 0.7 SD (standard option) | Payouts to livestock farmers (premiums subsidised by ENESA) | Farmers whose pasture loss the zone index does not see |
-    | **USA**: Drought Monitor + Livestock Forage Disaster Program | Weekly county ratings; 4 weeks at D2 = one monthly payment, up to five | Payments to livestock producers | Producers in counties rated below the threshold |
+    | **USA**: Drought Monitor + Livestock Forage Disaster Program | Weekly county ratings; 8 consecutive weeks at D2 = one monthly payment, up to five | Payments to livestock producers | Producers in counties rated below the threshold |
     | **Kenya**: Livestock Insurance Program | NDVI-based forage index alone | Insurance payouts to pastoralists | Herders whose loss the index does not see |
     """)
     styled_caption("Sources: Manual for Drought Management (2016); Sepulcre-Canto et al. (2012) and Copernicus EDO; "
@@ -227,7 +232,7 @@ with t4:
     with h2:
         st.markdown(_card.format(c=TEAL, t="Second order: instruments",
                                  w="Adding SIF; replacing the rainfall gate with an OR or 2-of-3 rule.",
-                                 e="No case for SIF as an earlier warning; a rainfall gate hides about half the droughts NDVI flagged."),
+                                 e="No case for SIF as an earlier warning; rainfall-gated rules flagged 7–8 of the 13 droughts NDVI flagged, a disagreement between indicators."),
                     unsafe_allow_html=True)
     with h3:
         st.markdown(_card.format(c=MAGENTA, t="Third order: goals",
@@ -239,9 +244,9 @@ with t4:
 section_divider()
 
 st.success("""
-**Bottom line for trigger design.** In Marathwada, a rainfall gate in front of the vegetation index would have hidden
-about half the drought district-years that NDVI alone flagged, and it is the cheapest design only if a rupee
-withheld from a drought-hit district counts for less than half a rupee paid in a normal year. Beyond that, the alarm threshold, not the choice between NDVI and
+**Bottom line for trigger design.** In Marathwada, rules that wait for my rainfall deficit flagged fewer of the
+rainfall-defined drought district-years than NDVI alone, which shows how far the indicators disagree rather than
+droughts the Manual would miss; the cost comparison is provisional until I re-specify the trigger. Beyond that, the alarm threshold, not the choice between NDVI and
 SIF, decides who carries the errors, and setting it is a value choice that belongs in the open.
 """)
 

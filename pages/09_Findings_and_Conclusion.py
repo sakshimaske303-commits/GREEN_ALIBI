@@ -175,7 +175,8 @@ styled_caption("2015 and 2018: satellite drought alarms (z < −3), the rainfall
 st.info("""
 **Rainfall Trigger-1 (approximation).** I approximated the Manual for Drought Management
 (2016) Trigger-1 as cumulative rainfall since 1 June more than 25% below normal plus a dry
-spell of at least 21 days between 1 July and 30 September. On averaged rainfall it never
+spell of at least 21 consecutive days each under 2.5 mm between 1 July and 30 September, which is much
+stricter than the Manual's dry spell (3–4 weeks each below 50% of normal weekly rain). On averaged rainfall it never
 fired for the region. At district level it fired in 2 of 15 drought district-years
 (Aurangabad and Bid, 2018) and one normal one (Bid 2017). In Aurangabad both satellite alarms
 came 15.5 days before the trigger; in Bid SIF's came 0.5 days and NDVI's 8.5 days after it.
@@ -220,7 +221,7 @@ with c5:
 with c6:
     st.metric("H3 drought widens lag", "Not supported")
 with c7:
-    st.metric("Trigger-1 fired (drought district-years)", "2 / 15")
+    st.metric("Trigger-1 fired, my strict version", "2 / 15")
 with c8:
     st.metric("Alarms before final declarations", "27–53 days")
 
@@ -250,7 +251,8 @@ st.markdown("""
 - **District non-independence.** District observations are spatially clustered. With
   district and year fixed effects, SIF does not track rainfall anomaly (p = 0.37).
 - **Rainfall trigger approximation.** My Trigger-1 is computed on district-averaged rainfall and
-  per CHIRPS pixel, not per taluka with field inputs as the state does.
+  per CHIRPS pixel, not per taluka with field inputs as the state does, and its dry-spell rule is much
+  stricter than the Manual's; I am re-specifying it.
 - **Declarations.** I found only three declaration dates; the 2015 date is the date it was
   reported. Declarations follow field verification, so they are structurally late.
 - **Yield data.** One end-of-season number per district-crop, ending in 2022-23 (drought

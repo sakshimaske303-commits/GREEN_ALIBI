@@ -22,13 +22,18 @@ section_divider()
 
 st.header("The Instrument and the Candidates")
 
+st.warning("""
+**Correction in progress: Trigger-1 and the rainfall-gate comparison.** A check of my code showed that my Trigger-1 approximation (rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall). Every Trigger-1 result in this project describes my approximation, not the Manual's rule. The comparison of rainfall-gated rules also scores them against drought district-years that are themselves defined by rainfall, so it shows how far the indicators disagree, not droughts that the Manual would miss. I am re-specifying the trigger and will rerun RQ3 and Appendix A. The SIF–NDVI comparison, the main result, does not use the trigger and is not affected.
+""")
+
 c1, c2, c3 = st.columns(3)
 with c1:
     st.subheader("The rule in use")
     st.markdown("""
     **Rainfall Trigger-1** of India's Manual for Drought Management (2016), which starts drought
     assessment. My approximation: rainfall since 1 June more than 25% below normal, plus a dry
-    spell of at least 21 days between 1 July and 30 September.
+    spell of at least 21 consecutive days each under 2.5 mm between 1 July and 30 September. This is much
+    stricter than the Manual's dry spell (3–4 weeks each below 50% of normal weekly rain); I am re-specifying it.
     """)
 with c2:
     st.subheader("The candidates")
@@ -90,7 +95,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("Missed Droughts Fall on Farmers")
     st.markdown("""
-    The approximated rainfall trigger fired in only 2 of 15 drought district-years. A trigger
+    My approximated rainfall trigger, much stricter than the Manual's, fired in only 2 of 15 drought district-years. A trigger
     that misses a drought leaves the loss with the farmer until field verification catches up.
     Both satellite anomalies flagged 12 or 13 of the 15. That is a possible case for vegetation
     anomalies alongside rainfall, and it applies to NDVI as much as to SIF.
@@ -216,7 +221,7 @@ with s1:
     **Supported**
 
     - Vegetation anomalies, NDVI or SIF, alongside the rainfall trigger as a check on missed
-      droughts: they flagged 12–13 of 15 drought district-years where the rainfall rule flagged 2.
+      droughts: they flagged 12–13 of 15 drought district-years where my strict rainfall rule flagged 2.
     - Keeping NDVI, which is already in the system, as that vegetation signal.
     - Scoring any proposed trigger on misses, false alarms and timing together, not on lead time alone.
     - Setting the alarm threshold openly, as a choice about how much a missed drought weighs against a
@@ -231,7 +236,8 @@ with s2:
       same district-level picture.
     - Reading the lead over official declarations as satellites beating the system.
     - Paying out at field or village level from these 5 km district averages.
-    - A rainfall gate in front of the vegetation index, unless missed droughts count for little.
+    - Concluding that the Manual's rainfall gate misses droughts: my trigger is stricter than the Manual's,
+      and the droughts here are themselves defined by rainfall.
     """)
 
 st.markdown("""

@@ -40,8 +40,8 @@ abstract: >-
   gave the same district-level picture (at z < -1.5, SIF earlier in 5 of 22
   drought district-years flagged by both, the same in 11, NDVI earlier in 6),
   while regionally SIF
-  flagged two of five drought years at z < -3 and NDVI one. An approximation of
-  the rainfall-based Trigger-1 never fired at the regional scale and fired in
+  flagged two of five drought years at z < -3 and NDVI one. A strict approximation of
+  the rainfall-based Trigger-1 (stricter than the Manual's dry-spell rule) never fired at the regional scale and fired in
   2 of 15 drought district-years, also when evaluated per pixel. In this dataset SIF is not a resolvably
   earlier drought alarm than NDVI, and GOSIF's seasonal lead is largely a
   property of how NDVI's decline is measured.

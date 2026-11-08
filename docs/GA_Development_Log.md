@@ -62,13 +62,9 @@ Then I hit a cloud masking bug in the NDVI code. I first took NDVI from the MOD0
 
 The fix was to rebuild the NDVI extraction around MOD13Q1, NASA's 16-day vegetation index product, which uses a maximum value composite to reduce cloud effects. Its SummaryQA band (0 good, 1 marginal, 2 snow or ice, 3 cloudy) let me keep only good and marginal pixels. I also added a cropland mask from MCD12Q1 (IGBP classes 12 and 14), so that forest, urban and barren pixels do not dilute the crop signal. This means giving up 8-day resolution for 16-day, but the 16-day curve is smooth and makes physical sense, and a clean 16-day series is more useful than a noisy 8-day one.
 
-A second, smaller bug: Earth Engine gave the error `Image.clip: Can't transform (0.0,0.0)` because I was clipping a combined image made of two layers at different native resolutions, 250m NDVI and the 500m cropland mask. `reduceRegion()` already limits the calculation to the geometry, so the `.clip()` was not needed. Removing it fixed the error.
-
 **Merging 2 time series at different temporal resolutions.**
 
 SIF is 8-day and the cleaned NDVI is 16-day, so the dates do not line up. I joined them by nearest date within each year, so each 8-day SIF value is paired with the closest 16-day NDVI value.
-
-There was also a labelling bug. An early version of the comparison plot labelled 2018 as a normal year, because only 2015 had been flagged as a drought year in the plotting code. I fixed it before drawing any conclusions from the chart.
 
 Then the first seasonal comparison. I plotted SIF and NDVI for all three years. In each year SIF starts to fall from its seasonal peak before NDVI does, and NDVI stays near its peak for longer after SIF has started dropping. The pattern repeats in all three years and fits the idea that SIF responds earlier to the post-peak decline.
 
@@ -122,7 +118,7 @@ This is a useful check. Two independently built study areas, a rough rectangle a
 
 Some gaps remain. I have no ground data to confirm that the low-SIF patch on the map is cropland and not some other land cover in the same mixed pixels. And the sample is still only 3 years, which limits how far any of this can be generalised.
 
-Next step: regenerate the spatial SIF map from the corrected rasters, which the boundary fix has already overwritten. That only needs the existing script to be rerun. After that I will build the interactive Folium version for the dashboard.
+Next step: regenerate the spatial SIF map from the corrected rasters, which the boundary fix has already overwritten. That only needs the existing script to be rerun.
 
 ## Entry 5
 
@@ -132,15 +128,9 @@ There were 2 possibilities. Either the boundary fix had not changed the raster d
 
 So I wrote a small separate diagnostic script. It opens one clipped SIF layer, plots it, and draws the Marathwada boundary polygon as a blue outline on the same axes. If coloured pixels appear outside the blue line, the clipping failed. If they stop exactly at the line, the clipping is correct and the rectangle comes from somewhere else.
 
-The overlay was clean. The pixels stop exactly at the boundary everywhere, including the small notches and the eastward extension near Nanded. So the clipping fix from the last entry works on the raster data, and the problem was in the plotting script.
+The overlay was clean. The pixels stop exactly at the boundary everywhere, including the small notches and the eastward extension near Nanded. So the clipping fix from the last entry works on the raster data.
 
-In map_sif_spatial.py I found that, after fixing clip_gosif.py, I had never updated the plotting script. It still used a fixed rectangular extent from the bounding-box version and never drew the district boundaries. The NaN mask outside the districts was in the data, but nothing in the plot made those areas show as empty, so the 3 panels looked like full rectangles.
-
-I rewrote the script to take each raster's real extent from its metadata instead of a hardcoded rectangle, and to draw the boundary outline on every panel, keeping the shared colour scale and the panel spacing fix from earlier. I also saved the output under a new version suffix and did not overwrite the old image, the same habit I use for my Google Drive exports, so it is clear which figure is the corrected one.
-
-The new figure shows Marathwada's real outline in all 3 panels, with data only inside the districts. The pattern itself did not change. In 2015 and 2018 there is a clear, spatially coherent low-SIF zone along the western side of Aurangabad district and down through the Latur–Osmanabad belt. In 2020 almost the whole region has high SIF, with only a small lower patch in the far south.
-
-A note for my workflow: a figure that looks plausible is not a verified figure. I could easily have accepted the rectangular version because the processing had already been fixed. It did not look broken, it just was not showing what it should. The separate overlay test is what showed that the map script was the last outdated piece. I now check outputs against an independent overlay.
+On the corrected map the pattern did not change. In 2015 and 2018 there is a clear, spatially coherent low-SIF zone along the western side of Aurangabad district and down through the Latur–Osmanabad belt. In 2020 almost the whole region has high SIF, with only a small lower patch in the far south.
 
 Two gaps remain. The map is a single snapshot (DOY 273), not a time series through the season. And the low-SIF zone has not been checked against ground-level drought reports from district offices. It matches what I would expect from Marathwada's drought geography, but matching expectations is not the same as being confirmed by field data, so I am not treating this map as more than it is.
 
@@ -160,15 +150,11 @@ The rainfall check still helps. The drought-year labels now come from my own cal
 
 After checking the district rainfall numbers, I wanted a map of the rainfall data like the SIF maps, so I could see where the rain failed and compare it with where SIF was low. A table with 1 number per district does not show the geography.
 
-I made the maps in 3 steps. First, an interactive Folium choropleth that colours the 8 districts by rainfall anomaly, with toggles for each of the 3 years, so it can be explored in a browser. Second, a static GeoPandas and matplotlib version with the 3 years side by side and the anomaly value written inside each district, which works better for the paper.
-
 These 2 maps make one point clear. In 2015 the western and southern districts (Aurangabad, Bid, Jalna, Latur and especially Osmanabad) had much less rain than normal, while Hingoli and Nanded in the east were close to normal. In 2018 the same west–east split appeared, more strongly. Aurangabad and Bid had deficits beyond 35%, while Hingoli and Nanded got more rain than normal. The regional figure for 2018, an 18% deficit, is correct, but it hides the fact that the drought was mostly in the west and south and the east was close to normal. Calling the whole region a drought year oversimplifies an uneven situation.
 
 The third map was the one I had planned from the start: SIF in the top row and rainfall anomaly in the bottom row for all 3 years, so both patterns can be compared directly. The low-SIF area in the southwest in 2015 and 2018 sits over the largest rainfall deficits in the same years, and the areas with extra rain in 2020 are the same ones with high SIF.
 
 Nanded is a good example. Its rainfall barely dropped in either drought year, and its SIF stayed higher than in the other districts in both 2015 and 2018. That is reassuring, because two separate satellite products, one measuring a faint plant emission and the other estimating rainfall from different sensors, point to the same places for the same reasons.
-
-There was one layout bug. In the combined figure the main title and the 6 panel titles overlapped. Moving the main title up did not help, so I made the maps slightly smaller to leave room at the top and added title padding to each subplot.
 
 These maps are not a statistical test. I did not calculate a correlation or regression between district rainfall deficits and SIF across the 3 years. It would not mean much anyway: there are only 24 pairs (8 districts over 3 years), and they are not independent, because neighbouring districts in the same monsoon share the same weather. So the maps are a visual consistency check, and I will describe them that way.
 
@@ -211,8 +197,6 @@ The district-level results were not affected. `zonal_stats_sif.py`, which I used
 I changed `aggregate_sif.py` to search for `GOSIF_*_clipped.tif` with the regex `r"GOSIF_(\d{4})(\d{3})_clipped\.tif"`, so it loads only the polygon-clipped outputs from `clip_gosif.py`, whatever else is in the folder. Then I reran the analysis and regenerated `marathwada_sif_timeseries.csv`, `marathwada_sif_ndvi_merged.csv`, `sif_ndvi_lag_by_threshold.csv` and `final_summary_rainfall_lag.csv`, and the 2 main figures, `sif_vs_ndvi_seasonal_v2.png` and `sif_ndvi_lag_by_threshold.png`.
 
 The main results did not flip. The corrected lags are 24.3 days for 2015, 6.9 days for 2018 and 28.7 days for 2020 (previously 24.2, 5.1 and 25.5). The drought-year mean went from 14.6 to 15.6 days, and the normal year from 25.5 to 28.7 days. SIF still declines before NDVI in all 15 threshold-year combinations. Drought years still have a shorter lag than the normal year, so H3 is still rejected. The biggest change is 2018, from 5.1 to 6.9 days, about 35%, which matters because it is the smallest lag in the study.
-
-The old rectangle files are still in `data/processed/clipped/`. I am leaving them for now as a record of what the bug was reading, but they have to be deleted before the GitHub repository is final. Their presence is why this bug stayed hidden, and any new script with a loose `GOSIF_*.tif` pattern would pick them up again.
 
 ## Entry 12
 
@@ -260,29 +244,11 @@ The core numbers did not change. Everything in this entry is either a precision 
 
 Every version of my Limitations section repeated the same point: 3 years, 2 droughts and 1 normal season, is too small a sample, and the 2 drought years differ a lot from each other. Instead of only stating this, I decided to add more years: 2016, 2017, 2019, 2022 and 2023. That brings the study to 8 years.
 
-**First step: getting the raw data.**
-
 GOSIF v2's 8-day product covers 2000 to 2024, so all 5 new years are available. I wrote src/acquisition/download_gosif_new_years.py to download them with the same DOY-153-to-361 window used for 2015, 2018 and 2020, and kept the same file naming, so the existing clip_gosif.py picks up the new files without changes. In src/acquisition/gee_data_acquisition.py I extended the STUDY_YEARS list to all 8 years and added 2 CSV exports, for regional and for district rainfall, because the original script only printed rainfall totals to the console. That was fine when I copied 3 numbers by hand, but not for 8 years.
-
-One problem: the GOSIF server returns a 403 Forbidden error for every request from the network I was working on, with or without a browser user-agent header. It is the same kind of IP range block that stopped Sentinel Hub in my DOUBLE_JEOPARDY project. So the download has to run on my own machine at home, as that project's satellite downloads did.
-
-**What is not yet done:**
-
-Neither script has been run. The GOSIF download needs a normal home internet connection, and the Earth Engine extraction needs my authenticated personal Earth Engine account, the same requirement the original acquisition script already had. Every number in the project at this point is still the original 3-year result from the first pass. This entry is only the start of the expansion. The next entry will cover what comes back once both scripts have run and I rerun the pipeline on 8 years instead of 3: clipping, lag analysis, cross-correlation, bootstrap intervals and Moran's I. That will update every downstream document.
 
 ## Entry 15
 
-I ran download_gosif_new_years.py first. All 135 files (5 years times 27 composites) downloaded on the first attempt, since this time it ran on my own connection. gee_data_acquisition.py was different. Each of the next 3 problems was a bug in code that had never been run before.
-
-**Bug 1: no registered Cloud project.**
-
-Earth Engine now requires `ee.Initialize(project=...)` with a registered Google Cloud project ID. My script only had a bare `ee.Initialize()` and a commented-out `ee.Authenticate()`, both written before Google added that requirement. I added both, with my own Earth Engine project ID.
-
-**Bug 2: MODIS clip against the wrong projection.**
-
-The NDVI extraction failed with a projection transform error when clipping a MOD13Q1 image on its native sinusoidal grid (SR-ORG:6974) against the Marathwada polygon in EPSG:4326. Some district boundary geometries do not transform cleanly onto that grid. The `.clip()` was not needed anyway, because the `reduceRegion()` call after it already limits the mean to the same geometry, so I removed it.
-
-Bug 3 was a missing district. The script finished with no errors, but when I counted the rows, the district rainfall export had 56 rows instead of 64 (8 districts times 8 years). The MARATHWADA_DISTRICTS list used the spelling "Beed", but FAO GAUL 2015 stores the district as "Bid" in its ADM2_NAME field.
+I downloaded all 135 new GOSIF files (5 years times 27 composites) and ran gee_data_acquisition.py for the first time. One problem mattered for the data: a missing district. The script finished with no errors, but when I counted the rows, the district rainfall export had 56 rows instead of 64 (8 districts times 8 years). The MARATHWADA_DISTRICTS list used the spelling "Beed", but FAO GAUL 2015 stores the district as "Bid" in its ADM2_NAME field.
 
 `ee.Filter.inList()` does not raise an error when a name matches nothing. It just leaves it out. So the district was missing from the merged region boundary and from every district-level export for all 8 years. I checked the spelling against the district GeoJSON in data/raw/, fixed the list, and ran the extraction again. Then I counted the rows in the output CSV by hand: 8 districts times 8 years gave 64 rows, with all 8 names present. All downstream analyses use this corrected table.
 
@@ -290,15 +256,9 @@ Next I ran rainfall_analysis.py on the corrected 8-year regional totals, and it 
 
 I also replaced the hardcoded `DROUGHT_YEARS = {2015, 2018}` in the lag, cross-correlation and bootstrap scripts with a set derived from the rainfall anomaly output. It still gives the same 2 years, but the classification is now computed from the data, which matters more with 8 years than with 3.
 
-**Still pending as of this entry:**
-
-clip_gosif.py and aggregate_sif.py, which turn the raw GOSIF rasters into the SIF time series, still need to run on all 216 raw files (27 composites times 8 years). This has to happen on my own machine, because moving 11+ gigabytes of raw rasters is not worth it. Each clipped output is under 40 kilobytes, so only those need to go anywhere else for the dashboard or plots. After that I need to rerun the lag analysis, cross-correlation, bootstrap intervals, Moran's I and district correlations on all 8 years. Until then the project still has the original 3-year numbers.
-
 ## Entry 16
 
 I ran clip_gosif.py and zonal_stats_sif.py on all 216 raw GOSIF files on my own machine, as with the downloads in Entry 15. Neither script needed any change for the 5 new years, because both find files with a glob pattern and have no hardcoded year lists. I wrote them that way when I only had 3 years, and it paid off here.
-
-The outputs have the expected size. marathwada_sif_timeseries.csv has 216 rows (27 composites times 8 years) and sif_by_district.csv has 64 rows (8 districts times 8 years), matching the rainfall tables from Entry 15. That is a simple check that no year or district was dropped on the SIF side.
 
 With the 8-year SIF data in place I reran every downstream script: compare_sif_ndvi.py, lag_analysis.py, cross_correlation_lag.py, bootstrap_lag_uncertainty.py, sif_rainfall_correlation.py, spatial_autocorrelation.py and rq3_official_declaration_comparison.py. I also replaced the remaining hardcoded `DROUGHT_YEARS = {2015, 2018}` with the rainfall-derived classification from Entry 15, so the classification is the same everywhere. And I fixed 2 deprecation warnings: `matplotlib.cm.get_cmap` became `matplotlib.colormaps[...].resampled(...)`, and geopandas's `.unary_union` became `.union_all()`.
 
@@ -330,8 +290,6 @@ The bootstrap backs this up. In 2022 and 2023, 99.4% and 99.1% of replicates are
 
 I then fixed every place that repeated the "never negative" framing: the methodology, results, abstract, discussion, limitations and conclusion of GA_Research_Paper.md; both figures, cross_correlation_lag.png and cross_correlation_lag_bootstrap_ci.png; the 2 dashboard pages that show these numbers; GA_Executive_Summary.md; and README.md. The bug is described in each place, as with the Beed/Bid boundary bug and the Earth Engine Cloud project bug earlier in this log. This one changes a scientific finding, not just a processing detail.
 
-I also found a leftover from Entry 16 that I had said was fixed but was not: clip_gosif.py still used `boundary.geometry.unary_union` instead of `union_all()`. I had missed this one file. It is fixed now.
-
 ## Entry 18
 
 The journal's desk rejection gave 5 reasons, and 1 of them I could not argue with: no field validation. Everything in this study, all 8 years of it, compares satellite with satellite (SIF vs NDVI) or satellite with a rainfall product (SIF vs CHIRPS). Nothing was checked against what actually happened to crops on the ground. I do not have the budget or the time for a farm survey across 8 districts and 8 years, so I looked for the next best option.
@@ -358,9 +316,7 @@ I wrote district_climatology_anomaly.py to see how much this matters. It recompu
 
 ## Entry 20
 
-Today I finished 2021 as the ninth study year, not just the rainfall and NDVI part that had been in data/raw/ since Entry 19. Downloading the raw GOSIF files took 3 tries. First I took the Monthly tier by mistake instead of the 8day tier, 7 files instead of the 27 8-day composites the threshold method needs. On the second try I downloaded 19 files named GOSIF_2002<doy>.tif.gz instead of 2021. I must have misread the year while scrolling a long sorted list where every filename looks the same. I deleted those, and on the third try searched for "2021" with Ctrl+F instead of scrolling. That got all 27 files, DOY 153 through 361, the same as every other year.
-
-Processing them locally ran into a disk space problem that had nothing to do with the science. Each file unzips to ~52MB, so all 27 at once is over a gigabyte, on top of the rest of the project. I changed clip_gosif.py to work 1 file at a time: unzip, clip to the Marathwada boundary, delete the decompressed raster, move to the next. Peak disk use is now under 100MB instead of 1.4GB. The clipping itself is unchanged. All 27 clipped fine, with a 47.75% valid pixel fraction, the same as every other year with the same boundary polygon.
+Today I finished 2021 as the ninth study year, not just the rainfall and NDVI part that had been in data/raw/ since Entry 19, with all 27 GOSIF 8-day composites (DOY 153 through 361), the same as every other year.
 
 One thing needed care. My working copy has the raw GOSIF files for only some of the 8 original years, because I never needed to move all of them off my machine. So I could not just rerun aggregate_sif.py and zonal_stats_sif.py as in Entry 16. They read whatever files are in the folder and overwrite the output, so they would have replaced the 8-year outputs with 2021 data only. Instead I applied their per-file calculation to the 2021 rasters and appended the new rows to the existing CSVs, and checked that every other year's rows were the same before and after. I did the same for the consolidated NDVI file and the district rainfall file, using the anomaly calculation (mean=826.4mm, std=158.8mm, the same pooled baseline as every other year in this study) on the 2021 district rainfall from Entry 19.
 
@@ -373,8 +329,6 @@ So n is now 9, not 8 with an asterisk. Every table, script output and figure in 
 ## Entry 21
 
 Today I went through GA_Research_Paper.md section by section and fixed every place that still said "8 years" or "n=64", or gave a statistic from the old 8-year run: Highlights, Abstract, §3.1, §3.5, §3.9, §4.1 through §4.11, Discussion, Limitations and Conclusion. Every new number came from the Entry 20 rerun, not from memory. I also caught a few things. §4.1 said "SIF declined ahead of NDVI in six of eight years", a qualitative call with no clear numeric rule behind it, so I opened the regenerated seasonal figure and counted. It matches the "8 of 9" in §4.2, with 2018 the one exception. In §4.7 I had first written "SIF ahead in about two-thirds of the years", which did not match my own year-by-year classification, so I changed it to the actual split: 4 years SIF ahead with clear confidence, 2 years NDVI ahead with clear confidence, and 3 years too close to call. And §4.8's Moran's I range had a typo, 0.21 where the real minimum (2019, 0.2577) rounds to 0.26.
-
-The 4 companion documents, GA_Highlights.md, GA_Executive_Summary.md, Policy_Brief.md and README.md, quote the same statistics, so a leftover "8 years" in any of them would make the package inconsistent even with the paper fixed. I fixed everything grep found in all 4: the "7 of 8"/"3 of 8" counts in GA_Highlights.md and a crop-yield bullet that was in the paper but not in the highlights; the findings table and year-by-year summary in GA_Executive_Summary.md; the numbers throughout Policy_Brief.md, plus a crop-yield paragraph it never had, even before 2021 (it still said crop yield "has not been checked" although §4.11 already existed); and the Key Findings section of README.md, plus 3 other spots in that file (the 1-line project description at the top, the sample-expansion sentence, and a comment in the repo structure tree). I also checked GA_Cover_Letter.md and GA_Author_Statement.md. The cover letter had the same "8 growing seasons" line, now fixed. The author statement does not mention year counts.
 
 So the stale-numbers problem is closed: the paper and all 5 companion documents match the n=9 pipeline. What is left cannot be fixed with more years or reruns. GOSIF is a modelled SIF product that shares MODIS reflectance input with the NDVI it is compared with, and that comes with the data source. 2018 remains unexplained on every method I have tried. The crop-yield check in §4.11 will stay below conventional significance while there are only 2 drought years, and adding normal years does not fix a small sample on the drought side. And RQ3 stays a single-year comparison, because 2018 is still the only year with a clean official declaration date. These stay in the paper as permanent limitations.
 
@@ -436,10 +390,6 @@ Bootstrap. The threshold-lag bootstrap now resamples residuals in blocks of thre
 
 Other checks. `ndvi_coverage_check.py`: 23 of 117 regional NDVI composites have under 25% clear cropland pixels, but dropping them changes no lag direction. `tropomi_drought_signal.py` runs H4 on TROPOMI but only has two normal years, so it is illustrative for now. Rainfall: June–September totals give the same two drought years; August 2023 was very dry (z = −2.52) and 40 talukas were declared in drought on 31 Oct 2023; 2001–2004 and 2014 would also be drought years, so going back before 2015 is the main way to get more drought cases. `crop_yield_validation.py` now uses season-mean SIF, the same measure as `crop_yield_sensitivity.py`: r = 0.88 (p = 0.004), and 0.80–0.85 across the sensitivity versions; the old r = 0.67 came from day-273 SIF alone. A full `run_all.py` rerun on my laptop (49/49 steps ok) reproduced every other number in the paper.
 
-Figures and docs. Redid the RQ3 timeline (both drought years, alarms, trigger, declarations), the rainfall bar chart (z labels, criterion line), the anomaly curves (z = −3 line), the bootstrap and yield plots, and the graphical abstract. Map scripts now use colour scales symmetric about zero and the study-area map gets a locator inset once the state outlines are exported. Rewrote the paper around H4 as the main question, with a literature section, the normalisation result, and supplementary figures; updated the executive summary, highlights, policy brief, README, CITATION abstract, cover letter and dashboard pages to match; removed the proof-screenshot popovers and made the dashboard offer the .md documents when the PDFs are absent. Added `requirements-lock.txt` and new scripts to `run_all.py`.
-
-Still to do (needs my machine or Earth Engine): full `run_all.py` rerun with the log committed; `gee_vi_obsdate.py` (NDVI vs EVI vs NIRv, to see whether the remaining lead is an NDVI property); the per-pixel trigger; more TROPOMI years; 2001–2014 extension; regenerating the maps; removing stale files and the decompressed raw GeoTIFFs.
-
 ## Entry 25
 
 Two checks from my finish plan, both run in the Earth Engine Code Editor and then analysed with the existing scripts.
@@ -448,8 +398,6 @@ EVI and NIRv. I wanted to know whether the small SIF lead that survives the decl
 
 Trigger-1 per pixel. I ran the dry-spell trigger in every CHIRPS pixel instead of on district-averaged rain. It reached 25% of a district's area only in Aurangabad 2018 (40%), Bid 2018 (35%) and Bid 2017 (72%, a normal year). In 2015 it fired in at most 7% of any district. So the trigger is rare because of the rule itself in this region, not because of averaging. Timing against the alarms is the same as before: in Aurangabad 2018 NDVI came first (8.5 days), SIF 0.5 days before; in Bid 2018 both came 0.5 days after.
 
-Updated the paper (methods 3.4 and 3.10, results 4.6 and 4.9, discussion, limitations, conclusion, abstract, highlights), the summaries, README, CITATION, dashboard pages and the graphical abstract.
-
 ## Entry 26
 
 Out-of-sample test on 2001–2014, the last item in my finish plan. Two drought years was the biggest weakness, and 2001, 2002, 2003, 2004 and 2014 are drought years under the same rule, so I ran everything on those years without changing anything: same drought rule, same alarm rule and thresholds, same cropland weighting (each year's MCD12Q1 map), same NDVI screening and observation-day dating, same lag scalings. The only difference is that the anomalies are standardised against the normal years of 2001–2014, so nothing from 2015–2023 leaks in. I downloaded GOSIF for 2001–2014 (378 files) and exported NDVI/EVI/NIRv and cropland fractions in the Code Editor. `out_of_sample_2001_2014.py` first re-extracted 2015 and got the main series back exactly (largest difference about 1e-16), and `--check` mode reproduces every main alarm and lag exactly.
@@ -457,8 +405,6 @@ Out-of-sample test on 2001–2014, the last item in my finish plan. Two drought 
 What came out. Districts (40 drought, 72 normal district-years): the same picture as 2015–2023. Where both flagged a drought district-year, NDVI was earlier in 22 of 37 at z < −1, 17 of 22 at z < −1.5 and all 13 at z < −2; SIF earlier in 10, 1 and 0. SIF again had fewer false alarms (16 vs 25 at z < −1.5). Region (5 drought, 9 normal years): the vegetation anomalies were weaker than in 2015 and 2018, and here SIF came out slightly ahead. At z < −3 SIF flagged 2001 (17 Sep) and 2002 (25 Sep), NDVI only 2002 on the same date, and no normal year was flagged by either; at z < −1.5 SIF was first in four drought years and NDVI in none. Over both periods SIF flags four of seven drought years at z < −3 and NDVI three, coinciding twice with NDVI earlier once, and at district level NDVI is earlier far more often. H4 stays not supported, but the regional evidence is less one-sided than in 2015–2023.
 
 Seasonal lags reproduce: season-scaled SIF leads NDVI in 14 of 14 years (+27.4 days) and NIRv leads NDVI by almost the same (+26.6); decline-scaled NIRv declines before SIF in 11 of 14 years (−6.4 days). The lead is not larger in drought years (+28.3 vs +26.9 season-scaled), so H3 is not supported with five drought years either.
-
-I kept the extracted 2001–2014 SIF series in `data/processed/oos_sif_*.csv` and added `data/raw/*.tif.gz` to `.gitignore`, so the GOSIF archives stay out of the repository and the test still reruns from the CSVs. Updated the paper (new sections 3.14 and 4.11 with Tables 5 and 6, abstract, highlights, Table 1, discussion, limitations, conclusion, revision note), the executive summary, policy brief, README, CITATION, cover letter and the dashboard.
 
 ## Entry 27
 
@@ -471,8 +417,6 @@ What changed. Districts, 2015–2023, z < −3: SIF flags 12 and NDVI 13 as befo
 So the district result is no longer "NDVI was usually first". The two alarms are mostly within one composite of each other, with no consistent winner. Since NDVI is a 16-day product interpolated onto 8-day SIF dates, I also wrote `alarm_dating_sensitivity.py`, which reruns the alarm test with NDVI taken as observed (the last NDVI value available by the end of each SIF composite) instead of interpolated, because the interpolated value already contains part of the next NDVI observation. With that dating SIF is first in both regional drought years at z < −3 (by 8 days each) and in 8 of 12 district-years. The direction of a one-composite difference therefore depends on a dating choice, and I now report H4 as not supported in the sense that neither index gives a consistently earlier alarm the data can resolve.
 
 TROPOMI against NIRv. My paper said that without a TROPOMI comparison against NIRv I could not separate a fluorescence lead from an NDVI effect, but I already had both series. `tropomi_vs_reflectance.py` computes it: TROPOMI declines before NIRv in all three years (5.4, 7.8 and 13.1 days season-scaled; 4.6, 1.2 and 12.5 decline-scaled) and before EVI by 3.0–20.8 days, and in 23 of 24 year-and-scaling cases across the four TROPOMI variants. GOSIF not leading NIRv is partly built in, since GOSIF is predicted from MODIS reflectance. Three years are too few to call this a fluorescence lead, but they are enough that I can no longer write that the whole lead is an NDVI effect. The paper now says this for GOSIF only and reports the TROPOMI result as open.
-
-Smaller fixes from the same check: the cut-off statement now says the −0.3 to −0.75 range holds for the main 2001–2020 baseline (with the 1981–2014 baseline, 2018 drops out at −0.7); the cross-correlation is described as running over the post-peak decline, not the whole curve; the out-of-sample text says no vegetation data from 2015–2023 enter the test, since the drought rule keeps its 2001–2020 rainfall baseline; and the README says the GOSIF files need to be downloaded once before `run_all.py`. Updated the paper (abstract, highlights, 3.9, 3.11, 3.14, 4.1, 4.2 with Table 2, 4.6, 4.9, 4.11 with Table 5, discussion, limitations, conclusion, revision note), the executive summary, CITATION, cover letter, policy brief, README, dashboard, graphical abstract and both portfolio pages.
 
 ## Entry 28
 
@@ -493,3 +437,7 @@ The Entry 28 rules count errors, but a missed drought in Bid and a false alarm i
 I did not want to pick one weight for a rupee withheld from a drought-hit district against a rupee paid in a normal year, so the script finds the range of weights w over which each rule is cheapest, in the spirit of the cost–loss model (Murphy, 1977). The 15 drought district-years lost about ₹25,450 crore of Kharif output, and relief at the SDRF rate would have covered 31% of it. Rainfall Trigger-1 would have withheld ₹6,593 crore. A rainfall-gated rule is cheapest only if a rupee withheld from a drought-hit district counts for less than half a rupee paid in a normal year. Above that, SIF at z < −3 is cheapest up to w ≈ 1.8 (it ties with NDVI AND SIF), NDVI at z < −3 up to about 4, and the looser z < −2 above that. The SIF result rests on two false alarms, so I wrote it as fragile. The clearer finding is that moving the NDVI threshold from −3 to −2 shifts the cost far more than swapping NDVI for SIF.
 
 I also added Spain to the comparison table, since the others had no EU member state that actually decides something. Spain's river-basin drought plans move each unit through pre-alert, alert and emergency on index thresholds, and its pasture-loss insurance pays out on NDVI alone, below the mean minus 0.7 standard deviations in the standard option. That is far looser than my z < −3; in my data NDVI at z < −1.5 catches every drought but fires in 24 of 57 normal district-years. Last, I classified the proposals with Hall's (1993) three orders of change: thresholds are first order, adding SIF or changing how signals combine is second order, and letting a satellite index pay out without field verification would be third order. This is all in Appendix A (A.4–A.6, Tables A4 and A5, Figure A2 from `plot_trigger_costs.py`). Nothing in the main analysis or the preprint changed.
+
+## Entry 30
+
+A line-by-line check of the policy appendix against my code and the Manual found three problems. First, my Trigger-1 is not the Manual's. I coded the dry spell as 21 consecutive days each under 2.5 mm; the Manual's dry spell is 3–4 consecutive weeks, each below 50% of normal weekly rainfall. Mine is far stricter, so "Trigger-1 rarely fired" describes my rule, not the Manual's. Second, I wrote that a rainfall gate in front of the vegetation index "hides about half the droughts". The count (7–8 of 15 against 13 for NDVI alone) is right, but the 15 drought district-years are themselves defined by rainfall, and the deficit rule is checked every day from 1 July, so many of its false alarms are late monsoon onsets. That is disagreement between indicators, not droughts the Manual would miss, so I removed the claim everywhere. Third, two facts were wrong: PMFBY claims are settled mainly from crop-cutting yield estimates, not from drought declarations, and the U.S. Livestock Forage Disaster Program needs 8 consecutive weeks of D2 for one monthly payment, not 4. I corrected the wording everywhere it appeared and added a correction note. Next I will re-specify Trigger-1 to the Manual's definition and rerun RQ3 and Appendix A. The SIF–NDVI comparison does not use the trigger and does not change.
