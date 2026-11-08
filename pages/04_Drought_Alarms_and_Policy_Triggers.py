@@ -11,7 +11,7 @@ st.title("Drought Alarms and Policy Triggers")
 
 st.markdown("""
 The question behind this study is a policy one: **would adding satellite fluorescence (SIF) to
-India's drought triggers get relief and crop-insurance payouts to farmers sooner?** On this page I
+India's drought triggers get drought relief to farmers sooner?** On this page I
 score each candidate signal the way a trigger is judged in practice. Does it fire in drought years?
 Does it stay quiet in normal years? And does it fire early enough to matter? The statistical tests
 behind these numbers are on **Findings & Conclusion**; here I read the same numbers as a question
