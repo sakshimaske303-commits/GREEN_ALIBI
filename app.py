@@ -5,7 +5,7 @@ import streamlit as st
 from utils.style import apply_custom_style, section_divider, styled_caption, page_footer, NAVY_DARK, NAVY_MED, MAGENTA, TEAL, TEXT_LIGHT
 
 st.set_page_config(
-    page_title="GREEN ALIBI — Marathwada Drought Study",
+    page_title="GREEN ALIBI — Drought Triggers and Who Carries a Missed Drought",
     layout="wide"
 )
 
@@ -14,8 +14,11 @@ apply_custom_style()
 st.markdown("""
 <h1 style='text-align:center; font-size:3.2rem; font-weight:800;'>GREEN ALIBI</h1>
 <h3 style='text-align:center; font-weight:500; color:#FF6EC7;'>
-Testing the Fluorescence Advantage: Does SIF Signal Agricultural Drought Earlier than NDVI in Marathwada?
+Drought Triggers and Who Carries a Missed Drought
 </h3>
+<p style='text-align:center; font-size:1.05rem; opacity:0.85; margin-top:-6px;'>
+Does SIF signal agricultural drought earlier than NDVI in Marathwada, and what does the design of India's drought triggers do to who is protected?
+</p>
 """, unsafe_allow_html=True)
 
 st.markdown(

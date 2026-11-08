@@ -1,5 +1,5 @@
 # GREEN ALIBI
-### Testing Whether Fluorescence Signals Agricultural Drought Earlier than NDVI
+### Drought Triggers and Who Carries a Missed Drought
 
 Executive Summary · Sakshi D. Maske
 

@@ -1,4 +1,4 @@
-# GREEN ALIBI: Testing the Fluorescence Advantage
+# GREEN ALIBI: Drought Triggers and Who Carries a Missed Drought
 
 **Does Solar-Induced Fluorescence signal agricultural drought earlier than NDVI in Marathwada, India? A test across 8 districts and 9 Kharif seasons (2015–2023).**
 

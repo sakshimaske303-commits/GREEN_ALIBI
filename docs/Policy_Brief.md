@@ -1,4 +1,5 @@
 # GREEN ALIBI — Policy Brief
+### Drought Triggers and Who Carries a Missed Drought
 
 **Can satellite fluorescence data speed up drought relief for Marathwada's farmers?**
 
