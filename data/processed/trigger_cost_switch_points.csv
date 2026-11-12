@@ -1,10 +1,10 @@
 timing,rule,w_from,w_to
-any date,Deficit AND SIF (z < -3.0),0.05,0.43
-any date,SIF anomaly (z < -3.0),0.44,1.79
-any date,NDVI anomaly (z < -3.0),1.8,4.06
-any date,NDVI AND SIF (z < -2.0),4.07,5.09
-any date,NDVI anomaly (z < -2.0),5.1,10.0
-by 30 September,Deficit AND SIF (z < -3.0),0.05,0.64
-by 30 September,SIF anomaly (z < -3.0),0.65,4.02
-by 30 September,NDVI anomaly (z < -2.0),4.03,5.83
-by 30 September,NDVI anomaly (z < -1.5),5.84,10.0
+any date,Deficit AND SIF (z < -3.0),0.05,0.4
+any date,Rainfall Trigger-1 (25% of pixels),0.41,0.47
+any date,SIF anomaly (z < -3.0),0.48,1.18
+any date,Trigger-1 OR NDVI (z < -3.0),1.19,7.89
+any date,NDVI anomaly (z < -2.0),7.9,10.0
+by 30 September,Deficit AND SIF (z < -3.0),0.05,0.29
+by 30 September,Rainfall Trigger-1 (25% of pixels),0.3,2.26
+by 30 September,Trigger-1 OR NDVI (z < -3.0),2.27,7.71
+by 30 September,NDVI anomaly (z < -1.5),7.72,10.0

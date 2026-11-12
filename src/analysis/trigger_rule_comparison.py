@@ -35,14 +35,16 @@ def then(d, first, second):
 
 
 def rules(d, rain=True):
+    # rain: True = every rule; "trigger" = the Trigger-1 rules but not the 25% deficit (2001-2014); False = satellite only
     r = {}
     if rain:
         r["Rainfall Trigger-1 (district average)"] = d["T1"]
         r["Rainfall Trigger-1 (25% of pixels)"] = d["T1px"]
+    if rain is True:
         r["Rainfall deficit > 25% alone"] = d["D"]
     r["NDVI anomaly (z < -3)"] = d["N"]
     r["SIF anomaly (z < -3)"] = d["S"]
-    if rain:
+    if rain is True:
         r["Deficit AND NDVI"] = all_of(d, "D", "N")
         r["Deficit AND SIF"] = all_of(d, "D", "S")
         r["Deficit, then NDVI confirms"] = then(d, "D", "N")
@@ -50,6 +52,7 @@ def rules(d, rain=True):
     r["NDVI OR SIF"] = any_of(d, "N", "S")
     if rain:
         r["Trigger-1 OR NDVI"] = any_of(d, "T1", "N")
+    if rain is True:
         r["2 of 3: deficit, NDVI, SIF"] = k_of(d, 2, "D", "N", "S")
     return r
 
@@ -81,9 +84,10 @@ def score(d, label, rain=True):
 T = pd.read_csv("data/processed/rainfall_trigger_dates.csv")
 T = T[T["unit"] != "Marathwada"].rename(columns={"unit": "district"})
 tr = T.pivot_table(index=["district", "year"], columns="variant", values="trigger_doy", aggfunc="first").reset_index()
-tr = tr[["district", "year", "main: deficit>25% & spell>=21d", "deficit>25% only"]].rename(
-    columns={"main: deficit>25% & spell>=21d": "T1", "deficit>25% only": "D"})
-px = pd.read_csv("data/processed/rainfall_trigger_pixel_by_district.csv")[["district", "year", "doy_25pct_triggered"]]
+tr = tr[["district", "year", "main: Manual Trigger 1, 4 dry weeks", "deficit>25% only"]].rename(
+    columns={"main: Manual Trigger 1, 4 dry weeks": "T1", "deficit>25% only": "D"})
+px = pd.read_csv("data/processed/rainfall_trigger_pixel_by_district.csv")
+px = px[px["variant"] == "main: Manual Trigger 1, 4 dry weeks"][["district", "year", "doy_25pct_triggered"]]
 px = px.rename(columns={"doy_25pct_triggered": "T1px"})
 
 # main: satellite alarms as in the paper (NDVI interpolated onto the SIF dates)
@@ -109,12 +113,12 @@ chk = alarms("2015-2023", "interpolated").merge(main[["district", "year", "S", "
 assert np.allclose(chk["N"].fillna(-1), chk["N_m"].fillna(-1)) and np.allclose(chk["S"].fillna(-1), chk["S_m"].fillna(-1))
 
 avail = alarms("2015-2023", "available").merge(tr, on=["district", "year"], how="left").merge(px, on=["district", "year"], how="left")
-oos = alarms("2001-2014", "interpolated")
+oos = alarms("2001-2014", "interpolated").merge(tr, on=["district", "year"], how="left").merge(px, on=["district", "year"], how="left")
 
 out, miss = [], []
 for d, label, rain in [(main, "2015-2023 (main)", True),
                        (avail, "2015-2023, NDVI as observed", True),
-                       (oos, "2001-2014 out-of-sample (satellite rules only)", False)]:
+                       (oos, "2001-2014 out-of-sample", "trigger")]:
     R, M = score(d, label, rain)
     out.append(R)
     miss.append(M)
@@ -128,4 +132,5 @@ R["median_alarm_date"] = R["median_alarm_doy"].map(fmt)
 R.to_csv("data/processed/trigger_rule_comparison.csv", index=False)
 M.to_csv("data/processed/trigger_rule_missed_droughts.csv", index=False)
 print("\nSaved trigger_rule_comparison.csv, trigger_rule_missed_droughts.csv")
-print("Note: no rainfall rule can be scored for 2001-2014 because district daily CHIRPS was only extracted for 2015-2023.")
+print("Note: the 25% deficit and the rules built on it are scored only for 2015-2023, where district daily rainfall from\n"
+      "Earth Engine is available; Trigger-1 comes from the CHIRPS pixel stacks and is scored in both periods.")

@@ -22,8 +22,10 @@ section_divider()
 
 st.header("The Instrument and the Candidates")
 
-st.warning("""
-**Correction in progress: Trigger-1 and the rainfall-gate comparison.** A check of my code showed that my Trigger-1 approximation (rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall). Every Trigger-1 result in this project describes my approximation, not the Manual's rule. The comparison of rainfall-gated rules also scores them against drought district-years that are themselves defined by rainfall, so it shows how far the indicators disagree, not droughts that the Manual would miss. I am re-specifying the trigger and will rerun RQ3 and Appendix A. The SIF–NDVI comparison, the main result, does not use the trigger and is not affected.
+st.info("""
+**Corrected in version 2.2.0.** Earlier versions used my own approximation of Trigger-1, which was much
+stricter than the Manual's rule and flagged only 2 of 15 drought district-years. Trigger-1 now follows
+the Manual, and every number on this page uses it. The SIF–NDVI comparison does not use the trigger.
 """)
 
 c1, c2, c3 = st.columns(3)
@@ -31,9 +33,9 @@ with c1:
     st.subheader("The rule in use")
     st.markdown("""
     **Rainfall Trigger-1** of India's Manual for Drought Management (2016), which starts drought
-    assessment. My approximation: rainfall since 1 June more than 25% below normal, plus a dry
-    spell of at least 21 consecutive days each under 2.5 mm between 1 July and 30 September. This is much
-    stricter than the Manual's dry spell (3–4 weeks each below 50% of normal weekly rain); I am re-specifying it.
+    assessment. As the Manual defines it: a **dry spell** of four consecutive standard weeks after the
+    normal monsoon onset (from the week of 18–24 June here), each with less than 50% of normal weekly
+    rain, sets it off; without one, rainfall must be **scanty** (60% or more below normal) or **SPI below −1.5**.
     """)
 with c2:
     st.subheader("The candidates")
@@ -61,15 +63,15 @@ the public budget pays. So I score each trigger on both errors, not on speed alo
 
 scorecard = pd.DataFrame({
     "Trigger": [
-        "Rainfall Trigger-1 (my approximation of the official rule)",
+        "Rainfall Trigger-1 (the Manual's rule, district average)",
         "NDVI anomaly (already in the system)",
         "SIF anomaly (the proposed addition)",
     ],
-    "Drought district-years flagged (of 15)": ["2", "13", "12"],
-    "Missed droughts": ["13", "2", "3"],
+    "Drought district-years flagged (of 15)": ["7", "13", "12"],
+    "Missed droughts": ["8", "2", "3"],
     "False alarms in normal district-years (of 57)": ["1", "4", "2"],
     "Timing": [
-        "Both hits in 2018 (Aurangabad, Bid)",
+        "22 July (2015) and 12 August (2018); before SIF and NDVI wherever both fired",
         "Earlier than SIF in 3, same date in 2, later in 7",
         "Earlier than NDVI in 7, same date in 2, later in 3",
     ],
@@ -83,7 +85,7 @@ styled_caption(
 
 m1, m2, m3, m4 = st.columns(4)
 with m1:
-    st.metric("Droughts missed by the rainfall rule", "13 of 15")
+    st.metric("Droughts missed by the rainfall rule", "8 of 15", "5 when applied per pixel", delta_color="off")
 with m2:
     st.metric("Droughts missed, NDVI / SIF", "2 / 3")
 with m3:
@@ -95,47 +97,50 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("Missed Droughts Fall on Farmers")
     st.markdown("""
-    My approximated rainfall trigger, much stricter than the Manual's, fired in only 2 of 15 drought district-years. A trigger
-    that misses a drought leaves the loss with the farmer until field verification catches up.
-    Both satellite anomalies flagged 12 or 13 of the 15. That is a possible case for vegetation
-    anomalies alongside rainfall, and it applies to NDVI as much as to SIF.
+    The Manual's rainfall trigger missed 8 of the 15 drought district-years: Aurangabad and Jalna in
+    2015, five districts in 2018, when the drought built up late in the season, and Jalna in 2023 (per
+    pixel it missed 5). A trigger that misses a drought leaves the loss with the farmer until field
+    verification catches up. NDVI flagged seven of those eight, so letting NDVI raise a flag on its own,
+    and not only confirm the rainfall trigger, would have caught 14 of the 15.
     """)
 with col2:
     st.subheader("False Alarms Fall on the Public Budget")
     st.markdown("""
-    A trigger that fires in a normal year pays out where there was no drought loss. SIF did
-    slightly better here (2 against NDVI's 4 of 57), and it again had fewer false alarms in the
-    2001–2014 test. It is SIF's one consistent advantage, and it rests on very few events.
+    A trigger that fires in a normal year pays out where there was no drought loss. The rainfall
+    trigger fired in only one of 57 normal district-years (Aurangabad 2023). SIF did slightly better
+    than NDVI here (2 against 4), and it again had fewer false alarms in the 2001–2014 test. It is
+    SIF's one consistent advantage, and it rests on very few events.
     """)
 
 section_divider()
 
-st.header("Why Not Simply Loosen the Rainfall Rule?")
+st.header("How Much Do the Rainfall Rule's Settings Matter?")
 
 st.markdown("""
-If the rainfall trigger misses most droughts, the obvious fix is a looser rule. I ran the variants
-below on the same district-years.
+The Manual leaves room in how a dry spell is counted: usually four weeks, up to three on light
+soils, after the due date of monsoon onset. I ran these versions, and my earlier approximation, on
+the same district-years.
 """)
 
 _TRIG = "data/processed/rainfall_trigger_dates.csv"
 _SIG = "data/processed/drought_signal_district.csv"
 _LABELS = {
-    "main: deficit>25% & spell>=21d": "Main: deficit > 25% and dry spell ≥ 21 days (1 Jul–30 Sep)",
-    "deficit>20% & spell>=21d": "Deficit > 20% and dry spell ≥ 21 days",
-    "deficit>30% & spell>=21d": "Deficit > 30% and dry spell ≥ 21 days",
-    "dry day <1mm": "Dry day counted below 1 mm instead of 2.5 mm",
-    "deficit>25% only": "Deficit > 25% alone",
-    "spell>=21d only": "Dry spell ≥ 21 days alone",
-    "old: spell counted to Dec": "Dry spell counted to December (earlier version)",
+    "main: Manual Trigger 1, 4 dry weeks": "Main: the Manual's rule, dry spell of 4 standard weeks from 18 Jun (or scanty rain, or SPI < −1.5)",
+    "Manual Trigger 1, 3 dry weeks (light soils)": "Dry spell of 3 weeks (the Manual's light-soil rule)",
+    "Manual Trigger 1, 4 dry weeks counted from July": "Dry spell of 4 weeks, counted from July",
+    "Manual Trigger 1, 3 dry weeks counted from July": "Dry spell of 3 weeks, counted from July",
+    "earlier approximation: deficit>25% & 21 days <2.5 mm": "My earlier approximation: deficit > 25% and 21 days each < 2.5 mm",
+    "deficit>25% only": "Deficit > 25% alone (not the Manual's rule)",
 }
 if os.path.exists(_TRIG) and os.path.exists(_SIG):
     trig = pd.read_csv(_TRIG)
     sig = pd.read_csv(_SIG)[["district", "year", "is_drought"]]
-    dist = trig[trig["unit"] != "Marathwada"].merge(
+    dist = trig[(trig["unit"] != "Marathwada") & (trig["year"] >= 2015)].merge(
         sig, left_on=["unit", "year"], right_on=["district", "year"], how="inner"
     )
     rows = []
-    for variant, g in dist.groupby("variant", sort=False):
+    dist["order"] = dist["variant"].map({v: i for i, v in enumerate(_LABELS)})
+    for variant, g in dist.sort_values("order").groupby("variant", sort=False):
         fired = g["trigger_doy"].notna()
         rows.append({
             "Rainfall rule": _LABELS.get(variant, variant),
@@ -143,15 +148,16 @@ if os.path.exists(_TRIG) and os.path.exists(_SIG):
             "False alarms in normal district-years (of 57)": int((fired & ~g["is_drought"]).sum()),
         })
     st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
-    styled_caption("Rainfall Trigger-1 variants on district-average CHIRPS rainfall, 2015–2023.")
+    styled_caption("Rainfall Trigger-1 versions on district-average CHIRPS rainfall, 2015–2023 (15 drought, 57 normal district-years).")
 else:
     st.info("The variant table appears here once `rainfall_trigger_comparison.py` has been run.")
 
 st.warning("""
-No version of the rainfall rule does both jobs. With the dry-spell condition it stays quiet in
-normal years but misses most droughts. The deficit alone catches 10 of the 15, but it fires in
-18 normal district-years, more often than in drought ones. For the region as a whole it misses
-2018 and fires in three normal years (2017, 2019, 2023).
+One setting moves the result more than any choice of satellite index. With a four-week dry spell the
+rule flags 7 of the 15 drought district-years and fires in 1 normal one; with three weeks it flags
+14 but fires in 26 normal ones. Counting the weeks only from July gives 6 and 1, and seven-day blocks
+from 15 June in place of the standard weeks give 10 and 7. My earlier approximation flagged 2. The
+deficit alone, which the Manual does not use on its own, flags 10 but fires in 18 normal district-years.
 """)
 
 st.info("""
@@ -173,8 +179,10 @@ with t1:
     st.subheader("Against the Rainfall Trigger")
     st.markdown("""
     The rainfall trigger is the fair benchmark, because it is the rule a satellite signal would
-    sit beside. Where it fired, in Aurangabad both satellite alarms came 15.5 days before it.
-    In Bid they came at about the same time: SIF's half a day after, NDVI's 8.5 days after.
+    sit beside. For the region it fired on 22 July 2015, 33.5 days before both satellite alarms.
+    In every drought district-year where it and a satellite alarm both fired, the trigger came
+    first: SIF by a median of 25.5 days, NDVI by 33.5. The vegetation index does not warn
+    earlier; it catches droughts the trigger misses.
     """)
 with t2:
     st.subheader("Against the Declarations")
@@ -206,9 +214,8 @@ index can pay a farmer whose field was not hurt and miss one whose field was. In
 calls this gap **basis risk**.
 
 The per-pixel version of the rainfall trigger shows how large the gap can be inside one district.
-In Bid 2017, a normal year, the trigger fired over 72% of the district's area. In 2015, the stronger
-drought year, it fired over at most 7% of any district. Only Aurangabad 2018 (40%) and Bid 2018 (35%)
-crossed a quarter of their area in a drought year.
+In the 2018 drought it was met over 64% of Aurangabad but 0–16% of Bid, Latur and Osmanabad, all
+drought district-years. In 2015 it covered 78–100% of six districts, 43% of Jalna and only 5% of Aurangabad.
 """)
 
 section_divider()
@@ -220,8 +227,11 @@ with s1:
     st.success("""
     **Supported**
 
-    - Vegetation anomalies, NDVI or SIF, alongside the rainfall trigger as a check on missed
-      droughts: they flagged 12–13 of 15 drought district-years where my strict rainfall rule flagged 2.
+    - Letting a vegetation anomaly raise a drought flag on its own, alongside the rainfall trigger:
+      NDVI flagged seven of the eight drought district-years the trigger missed, and the two together
+      flagged 14 of 15 with no more false alarms than NDVI alone.
+    - Treating the dry-spell length as a policy setting to be set openly: three or four weeks moves the
+      rainfall trigger from 7 to 14 droughts flagged and from 1 to 26 false alarms.
     - Keeping NDVI, which is already in the system, as that vegetation signal.
     - Scoring any proposed trigger on misses, false alarms and timing together, not on lead time alone.
     - Setting the alarm threshold openly, as a choice about how much a missed drought weighs against a
@@ -236,13 +246,15 @@ with s2:
       same district-level picture.
     - Reading the lead over official declarations as satellites beating the system.
     - Paying out at field or village level from these 5 km district averages.
-    - Concluding that the Manual's rainfall gate misses droughts: my trigger is stricter than the Manual's,
-      and the droughts here are themselves defined by rainfall.
+    - Using satellite anomalies to warn earlier than the Manual's rainfall trigger: it came first in
+      every drought district-year where both fired.
+    - Reading the trigger's misses as droughts the Manual misses: the droughts here are themselves
+      defined by rainfall.
     """)
 
 st.markdown("""
 These are exploratory findings for one region: two drought years in 2015–2023 (five more, mostly
-mild, in 2001–2014), thresholds chosen during the study, and an approximated trigger. The
+mild, in 2001–2014), thresholds chosen during the study, and a district- and pixel-level version of a taluka-level trigger. The
 **Crop-Yield Validation** page shows lower Kharif yields in the two drought years (Yield Anomaly
 Index −1.08 against +0.07, not significant with two years), in the direction that makes a missed
 trigger costly for farmers.

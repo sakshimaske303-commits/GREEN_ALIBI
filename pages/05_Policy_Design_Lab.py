@@ -32,17 +32,20 @@ policy change would each proposal be? Everything here reuses the alarm and trigg
 (paper, Appendix A); no main result changes.
 """)
 
-st.warning("""
-**Correction in progress: Trigger-1 and the rainfall-gate comparison.** A check of my code showed that my Trigger-1 approximation (rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall). Every Trigger-1 result in this project describes my approximation, not the Manual's rule. The comparison of rainfall-gated rules also scores them against drought district-years that are themselves defined by rainfall, so it shows how far the indicators disagree, not droughts that the Manual would miss. I am re-specifying the trigger and will rerun RQ3 and Appendix A. The SIF–NDVI comparison, the main result, does not use the trigger and is not affected.
+st.info("""
+**Corrected in version 2.2.0.** Earlier versions used my own approximation of Trigger-1, which was much stricter
+than the Manual's rule and flagged only 2 of 15 drought district-years. The rules and costs on this page now use
+the Manual's Trigger-1 (a dry spell of four standard weeks, each below 50% of normal weekly rainfall, or scanty
+rainfall, or SPI below −1.5).
 """)
 
 k1, k2, k3, k4 = st.columns(4)
 with k1:
-    st.metric("Most droughts flagged (z < −3)", "13 of 15", "NDVI alone; no combination did better", delta_color="off")
+    st.metric("Most droughts flagged", "14 of 15", "Trigger-1 OR NDVI; 4 false alarms, as many as NDVI alone", delta_color="off")
 with k2:
-    st.metric("Rules gated by rainfall", "7–8 of 15", "vs 13 for NDVI alone; rainfall-defined droughts", delta_color="off")
+    st.metric("Manual's rainfall trigger", "7 of 15", "10 per pixel; 1 false alarm; first wherever a satellite also fired", delta_color="off")
 with k3:
-    st.metric("Relief withheld by my strict trigger", "₹6,593 cr", "13 of 15 missed; to be recomputed", delta_color="off")
+    st.metric("Relief withheld by the rainfall trigger", "₹4,177 cr", "8 of 15 missed; ₹526 cr with NDVI as a second route", delta_color="off")
 with k4:
     st.metric("Systems compared", "5", "India, EU, Spain, USA, Kenya", delta_color="off")
 
@@ -81,18 +84,18 @@ with t1:
                 "Drought flagged": rr["drought_flagged"].astype(str) + "/" + rr["drought_n"].astype(str),
                 "False alarms": rr["false_alarms"].astype(str) + "/" + rr["normal_n"].astype(str),
             }), use_container_width=True, hide_index=True)
-            styled_caption("Rainfall rules cannot be scored for 2001–2014: district daily rainfall was only extracted for 2015–2023.")
+            styled_caption("The 25% deficit and the rules built on it are scored only for 2015–2023; Trigger-1, from the CHIRPS pixel stacks, is scored in both periods.")
     else:
         st.info("The rule comparison appears here once `trigger_rule_comparison.py` has been run.")
 
     c1, c2 = st.columns(2)
     with c1:
         st.warning("""
-        **Rainfall-gated rules flagged fewer droughts, but the test is lopsided.** Every rule that needs the rainfall deficit
-        flagged only 7 or 8 of 15, mainly because the deficit missed Aurangabad 2015 and four of the six drought
-        district-years of 2018. No combination flagged more droughts than NDVI on its own (13 of 15).
-        Even the best rules flagged only 9 of 15 by 30 September. These droughts are themselves defined by
-        rainfall, so this shows how far the indicators disagree, not droughts the Manual would miss.
+        **The rainfall trigger is early and precise; NDVI adds coverage.** The Manual's Trigger-1 flagged 7 of 15
+        (10 per pixel), all by 30 September and with one false alarm. NDVI flagged seven of the eight it missed, so
+        Trigger-1 OR NDVI flagged 14 with no more false alarms than NDVI alone (4). Rules that wait for a 25%
+        rainfall deficit flagged only 7 or 8. These droughts are themselves defined by rainfall, so the counts show
+        how the indicators agree, not droughts the Manual would miss.
         """)
     with c2:
         st.info("""
@@ -128,7 +131,7 @@ with t2:
         with m2:
             st.metric("Share of that loss SDRF relief would cover", "31%", "₹7,843 crore", delta_color="off")
         with m3:
-            st.metric("Rainfall-gated rule cheapest only if", "w < 0.44", "0.65 if counted by 30 September", delta_color="off")
+            st.metric("Rainfall-gated rule cheapest only if", "w < 0.41", "0.30 if counted by 30 September", delta_color="off")
         if os.path.exists("outputs/figures/trigger_cost_frontier.png"):
             st.image("outputs/figures/trigger_cost_frontier.png", use_container_width=True)
             styled_caption("Relief withheld in missed droughts against relief paid in normal years. Lower left is better; "
@@ -158,9 +161,10 @@ with t2:
     e1, e2 = st.columns(2)
     with e1:
         st.warning("""
-        **Choosing the rule is a value choice.** SIF at z < −3 is cheapest for w of about 0.4–1.8, on the
-        strength of two fewer false alarms; NDVI at z < −3 from 1.8 to 4; a looser z < −2 above that. Which
-        is right depends on how much a missed drought should weigh, not on the data.
+        **Choosing the rule is a value choice.** Trigger-1 OR NDVI is the cheapest rule for w of about 1.2–7.9
+        (2.3–7.7 if only flags by 30 September count). Below that, SIF at z < −3 or the per-pixel rainfall trigger
+        on its own is cheapest; above it, a looser NDVI threshold. Which is right depends on how much a missed
+        drought should weigh, not on the data.
         """)
     with e2:
         st.info("""
@@ -196,7 +200,7 @@ with t3:
         **Spain sets a much looser threshold.** Its pasture insurance starts paying at NDVI below its mean minus
         0.7 standard deviations, against z < −3 here. In Marathwada, NDVI at z < −1.5 flagged all 15 drought
         district-years but also 24 of 57 normal ones: never the cheapest rule when a flag at any date counts,
-        and only at w of about 6 or more when only flags by 30 September count. (The baselines differ: mine
+        and only at w of about 7.7 or more when only flags by 30 September count. (The baselines differ: mine
         uses only normal years and needs two composites in a row.)
         """)
     with s2:
@@ -226,13 +230,13 @@ with t4:
     h1, h2, h3 = st.columns(3)
     with h1:
         st.markdown(_card.format(c=TEAL, t="First order: settings",
-                                 w="Alarm threshold (z < −3 or −2), rainfall deficit and dry-spell length, district average or per pixel.",
-                                 e="The threshold moves the cost of errors most; no setting of the rainfall rule both catches droughts and stays quiet in normal years."),
+                                 w="Alarm threshold (z < −3 or −2), dry-spell length (three or four weeks) and the weeks it is counted from, district average or per pixel.",
+                                 e="Settings move the results most: three dry weeks instead of four take the rainfall trigger from 7 to 14 droughts and from 1 to 26 false alarms."),
                     unsafe_allow_html=True)
     with h2:
         st.markdown(_card.format(c=TEAL, t="Second order: instruments",
-                                 w="Adding SIF; replacing the rainfall gate with an OR or 2-of-3 rule.",
-                                 e="No case for SIF as an earlier warning; rainfall-gated rules flagged 7–8 of the 13 droughts NDVI flagged, a disagreement between indicators."),
+                                 w="Adding SIF; letting the vegetation index raise a flag on its own (an OR rule) instead of only confirming rainfall.",
+                                 e="No case for SIF as an earlier warning. Trigger-1 OR NDVI flagged 14 of 15 with no extra false alarms, the cheapest rule over most weights."),
                     unsafe_allow_html=True)
     with h3:
         st.markdown(_card.format(c=MAGENTA, t="Third order: goals",
@@ -244,10 +248,11 @@ with t4:
 section_divider()
 
 st.success("""
-**Bottom line for trigger design.** In Marathwada, rules that wait for my rainfall deficit flagged fewer of the
-rainfall-defined drought district-years than NDVI alone, which shows how far the indicators disagree rather than
-droughts the Manual would miss; the cost comparison is provisional until I re-specify the trigger. Beyond that, the alarm threshold, not the choice between NDVI and
-SIF, decides who carries the errors, and setting it is a value choice that belongs in the open.
+**Bottom line for trigger design.** In Marathwada, the Manual's rainfall trigger was early and precise but missed
+about half of the rainfall-defined drought district-years, and NDVI caught most of those. Letting the vegetation
+index raise a flag on its own, not only confirm rainfall, caught 14 of 15 at no extra false alarms. Beyond that,
+the settings, the dry-spell length and the alarm threshold, not the choice between NDVI and SIF, decide who
+carries the errors, and setting them is a value choice that belongs in the open.
 """)
 
 styled_caption("GREEN ALIBI — Policy Design Lab · Paper, Appendix A · Scripts: trigger_rule_comparison.py, trigger_cost_analysis.py")

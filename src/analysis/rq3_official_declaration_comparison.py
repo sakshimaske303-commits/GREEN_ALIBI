@@ -12,7 +12,7 @@ TRIGGER = "data/processed/rainfall_trigger_dates.csv"
 DECL = "data/external/official_drought_declarations.csv"
 OUT_CSV = "data/processed/rq3_official_declaration_comparison.csv"
 OUT_FIG = "outputs/figures/rq3_declaration_timeline.png"
-MAIN_TRIGGER = "main: deficit>25% & spell>=21d"
+MAIN_TRIGGER = "main: Manual Trigger 1, 4 dry weeks"
 
 
 def doy_to_date(year, doy):
@@ -48,6 +48,7 @@ colors = {"SIF": "#2FA88C", "NDVI": "#D9822B", "Rainfall": "#2166ac", "Final": "
 order = ["SIF drought alarm (z < -3)", "NDVI drought alarm (z < -3)", "Rainfall Trigger-1 (region)",
          "First-stage declaration", "Final declaration", "SIF seasonal 0.9 crossing", "NDVI seasonal 0.9 crossing"]
 years = sorted(R["year"].unique())
+x_lo = min(225, np.floor(R["doy"].min() / 5) * 5 - 5)  # widen the axis when the rainfall trigger fires in July
 fig, axes = plt.subplots(len(years), 1, figsize=(10, 2.7 * len(years)), sharex=True)
 axes = np.atleast_1d(axes)
 for ax, y in zip(axes, years):
@@ -58,7 +59,7 @@ for ax, y in zip(axes, years):
         yy = n - 1 - i
         col = colors[r["event"].split()[0]]
         if pd.isna(r["doy"]):
-            ax.text(227, yy, "did not fire", va="center", fontsize=8, color="#555555", style="italic")
+            ax.text(x_lo + 2, yy, "did not fire", va="center", fontsize=8, color="#555555", style="italic")
             continue
         faint = r["kind"] == "seasonal"
         ax.scatter(r["doy"], yy, s=70, color=col, alpha=0.35 if faint else 1, edgecolor="black", zorder=3,
@@ -71,7 +72,7 @@ for ax, y in zip(axes, years):
         ax.axvline(d, color="#B23A48", lw=0.8, ls=":")
     ax.set_title(f"{y} (rainfall-defined drought year)", fontsize=10, loc="left")
     ax.grid(axis="x", alpha=0.3)
-    ax.set_xlim(225, 312)
+    ax.set_xlim(x_lo, 312)
 axes[-1].set_xlabel("Day of year")
 fig.suptitle("Satellite drought alarms, rainfall trigger and official declarations, Marathwada\n"
              "(faint: seasonal 0.9 crossings, which fall at a similar date in normal years as well)", fontsize=10)

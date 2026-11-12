@@ -173,18 +173,17 @@ st.image("outputs/figures/rq3_declaration_timeline.png", use_container_width=Tru
 styled_caption("2015 and 2018: satellite drought alarms (z < −3), the rainfall trigger and the declaration dates.")
 
 st.info("""
-**Rainfall Trigger-1 (approximation).** I approximated the Manual for Drought Management
-(2016) Trigger-1 as cumulative rainfall since 1 June more than 25% below normal plus a dry
-spell of at least 21 consecutive days each under 2.5 mm between 1 July and 30 September, which is much
-stricter than the Manual's dry spell (3–4 weeks each below 50% of normal weekly rain). On averaged rainfall it never
-fired for the region. At district level it fired in 2 of 15 drought district-years
-(Aurangabad and Bid, 2018) and one normal one (Bid 2017). In Aurangabad both satellite alarms
-came 15.5 days before the trigger; in Bid SIF's came 0.5 days and NDVI's 8.5 days after it.
+**Rainfall Trigger-1 (the Manual's rule).** A dry spell of four consecutive standard weeks after
+the normal onset, each below 50% of normal weekly rain, or scanty rainfall, or SPI below −1.5.
+For the region it fired on 22 July 2015 and in no other year of 2015–2023, including 2018. At district level it
+flagged 7 of 15 drought district-years (six districts in 2015, Aurangabad in 2018) and one normal
+one (Aurangabad 2023). Wherever a satellite alarm also fired, the trigger came first: SIF by a
+median of 25.5 days, NDVI by 33.5. NDVI flagged seven of the eight drought district-years it missed.
 
-**Per pixel.** Evaluated in every CHIRPS pixel, the trigger reached 25% of a district's area
-only in Aurangabad 2018 (40%), Bid 2018 (35%) and Bid 2017 (72%, a normal year). In 2015, the
-stronger drought year, it fired in at most 7% of any district. The trigger's rarity is a
-property of the rule, not of averaging.
+**Per pixel and settings.** Met over at least a quarter of the district, it flagged 10 drought
+district-years and the same one normal one. With three dry weeks instead of four it flags 14 but
+also 26 normal district-years; my earlier, stricter approximation flagged 2. In 2001–2014 it
+flagged 11 of 40 drought district-years (18 per pixel), against 6 for NDVI at z < −3.
 """)
 
 st.info("""
@@ -197,8 +196,8 @@ declaration (23 October).
 st.warning("""
 A declaration comes at the end of a sequence of triggers that ends in field verification of
 crop damage, so a satellite signal will precede it almost by construction. The more
-meaningful benchmark is the rainfall trigger. Where it fired, the satellite alarms came on the
-same date (Aurangabad) or SIF's one composite before NDVI's (Bid).
+meaningful benchmark is the rainfall trigger, and it came first: in 2015 it fired 33.5 days before
+both satellite alarms and 86 days before the declaration.
 """)
 
 section_divider()
@@ -221,7 +220,7 @@ with c5:
 with c6:
     st.metric("H3 drought widens lag", "Not supported")
 with c7:
-    st.metric("Trigger-1 fired, my strict version", "2 / 15")
+    st.metric("Rainfall Trigger-1 flagged", "7 / 15", "10 per pixel; 1 false alarm", delta_color="off")
 with c8:
     st.metric("Alarms before final declarations", "27–53 days")
 
@@ -250,9 +249,10 @@ st.markdown("""
   cropland mask; they do not describe individual crops or fields.
 - **District non-independence.** District observations are spatially clustered. With
   district and year fixed effects, SIF does not track rainfall anomaly (p = 0.37).
-- **Rainfall trigger approximation.** My Trigger-1 is computed on district-averaged rainfall and
-  per CHIRPS pixel, not per taluka with field inputs as the state does, and its dry-spell rule is much
-  stricter than the Manual's; I am re-specifying it.
+- **Rainfall trigger approximation.** Trigger-1 follows the Manual's rule but is computed on
+  district-averaged rainfall and per CHIRPS pixel, not per taluka with field inputs as the state does,
+  with one onset date for the region. Its result depends on the dry-spell length and on how the weeks
+  are counted.
 - **Declarations.** I found only three declaration dates; the 2015 date is the date it was
   reported. Declarations follow field verification, so they are structurally late.
 - **Yield data.** One end-of-season number per district-crop, ending in 2022-23 (drought
@@ -262,8 +262,9 @@ This version corrects five data-handling errors in the first preprint and adds t
 normalisation check, own-district drought baselines, a monsoon-only dry-spell window for the
 trigger, a block bootstrap, the EVI/NIRv comparison, a per-pixel trigger and the 2001–2014
 out-of-sample test. A final check corrected an alignment error that dated district NDVI alarms
-one composite early, and added the NDVI-dating check and the TROPOMI–NIRv comparison; the full
-pipeline reruns from `run_all.py`.
+one composite early, and added the NDVI-dating check and the TROPOMI–NIRv comparison. Version
+2.2.0 replaces my strict Trigger-1 approximation with the Manual's own rule. The full pipeline
+reruns from `run_all.py`.
 """)
 
 section_divider()
@@ -287,9 +288,11 @@ as much as GOSIF does, so for GOSIF what remains is a property of NDVI. Direct T
 NIRv slightly in its three years, which leaves a small fluorescence-specific lead open.
 
 So my conclusion is negative on the question I started from. In this region and dataset,
-SIF is not an earlier drought alarm than NDVI at the resolution the data allow. Satellite
-vegetation anomalies may add lead time to a rainfall-led trigger, but I found no evidence that
-GOSIF SIF would add more than NDVI already does. Testing that properly would need direct SIF
+SIF is not an earlier drought alarm than NDVI at the resolution the data allow. The Manual's
+rainfall trigger came before both satellite alarms wherever both fired, but missed about half the
+drought district-years, most of which NDVI caught; a vegetation index is most useful here as a
+second route to a drought flag, and I found no evidence that GOSIF SIF would add more than NDVI
+already does. Testing that properly would need direct SIF
 retrievals over more drought seasons and vegetation data sampled more often than every 16 days.
 """)
 

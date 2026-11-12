@@ -37,7 +37,7 @@ Interactive district level maps and headline charts are hosted via GitHub Pages:
 
 *(All 5 are also embedded together on the Study Area and Interactive Maps page in the live dashboard; the 2 maps also show up on their own on the Spatial Patterns page.)*
 
-> **Correction in progress: Trigger-1 and the rainfall-gate comparison.** A check of my code showed that my Trigger-1 approximation (rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall). Every Trigger-1 result in this project describes my approximation, not the Manual's rule. The comparison of rainfall-gated rules also scores them against drought district-years that are themselves defined by rainfall, so it shows how far the indicators disagree, not droughts that the Manual would miss. I am re-specifying the trigger and will rerun RQ3 and Appendix A. The SIF–NDVI comparison, the main result, does not use the trigger and is not affected.
+> **Correction in version 2.2.0: Trigger-1.** Earlier versions approximated India's rainfall Trigger-1 as a deficit over 25% plus 21 consecutive days each under 2.5 mm, which is much stricter than the Manual's rule, and reported that it rarely fired. Trigger-1 now follows the Manual for Drought Management (Table 3.10): a dry spell of four consecutive standard weeks after the normal onset date, each below 50% of normal weekly rainfall, or scanty rainfall, or SPI below −1.5, computed on district-average rainfall and in every CHIRPS pixel. RQ3 and the policy appendix were rerun with it. The SIF–NDVI comparison, the main result, does not use the trigger and is unchanged.
 
 India's drought-management process rests on rainfall deficits and on vegetation indices such as NDVI, which respond once crop damage is visible; crop-insurance claims under the Pradhan Mantri Fasal Bima Yojana (PMFBY) are settled mainly from crop-cutting yield estimates. Solar-Induced Fluorescence (SIF) is tied to photosynthesis, so it is often expected to respond earlier. GREEN ALIBI is my test of that expectation for the eight districts of Marathwada, Maharashtra. I compare cropland-weighted GOSIF v2 SIF with MODIS NDVI timed to each pixel's observation date, check the result with TROPOMI SIF (a retrieval not built from MODIS reflectance), and keep two questions apart. The main one is whether SIF shows a drought-specific anomaly before NDVI does, which is what would make SIF a better drought alarm; the secondary one is whether SIF's normal seasonal decline starts before NDVI's. Only 2015 and 2018 qualify as drought years on CHIRPS rainfall, so I also ran every test, unchanged, on 2001–2014 (five more drought years) as an out-of-sample check.
 
@@ -54,7 +54,7 @@ The hypotheses the data do not support are reported alongside the rest (H4: SIF 
 - Classifies drought years from CHIRPS seasonal rainfall (1981–2023, baseline 2001–2020), checked against three alternative baselines and a range of cut-offs.
 - Tests for a drought-specific signal by standardising SIF and NDVI against normal years and comparing alarm dates and ROC AUC, with NDVI both interpolated onto the SIF dates and taken as observed.
 - Repeats the drought-alarm and seasonal-lag tests on 2001–2014 with every method frozen, as an out-of-sample test.
-- Times satellite alarms against an approximation of the rainfall-based Trigger-1 in India's Manual for Drought Management and against the official 2015 and 2018 drought declarations.
+- Codes the rainfall-based Trigger-1 of India's Manual for Drought Management (dry spell, scanty rainfall or SPI) on district rainfall and in every CHIRPS pixel, and times the satellite alarms against it and against the official 2015 and 2018 drought declarations.
 - Checks district-level SIF against rainfall anomaly (with year-clustered and fixed-effects tests), spatial autocorrelation (Moran's I), and official district crop-yield statistics.
 - Presents everything in a multi-page Streamlit dashboard, including a page on the physics of fluorescence and reflectance and a page that scores SIF, NDVI and the rainfall trigger as drought-policy triggers.
 
@@ -70,11 +70,11 @@ The hypotheses the data do not support are reported alongside the rest (H4: SIF 
 
 **Drought does not widen the lag (H3 not supported).** Season-scaled, drought years averaged 14.8 days against 22.6; decline-scaled, 6.5 against 3.6. With two drought years neither difference is meaningful; in 2001–2014, with five, the lead was again not larger in drought (+28.3 vs +26.9 days season-scaled).
 
-**Rainfall trigger and declarations (RQ3).** My approximate rainfall Trigger-1 (deficit over 25% plus 21 consecutive days each under 2.5 mm, counted 1 July – 30 September; much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall)) never fired for the region and fired in 2 of 15 drought district-years (Aurangabad and Bid, 2018); in Aurangabad both satellite alarms came 15.5 days first; in Bid SIF came 0.5 days and NDVI 8.5 days after it. Evaluated per CHIRPS pixel, it reached 25% of a district's area only in Aurangabad and Bid 2018 and Bid 2017 (a normal year), and in 2015 it fired in at most 7% of any district. Both alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but declarations follow field verification, so satellite signals precede them almost by construction.
+**Rainfall trigger and declarations (RQ3).** Coded as the Manual defines it (four dry standard weeks from the week of 18–24 June, each below 50% of normal weekly rainfall, or scanty rainfall, or SPI below −1.5), Trigger-1 fired for the region on 22 July 2015, about five weeks before both satellite alarms, and in no other year of 2015–2023, including 2018. It flagged 7 of 15 drought district-years (six districts in 2015, Aurangabad in 2018) with one false alarm in 57 normal district-years (Aurangabad 2023), and per pixel (25% of a district's area) 10 with the same one false alarm. Wherever a satellite alarm also fired, the trigger came first (SIF by a median of 25.5 days, NDVI by 33.5). NDVI flagged seven of the eight drought district-years the trigger missed, so Trigger-1 OR NDVI flagged 14 of 15 with no more false alarms than NDVI alone (4). The result depends on the dry-spell length: with the three-week spell the Manual allows on light soils, the trigger flagged 14 drought district-years and 26 normal ones. In 2001–2014 it flagged 11 of 40 drought district-years (18 per pixel). My earlier, stricter approximation flagged 2 of 15. Both satellite alarms preceded the 2015 declaration by 52.5 days and the 2018 final declaration by 27.5 (SIF) and 35.5 (NDVI) days, but declarations follow field verification, so satellite signals precede them almost by construction.
 
 **Supporting checks.** District SIF on day-of-year 273 correlates with rainfall anomaly (r = 0.53, p < 0.0001; year-clustered p = 0.001), but not once district and year fixed effects are included (p = 0.37). Rainfall and season-mean SIF are spatially clustered in all 9 years. The crop Yield Anomaly Index tracks rainfall (r = 0.93) and is lower in the drought years (−1.08 vs +0.07, p = 0.15). The lag direction is unchanged when NDVI composites with under 25% clear pixels are excluded (at a 50% cut-off, 2022 reverses).
 
-In short: SIF is not a resolvably earlier drought alarm than NDVI in this dataset, and GOSIF's apparent seasonal head start is largely a property of how NDVI's decline is measured. Satellite vegetation anomalies, NDVI as much as SIF, may add lead time to a rainfall-led trigger. Full methodology, physical basis, and limitations are in `GA_Research_Paper.md`; `GA_Development_Log.md` records every correction and revision.
+In short: SIF is not a resolvably earlier drought alarm than NDVI in this dataset, and GOSIF's apparent seasonal head start is largely a property of how NDVI's decline is measured. The Manual's rainfall trigger came before the satellite alarms wherever both fired but missed about half the drought district-years, most of which NDVI flagged, so here a vegetation index is most useful as a second route to a drought flag, not as an earlier warning; and the length of a dry spell decides more about which droughts are recognised than the choice between SIF and NDVI. Full methodology, physical basis, and limitations are in `GA_Research_Paper.md`; `GA_Development_Log.md` records every correction and revision.
 
 ## Repository Structure
 
@@ -101,7 +101,7 @@ GREEN_ALIBI/
 │   └── visualization/                  # Static maps (incl. the Figure 3 study area map), Folium maps, Plotly charts, graphical abstract
 ├── data/
 │   ├── raw/                             # GOSIF, NDVI, rainfall, boundary data
-│   ├── external/                        # Cropland fraction rasters, crop-yield statistics, official drought declaration dates
+│   ├── external/                        # Cropland fraction rasters, daily CHIRPS rainfall per pixel (Jun-Sep, 1981-2023), crop-yield statistics, official drought declaration dates
 │   └── processed/                       # Regional and district SIF, NDVI, rainfall, lag, and diagnostic CSVs
 ├── outputs/
 │   ├── figures/                          # All static figures (spatial maps, charts, physics diagrams)
@@ -140,7 +140,9 @@ GREEN_ALIBI/
 | `district_lag_analysis.py` | District-level lag and H2 tests (ANOVA, Friedman) |
 | `drought_signal_analysis.py` | Drought-specific anomaly signal: SIF vs NDVI alarm dates and AUC (H4) |
 | `alarm_dating_sensitivity.py` | H4 alarm comparison with NDVI interpolated vs taken as observed, both periods, with a one-composite tolerance |
-| `rainfall_trigger_comparison.py` | Satellite alarms vs approximate rainfall Trigger-1 (RQ3) |
+| `manual_trigger.py` | Trigger-1 of the Manual for Drought Management (dry spell, scanty rainfall, SPI), used by the scripts below |
+| `rainfall_spi.py` | District and region daily rainfall from the CHIRPS pixel stacks, and SPI at each month end (needs `gee_chirps_dryspell_area.py` output; skips without it) |
+| `rainfall_trigger_comparison.py` | Satellite alarms vs the rainfall Trigger-1 on district and region rainfall, with sensitivity versions (RQ3) |
 | `rq3_official_declaration_comparison.py` | Satellite alarms vs official 2015 and 2018 declarations (RQ3) |
 | `method_dependence.py` | 40 method variants: which findings depend on which choices |
 | `tropomi_sif_analysis.py` | TROPOMI SIF cross-check (regional) |
@@ -165,7 +167,7 @@ GREEN_ALIBI/
 | `tropomi_vs_reflectance.py` | TROPOMI SIF seasonal lag against MODIS NDVI, EVI and NIRv, 2018–2020 |
 | `vegetation_index_lag.py` | SIF vs NDVI, EVI and NIRv lags (needs `gee_vi_obsdate.py` output) |
 | `out_of_sample_2001_2014.py` | Out-of-sample test on 2001–2014 with all 2015–2023 methods frozen (`--check` reruns it on 2015–2023). The extracted 2001–2014 SIF series are kept in `data/processed/oos_sif_*.csv`, so the test reruns without the GOSIF download |
-| `rainfall_trigger_pixel.py` | Trigger-1 per CHIRPS pixel, summarised by district (needs `gee_chirps_dryspell_area.py` output) |
+| `rainfall_trigger_pixel.py` | Trigger-1 in every CHIRPS pixel, against each pixel's own normal and SPI, summarised by district (needs `gee_chirps_dryspell_area.py` output) |
 | `trigger_rule_comparison.py` | Policy extension (paper Appendix A): rainfall, NDVI and SIF combined into AND, OR, sequence and 2-of-3 trigger rules, scored on droughts flagged, false alarms and timing. Figure: `src/visualization/plot_trigger_rules.py` → `trigger_rule_comparison.png` |
 | `trigger_cost_analysis.py` | Policy extension (paper Appendix A.4): each rule's errors valued as SDRF relief withheld in missed droughts and paid in normal years, with crop loss at 2022–23 MSP for scale, and the cheapest rule for each weight on missed droughts. Figure: `src/visualization/plot_trigger_costs.py` → `trigger_cost_frontier.png` |
 
@@ -212,7 +214,7 @@ python run_all.py --no-figures       # analysis only, skip figures and maps
 ```bash
 python src/acquisition/gee_vi_obsdate.py                 # NDVI, EVI and NIRv at observation date -> vegetation_index_lag.py
 # (both Earth Engine exports also have Code Editor versions: src/acquisition/*_CODE_EDITOR.js)
-python src/acquisition/gee_chirps_dryspell_area.py       # Trigger-1 per CHIRPS pixel -> rainfall_trigger_pixel.py
+python src/acquisition/gee_chirps_dryspell_area.py       # daily CHIRPS per pixel, Jun-Sep 1981-2023 -> rainfall_spi.py, rainfall_trigger_pixel.py
 python src/acquisition/gee_india_states_for_locator.py   # state outlines for the Figure 3 locator inset
 python src/acquisition/download_gosif_new_years.py 2001 2014   # earlier GOSIF years (several GB)
 ```
@@ -233,8 +235,6 @@ The full statement is in [`GA_Declarations.pdf`](./docs/GA_Declarations.pdf) (so
 ## Author
 
 **Sakshi D. Maske**
-
-Independent Geospatial Researcher
 
 ORCID: [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
 

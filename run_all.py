@@ -45,6 +45,7 @@ ANALYSIS = [
     "src/analysis/ndvi_coverage_check.py",
     "src/analysis/vegetation_index_lag.py",          # skips itself until gee_vi_obsdate.py has been run
     "src/analysis/drought_signal_analysis.py",
+    "src/analysis/rainfall_spi.py",                  # district series and SPI from the CHIRPS pixel stacks (skips without them)
     "src/analysis/rainfall_trigger_comparison.py",
     "src/analysis/rainfall_window_sensitivity.py",
     "src/analysis/rainfall_trigger_pixel.py",        # skips itself until gee_chirps_dryspell_area.py has been run

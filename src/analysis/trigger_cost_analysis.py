@@ -65,9 +65,10 @@ print(f"Relief per false alarm (Rs {SDRF_RS_PER_HA}/ha on mean Kharif area): "
 T = pd.read_csv("data/processed/rainfall_trigger_dates.csv")
 T = T[T["unit"] != "Marathwada"].rename(columns={"unit": "district"})
 tr = T.pivot_table(index=["district", "year"], columns="variant", values="trigger_doy", aggfunc="first").reset_index()
-tr = tr[["district", "year", "main: deficit>25% & spell>=21d", "deficit>25% only"]].rename(
-    columns={"main: deficit>25% & spell>=21d": "T1", "deficit>25% only": "D"})
-px = pd.read_csv("data/processed/rainfall_trigger_pixel_by_district.csv")[["district", "year", "doy_25pct_triggered"]]
+tr = tr[["district", "year", "main: Manual Trigger 1, 4 dry weeks", "deficit>25% only"]].rename(
+    columns={"main: Manual Trigger 1, 4 dry weeks": "T1", "deficit>25% only": "D"})
+px = pd.read_csv("data/processed/rainfall_trigger_pixel_by_district.csv")
+px = px[px["variant"] == "main: Manual Trigger 1, 4 dry weeks"][["district", "year", "doy_25pct_triggered"]]
 px = px.rename(columns={"doy_25pct_triggered": "T1px"})
 cols = {f"{s}_alarm_{t}": f"{s[0]}{t}" for s in ["SIF", "NDVI"] for t in THRESHOLDS}
 d = sd[["district", "year"] + list(cols)].rename(columns=cols).merge(tr, on=["district", "year"], how="left") \

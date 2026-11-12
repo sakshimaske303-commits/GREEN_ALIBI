@@ -9,7 +9,11 @@ OUTPUT_PNG = "outputs/figures/trigger_cost_frontier.png"
 colors = {"Rainfall": "#2166ac", "Single satellite": "#2FA88C", "Combined": "#D9822B"}
 labels = {"Rainfall": "Rainfall rule", "Single satellite": "Single satellite anomaly", "Combined": "Combined rule"}
 
-OFFSETS = {"SIF anomaly (z < -3.0)": (10, 8), "Deficit AND SIF (z < -3.0)": (8, 10), "NDVI anomaly (z < -1.5)": (10, -18)}
+OFFSETS = {"SIF anomaly (z < -3.0)": (10, 8)}
+# labels that would sit on top of each other go to open space, with a leader line
+PLACE = {"Rainfall Trigger-1 (25% of pixels)": (1500, -420), "Rainfall Trigger-1 (district average)": (5300, 1250),
+         "Deficit AND SIF (z < -3.0)": (5300, 150), "NDVI anomaly (z < -1.5)": (2300, 12900)}
+ARROW = dict(arrowstyle="-", color="#888888", lw=0.6)
 fig, axes = plt.subplots(1, 2, figsize=(14, 6.4), sharey=True)
 for ax, timing, title in [(axes[0], "any date", "Drought counted as flagged at any date"),
                           (axes[1], "by 30 September", "Drought counted as flagged only by 30 September")]:
@@ -24,14 +28,20 @@ for ax, timing, title in [(axes[0], "any date", "Drought counted as flagged at a
             lw=1, ls="--", zorder=2)
     for r in env.itertuples():
         p = pts.loc[r.rule]
-        txt = f"{r.rule}\nlowest cost for w {r.w_from:.1f}–{r.w_to:.1f}" if r.w_to < 10 else f"{r.rule}\nlowest cost for w ≥ {r.w_from:.1f}"
-        ax.annotate(txt, (p["relief_withheld_in_missed_droughts_cr"], p["relief_paid_in_normal_years_cr"]),
-                    xytext=OFFSETS.get(r.rule, (8, 6)), textcoords="offset points", fontsize=7.5, color="#333333")
+        txt = f"{r.rule}\nlowest cost for w {r.w_from:.2f}–{r.w_to:.2f}" if r.w_to < 10 else f"{r.rule}\nlowest cost for w ≥ {r.w_from:.2f}"
+        xy = (p["relief_withheld_in_missed_droughts_cr"], p["relief_paid_in_normal_years_cr"])
+        if r.rule in PLACE:
+            ax.annotate(txt, xy, xytext=PLACE[r.rule], textcoords="data", fontsize=7.5, color="#333333", arrowprops=ARROW)
+        else:
+            ax.annotate(txt, xy, xytext=OFFSETS.get(r.rule, (8, 6)), textcoords="offset points", fontsize=7.5, color="#333333")
     for name in ["Rainfall Trigger-1 (district average)", "Rainfall deficit > 25% alone"]:
         p = g[g["rule"] == name]
         if len(p) and name not in set(env["rule"]):
-            ax.annotate(name, (p["relief_withheld_in_missed_droughts_cr"].iloc[0], p["relief_paid_in_normal_years_cr"].iloc[0]),
-                        xytext=(6, -12), textcoords="offset points", fontsize=7.5, color="#333333")
+            xy = (p["relief_withheld_in_missed_droughts_cr"].iloc[0], p["relief_paid_in_normal_years_cr"].iloc[0])
+            if name in PLACE:
+                ax.annotate(name, xy, xytext=PLACE[name], textcoords="data", fontsize=7.5, color="#333333", arrowprops=ARROW)
+            else:
+                ax.annotate(name, xy, xytext=(6, -12), textcoords="offset points", fontsize=7.5, color="#333333")
     ax.set_title(title, fontsize=11, loc="left")
     ax.set_xlabel("Relief withheld in missed drought district-years (Rs crore)")
     ax.grid(alpha=0.25)

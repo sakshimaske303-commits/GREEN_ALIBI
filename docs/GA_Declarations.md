@@ -2,9 +2,9 @@
 
 **Testing the Fluorescence Advantage: Does Solar-Induced Fluorescence Signal Agricultural Drought Earlier than NDVI in Marathwada, India?**
 
-Sakshi D. Maske · Independent Geospatial Researcher · ORCID [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
+Sakshi D. Maske · ORCID [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
 
-Version 2.1.0  
+Version 2.2.0  
 Preprint: EarthArXiv, DOI [10.31223/X5CN58](https://doi.org/10.31223/X5CN58) · Archive: Zenodo, DOI [10.5281/zenodo.21762500](https://doi.org/10.5281/zenodo.21762500) · Code and data: [github.com/sakshimaske303-commits/GREEN_ALIBI](https://github.com/sakshimaske303-commits/GREEN_ALIBI)
 
 ## Use of AI tools
@@ -19,7 +19,7 @@ The two explanatory illustrations on the Signal Physics page of the dashboard we
 - Neither index came first every time, in 2015–2023 or in 2001–2014.
 - SIF's seasonal lead over NDVI changes a lot with how each curve is scaled.
 - MODIS NIRv also declines before NDVI, by about as much as GOSIF; TROPOMI SIF declined slightly before NIRv in 2018–2020.
-- My approximation of India's rainfall Trigger-1 rarely fired in the drought years, but it is much stricter than the Manual's own rule (see Corrections and version history).
+- Coded as India's Manual for Drought Management defines it, the rainfall Trigger-1 flagged 7 of 15 drought district-years (10 per pixel) with one false alarm, and weeks before the satellite alarms wherever both fired; NDVI flagged seven of the eight it missed, and a three-week instead of four-week dry spell takes the trigger to 14 drought district-years and 26 false alarms.
 
 ## Author contributions (CRediT)
 
@@ -51,7 +51,7 @@ The decline thresholds, the drought cut-off (z < −0.5) and the alarm threshold
 
 ## Corrections and version history
 
-The current version corrects five data-handling errors in my first preprint: NDVI dates were one day early and matched to the nearest date, which shortened every lag by about eight days; the cross-correlation search could not return negative lags; the 2021 and 2022 GOSIF files had a half-pixel longitude offset; one district name did not match ("Beed" vs "Bid"); and two different rainfall sources were used for different anomalies. A final check found and fixed an alignment error that dated every district NDVI alarm one composite (8 days) too early. Each error, its effect and the fix are recorded in `GA_Development_Log.md`. The policy appendix also has a correction in progress: my approximation of Trigger-1 (a rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) is much stricter than the Manual's dry spell (3–4 consecutive weeks, each below 50% of normal weekly rainfall), so I am re-specifying it and will rerun RQ3 and Appendix A. The SIF–NDVI comparison does not use the trigger and is not affected.
+The current version corrects five data-handling errors in my first preprint: NDVI dates were one day early and matched to the nearest date, which shortened every lag by about eight days; the cross-correlation search could not return negative lags; the 2021 and 2022 GOSIF files had a half-pixel longitude offset; one district name did not match ("Beed" vs "Bid"); and two different rainfall sources were used for different anomalies. A final check found and fixed an alignment error that dated every district NDVI alarm one composite (8 days) too early. Each error, its effect and the fix are recorded in `GA_Development_Log.md`. Version 2.2.0 corrects the rainfall trigger. My earlier approximation of Trigger-1 (a rainfall deficit over 25% plus 21 consecutive days each under 2.5 mm) was much stricter than the Manual's rule and flagged only 2 of 15 drought district-years. It is replaced by the Manual's rule (Table 3.10: a dry spell of four consecutive standard meteorological weeks after the normal onset date, each with less than 50% of normal weekly rainfall, or scanty rainfall (60% or more below normal), or SPI below −1.5), computed on district-average rainfall and in every CHIRPS pixel, and RQ3 and Appendix A were rerun with it. The SIF–NDVI comparison does not use the trigger and is not affected.
 
 ## Licence and citation
 

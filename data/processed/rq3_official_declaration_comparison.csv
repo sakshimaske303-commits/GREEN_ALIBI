@@ -1,7 +1,7 @@
 year,event,kind,doy,date,days_before_final_declaration
 2015,SIF drought alarm (z < -3),alarm,236.5,2015-08-24,52.5
 2015,NDVI drought alarm (z < -3),alarm,236.5,2015-08-24,52.5
-2015,Rainfall Trigger-1 (region),trigger,,,
+2015,Rainfall Trigger-1 (region),trigger,203.0,2015-07-22,86.0
 2015,SIF seasonal 0.9 crossing,seasonal,267.2,2015-09-24,21.80000000000001
 2015,NDVI seasonal 0.9 crossing,seasonal,280.6,2015-10-07,8.399999999999977
 2015,Final declaration,declaration,289.0,2015-10-16,0.0

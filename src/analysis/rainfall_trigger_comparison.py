@@ -1,20 +1,22 @@
 # satellite signal vs rainfall drought trigger
 
+import os
+import sys
+
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from manual_trigger import MAIN, MONTH_ENDS, VARIANTS as MANUAL, day_to_doy, trigger_day  # noqa: E402
 
 BASELINE = (2001, 2020)
 START_DOY = 182
 MONSOON_END_DOY = 273  # 30 Sep: dry spells are counted only inside the monsoon (1 Jul - 30 Sep)
-# (deficit %, dry-day mm, spell days, rule, last DOY a dry day counts); "old" = my earlier spell window to Dec
+# my earlier approximation, kept for comparison, and the deficit alone (used in the combined rules):
+# (deficit %, dry-day mm, spell days, rule, last DOY a dry day counts)
 VARIANTS = {
-    "main: deficit>25% & spell>=21d": (25, 2.5, 21, "both", MONSOON_END_DOY),
-    "deficit>20% & spell>=21d": (20, 2.5, 21, "both", MONSOON_END_DOY),
-    "deficit>30% & spell>=21d": (30, 2.5, 21, "both", MONSOON_END_DOY),
-    "dry day <1mm": (25, 1.0, 21, "both", MONSOON_END_DOY),
+    "earlier approximation: deficit>25% & 21 days <2.5 mm": (25, 2.5, 21, "both", MONSOON_END_DOY),
     "deficit>25% only": (25, 2.5, 21, "deficit", MONSOON_END_DOY),
-    "spell>=21d only": (25, 2.5, 21, "spell", MONSOON_END_DOY),
-    "old: spell counted to Dec": (25, 2.5, 21, "both", 366),
 }
 
 reg = pd.read_csv("data/raw/chirps_daily_region_2001_2023.csv")
@@ -55,6 +57,18 @@ for v, args in VARIANTS.items():
         rows.append({"variant": v, "unit": "Marathwada", "year": y, "trigger_doy": trigger_date(g, "Marathwada", *args)})
     for (d, y), g in dis.groupby(["district", "year"]):
         rows.append({"variant": v, "unit": d, "year": y, "trigger_doy": trigger_date(g, d, *args)})
+# the Manual's Trigger 1, on the district and region series built from the CHIRPS pixels (rainfall_spi.py)
+U = pd.read_csv("data/processed/chirps_daily_units_jun_sep.csv")
+SPI = pd.read_csv("data/processed/rainfall_spi_by_district.csv")
+for unit, g in U.groupby("unit"):
+    P = g.pivot(index="day", columns="year", values="rain_mm")
+    normal = P.loc[:, BASELINE[0]:BASELINE[1]].mean(axis=1).to_numpy()
+    z = SPI[SPI["unit"] == unit].pivot(index="month_end_day", columns="year", values="spi").loc[MONTH_ENDS]
+    for y in range(2001, 2024):  # 2001-2014 for the out-of-sample check of the trigger rules
+        for v, (weeks, first_day) in MANUAL.items():
+            day, arm = trigger_day(P[y].to_numpy(), normal, z[y].to_numpy(), weeks, first_day)
+            rows.append({"variant": v, "unit": unit, "year": y, "trigger_doy": day_to_doy(y, day[0]), "trigger_arm": arm[0]})
+
 T = pd.DataFrame(rows)
 T.to_csv("data/processed/rainfall_trigger_dates.csv", index=False)
 
@@ -67,8 +81,8 @@ sat = pd.read_csv("data/processed/drought_signal_region.csv").set_index("year")
 lag = pd.read_csv("data/processed/sif_ndvi_lag_by_threshold.csv")
 lag = lag[lag["threshold"] == 0.9].set_index("year")
 decl = pd.read_csv("data/external/official_drought_declarations.csv")
-main_v = list(VARIANTS)[0]
-tr = T[(T["unit"] == "Marathwada")].pivot(index="year", columns="variant", values="trigger_doy")
+main_v = MAIN
+tr = T[(T["unit"] == "Marathwada") & (T["year"] >= 2015)].pivot(index="year", columns="variant", values="trigger_doy")
 
 print("REGION -- Trigger-1 date (rainfall) vs satellite signals")
 print(f"{'year':6s}{'rain z':>7s}{'Trigger-1':>11s}{'SIF alarm':>11s}{'NDVI alarm':>12s}{'SIF 0.9':>9s}{'NDVI 0.9':>10s}")
@@ -106,6 +120,5 @@ for v in ["SIF", "NDVI"]:
           f"satellite earlier {(diff < 0).sum()}, later {(diff > 0).sum()}, median {diff.median():+.0f} d")
 O.to_csv("data/processed/rainfall_trigger_vs_satellite.csv", index=False)
 print("\nSaved rainfall_trigger_dates.csv, rainfall_trigger_vs_satellite.csv")
-print("Note: Trigger-1 is applied by the state at taluka level; this region/district version applies a dry-spell rule\n"
-      "to spatially averaged rainfall, which smooths out local dry spells. See gee_chirps_dryspell_area.py for the\n"
-      "pixel-level version.")
+print("Note: Trigger-1 is applied by the state at taluka level; this region/district version applies it to spatially\n"
+      "averaged rainfall, which smooths out local dry spells. rainfall_trigger_pixel.py applies it in every pixel.")
