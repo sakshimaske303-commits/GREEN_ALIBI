@@ -1,6 +1,6 @@
 # GREEN ALIBI: Declarations
 
-**Testing the Fluorescence Advantage: Does Solar-Induced Fluorescence Signal Agricultural Drought Earlier than NDVI in Marathwada, India?**
+**GREEN ALIBI: Drought Triggers and Who Carries a Missed Drought**
 
 Sakshi D. Maske · ORCID [0009-0002-5683-5966](https://orcid.org/0009-0002-5683-5966)
 

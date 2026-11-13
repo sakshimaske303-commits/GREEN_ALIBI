@@ -56,7 +56,7 @@ def box(x, y, w, h, edge=TEAL, face=FILL, lw=2):
                                 linewidth=lw, edgecolor=edge, facecolor=face))
 
 
-ax.text(10, 7.55, "GREEN ALIBI: Does Fluorescence Catch Drought Stress Before NDVI?",
+ax.text(10, 7.55, "GREEN ALIBI: Drought Triggers and Who Carries a Missed Drought",
         ha="center", va="center", fontsize=26, fontweight="bold", color=INK)
 ax.text(10, 7.03, f"Marathwada, Maharashtra, India  |  8 districts  |  {n_years} Kharif seasons "
         f"({years[0]}–{years[-1]})  |  TROPOMI cross-check", ha="center", va="center",
