@@ -46,10 +46,10 @@ y = merged["mean_sif"]
 
 models = {
     "plain_ols_n72": sm.OLS(y, X).fit(),
-    "cluster_by_year_n9": sm.OLS(y, X).fit(cov_type="cluster", cov_kwds={"groups": merged["year"].to_numpy()}),
-    "cluster_by_district_n8": sm.OLS(y, X).fit(cov_type="cluster", cov_kwds={"groups": merged["district_code"].to_numpy()}),
+    "cluster_by_year_n9": sm.OLS(y, X).fit(cov_type="cluster", cov_kwds={"groups": merged["year"].to_numpy()}, use_t=True),
+    "cluster_by_district_n8": sm.OLS(y, X).fit(cov_type="cluster", cov_kwds={"groups": merged["district_code"].to_numpy()}, use_t=True),
     "cluster_two_way_year_district": sm.OLS(y, X).fit(
-        cov_type="cluster", cov_kwds={"groups": merged[["year", "district_code"]].astype(int).to_numpy()}),
+        cov_type="cluster", cov_kwds={"groups": merged[["year", "district_code"]].astype(int).to_numpy()}, use_t=True),
 }
 for name, m in models.items():
     se = m.bse["anomaly_pct"]

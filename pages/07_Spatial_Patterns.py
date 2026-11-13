@@ -228,8 +228,8 @@ with col2:
     st.subheader("How Strong Is This?")
     st.markdown("""
     Across the 72 district-years, SIF on day-of-year 273 correlates with rainfall anomaly
-    at **r = 0.53** (Spearman ρ = 0.51, both p < 0.0001; p = 0.001 with standard errors
-    clustered by year). Season-mean SIF (June–December) correlates more strongly,
+    at **r = 0.53** (Spearman ρ = 0.51, both p < 0.0001; p = 0.01 with standard errors
+    clustered by year and a t-distribution for the nine clusters). Season-mean SIF (June–December) correlates more strongly,
     **r = 0.74**, including within years (r = 0.66).
 
     With district and year fixed effects, the relationship is **not significant**

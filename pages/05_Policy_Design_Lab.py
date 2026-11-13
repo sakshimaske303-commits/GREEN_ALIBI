@@ -36,16 +36,16 @@ st.info("""
 **Corrected in version 2.2.0.** Earlier versions used my own approximation of Trigger-1, which was much stricter
 than the Manual's rule and flagged only 2 of 15 drought district-years. The rules and costs on this page now use
 the Manual's Trigger-1 (a dry spell of four standard weeks, each below 50% of normal weekly rainfall, or scanty
-rainfall, or SPI below −1.5).
+rainfall, or SPI below −1.5), reconstructed on CHIRPS rainfall.
 """)
 
 k1, k2, k3, k4 = st.columns(4)
 with k1:
     st.metric("Most droughts flagged", "14 of 15", "Trigger-1 OR NDVI; 4 false alarms, as many as NDVI alone", delta_color="off")
 with k2:
-    st.metric("Manual's rainfall trigger", "7 of 15", "10 per pixel; 1 false alarm; first wherever a satellite also fired", delta_color="off")
+    st.metric("Rainfall trigger, poor harvests seen", "7 of 18", "NDVI 13; never fired without a poor harvest", delta_color="off")
 with k3:
-    st.metric("Relief withheld by the rainfall trigger", "₹4,177 cr", "8 of 15 missed; ₹526 cr with NDVI as a second route", delta_color="off")
+    st.metric("Relief the rainfall rule alone would leave out", "₹4,177 cr", "₹526 cr with NDVI as a second route", delta_color="off")
 with k4:
     st.metric("Systems compared", "5", "India, EU, Spain, USA, Kenya", delta_color="off")
 
@@ -95,7 +95,8 @@ with t1:
         (10 per pixel), all by 30 September and with one false alarm. NDVI flagged seven of the eight it missed, so
         Trigger-1 OR NDVI flagged 14 with no more false alarms than NDVI alone (4). Rules that wait for a 25%
         rainfall deficit flagged only 7 or 8. These droughts are themselves defined by rainfall, so the counts show
-        how the indicators agree, not droughts the Manual would miss.
+        how the indicators agree, not droughts the Manual would miss. Against crop loss the direction is the same:
+        Trigger-1 saw 7 of 18 poor harvests with no false alarm, NDVI 13 and the two together 14.
         """)
     with c2:
         st.info("""
@@ -190,6 +191,7 @@ with t3:
     | **Spain**: pasture-loss insurance | NDVI alone, per pasture zone and ten-day period; pays below the mean − 0.7 SD (standard option) | Payouts to livestock farmers (premiums subsidised by ENESA) | Farmers whose pasture loss the zone index does not see |
     | **USA**: Drought Monitor + Livestock Forage Disaster Program | Weekly county ratings; 8 consecutive weeks at D2 = one monthly payment, up to five | Payments to livestock producers | Producers in counties rated below the threshold |
     | **Kenya**: Livestock Insurance Program | NDVI-based forage index alone | Insurance payouts to pastoralists | Herders whose loss the index does not see |
+    | **Kenya**: Hunger Safety Net Programme scale-up | Vegetation Condition Index crossing a severe or extreme threshold in a sub-county | Emergency cash transfers to 50–75% of registered households, no field check | Households outside the register or the triggered sub-counties |
     """)
     styled_caption("Sources: Manual for Drought Management (2016); Sepulcre-Canto et al. (2012) and Copernicus EDO; "
                    "Confederación Hidrográfica del Júcar (2017); MAPA/ENESA (2020); USDA Farm Service Agency; WOCAT. "
@@ -209,7 +211,7 @@ with t3:
         drought response uses all four: nodality (satellite and rainfall monitoring), authority (the trigger
         rules and the notification), treasure (SDRF/NDRF relief, PMFBY payouts) and organisation (drought cells,
         field verification). The satellite signals enter only through nodality; in the U.S., Kenyan and Spanish
-        insurance schemes the index itself decides who is paid.
+        insurance schemes, and in Kenya's cash-transfer scale-up, the index itself decides who is paid.
         """)
 
 # ---------------------------------------------------------------- 4. Hall
@@ -248,9 +250,10 @@ with t4:
 section_divider()
 
 st.success("""
-**Bottom line for trigger design.** In Marathwada, the Manual's rainfall trigger was early and precise but missed
-about half of the rainfall-defined drought district-years, and NDVI caught most of those. Letting the vegetation
-index raise a flag on its own, not only confirm rainfall, caught 14 of 15 at no extra false alarms. Beyond that,
+**Bottom line for trigger design.** In Marathwada, the Manual's rainfall trigger, run on satellite rainfall, was
+early and precise: in 2015–2022 it never fired without a poor harvest. But it saw 7 of 18 poor harvests, NDVI 13, and the state's
+own 2018 declaration recognised districts it missed. Letting the vegetation index raise a flag on its own, not only
+confirm rainfall, caught 14 of 15 rainfall-defined droughts and 14 of 18 poor harvests at no extra false alarms. Beyond that,
 the settings, the dry-spell length and the alarm threshold, not the choice between NDVI and SIF, decide who
 carries the errors, and setting them is a value choice that belongs in the open.
 """)

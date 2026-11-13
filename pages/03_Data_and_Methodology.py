@@ -162,17 +162,20 @@ st.header("Rainfall Trigger and Declarations (RQ3)")
 
 st.markdown("""
 India's Manual for Drought Management (2016) starts drought assessment with a rainfall-based
-**Trigger-1** (its Table 3.10). A **dry spell** sets it off whatever the deficit: four consecutive
+**Trigger-1** (its Trigger-1 table). A **dry spell** sets it off whatever the deficit: four consecutive
 weeks after the due date of monsoon onset, each with less than **50% of normal weekly rainfall**
 (up to three weeks on light soils). Without a dry spell, rainfall must be **scanty** (60% or more
-below normal) or **SPI below −1.5**. I code it this way, with IMD standard weeks counted from the
+below normal) or **SPI below −1.5**. I reconstruct it this way on CHIRPS rainfall, with IMD standard weeks counted from the
 first full week after the normal onset (18–24 June; the onset is about 15 June here), the
 2001–2020 daily normal, the deficit and SPI assessed at the end of July, August and September,
 and SPI fitted on 1981–2020. As checks I use three dry weeks, weeks counted only from July, and my
 earlier approximation (deficit over 25% plus 21 days each under 2.5 mm). The state applies the
 trigger at taluka level, so I compute it on district-average rainfall and in every CHIRPS pixel,
 for 2001–2023. Satellite alarm dates are compared against this trigger and against the three
-declaration dates.
+declaration dates. Because the 15 drought district-years rest on a lenient rainfall cut-off, I also
+score every rule against IMD's deficient class (June–September 20% or more below normal) and against
+crop loss (Kharif Yield Anomaly Index below −0.5), and compare the trigger's misses with the talukas
+declared in 2018.
 """)
 
 section_divider()

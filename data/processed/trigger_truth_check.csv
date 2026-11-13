@@ -1,0 +1,16 @@
+truth,rule,true_n,flagged,other_n,false_alarms
+"rainfall z < -0.5, own baseline (2015-2023)",Rainfall Trigger-1 (district average),15,7,57,1
+"rainfall z < -0.5, own baseline (2015-2023)",Rainfall Trigger-1 (25% of pixels),15,10,57,1
+"rainfall z < -0.5, own baseline (2015-2023)",NDVI anomaly (z < -3),15,13,57,4
+"rainfall z < -0.5, own baseline (2015-2023)",SIF anomaly (z < -3),15,12,57,2
+"rainfall z < -0.5, own baseline (2015-2023)",Trigger-1 OR NDVI,15,14,57,4
+Jun-Sep rainfall 20% or more below normal (2015-2023),Rainfall Trigger-1 (district average),6,5,66,3
+Jun-Sep rainfall 20% or more below normal (2015-2023),Rainfall Trigger-1 (25% of pixels),6,5,66,6
+Jun-Sep rainfall 20% or more below normal (2015-2023),NDVI anomaly (z < -3),6,6,66,11
+Jun-Sep rainfall 20% or more below normal (2015-2023),SIF anomaly (z < -3),6,5,66,9
+Jun-Sep rainfall 20% or more below normal (2015-2023),Trigger-1 OR NDVI,6,6,66,12
+yield anomaly index < -0.5 (2015-2022),Rainfall Trigger-1 (district average),18,7,46,0
+yield anomaly index < -0.5 (2015-2022),Rainfall Trigger-1 (25% of pixels),18,10,46,0
+yield anomaly index < -0.5 (2015-2022),NDVI anomaly (z < -3),18,13,46,2
+yield anomaly index < -0.5 (2015-2022),SIF anomaly (z < -3),18,12,46,2
+yield anomaly index < -0.5 (2015-2022),Trigger-1 OR NDVI,18,14,46,2

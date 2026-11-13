@@ -95,7 +95,7 @@ for name, (dt, wt, crops) in VARIANTS.items():
     dr_, dpr = stats.pearsonr(d["yai"], d["anomaly_zscore"])
     wy = lambda c: d[c] - d.groupby("year")[c].transform("mean")
     wys, wyp = stats.pearsonr(wy("yai"), wy("season_jun_dec"))
-    fe = smf.ols("yai ~ season_jun_dec + C(district) + C(year)", d).fit(cov_type="cluster", cov_kwds={"groups": d["district"]})
+    fe = smf.ols("yai ~ season_jun_dec + C(district) + C(year)", d).fit(cov_type="cluster", cov_kwds={"groups": d["district"]}, use_t=True)
     tests.append({"variant": name, "n_crops": ncrop, "n_region_years": len(r),
                   "yai_drought": dr.mean(), "yai_normal": nr.mean(), "welch_t": t, "welch_p": p,
                   "lowest_two_years": f"{rank[0]},{rank[1]}",

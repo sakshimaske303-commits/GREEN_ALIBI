@@ -173,12 +173,18 @@ st.image("outputs/figures/rq3_declaration_timeline.png", use_container_width=Tru
 styled_caption("2015 and 2018: satellite drought alarms (z < −3), the rainfall trigger and the declaration dates.")
 
 st.info("""
-**Rainfall Trigger-1 (the Manual's rule).** A dry spell of four consecutive standard weeks after
+**Rainfall Trigger-1 (the Manual's rule, reconstructed on CHIRPS).** A dry spell of four consecutive standard weeks after
 the normal onset, each below 50% of normal weekly rain, or scanty rainfall, or SPI below −1.5.
 For the region it fired on 22 July 2015 and in no other year of 2015–2023, including 2018. At district level it
 flagged 7 of 15 drought district-years (six districts in 2015, Aurangabad in 2018) and one normal
 one (Aurangabad 2023). Wherever a satellite alarm also fired, the trigger came first: SIF by a
 median of 25.5 days, NDVI by 33.5. NDVI flagged seven of the eight drought district-years it missed.
+
+**What it missed.** Seven of those eight had June–September rainfall within IMD's normal band, but every
+one with yield data had a poor harvest. Against crop loss it flagged 7 of 18 poor-harvest district-years
+with no false alarm, NDVI 13, the two together 14. The state's 31 October 2018 declaration listed severe
+drought in talukas of Bid, Jalna, Osmanabad and Parbhani, districts the reconstruction missed, and 2015
+was declared under the older paisewari system.
 
 **Per pixel and settings.** Met over at least a quarter of the district, it flagged 10 drought
 district-years and the same one normal one. With three dry weeks instead of four it flags 14 but
@@ -249,10 +255,14 @@ st.markdown("""
   cropland mask; they do not describe individual crops or fields.
 - **District non-independence.** District observations are spatially clustered. With
   district and year fixed effects, SIF does not track rainfall anomaly (p = 0.37).
-- **Rainfall trigger approximation.** Trigger-1 follows the Manual's rule but is computed on
-  district-averaged rainfall and per CHIRPS pixel, not per taluka with field inputs as the state does,
-  with one onset date for the region. Its result depends on the dry-spell length and on how the weeks
-  are counted.
+- **Rainfall trigger reconstruction.** Trigger-1 follows the Manual's rule but is computed from CHIRPS on
+  district-averaged rainfall and per pixel, not per taluka with gauge data and field inputs as the state
+  does, with one onset date for the region; the 2018 declaration covered districts it missed. Its result
+  depends on the dry-spell length and on how the weeks are counted.
+- **Drought definition.** The 15 drought district-years come from a lenient rainfall cut-off; 9 had
+  June–September rainfall within IMD's normal band, so I also score against crop loss.
+- **Small clusters.** With eight or nine clusters and a t-distribution, the district yield–SIF link
+  is marginal (p ≈ 0.04–0.08).
 - **Declarations.** I found only three declaration dates; the 2015 date is the date it was
   reported. Declarations follow field verification, so they are structurally late.
 - **Yield data.** One end-of-season number per district-crop, ending in 2022-23 (drought
@@ -263,7 +273,8 @@ normalisation check, own-district drought baselines, a monsoon-only dry-spell wi
 trigger, a block bootstrap, the EVI/NIRv comparison, a per-pixel trigger and the 2001–2014
 out-of-sample test. A final check corrected an alignment error that dated district NDVI alarms
 one composite early, and added the NDVI-dating check and the TROPOMI–NIRv comparison. Version
-2.2.0 replaces my strict Trigger-1 approximation with the Manual's own rule. The full pipeline
+2.2.0 replaces my strict Trigger-1 approximation with the Manual's own rule and scores it against
+crop loss and the 2018 declaration list. The full pipeline
 reruns from `run_all.py`.
 """)
 
@@ -288,9 +299,11 @@ as much as GOSIF does, so for GOSIF what remains is a property of NDVI. Direct T
 NIRv slightly in its three years, which leaves a small fluorescence-specific lead open.
 
 So my conclusion is negative on the question I started from. In this region and dataset,
-SIF is not an earlier drought alarm than NDVI at the resolution the data allow. The Manual's
-rainfall trigger came before both satellite alarms wherever both fired, but missed about half the
-drought district-years, most of which NDVI caught; a vegetation index is most useful here as a
+GOSIF SIF is not an earlier drought alarm than NDVI at the resolution the data allow. The Manual's
+rainfall trigger, reconstructed on CHIRPS, came before both satellite alarms wherever both fired and
+never fired without a poor harvest in 2015–2022, but it saw 7 of 18 poor harvests where NDVI saw 13, and the
+state's 2018 declaration recognised districts it missed. What a drought rule recognises depends on
+its rainfall data, its scale and its settings; a vegetation index is most useful here as a
 second route to a drought flag, and I found no evidence that GOSIF SIF would add more than NDVI
 already does. Testing that properly would need direct SIF
 retrievals over more drought seasons and vegetation data sampled more often than every 16 days.

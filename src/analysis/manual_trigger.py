@@ -1,4 +1,4 @@
-# Trigger 1 of the Manual for Drought Management (Revised Dec 2016, Table 3.10), on daily rain from 1 June
+# Trigger 1 of the Manual for Drought Management (Revised Dec 2016), on daily rain from 1 June
 #   a dry spell sets the trigger whatever the deficit; without one, rainfall must be scanty (60% or more
 #   below normal) or SPI below -1.5. A dry spell is consecutive weeks after the normal onset date, each with
 #   less than 50% of normal weekly rain: usually 4 weeks, 3 on light soils (Section 3.2.1).

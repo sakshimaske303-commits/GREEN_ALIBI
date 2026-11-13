@@ -40,15 +40,16 @@ abstract: >-
   gave the same district-level picture (at z < -1.5, SIF earlier in 5 of 22
   drought district-years flagged by both, the same in 11, NDVI earlier in 6),
   while regionally SIF
-  flagged two of five drought years at z < -3 and NDVI one. Coded as India's
-  Manual for Drought Management defines it, the rainfall-based Trigger-1
-  flagged 7 of 15 drought district-years (10 per CHIRPS pixel) with one false
+  flagged two of five drought years at z < -3 and NDVI one. Reconstructed from
+  India's Manual for Drought Management on CHIRPS rainfall, the rainfall-based
+  Trigger-1 flagged 7 of 15 drought district-years (10 per pixel) with one false
   alarm in 57 normal district-years, before the satellite alarms wherever both
-  fired, and
-  NDVI flagged seven of the eight it missed; a three-week instead of four-week
-  dry spell flags 14 and 26 normal ones. In this dataset SIF is not a resolvably
-  earlier drought alarm than NDVI, and GOSIF's seasonal lead is largely a
-  property of how NDVI's decline is measured.
+  fired; against crop loss it flagged 7 of 18 poor-harvest district-years with
+  no false alarm, NDVI 13 and the two together 14, and the official 2018
+  declaration covered districts the reconstruction missed. A three-week instead
+  of four-week dry spell flags 14 and 26 normal ones. In this dataset GOSIF SIF
+  is not a resolvably earlier drought alarm than NDVI, and its seasonal lead is
+  largely a property of how NDVI's decline is measured.
 keywords:
   - solar-induced fluorescence
   - GOSIF
@@ -56,7 +57,8 @@ keywords:
   - NDVI
   - remote sensing
   - agricultural drought
-  - drought early warning
+  - drought monitoring
+  - drought triggers
   - phenology
   - Marathwada
   - Google Earth Engine

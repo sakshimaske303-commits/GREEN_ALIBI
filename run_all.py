@@ -58,6 +58,7 @@ ANALYSIS = [
     "src/analysis/out_of_sample_2001_2014.py",       # skips itself until the 2001-2014 inputs exist
     "src/analysis/alarm_dating_sensitivity.py",      # alarm comparison with NDVI interpolated vs as available
     "src/analysis/trigger_rule_comparison.py",       # combined trigger rules (policy extension, Appendix A)
+    "src/analysis/trigger_truth_check.py",           # rules scored against rainfall, IMD-deficient and crop-loss droughts
     "src/analysis/trigger_cost_analysis.py",         # errors of each rule valued as relief withheld or paid (Appendix A)
 ]
 FIGURES = [
